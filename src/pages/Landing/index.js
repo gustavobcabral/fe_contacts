@@ -19,7 +19,7 @@ function Landing() {
         <img src={landingImg} alt="Agenda telefonica" className="hero-image" />
 
         <div className="buttons-container">
-          <Link to="" className="login">
+          <Link to="/login" className="login">
             <img src={loginIcon} alt="login" />
             Login
           </Link>

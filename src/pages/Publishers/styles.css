@@ -1,0 +1,86 @@
+.page-header {
+  display: flex;
+  background-color: #15b6c3;
+}
+
+.page-header h1 {
+  color: white;
+  font: 700 2rem Archivo;
+  display: flex;
+  padding: 1.6rem 0;
+}
+
+.page-body {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-content: space-between;
+  align-items: center;
+}
+
+.side-menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-left: 0;
+  border-top: 0px;
+  /* padding-top: 30px; */
+  border-bottom: 0;
+  border-style: solid;
+  border-color: #ccc;
+}
+
+.side-menu a {
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove underline from links */
+  border-radius: 10px;
+}
+
+.side-menu a:hover {
+  background-color: #15b6c0; /* Dark grey background on mouse-over */
+}
+
+/* .content {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  text-align: center;
+  flex-direction: column;
+} */
+
+.table-publishers {
+  border-top: 0px;
+  padding-top: 30px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+.table-publishers th,
+td {
+  text-align: left;
+  padding: 16px;
+}
+
+.table-publishers tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.new {
+  background-color: #15b6c3;
+  margin-top: 10px;
+  margin-left: 30px;
+  display: block;
+}
+.edit {
+  background-color: green;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+.delet {
+  background-color: red;
+  margin-top: 15px;
+}
