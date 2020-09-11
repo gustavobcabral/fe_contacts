@@ -15,11 +15,11 @@ function Landing() {
           <img src={logo} alt="Agenda" />
           <h2>Cong. Santa Rita</h2>
         </div>
-
+-
         <img src={landingImg} alt="Agenda telefonica" className="hero-image" />
 
         <div className="buttons-container">
-          <Link to="/login" className="login">
+          <Link to="/publishers" className="login">
             <img src={loginIcon} alt="login" />
             Login
           </Link>
