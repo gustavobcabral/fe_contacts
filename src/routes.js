@@ -1,17 +1,16 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import Landing from "./pages/Landing";
-import Publishers from "./pages/Publishers";
-import Contacts from "./pages/Contacts";
-import Dashboard from "./pages/Dashboard";
-import PrivateRoute from './utils/privateRoute';
-import PublicRoute from './utils/publicRoute';
+import Login from "./pages/Login/Login";
+import Publishers from "./pages/Publishers/Publishers";
+import Contacts from "./pages/Contacts/Contacts";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import PrivateRoute from "./utils/privateRoute";
+import PublicRoute from "./utils/publicRoute";
 function Routes() {
-
   return (
     <BrowserRouter>
-      <PublicRoute path="/" exact component={Landing} />
-      <PublicRoute path="/login" component={Landing} />
+      <PublicRoute path="/" exact component={Login} />
+      <PublicRoute path="/login" component={Login} />
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/publishers" component={Publishers} />
       <PrivateRoute path="/contacts" component={Contacts} />

@@ -1,0 +1,24 @@
+.side-menu {
+  /* width: 200px; */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-left: 0;
+  border-top: 0px;
+  padding-top: 30px;
+  border-bottom: 0;
+  /* border-style: solid;
+  border-color: #ccc; */
+}
+
+.side-menu a {
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove underline from links */
+  border-radius: 10px;
+}
+
+.side-menu a:hover {
+  background-color: #15b6c0; /* Dark grey background on mouse-over */
+}

@@ -24,7 +24,9 @@
       "source.fixAll.eslint": true
     },
     "cSpell.words": [
-      "camelcase"
+      "Swal",
+      "camelcase",
+      "sweetalert"
     ]
   },
   "extensions": {
