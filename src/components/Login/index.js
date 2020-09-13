@@ -39,7 +39,7 @@ class LoginPopup extends React.Component {
         title: "Voce foi logado corretamente",
         icon: "success",
       }).then(() => {
-        history.push("/contacts");
+        history.push("/dashboard");
       });
     } catch (error) {
       Swal.fire({
