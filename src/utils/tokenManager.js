@@ -7,7 +7,7 @@ const LENS_TOKEN_EXPIRES = 'lens/expires';
  * @param {String} tokenString
  * @param {Long} expiresAt
  */
-export function setToken(tokenString, expiresAt) {
+export const setToken = (tokenString, expiresAt) => {
   localStorage.setItem(LENS_TOKEN_KEY, tokenString);
   localStorage.setItem(LENS_TOKEN_EXPIRES, String(expiresAt + new Date().getDate()));
 }
@@ -17,7 +17,7 @@ export function setToken(tokenString, expiresAt) {
  *
  * @return {String}
  */
-export function getToken() {
+export const getToken = () => {
   return localStorage.getItem(LENS_TOKEN_KEY) || '';
 }
 
@@ -26,7 +26,7 @@ export function getToken() {
  *
  * @return {Boolean}
  */
-export function hasToken() {
+export const hasToken = () => {
   const tokenString = !! localStorage.getItem(LENS_TOKEN_KEY);
   const expiresAt = localStorage.getItem(LENS_TOKEN_EXPIRES);
   if (tokenString && ! expiresAt) {
@@ -41,7 +41,7 @@ export function hasToken() {
  *
  * @return {}
  */
-export function dropToken() {
+export const dropToken = () => {
   localStorage.removeItem(LENS_TOKEN_KEY);
   localStorage.removeItem(LENS_TOKEN_EXPIRES);
   localStorage.clear();

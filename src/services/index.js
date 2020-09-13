@@ -1,5 +1,5 @@
 import auth from "./modules/auth";
 
-export default {
+export {
   auth,
 };
