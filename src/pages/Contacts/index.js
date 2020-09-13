@@ -21,59 +21,38 @@ function ContactsPage() {
         <div className="content">
           <div className="table-contacts">
             <Table striped bordered hover>
-              <tr>
-                <th>Nome</th>
-                <th>Telefone</th>
-                <th>Idioma</th>
-                <th>Data</th>
-                <th>Status</th>
-                <th>Detalhes</th>
-                <Button style={{ marginTop: 5 }} variant="primary">
-                  Adicionar
-                </Button>
-              </tr>
-              <tr>
-                <td>Zé</td>
-                <td>30232713</td>
-                <td>espanhol</td>
-                <td>09/09/2020</td>
-                <td>Revisita</td>
-                <Button style={{ marginTop: 12 }} variant="outline-info">
-                  Mostrar
-                </Button>{" "}
-                <td>
-                  <Button variant="success">Editar</Button>{" "}
-                  <Button variant="danger">Exlcuir</Button>
-                </td>
-              </tr>
-              <tr>
-                <td>Gustavo</td>
-                <td>0981531604</td>
-                <td>Portugues</td>
-                <td>09/09/2020</td>
-                <td>Estudo</td>
-                <Button style={{ marginTop: 12 }} variant="outline-info">
-                  Mostrar
-                </Button>{" "}
-                <td>
-                  <Button variant="success">Editar</Button>{" "}
-                  <Button variant="danger">Exlcuir</Button>
-                </td>
-              </tr>
-              <tr>
-                <td>Francisco</td>
-                <td>0981531604</td>
-                <td>Portugues</td>
-                <td>09/09/2020</td>
-                <td>Estudo</td>
-                <Button style={{ marginTop: 12 }} variant="outline-info">
-                  Mostrar
-                </Button>{" "}
-                <td>
-                  <Button variant="success">Editar</Button>{" "}
-                  <Button variant="danger">Exlcuir</Button>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>Idioma</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Detalhes</th>
+                  <th>
+                    <Button style={{ marginTop: 5 }} variant="primary">
+                      Adicionar
+                    </Button>
+                  </th>
+                </tr>
+                <tr>
+                  <td>Zé</td>
+                  <td>30232713</td>
+                  <td>espanhol</td>
+                  <td>09/09/2020</td>
+                  <td>Revisita</td>
+                  <td>
+                    <Button style={{ marginTop: 12 }} variant="outline-info">
+                      Mostrar
+                    </Button>{" "}
+                  </td>
+
+                  <td>
+                    <Button variant="success">Editar</Button>{" "}
+                    <Button variant="danger">Exlcuir</Button>
+                  </td>
+                </tr>
+              </tbody>
             </Table>
           </div>
         </div>
