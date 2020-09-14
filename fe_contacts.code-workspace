@@ -3,7 +3,6 @@
     "path": "."
   }],
   "settings": {
-    "eslint.codeActionOnSave": true,
     "eslint.validate": ["javascript", "typescript"],
     "[javascript]": {
       "editor.formatOnSave": true

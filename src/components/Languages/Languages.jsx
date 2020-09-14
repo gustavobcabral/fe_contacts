@@ -1,23 +1,13 @@
 import React from "react";
 import { Jumbotron, Form, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { get, map, find, pipe } from "lodash/fp";
+import { map } from "lodash/fp";
 import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
 import { setUserSettings } from "../../utils/loginDataManager";
 
-const languagesEnglish = [
-  { label: "English", value: "en-US" },
-  { label: "Portuguese", value: "pt-BR" },
-];
-
-const languagesPortuguese = [
-  { label: "Inglês", value: "en-US" },
-  { label: "Português", value: "pt-BR" },
-];
-
 const languagesOptions = [
-  { cod: "en-US", options: languagesEnglish },
-  { cod: "pt-BR", options: languagesPortuguese },
+  { label: "languageOptionEnglish", value: "en-US" },
+  { label: "languageOptionPortuguese", value: "pt-BR" },
 ];
 
 const handleInputChange = (event, i18n) => {
@@ -28,11 +18,7 @@ const handleInputChange = (event, i18n) => {
 };
 
 const Languages = (props) => {
-  const { t, i18n } = useTranslation(["languages"]);
-  const currentLanguage = pipe(
-    find((option) => option.cod === i18n.language),
-    get("options")
-  )(languagesOptions);
+  const { t, i18n } = useTranslation("languages");
   return (
     <ContainerWithNavBar>
       <Col sm={4}>
@@ -43,14 +29,15 @@ const Languages = (props) => {
             <Form.Control
               as="select"
               onChange={(e) => handleInputChange(e, i18n)}
+              defaultValue={i18n.language}
             >
               {map(
                 (language) => (
                   <option key={language.value} value={language.value}>
-                    {language.label}
+                    {t(language.label)}
                   </option>
                 ),
-                currentLanguage
+                languagesOptions
               )}
             </Form.Control>
           </Form.Group>

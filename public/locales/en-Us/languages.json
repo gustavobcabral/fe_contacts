@@ -1,4 +1,6 @@
 {
   "title": "Choice a new language above",
-  "optionsLabel": "Options"
+  "optionsLabel": "Options",
+  "languageOptionEnglish": "English",
+  "languageOptionPortuguese": "Portuguese"
 }
