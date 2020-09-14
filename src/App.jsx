@@ -1,15 +1,10 @@
 import React, { Suspense } from "react";
 import Routes from "./routes/routes";
+import Loading from "./components/Loading/Loading"
 
-// loading component for suspense fallback
-const Loader = () => (
-  <div className="App">
-    <div>loading...</div>
-  </div>
-);
 
 const App = () => (
-  <Suspense fallback={<Loader />}>
+  <Suspense fallback={<Loading />}>
     <Routes />
   </Suspense>
 );
