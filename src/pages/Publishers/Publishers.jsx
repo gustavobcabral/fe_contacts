@@ -3,7 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 
 const PublishersPage = (props) => (
-  <ContainerCRUD title="Publishers">
+  <ContainerCRUD title="Publishers"  {...props}>
     <Table striped bordered hover>
       <thead>
         <tr>

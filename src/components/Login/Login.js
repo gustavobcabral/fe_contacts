@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { get, getOr } from "lodash/fp";
 import FormLogin from "./form";
 import { auth } from "../../services";
-import { setToken } from "../../utils/tokenManager";
+import { setLoginData } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
 
 class LoginPopup extends React.Component {
@@ -33,8 +33,7 @@ class LoginPopup extends React.Component {
 
     try {
       const authRes = await auth.authenticate(form);
-      const { jwtToken } = get("data.data", authRes);
-      setToken(jwtToken);
+      setLoginData(get("data.data", authRes));
       Swal.fire({
         title: "Voce foi logado corretamente",
         icon: "success",

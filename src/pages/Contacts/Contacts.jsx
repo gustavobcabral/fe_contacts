@@ -3,7 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 
 const ContactsPage = (props) => (
-  <ContainerCRUD title="Contacts">
+  <ContainerCRUD title="Contacts" {...props}>
     <Table striped bordered hover>
       <thead>
         <tr>

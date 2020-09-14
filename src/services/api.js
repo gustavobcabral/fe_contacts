@@ -1,7 +1,7 @@
 import axios from "axios";
 import urlJoin from "url-join";
 import { API_TIMEOUT_MILLISECONDS } from "../constants/application";
-import {getToken} from '../utils/tokenManager'
+import { getToken } from "../utils/loginDataManager";
 function getAPIBaseURL() {
   const { __API_URL, __API_PATH } = window;
   return urlJoin(__API_URL, __API_PATH);
@@ -48,6 +48,5 @@ apiInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 
 export default apiInstance;

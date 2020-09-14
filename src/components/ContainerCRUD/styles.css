@@ -1,19 +1,9 @@
 .page-header {
-  display: flex;
   background-color: #15b6c3;
 }
 
 .page-header h1 {
   color: white;
   font: 700 2rem Archivo;
-  display: flex;
   padding: 1.6rem 0;
 }
-
-/* .page-body {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  align-content: space-between;
-  align-items: center;
-} */

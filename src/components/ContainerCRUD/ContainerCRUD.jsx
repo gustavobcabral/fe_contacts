@@ -1,24 +1,23 @@
 import React from "react";
 import "./styles.css";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import SideMenu from "../SideMenu/SideMenu";
+import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
 
 const ContainerCRUD = (props) => (
-  <Container fluid>
+  <ContainerWithNavBar>
+    <Col className="page-header">
+      <h1>{props.title}</h1>
+    </Col>
     <Row>
-      <Col className="page-header">
-        <h1>{props.title}</h1>
-      </Col>
-    </Row>
-    <Row className="page-body">
       <Col xs={2}>
-        <SideMenu />
+        <SideMenu {...props} />
       </Col>
       <Col xs={10}>
         <div>{props.children}</div>
       </Col>
     </Row>
-  </Container>
+  </ContainerWithNavBar>
 );
 
 export default ContainerCRUD;

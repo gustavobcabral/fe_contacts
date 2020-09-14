@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { dropToken } from "../../utils/tokenManager";
+import { dropToken } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
 
 const handleLogout = (props) => {
