@@ -10,10 +10,10 @@ const ContainerCRUD = (props) => (
       <h1>{props.title}</h1>
     </Col>
     <Row>
-      <Col xs={2}>
+      <Col lg={2} xs={12}>
         <SideMenu {...props} />
       </Col>
-      <Col xs={10}>
+      <Col lg={10} xs={12}>
         <div>{props.children}</div>
       </Col>
     </Row>
