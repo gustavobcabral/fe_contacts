@@ -1,5 +1,5 @@
 import React from "react";
-import { Jumbotron, Form, Col } from "react-bootstrap";
+import { Jumbotron, Form, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { map } from "lodash/fp";
 import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
@@ -21,28 +21,30 @@ const Languages = (props) => {
   const { t, i18n } = useTranslation("languages");
   return (
     <ContainerWithNavBar>
-      <Col sm={4}>
-        <Jumbotron>
-          <h1>{t("title")}</h1>
-          <Form.Group controlId="exampleForm.ControlSelect1">
-            <Form.Label>{t("optionsLabel")}</Form.Label>
-            <Form.Control
-              as="select"
-              onChange={(e) => handleInputChange(e, i18n)}
-              defaultValue={i18n.language}
-            >
-              {map(
-                (language) => (
-                  <option key={language.value} value={language.value}>
-                    {t(language.label)}
-                  </option>
-                ),
-                languagesOptions
-              )}
-            </Form.Control>
-          </Form.Group>
-        </Jumbotron>
-      </Col>
+      <Row>
+        <Col sm={4}>
+          <Jumbotron>
+            <h1>{t("title")}</h1>
+            <Form.Group controlId="exampleForm.ControlSelect1">
+              <Form.Label>{t("optionsLabel")}</Form.Label>
+              <Form.Control
+                as="select"
+                onChange={(e) => handleInputChange(e, i18n)}
+                defaultValue={i18n.language}
+              >
+                {map(
+                  (language) => (
+                    <option key={language.value} value={language.value}>
+                      {t(language.label)}
+                    </option>
+                  ),
+                  languagesOptions
+                )}
+              </Form.Control>
+            </Form.Group>
+          </Jumbotron>
+        </Col>
+      </Row>
     </ContainerWithNavBar>
   );
 };

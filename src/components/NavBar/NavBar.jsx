@@ -64,7 +64,7 @@ const NavBarMenu = (props) => {
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-      <Navbar.Brand as={Link} to="#home">
+      <Navbar.Brand as={Link} to="/">
         <Image src={logo} width="50px" alt="Agenda" roundedCircle />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />

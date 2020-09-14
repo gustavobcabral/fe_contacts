@@ -1,11 +1,10 @@
 import React from "react";
-import { Spinner, Container, Row, Col } from "react-bootstrap";
+import { Spinner} from "react-bootstrap";
+
+const style = { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" };
 
 const Loading = () => (
-  <Container fluid>
-    <Row className="justify-content-md-center">
-      <Col xs={12}>
-        <div>loading...</div>
+    <div style={style}>
         <Spinner animation="grow" variant="primary" />
         <Spinner animation="grow" variant="secondary" />
         <Spinner animation="grow" variant="success" />
@@ -14,9 +13,7 @@ const Loading = () => (
         <Spinner animation="grow" variant="info" />
         <Spinner animation="grow" variant="light" />
         <Spinner animation="grow" variant="dark" />
-      </Col>
-    </Row>
-  </Container>
+    </div>
 );
 
 export default Loading;
