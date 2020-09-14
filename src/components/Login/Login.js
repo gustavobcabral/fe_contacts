@@ -5,28 +5,36 @@ import FormLogin from "./form";
 import { auth } from "../../services";
 import { setLoginData } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
+import { withTranslation } from "react-i18next";
+
+const fields = {
+  email: "",
+  password: "",
+};
 
 class LoginPopup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { form: {}, modalShow: false };
+    this.state = { form: fields, modalShow: false };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    const { target } = event;
+    const value = target.value;
+    const { name } = target;
+    const { form } = this.state;
+
     this.setState({
       form: {
-        ...this.state.form,
+        ...form,
         [name]: value,
       },
     });
   }
 
-  async handleSubmit(event) {
+  async handleSubmit(event, t) {
     event.preventDefault();
     const { form } = this.state;
     const { history } = this.props;
@@ -35,16 +43,15 @@ class LoginPopup extends React.Component {
       const authRes = await auth.authenticate(form);
       setLoginData(get("data.data", authRes));
       Swal.fire({
-        title: "Voce foi logado corretamente",
+        title: t(get("data.cod", authRes)),
         icon: "success",
       }).then(() => {
         history.push("/dashboard");
       });
     } catch (error) {
       Swal.fire({
-        title: "Erro ao logar",
         icon: "error",
-        text: getOr("Erro desconhecido", "response.data.cod", error),
+        title: t(getOr("errorTextUndefined", "response.data.cod", error)),
       });
     }
   }
@@ -55,15 +62,16 @@ class LoginPopup extends React.Component {
 
   render() {
     const { modalShow } = this.state;
+    const { t } = this.props;
     return (
       <>
         <Button variant="primary" onClick={() => this.setModalShow(true)}>
-          Login
+          {t("btnOpenModal")}
         </Button>
 
         <FormLogin
           show={modalShow}
-          onSubmit={this.handleSubmit}
+          onSubmit={(e) => this.handleSubmit(e, t)}
           onHide={() => this.setModalShow(false)}
           {...this}
         />
@@ -72,4 +80,4 @@ class LoginPopup extends React.Component {
   }
 }
 
-export default LoginPopup;
+export default withTranslation(["login", "common"])(LoginPopup);

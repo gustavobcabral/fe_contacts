@@ -1,0 +1,12 @@
+{
+  "emailPlaceHolder": "Fill your email",
+  "passwordPlaceHolder": "Fill your password",
+  "btnSubmit": "Send",
+  "passwordLabel": "Password",
+  "titleModal": "Login",
+  "btnOpenModal": "Login",
+  "AUTHORIZED": "You was loged in successfully",
+  "NO_EMAIL_VALID": "This email was not found in our records",
+  "PASSWORD_WRONG": "This password is incorrect",
+  "errorTextUndefined": "Error undefined"
+}

@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { dropToken } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
 
-const handleLogout = (props) => {
+export const handleLogout = (props) => {
   const { history } = props;
   dropToken();
   history.push("/login");

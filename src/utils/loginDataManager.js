@@ -4,6 +4,7 @@ import {
   LENS_TOKEN_EXPIRES,
   LENS_TOKEN_USER_DATA,
 } from "../constants/login";
+import { LENS_SETTINGS } from "../constants/settings";
 
 const setToken = (data, expiresAt) => {
   localStorage.setItem(LENS_TOKEN_KEY, get("jwtToken", data));
@@ -19,6 +20,19 @@ const setUserData = (data) => {
   localStorage.setItem(LENS_TOKEN_USER_DATA, dataPrepared);
 };
 
+export const setUserSettings = (data) => {
+  const newData = {
+    ...getUserSettings(),
+    ...data,
+  };
+  localStorage.setItem(LENS_SETTINGS, JSON.stringify(newData));
+};
+
+export const getUserSettings = () =>
+  localStorage.getItem(LENS_SETTINGS)
+    ? JSON.parse(localStorage.getItem(LENS_SETTINGS))
+    : "";
+
 export const setLoginData = (data, expiresAt) => {
   setToken(data, expiresAt);
   setUserData(data);
@@ -27,7 +41,9 @@ export const setLoginData = (data, expiresAt) => {
 export const getToken = () => localStorage.getItem(LENS_TOKEN_KEY) || "";
 
 export const getUserData = () =>
-  JSON.parse(localStorage.getItem(LENS_TOKEN_USER_DATA) || "");
+  localStorage.getItem(LENS_TOKEN_USER_DATA)
+    ? JSON.parse(localStorage.getItem(LENS_TOKEN_USER_DATA))
+    : "";
 
 export const hasToken = () => {
   const tokenString = !!localStorage.getItem(LENS_TOKEN_KEY);
