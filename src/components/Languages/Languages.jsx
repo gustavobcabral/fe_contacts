@@ -29,7 +29,7 @@ const Languages = (props) => {
         <Col sm={4}>
           <Jumbotron>
             <h1>{t("title")}</h1>
-            <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Group>
               <Form.Label>{t("optionsLabel")}</Form.Label>
               <Select
                 value={valueSelected}
