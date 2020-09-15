@@ -42,7 +42,7 @@ class Contacts extends React.Component {
               <th>Status</th>
               <th>Detalhes</th>
               <th>
-                <Button variant="primary">Adicionar</Button>
+                <Button variant="primary">{t("common:add")}</Button>
               </th>
             </tr>
           </thead>

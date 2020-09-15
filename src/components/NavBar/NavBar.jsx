@@ -10,11 +10,11 @@ const MenuLogged = ({ t }) => (
   <>
     <Nav className="mr-auto">
       <Nav.Link as={Link} to="/contacts">
-        Contacts
+      {t("contacts")}
       </Nav.Link>
       <NavDropdown title="Administration" id="collasible-nav-dropdown">
         <NavDropdown.Item as={Link} to="/publishers">
-          Publishers
+        {t("Publishers")}
         </NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item as={Link} to="#action/3.4">
