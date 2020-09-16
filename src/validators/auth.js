@@ -1,4 +1,3 @@
-import { isValidEmail } from '../utils/forms'
 
 export const loginFields = [
   {
@@ -6,7 +5,7 @@ export const loginFields = [
     validators: [
       {
         isValid: value => {
-          return Boolean(value) && isValidEmail(value)
+          return Boolean(value)
         },
         message: 'common.invalidEmail'
       }

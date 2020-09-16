@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { patternEmail } from "../../utils/forms";
 
 const FormLogin = (props) => {
   const { t } = useTranslation(["login", "common"]);
@@ -23,7 +22,6 @@ const FormLogin = (props) => {
               type="email"
               name="email"
               placeholder={t("emailPlaceHolder")}
-              pattern={patternEmail}
               value={props.state.form.email}
               onChange={props.handleInputChange}
             />
