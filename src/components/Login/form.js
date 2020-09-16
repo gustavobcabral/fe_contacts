@@ -6,7 +6,7 @@ import { patternEmail } from "../../utils/forms";
 const FormLogin = (props) => {
   const { t } = useTranslation(["login", "common"]);
   return (
-    <Modal show={props.show} onHide={props.onHide} size="lg" centered>
+    <Modal show={props.show} onHide={props.onHide} size="sm" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t("titleModal")}</Modal.Title>
       </Modal.Header>

@@ -25,10 +25,10 @@ const Languages = (props) => {
   );
   return (
     <ContainerWithNavBar>
-      <Row>
-        <Col sm={4}>
+      <Row className="justify-content-md-center">
+        <Col xs={12} xl={3}>
           <Jumbotron>
-            <h1>{t("title")}</h1>
+            <div className="h2 text-center mb-4">{t("title")}</div>
             <Form.Group>
               <Form.Label>{t("optionsLabel")}</Form.Label>
               <Select
