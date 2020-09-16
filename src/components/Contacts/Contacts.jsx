@@ -35,12 +35,12 @@ class Contacts extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Telefone</th>
-              <th>Idioma</th>
-              <th>Data</th>
-              <th>Status</th>
-              <th>Detalhes</th>
+              <th>{t("common:name")}</th>
+              <th>{t("phone")}</th>
+              <th>{t("language")}</th>
+              <th>{t("date")}</th>
+              <th>{t("status")}</th>
+              <th>{t("details")}</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
               </th>
