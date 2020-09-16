@@ -11,8 +11,9 @@ class Publishers extends React.Component {
     this.handleGetAll = this.handleGetAll.bind(this);
   }
 
-  handleGetAll() {
-    console.log("i am ready to get all");
+  async handleGetAll() {
+    const response = await publishers.getAll("");
+    this.setState({ data: response.data.data });
   }
 
   handleEdit(id) {
@@ -23,22 +24,15 @@ class Publishers extends React.Component {
     console.log("i will get contact id " + id);
   }
 
-  state = {
-    publishers: [],
-  };
   async componentDidMount() {
-    const response = await publishers.getAll("");
-
-    // console.log(response.data);
-    this.setState({ publishers: response.data });
-
     // console.log("i am ready");
-    // this.handleGetAll();
+    this.handleGetAll();
   }
 
   render() {
     const { t } = this.props;
-    const { publishers } = this.state;
+    const { data } = this.state;
+    console.log(data)
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Table striped bordered hover responsive>
@@ -52,13 +46,11 @@ class Publishers extends React.Component {
             </tr>
           </thead>
           <tbody>
-
-         
-            {/* {publishers.map((publishers) => (  */}
+            {data.map((publishers) => (
               <tr>
                 <td>Publishers.name</td>
                 <td>Publishers.privilege</td>
-                {console.log(publishers)} 
+                {console.log(publishers)}
                 <td>
                   <Button
                     variant="success"
@@ -74,7 +66,7 @@ class Publishers extends React.Component {
                   </Button>
                 </td>
               </tr>
-            {/* ))} */}
+            ))}
             <tr>
               <td>Luciano</td>
               <td>Pioneiro</td>
