@@ -5,7 +5,7 @@ import SideMenu from "../SideMenu/SideMenu";
 import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
 
 const ContainerCRUD = (props) => (
-  <ContainerWithNavBar>
+  <ContainerWithNavBar {...props}>
     <Col className="page-header">
       <h1>{props.title}</h1>
     </Col>

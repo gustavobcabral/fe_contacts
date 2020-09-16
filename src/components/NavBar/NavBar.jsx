@@ -5,8 +5,10 @@ import { getUserData, hasToken } from "../../utils/loginDataManager";
 import logo from "../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Login from "../Login/Login";
+import Logout from "../Logout/Logout";
 
-const MenuLogged = ({ t }) => (
+const MenuLogged = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
       <Nav.Link as={Link} to="/contacts">
@@ -36,20 +38,16 @@ const MenuLogged = ({ t }) => (
           My data
         </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item as={Link} to="/logout">
-          Logout
-        </NavDropdown.Item>
+        <Logout {...props} />
       </NavDropdown>
     </Nav>
   </>
 );
 
-const MenuLogout = ({ t }) => (
+const MenuLogout = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
-      <Nav.Link as={Link} to="/login">
-        {t("itemLogin")}
-      </Nav.Link>{" "}
+      <Login {...props} />
     </Nav>
     <Nav>
       <Nav.Link as={Link} to="/languages">
@@ -69,7 +67,11 @@ const NavBarMenu = (props) => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        {hasToken() ? <MenuLogged t={t} /> : <MenuLogout t={t} />}
+        {hasToken() ? (
+          <MenuLogged t={t} {...props} />
+        ) : (
+          <MenuLogout t={t} {...props} />
+        )}
       </Navbar.Collapse>
     </Navbar>
   );

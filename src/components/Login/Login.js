@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { get, getOr } from "lodash/fp";
 import FormLogin from "./Form";
 import { auth } from "../../services";
@@ -93,10 +93,9 @@ class LoginPopup extends React.Component {
     const { t } = this.props;
     return (
       <>
-        <Button variant="primary" onClick={() => this.setModalShow(true)}>
+        <Nav.Link onClick={() => this.setModalShow(true)}>
           {t("btnOpenModal")}
-        </Button>
-
+        </Nav.Link>
         <FormLogin
           show={modalShow}
           onSubmit={(e) => this.handleSubmit(e, t)}

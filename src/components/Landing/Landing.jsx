@@ -9,7 +9,7 @@ const Landing = (props) => {
   const Component = props.component;
   return (
     <>
-      <NavBarMenu />
+      <NavBarMenu {...props} />
       <div id="page-landing">
         <div id="page-landing-content" className="container">
           <div className="logo-container">
@@ -18,13 +18,9 @@ const Landing = (props) => {
             {props.subtitle && <h3>{props.subtitle}</h3>}
           </div>
 
-          <img
-            src={logo}
-            alt="logo"
-            className="hero-image"
-          />
+          <img src={logo} alt="logo" className="hero-image" />
           <div className="buttons-container">
-            <Component {...props} />
+            {props.component && <Component {...props} />}
           </div>
         </div>
       </div>

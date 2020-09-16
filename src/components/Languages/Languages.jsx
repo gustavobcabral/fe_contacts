@@ -24,7 +24,7 @@ const Languages = (props) => {
     optionsLanguages
   );
   return (
-    <ContainerWithNavBar>
+    <ContainerWithNavBar {...props}>
       <Row className="justify-content-md-center">
         <Col xs={12} xl={3}>
           <Jumbotron>

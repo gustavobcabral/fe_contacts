@@ -1,12 +1,12 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 import { dropToken } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
 
-export const handleLogout = (props) => {
+const handleLogout = (props) => {
   const { history } = props;
   dropToken();
-  history.push("/login");
+  history.push("/");
   Swal.fire({
     title: "You was logout successfully",
     icon: "success",
@@ -14,9 +14,9 @@ export const handleLogout = (props) => {
 };
 
 const Logout = (props) => (
-  <Button variant="primary" onClick={() => handleLogout(props)}>
+  <NavDropdown.Item onClick={() => handleLogout(props)}>
     Logout
-  </Button>
+  </NavDropdown.Item>
 );
 
 export default Logout;

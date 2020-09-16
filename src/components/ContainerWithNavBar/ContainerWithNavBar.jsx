@@ -4,7 +4,7 @@ import NavBarMenu from "../NavBar/NavBar";
 
 const ContainerWithNavBar = (props) => (
   <>
-    <NavBarMenu />
+    <NavBarMenu {...props} />
     <Container fluid className="mt-2">{props.children}</Container>
   </>
 );
