@@ -5,6 +5,6 @@ function getAll() {
 }
 
 function dellOne(id) {
-  return api.delete("/publishers/:id", id);
+  return api.delete(`/publishers/${id}`)
 }
 export default { getAll, dellOne };

@@ -3,11 +3,13 @@ import { Button, Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { publishers } from "../../services";
+import Swal from "sweetalert2";
+import { getOr } from "lodash/fp";
 
 class Publishers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
+    this.state = { data: [], submitting: false };
     this.handleGetAll = this.handleGetAll.bind(this);
   }
 
@@ -20,10 +22,37 @@ class Publishers extends React.Component {
     console.log("i will get contact id " + id);
   }
 
-  async handleDelete(id) {
-    await publishers.dellOne(id);
+  askForSureWantDelete(t, id){
+    Swal.fire({
+      title: t('common:askDeleteMessage'),
+      icon: 'question',
+      showDenyButton: true,
+      confirmButtonText: t('common:yes'),
+      denyButtonText: t('common:no'),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.handleDelete(t, id)
+      } 
+    })
+  }
 
-    // console.log("i will get contact id " + id);
+  async handleDelete(t, id) {
+    this.setState({ submitting: true });
+    await publishers
+      .dellOne(id)
+      .then(() => {
+        //sirve p atualizar a pagina
+        this.handleGetAll();
+        this.setState({ submitting: false });
+      })
+      .catch((error) => {
+        this.setState({ submitting: false });
+        Swal.fire({
+          icon: "error",
+          title: t(getOr("errorTextUndefined", "response.data.cod", error)),
+        });
+      });
+
   }
 
   async componentDidMount() {
@@ -49,7 +78,7 @@ class Publishers extends React.Component {
           </thead>
           <tbody>
             {data.map((publishers) => (
-              <tr>
+              <tr key={publishers.id}>
                 <td>{publishers.name}</td>
                 <td>{publishers.email}</td>
                 {/* {console.log(publishers)} */}
@@ -62,8 +91,7 @@ class Publishers extends React.Component {
                   </Button>{" "}
                   <Button
                     variant="danger"
-                    onClick={this.handleDelete.bind(publishers.id)}
-                    // this.handleDelete.bind
+                    onClick={this.askForSureWantDelete.bind(this, t, publishers.id)}
                   >
                     {t("common:delete")}
                   </Button>
