@@ -20,8 +20,10 @@ class Publishers extends React.Component {
     console.log("i will get contact id " + id);
   }
 
-  handleDelete(id) {
-    console.log("i will get contact id " + id);
+  async handleDelete(id) {
+    await publishers.dellOne(id);
+
+    // console.log("i will get contact id " + id);
   }
 
   async componentDidMount() {
@@ -32,14 +34,14 @@ class Publishers extends React.Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
-    console.log(data)
+    // console.log(data);
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Privilégio</th>
+              <th>Telefone</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
               </th>
@@ -48,9 +50,9 @@ class Publishers extends React.Component {
           <tbody>
             {data.map((publishers) => (
               <tr>
-                <td>Publishers.name</td>
-                <td>Publishers.privilege</td>
-                {console.log(publishers)}
+                <td>{publishers.name}</td>
+                <td>{publishers.email}</td>
+                {/* {console.log(publishers)} */}
                 <td>
                   <Button
                     variant="success"
@@ -60,7 +62,8 @@ class Publishers extends React.Component {
                   </Button>{" "}
                   <Button
                     variant="danger"
-                    onClick={this.handleDelete.bind(this, "aqui vai o id")}
+                    onClick={this.handleDelete.bind(publishers.id)}
+                    // this.handleDelete.bind
                   >
                     {t("common:delete")}
                   </Button>

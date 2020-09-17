@@ -1,7 +1,10 @@
-import api from '../api'
+import api from "../api";
 
-export default {
-  getAll() {
-    return api.get('/publishers')
-  }
+function getAll() {
+  return api.get("/publishers");
 }
+
+function dellOne(id) {
+  return api.delete("/publishers/:id", id);
+}
+export default { getAll, dellOne };
