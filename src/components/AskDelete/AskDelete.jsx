@@ -1,30 +1,28 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { contacts } from "../../services";
 import Swal from "sweetalert2";
-import { getOr, props } from "lodash/fp";
 
 const AskDelete = (props) => {
-  const { t } = useTranslation([" "]);
+  const { t } = useTranslation(["common"]);
 
-  const askForSureWantDelete = (id) => {
+  const askForSureWantDelete = () => {
     Swal.fire({
-      title: t("common:askDeleteMessage"),
+      title: t("askDeleteMessage"),
       icon: "question",
       showDenyButton: true,
-      confirmButtonText: t("common:yes"),
-      denyButtonText: t("common:no"),
+      confirmButtonText: t("yes"),
+      denyButtonText: t("no"),
     }).then((result) => {
       if (result.isConfirmed) {
-        this.funcToCallAfterConfirmation();
+        props.funcToCallAfterConfirmation(t, props.id);
       }
     });
   };
 
   return (
     <Button variant="danger" onClick={() => askForSureWantDelete()}>
-      {t("common:delete")}
+      {t("delete")}
     </Button>
   );
 };

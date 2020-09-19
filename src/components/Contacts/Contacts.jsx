@@ -1,11 +1,11 @@
 import React from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button, Table, Accordion } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
 import Swal from "sweetalert2";
 import { getOr } from "lodash/fp";
-
+import { map } from "lodash/fp";
 import AskDelete from "../AskDelete/AskDelete";
 
 class Contacts extends React.Component {
@@ -13,41 +13,25 @@ class Contacts extends React.Component {
     super(props);
     this.state = { data: [] };
     this.handleGetAll = this.handleGetAll.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   async handleGetAll() {
+    this.setState({ submitting: true });
     const response = await contacts.getAll("");
-    this.setState({ data: response.data.data.list });
-    // console.log(response);
+    this.setState({ data: response.data.data.list, submitting: false });
   }
 
   handleEdit(id) {
     // console.log("i will get contact id " + id);
   }
 
-  // askForSureWantDelete(t, id) {
-  //   Swal.fire({
-  //     title: t("common:askDeleteMessage"),
-  //     icon: "question",
-  //     showDenyButton: true,
-  //     confirmButtonText: t("common:yes"),
-  //     denyButtonText: t("common:no"),
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.handleDelete(t, id);
-  //       // this.props.funcToCallAfterConfirmation
-  //     }
-  //   });
-  // }
-
   async handleDelete(t, id) {
     this.setState({ submitting: true });
     await contacts
       .dellOne(id)
       .then(() => {
-        //sirve p atualizar a pagina
         this.handleGetAll();
-        this.setState({ submitting: false });
       })
       .catch((error) => {
         this.setState({ submitting: false });
@@ -76,7 +60,6 @@ class Contacts extends React.Component {
               <th>{t("common:name")}</th>
               <th>{t("phone")}</th>
               <th>{t("language")}</th>
-              <th>{t("date")}</th>
               <th>{t("status")}</th>
               <th>{t("details")}</th>
               <th>
@@ -85,17 +68,46 @@ class Contacts extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {data.map((contacts) => (
-              <tr key={contacts.id}>
-                <td>{contacts.name}</td>
-                <td>{contacts.phone}</td>
-                <td>{contacts.id_language}</td>
-                <td>Dos Detalhes ?</td>
-                <td>{contacts.id_status}</td>
+            {data.map((contact) => (
+              <tr key={contact.phone}>
+                <td>{contact.name}</td>
+                <td>{contact.phone}</td>
+                <td>{contact.language_name}</td>
+                <td>{contact.status_description}</td>
                 <td>
-                  <Button variant="outline-info">Mostrar</Button>
+                  <Accordion>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="success"
+                      eventKey="0"
+                    >
+                      nao ficou bom, melhor mostrar num modal!
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <Table striped bordered hover responsive>
+                        <thead>
+                          <tr>
+                            <th>publisher</th>
+                            <th>date</th>
+                            <th>information</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {map(
+                            (detail) => (
+                              <tr key={detail.createdAt}>
+                                <td>{detail.id_publisher}</td>
+                                <td>{detail.createdAt}</td>
+                                <td>{detail.information}</td>
+                              </tr>
+                            ),
+                            contact.details
+                          )}
+                        </tbody>
+                      </Table>
+                    </Accordion.Collapse>
+                  </Accordion>{" "}
                 </td>
-
                 <td>
                   <Button
                     variant="success"
@@ -103,13 +115,8 @@ class Contacts extends React.Component {
                   >
                     {t("common:edit")}
                   </Button>{" "}
-                  {/* <Button
-                    variant="danger"
-                    onClick={this.askForSureWantDelete.bind(this,t,contacts.phone)}>
-                    {t("common:delete")}
-                  </Button> */}
                   <AskDelete
-                    id={contacts.id}
+                    id={contacts.phone}
                     funcToCallAfterConfirmation={this.handleDelete}
                   />
                 </td>
