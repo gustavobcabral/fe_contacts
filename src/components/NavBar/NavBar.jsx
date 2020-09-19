@@ -39,6 +39,7 @@ const MenuLogged = ({ t, ...props }) => (
         </NavDropdown.Item>
         <NavDropdown.Divider />
         <Logout {...props} />
+       
       </NavDropdown>
     </Nav>
   </>

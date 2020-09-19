@@ -22,18 +22,19 @@ class Publishers extends React.Component {
     console.log("i will get contact id " + id);
   }
 
-  askForSureWantDelete(t, id){
+  askForSureWantDelete(t, id) {
     Swal.fire({
-      title: t('common:askDeleteMessage'),
-      icon: 'question',
+      title: t("common:askDeleteMessage"),
+      icon: "question",
       showDenyButton: true,
-      confirmButtonText: t('common:yes'),
-      denyButtonText: t('common:no'),
+      confirmButtonText: t("common:yes"),
+      denyButtonText: t("common:no"),
     }).then((result) => {
       if (result.isConfirmed) {
-        this.handleDelete(t, id)
-      } 
-    })
+        this.handleDelete(t, id);
+        // this.props.funcToCallAfterConfirmation
+      }
+    });
   }
 
   async handleDelete(t, id) {
@@ -52,7 +53,6 @@ class Publishers extends React.Component {
           title: t(getOr("errorTextUndefined", "response.data.cod", error)),
         });
       });
-
   }
 
   async componentDidMount() {
@@ -70,7 +70,7 @@ class Publishers extends React.Component {
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Telefone</th>
+              <th>Email</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
               </th>
@@ -81,7 +81,6 @@ class Publishers extends React.Component {
               <tr key={publishers.id}>
                 <td>{publishers.name}</td>
                 <td>{publishers.email}</td>
-                {/* {console.log(publishers)} */}
                 <td>
                   <Button
                     variant="success"
@@ -91,49 +90,12 @@ class Publishers extends React.Component {
                   </Button>{" "}
                   <Button
                     variant="danger"
-                    onClick={this.askForSureWantDelete.bind(this, t, publishers.id)}
-                  >
+                    onClick={this.askForSureWantDelete.bind(this,t,publishers.id)}>
                     {t("common:delete")}
                   </Button>
                 </td>
               </tr>
             ))}
-            <tr>
-              <td>Luciano</td>
-              <td>Pioneiro</td>
-              <td>
-                <Button
-                  variant="success"
-                  onClick={this.handleEdit.bind(this, "aqui vai o id")}
-                >
-                  {t("common:edit")}
-                </Button>{" "}
-                <Button
-                  variant="danger"
-                  onClick={this.handleDelete.bind(this, "aqui vai o id")}
-                >
-                  {t("common:delete")}
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>Rafael</td>
-              <td>Pioneiro</td>
-              <td>
-                <Button
-                  variant="success"
-                  onClick={this.handleEdit.bind(this, "aqui vai o id")}
-                >
-                  {t("common:edit")}
-                </Button>{" "}
-                <Button
-                  variant="danger"
-                  onClick={this.handleDelete.bind(this, "aqui vai o id")}
-                >
-                  {t("common:delete")}
-                </Button>
-              </td>
-            </tr>
           </tbody>
         </Table>
       </ContainerCRUD>
