@@ -1,5 +1,5 @@
-import { React, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Modal, Table } from "react-bootstrap";
 
 const MyVerticallyCenteredModal = (props) => (
   <Modal
@@ -9,13 +9,27 @@ const MyVerticallyCenteredModal = (props) => (
     centered
   >
     <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-vcenter">
-        Vai o titulo (talvez o numero que estamos vendo )
-      </Modal.Title>
+      <Modal.Title id="contained-modal-title-vcenter">Vai o titulo</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      <h4>Centered Modal</h4>
-      <p>Teste</p>
+      <Table striped bordered hover responsive>
+        <thead>
+          <tr>
+            <th>publisher</th>
+            <th>date</th>
+            <th>information</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.data.map((detail) => (
+            <tr key={detail.createdAt}>
+              <td>{detail.name_publisher}</td>
+              <td>{detail.createdAt}</td>
+              <td>{detail.information}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </Modal.Body>
     <Modal.Footer>
       <Button onClick={props.onHide}>Close</Button>
@@ -23,8 +37,10 @@ const MyVerticallyCenteredModal = (props) => (
   </Modal>
 );
 
-const ShowDetails = () => {
+const ShowDetails = (props) => {
+  console.log(props)
   const [modalShow, setModalShow] = useState(false);
+
   return (
     <>
       <Button variant="primary" onClick={() => setModalShow(true)}>
@@ -32,6 +48,7 @@ const ShowDetails = () => {
       </Button>
 
       <MyVerticallyCenteredModal
+        data={props.data}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />

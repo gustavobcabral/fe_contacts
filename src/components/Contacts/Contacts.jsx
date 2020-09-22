@@ -77,39 +77,7 @@ class Contacts extends React.Component {
                 <td>{contact.language_name}</td>
                 <td>{contact.status_description}</td>
                 <td>
-                  <ShowDetails />
-                  {/* <Accordion>
-                    <Accordion.Toggle
-                      as={Button}
-                      variant="success"
-                      eventKey="0"
-                    >
-                      nao ficou bom, melhor mostrar num modal!
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
-                      <Table striped bordered hover responsive>
-                        <thead>
-                          <tr>
-                            <th>publisher</th>
-                            <th>date</th>
-                            <th>information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {map(
-                            (detail) => (
-                              <tr key={detail.createdAt}>
-                                <td>{detail.id_publisher}</td>
-                                <td>{detail.createdAt}</td>
-                                <td>{detail.information}</td>
-                              </tr>
-                            ),
-                            contact.details
-                          )}
-                        </tbody>
-                      </Table>
-                    </Accordion.Collapse>
-                  </Accordion>{" "} */}
+                  <ShowDetails data={contact.details} />
                 </td>
                 <td>
                   <Button
