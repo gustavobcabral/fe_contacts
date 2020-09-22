@@ -7,10 +7,12 @@ import Swal from "sweetalert2";
 import { getOr } from "lodash/fp";
 import { map } from "lodash/fp";
 import AskDelete from "../AskDelete/AskDelete";
+import ShowDetails from "./DetailsContacts";
 
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
+    // console.log(props)
     this.state = { data: [] };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -75,7 +77,8 @@ class Contacts extends React.Component {
                 <td>{contact.language_name}</td>
                 <td>{contact.status_description}</td>
                 <td>
-                  <Accordion>
+                  <ShowDetails />
+                  {/* <Accordion>
                     <Accordion.Toggle
                       as={Button}
                       variant="success"
@@ -106,7 +109,7 @@ class Contacts extends React.Component {
                         </tbody>
                       </Table>
                     </Accordion.Collapse>
-                  </Accordion>{" "}
+                  </Accordion>{" "} */}
                 </td>
                 <td>
                   <Button
