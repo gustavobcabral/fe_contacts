@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import { Button, Modal, Table, Nav } from "react-bootstrap";
+import { Button, Modal, Table} from "react-bootstrap";
 import moment from "moment";
 import { map, get } from "lodash/fp";
 import { useTranslation } from "react-i18next";
-import AskDelete from "../AskDelete/AskDelete";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
-  const handleEdit = (id) => {
-    console.log("id " + id);
-  };
-
-  const handleDelete = (t, id) => {
-    console.log("id " + id);
-  };
 
   return (
     <Modal
@@ -25,7 +19,6 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           {data.name} - {data.phone}
-          {console.log(data.phone)}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -47,19 +40,6 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
                   <td>{name_publisher}</td>
                   <td>{moment(createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td>{information}</td>
-                  <td>
-                    <Button
-                      variant="success"
-                      onClick={handleEdit.bind(this, id_detail)}
-                      href={`contacts/${data.phone}/details/${id_detail}`}
-                    >
-                      {t("common:edit")}
-                    </Button>{" "}
-                    <AskDelete
-                      id={id_detail}
-                      funcToCallAfterConfirmation={handleDelete}
-                    />
-                  </td>
                 </tr>
               ),
               get("details", data)
@@ -81,7 +61,7 @@ const ShowDetails = (props) => {
   return (
     <>
       <Button variant="primary" onClick={() => setModalShow(true)}>
-        Mostrar
+      <FontAwesomeIcon icon={faEye} />
       </Button>
 
       <MyVerticallyCenteredModal

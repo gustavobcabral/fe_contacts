@@ -7,7 +7,10 @@ import Swal from "sweetalert2";
 import { getOr } from "lodash/fp";
 import { map } from "lodash/fp";
 import AskDelete from "../AskDelete/AskDelete";
-import ShowDetails from "./DetailsContacts";
+import QuickLookDetailsContact from "./QuickLookDetailsContact";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faList, faEdit, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -62,7 +65,7 @@ class Contacts extends React.Component {
               <th>{t("status")}</th>
               <th>{t("details")}</th>
               <th>
-                <Button variant="primary">{t("common:add")}</Button>
+                <Button variant="primary"><FontAwesomeIcon icon={faUserPlus} /></Button>
               </th>
             </tr>
           </thead>
@@ -75,14 +78,21 @@ class Contacts extends React.Component {
                   <td>{contact.language_name}</td>
                   <td>{contact.status_description}</td>
                   <td>
-                    <ShowDetails data={contact} />
+                    <QuickLookDetailsContact data={contact} />{" "}
+                    <Button
+                      variant="success"
+                      as={Link}
+                      to={`/contacts/${contact.phone}/details`}
+                    >
+                      <FontAwesomeIcon icon={faList} />
+                    </Button>
                   </td>
                   <td>
                     <Button
                       variant="success"
                       onClick={this.handleEdit.bind(this, contact.phone)}
                     >
-                      {t("common:edit")}
+                      <FontAwesomeIcon icon={faEdit} />
                     </Button>{" "}
                     <AskDelete
                       id={contact.phone}

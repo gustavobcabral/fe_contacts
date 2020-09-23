@@ -1,9 +1,9 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
-import { details } from "../../services";
+import { getOr } from "lodash/fp";
 
-class Details extends React.Component {
+class EditDetailsContact extends React.Component {
   // constructor(props) {
   //   super(props);
   //   this.state = { data: [] };
@@ -44,14 +44,30 @@ class Details extends React.Component {
   render() {
     const { t } = this.props;
     // const { data } = this.state;
+    const phone = getOr(0, "props.match.params.phone", this);
+    const id = getOr(0, "props.match.params.id", this);
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>TODOS OS DETALHES</h1>
-        {this.props.children}
+        <h1>EDIT TODOS OS DETALHES</h1>
+        phone:{phone}
+        id:{id}
+        {/* <td>
+                    <Button
+                      variant="success"
+                      onClick={handleEdit.bind(this, id_detail)}
+                      href={`contacts/${data.phone}/details/${id_detail}`}
+                    >
+                      {t("common:edit")}
+                    </Button>{" "}
+                    <AskDelete
+                      id={id_detail}
+                      funcToCallAfterConfirmation={handleDelete}
+                    />
+                  </td> */}
       </ContainerCRUD>
     );
   }
 }
 
-export default withTranslation(["contacts", "common"])(Details);
+export default withTranslation(["contacts", "common"])(EditDetailsContact);
