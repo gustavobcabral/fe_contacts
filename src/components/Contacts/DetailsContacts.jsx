@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Table } from "react-bootstrap";
+import { Button, Modal, Table, Nav } from "react-bootstrap";
 import moment from "moment";
 import { map, get } from "lodash/fp";
 import { useTranslation } from "react-i18next";
@@ -25,6 +25,7 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           {data.name} - {data.phone}
+          {console.log(data.phone)}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -50,6 +51,7 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
                     <Button
                       variant="success"
                       onClick={handleEdit.bind(this, id_detail)}
+                      href={`contacts/${data.phone}/details/${id_detail}`}
                     >
                       {t("common:edit")}
                     </Button>{" "}
