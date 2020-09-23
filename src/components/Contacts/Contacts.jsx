@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Table, Accordion } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
@@ -12,7 +12,6 @@ import ShowDetails from "./DetailsContacts";
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(props)
     this.state = { data: [] };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -25,7 +24,7 @@ class Contacts extends React.Component {
   }
 
   handleEdit(id) {
-    // console.log("i will get contact id " + id);
+    console.log("i will get contact id " + id);
   }
 
   async handleDelete(t, id) {
@@ -45,14 +44,12 @@ class Contacts extends React.Component {
   }
 
   componentDidMount() {
-    // console.log("i am ready");
     this.handleGetAll();
   }
 
   render() {
     const { t } = this.props;
     const { data } = this.state;
-    // console.log(data);
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
@@ -70,29 +67,32 @@ class Contacts extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {data.map((contact) => (
-              <tr key={contact.phone}>
-                <td>{contact.name}</td>
-                <td>{contact.phone}</td>
-                <td>{contact.language_name}</td>
-                <td>{contact.status_description}</td>
-                <td>
-                  <ShowDetails data={contact.details} />
-                </td>
-                <td>
-                  <Button
-                    variant="success"
-                    onClick={this.handleEdit.bind(this, "aqui vai o id")}
-                  >
-                    {t("common:edit")}
-                  </Button>{" "}
-                  <AskDelete
-                    id={contacts.phone}
-                    funcToCallAfterConfirmation={this.handleDelete}
-                  />
-                </td>
-              </tr>
-            ))}
+            {map(
+              (contact) => (
+                <tr key={contact.phone}>
+                  <td>{contact.name}</td>
+                  <td>{contact.phone}</td>
+                  <td>{contact.language_name}</td>
+                  <td>{contact.status_description}</td>
+                  <td>
+                    <ShowDetails data={contact} />
+                  </td>
+                  <td>
+                    <Button
+                      variant="success"
+                      onClick={this.handleEdit.bind(this, contact.phone)}
+                    >
+                      {t("common:edit")}
+                    </Button>{" "}
+                    <AskDelete
+                      id={contact.phone}
+                      funcToCallAfterConfirmation={this.handleDelete}
+                    />
+                  </td>
+                </tr>
+              ),
+              data
+            )}
           </tbody>
         </Table>
       </ContainerCRUD>
