@@ -2,5 +2,6 @@
   "itemLanguages": "Languages",
   "itemLogin": "Login",
   "contacts": "Contacts",
-  "Publishers": "Publishers"
+  "publishers": "Publishers",
+  "admin": "Administration"
 }

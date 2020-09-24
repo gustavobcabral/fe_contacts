@@ -7,16 +7,21 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
+import {
+  contactsPaths,
+  publishersPaths,
+  languagesPaths,
+} from "../../routes/paths";
 
 const MenuLogged = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
-      <Nav.Link as={Link} to="/contacts">
+      <Nav.Link as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
         {t("contacts")}
       </Nav.Link>
-      <NavDropdown title="Administration" id="collasible-nav-dropdown">
-        <NavDropdown.Item as={Link} to="/publishers">
-          {t("Publishers")}
+      <NavDropdown title={t("admin")} id="collasible-nav-dropdown">
+        <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
+          {t("publishers")}
         </NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item as={Link} to="#action/3.4">
@@ -25,7 +30,7 @@ const MenuLogged = ({ t, ...props }) => (
       </NavDropdown>
     </Nav>
     <Nav>
-      <Nav.Link as={Link} to="/languages">
+      <Nav.Link as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
         {t("itemLanguages")}
       </Nav.Link>{" "}
     </Nav>
@@ -39,7 +44,6 @@ const MenuLogged = ({ t, ...props }) => (
         </NavDropdown.Item>
         <NavDropdown.Divider />
         <Logout {...props} />
-       
       </NavDropdown>
     </Nav>
   </>
@@ -51,7 +55,7 @@ const MenuLogout = ({ t, ...props }) => (
       <Login {...props} />
     </Nav>
     <Nav>
-      <Nav.Link as={Link} to="/languages">
+      <Nav.Link as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
         {t("itemLanguages")}
       </Nav.Link>{" "}
     </Nav>
@@ -60,7 +64,6 @@ const MenuLogout = ({ t, ...props }) => (
 
 const NavBarMenu = (props) => {
   const { t } = useTranslation(["navBar"]);
-
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
       <Navbar.Brand as={Link} to="/">
@@ -69,9 +72,9 @@ const NavBarMenu = (props) => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         {hasToken() ? (
-          <MenuLogged t={t} {...props} />
+          <MenuLogged {...props} t={t} />
         ) : (
-          <MenuLogout t={t} {...props} />
+          <MenuLogout {...props} t={t} />
         )}
       </Navbar.Collapse>
     </Navbar>
