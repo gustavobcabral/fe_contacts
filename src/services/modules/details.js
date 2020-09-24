@@ -1,9 +1,9 @@
 import api from "../api";
 
-function getAll() {
-  return api.get("/contacts");
+function getAllOneContact(id) {
+  return api.get(`/detailsContacts/oneContact/${id}`);
 }
 function dellOne(id) {
   return api.delete(`/contacts/${id}`);
 }
-export default { getAll, dellOne };
+export default { getAllOneContact, dellOne };

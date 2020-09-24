@@ -65,7 +65,9 @@ class Contacts extends React.Component {
               <th>{t("status")}</th>
               <th>{t("details")}</th>
               <th>
-                <Button variant="primary"><FontAwesomeIcon icon={faUserPlus} /></Button>
+                <Button variant="primary">
+                  <FontAwesomeIcon icon={faUserPlus} />
+                </Button>
               </th>
             </tr>
           </thead>

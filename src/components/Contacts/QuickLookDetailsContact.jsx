@@ -8,6 +8,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
 
+
   return (
     <Modal
       show={show}
@@ -25,9 +26,9 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>Publisher</th>
-              <th>Date</th>
-              <th>Information</th>
+              <th>{t("common:publisher")}</th>
+              <th>{t("common:date")}</th>
+              <th>{t("common:information")}</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
               </th>
