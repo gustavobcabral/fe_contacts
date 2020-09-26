@@ -1,13 +1,6 @@
 import React from "react";
-import Landing from "../../components/Landing/Landing";
-import { get } from "lodash/fp";
-import { getUserData } from "../../utils/loginDataManager";
+import Dashboard from "../../components/Dashboard/Dashboard";
 
-const buildSubTitleMessage = () =>
-  `This is your Dashboard, ${get("name", getUserData())}`;
+const DashboardPage = (props) => <Dashboard {...props} />;
 
-const Dashboard = (props) => (
-  <Landing subtitle={buildSubTitleMessage()} {...props} />
-);
-
-export default Dashboard;
+export default DashboardPage;
