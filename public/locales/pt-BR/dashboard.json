@@ -1,3 +1,9 @@
 {
-  "welcome": "Esta é sua página"
+  "welcome": "Esta é sua página",
+  "contacted": "Contactados",
+  "withoutContact": "Sem contato",
+  "totalContactsAssignByMeWaitingFeedback": "Por mim",
+  "totalContactsWaitingFeedback": "Outros",
+  "titleChartContacts": "Contatados X não contatados",
+  "titleChartWaitingFeedback": "Aguardam um comentario por mim X de outros"
 }

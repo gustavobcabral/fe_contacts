@@ -13,7 +13,8 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      contacted: [],
+      feedback: [],
       submitting: false,
     };
     this.handleGetSummary = this.handleGetSummary.bind(this);
@@ -23,22 +24,46 @@ class Dashboard extends React.Component {
     this.setState({ submitting: true });
     const response = await contacts.getSummary();
     const data = get("data", response);
-    const dataSummaryParsed = [
+    const { t } = this.props;
+    const dataContactedSummaryParsed = [
       {
-        title: "contacted",
+        title: t("contacted"),
         value: data.totalPercentContacted,
-        label: `${data.totalPercentContacted}% Contacted`,
+        label: `${data.totalPercentContacted}% ${t("contacted")}`,
         color: "#E38627",
       },
       {
-        title: "withoutContact",
-        label: `${data.totalPercentWithoutContacted}% no contacted`,
+        title: t("withoutContact"),
+        label: `${data.totalPercentWithoutContacted}% ${t("withoutContact")}`,
         value: data.totalPercentWithoutContacted,
         color: "#C13C37",
       },
     ];
 
-    this.setState({ data: dataSummaryParsed, submitting: false });
+    const dataWaitingFeedbackSummaryParsed = [
+      {
+        title: t("totalContactsAssignByMeWaitingFeedback"),
+        value: data.totalPercentContactsAssignByMeWaitingFeedback,
+        label: `${data.totalPercentContactsAssignByMeWaitingFeedback}% ${t(
+          "totalContactsAssignByMeWaitingFeedback"
+        )}`,
+        color: "#E38627",
+      },
+      {
+        title: t("totalContactsWaitingFeedback"),
+        label: `${data.totalPercentContactsAssignByOthersWaitingFeedback}% ${t(
+          "totalContactsWaitingFeedback"
+        )}`,
+        value: data.totalPercentContactsAssignByOthersWaitingFeedback,
+        color: "#C13C37",
+      },
+    ];
+
+    this.setState({
+      contacted: dataContactedSummaryParsed,
+      feedback: dataWaitingFeedbackSummaryParsed,
+      submitting: false,
+    });
   }
 
   buildSubTitleMessage = () =>
@@ -49,11 +74,12 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { contacted, feedback } = this.state;
+    const { t } = this.props;
     return (
       <>
         <NavBarMenu {...this.props} />
-        <Container>
+        <Container fluid>
           <Row className="mt-4">
             <Col lg={6} xs={12}>
               <Row>
@@ -63,26 +89,35 @@ class Dashboard extends React.Component {
                   <h3>{this.buildSubTitleMessage()}</h3>
                 </Col>
               </Row>
-              <Row>
-                <Col xs={5}>
-                  <PieChart
-                    animate={true}
-                    data={data}
-                    totalValue={100}
-                    label={({ dataEntry }) => dataEntry.label}
-                    labelStyle={{
-                      fontSize: "5px",
-                      // fontFamily: "sans-serif",
-                      // fill: "#E38627",
-                    }}
-                    // lineWidth={20}
-                    // labelPosition={0}
-                  />
-                </Col>
-              </Row>
             </Col>
             <Col>
               <img src={logo} alt="logo" className="hero-image" />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col xs={12} lg={{ span: 4, offset: 1 }}>
+              <h2 className="text-center">{t("titleChartContacts")}</h2>
+              <PieChart
+                animate={true}
+                data={contacted}
+                totalValue={100}
+                label={({ dataEntry }) => dataEntry.label}
+                labelStyle={{
+                  fontSize: "5px",
+                }}
+              />
+            </Col>
+            <Col xs={12} lg={{ span: 4, offset: 1 }}>
+              <h2 className="text-center">{t("titleChartWaitingFeedback")}</h2>
+              <PieChart
+                animate={true}
+                data={feedback}
+                totalValue={100}
+                label={({ dataEntry }) => dataEntry.label}
+                labelStyle={{
+                  fontSize: "5px",
+                }}
+              />
             </Col>
           </Row>
         </Container>
