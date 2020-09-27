@@ -1,6 +1,7 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import moment from "moment";
 import { details } from "../../services";
 import { getOr, map } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
@@ -58,10 +59,8 @@ class ListDetailsContact extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{t("common:name")}</th>
-              <th>{t("phone")}</th>
-              <th>{t("language")}</th>
-              <th>{t("status")}</th>
+              <th>{t("Publisher")}</th>
+              <th>{t("date")}</th>
               <th>{t("details")}</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
@@ -71,13 +70,16 @@ class ListDetailsContact extends React.Component {
           <tbody>
             {map(
               (detail) => (
-                <tr>
+                <tr key={detail.id}>
+                  <td>{detail.name}</td>
+                  <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td>{detail.information}</td>
+
                   <td>
                     <Button
                       variant="success"
                       as={Link}
-                      to={`/contacts/${phone}/details/edit/1`}
+                      to={`/contacts/${phone}/details/edit/${detail.id}`}
                     >
                       Editar
                     </Button>

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
-
+  console.log(data)
 
   return (
     <Modal
