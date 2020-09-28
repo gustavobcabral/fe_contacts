@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 const FormLogin = (props) => {
   const { t } = useTranslation(["login", "common"]);
-  const { validator } = props;
   const { form, submitting, validated } = props.state;
   return (
     <Modal show={props.show} onHide={props.onHide} size="sm" centered>
@@ -23,7 +22,9 @@ const FormLogin = (props) => {
               value={form.email}
               onChange={props.handleInputChange}
             />
-            {validator.message("email", form.email, "required|email")}
+            <Form.Control.Feedback type="invalid">
+              {t("common:requiredFieldAndPatternValid")}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
@@ -36,8 +37,9 @@ const FormLogin = (props) => {
               value={form.password}
               onChange={props.handleInputChange}
             />
-
-            {validator.message("password", form.password, "required")}
+            <Form.Control.Feedback type="invalid">
+            {t("common:requiredField")}
+            </Form.Control.Feedback>
           </Form.Group>
           <Button disabled={submitting} variant="primary" type="submit">
             {t(submitting ? "common:btnSubmitting" : "btnSubmit")}

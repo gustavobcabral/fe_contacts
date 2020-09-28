@@ -2,14 +2,14 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { details, publishers } from "../../services";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
-import { getOr, map, find } from "lodash/fp";
+import { getOr, map } from "lodash/fp";
 import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";
 
 const fields = {
   information: "",
-  idPublisher: 0,
-  idStatus: 0,
+  idPublisher: null,
+  idStatus: null,
 };
 
 class EditDetailsContact extends React.Component {
@@ -31,7 +31,7 @@ class EditDetailsContact extends React.Component {
       autoForceUpdate: this,
       locale:
         this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
-      element: (message) => <div className="invalid-feedback">{message}</div>,
+      element: (message) => <div className="text-danger">{message}</div>,
     });
   }
 
@@ -47,18 +47,13 @@ class EditDetailsContact extends React.Component {
     const response = await details.getOne(id);
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const publisherSelected = find(
-      (option) => option.value === form.idPublisher,
-      publishersOptions
-    );
-
     this.setState({
       form,
       publishersOptions,
-      publisherSelected,
       loading: false,
     });
   }
+
 
   setFormData = (name, value) => {
     const { form } = this.state;
@@ -77,16 +72,12 @@ class EditDetailsContact extends React.Component {
     this.setFormData(name, value);
   }
 
-  async handleSubmit(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    console.log(this.validator.allValid())
+  async handleSubmit() {
     if (!this.validator.allValid()) {
-      this.setState({ validated: true });
       this.validator.showMessages();
       return true;
     }
-
+    alert("vou enviar");
     this.setState({ submitting: true });
 
     const { form } = this.state;
@@ -109,7 +100,7 @@ class EditDetailsContact extends React.Component {
           <h1>EDIT TODOS OS DETALHES</h1>
           <h4>Phone:{phone}</h4>
           <h4>Details number:{id}</h4>
-          <FormDetails {...this} onSubmit={this.handleSubmit} />
+          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
         </ContainerCRUD>
       </>
     );

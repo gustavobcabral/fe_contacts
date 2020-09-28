@@ -2,26 +2,27 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
+import { find } from "lodash/fp";
 
 const FormDetails = (props) => {
   const { t } = useTranslation(["common"]);
   const { validator } = props;
-  const {
-    form,
-    submitting,
-    validated,
-    publisherSelected,
-    publishersOptions,
-  } = props.state;
+  const { form, submitting, publishersOptions } = props.state;
+  const publisherSelected = find(
+    (option) => option.value === form.idPublisher,
+    publishersOptions
+  );
+
+
   return (
-    <Form noValidate validated={validated} onSubmit={props.onSubmit}>
+    <div>
       <Form.Group>
         <Form.Label>Publisher</Form.Label>
         <Select
           name="idPublisher"
           value={publisherSelected}
           options={publishersOptions}
-          onChange={({value}) => props.setFormData("idPublisher", value)}
+          onChange={({ value }) => props.setFormData("idPublisher", value)}
         />
         {validator.message("idPublisher", form.idPublisher, "required")}
       </Form.Group>
@@ -30,13 +31,16 @@ const FormDetails = (props) => {
         <Form.Control
           as="select"
           name="idStatus"
+          defaultValue={form.idStatus}
           onChange={props.handleInputChange}
         >
-          <option>Disponivel</option>
+          <option value=""></option>
+          <option value={1}>Livre</option>
           <option value={2}>Revisita</option>
           <option>Estudo</option>
           <option>Nao ligar</option>
         </Form.Control>
+        {validator.message("idStatus", form.idStatus, "required")}
       </Form.Group>
       <Form.Group>
         <Form.Label>Details</Form.Label>
@@ -47,12 +51,12 @@ const FormDetails = (props) => {
           onChange={props.handleInputChange}
           defaultValue={form.information}
         />
-        {validator.message("information", form.information, "required")}
+        {validator.message("information", form.information, "required|email")}
       </Form.Group>
-      <Button disabled={submitting} variant="primary" type="submit">
+      <Button disabled={submitting} variant="primary" onClick={props.onSubmit}>
         {t(submitting ? "btnSubmitting" : "btnSubmit")}
       </Button>
-    </Form>
+    </div>
   );
 };
 
