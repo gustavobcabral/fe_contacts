@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import { find } from "lodash/fp";
 
+
 const FormDetails = (props) => {
   const { t } = useTranslation(["common"]);
   const { validator } = props;
@@ -12,7 +13,6 @@ const FormDetails = (props) => {
     (option) => option.value === form.idPublisher,
     publishersOptions
   );
-
 
   return (
     <div>
@@ -51,7 +51,7 @@ const FormDetails = (props) => {
           onChange={props.handleInputChange}
           defaultValue={form.information}
         />
-        {validator.message("information", form.information, "required|email")}
+        {validator.message("information", form.information, "required")}
       </Form.Group>
       <Button disabled={submitting} variant="primary" onClick={props.onSubmit}>
         {t(submitting ? "btnSubmitting" : "btnSubmit")}

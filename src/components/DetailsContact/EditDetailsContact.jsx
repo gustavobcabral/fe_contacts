@@ -54,7 +54,6 @@ class EditDetailsContact extends React.Component {
     });
   }
 
-
   setFormData = (name, value) => {
     const { form } = this.state;
     this.setState({
@@ -82,7 +81,11 @@ class EditDetailsContact extends React.Component {
 
     const { form } = this.state;
     // const { history } = this.props;
-    console.log(form);
+    console.log("Aqui esta o", form);
+
+    const id = getOr(0, "props.match.params.id", this);
+    const res = await details.updateOneContactDetail(id, form);
+    console.log(res);
   }
 
   componentDidMount() {
