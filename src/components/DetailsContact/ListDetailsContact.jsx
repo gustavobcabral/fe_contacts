@@ -49,7 +49,6 @@ class ListDetailsContact extends React.Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
-    console.log(data);
     const phone = getOr(0, "props.match.params.phone", this);
 
     return (
@@ -74,7 +73,6 @@ class ListDetailsContact extends React.Component {
                   <td>{detail.publisherName}</td>
                   <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td>{detail.information}</td>
-
                   <td>
                     <Button
                       variant="success"
