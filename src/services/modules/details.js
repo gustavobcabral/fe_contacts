@@ -1,9 +1,9 @@
 import api from "../api";
 
-function getAllOneContact(id) {
-  return api.get(`/detailsContacts/oneContact/${id}`);
-}
-function dellOne(id) {
-  return api.delete(`/contacts/${id}`);
-}
-export default { getAllOneContact, dellOne };
+const getAllOneContact = (id) => api.get(`/detailsContacts/oneContact/${id}`);
+
+const getOne = (id) => api.get(`/detailsContacts/${id}`);
+
+const dellOne = (id) => api.delete(`/detailsContacts/${id}`);
+
+export default { getAllOneContact, dellOne, getOne };

@@ -6,13 +6,13 @@ import { auth } from "../../services";
 import { setLoginData } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
 import { withTranslation } from "react-i18next";
-import { getValidation } from "../../utils/forms";
-import { loginFields } from "../../validators/auth";
+import SimpleReactValidator from "simple-react-validator";
 
 const fields = {
   email: "",
   password: "",
 };
+
 
 class LoginPopup extends React.Component {
   constructor(props) {
@@ -25,6 +25,13 @@ class LoginPopup extends React.Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      locale:
+        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      element: (message) => <div className="invalid-feedback">{message}</div>,
+    });
+
   }
 
   handleInputChange(event) {
@@ -44,10 +51,12 @@ class LoginPopup extends React.Component {
   async handleSubmit(event, t) {
     event.stopPropagation();
     event.preventDefault();
-    const formCheck = event.currentTarget;
-    if (formCheck.checkValidity() === false) {
+    //const formCheck = event.currentTarget;
+    if (!this.validator.allValid()) {
       this.setState({ validated: true });
+      this.validator.showMessages();
       return true;
+      //
     }
 
     this.setState({ submitting: true });
@@ -76,16 +85,14 @@ class LoginPopup extends React.Component {
   }
 
   setModalShow(value) {
-    this.setState({ modalShow: value });
-  }
-
-  validation() {
-    const { form, submitted } = this.state;
-    return getValidation({
-      form,
-      submitted,
-      fields: loginFields,
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      locale:
+        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      element: (message) => <div className="invalid-feedback">{message}</div>,
     });
+
+    this.setState({ modalShow: value });
   }
 
   render() {

@@ -1,10 +1,7 @@
 import api from "../api";
 
-function getAll() {
-  return api.get("/publishers");
-}
+const getAll = () => api.get("/publishers");
 
-function dellOne(id) {
-  return api.delete(`/publishers/${id}`)
-}
+const dellOne = (id) => api.delete(`/publishers/${id}`);
+
 export default { getAll, dellOne };

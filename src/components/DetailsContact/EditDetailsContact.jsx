@@ -1,53 +1,105 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import { details } from "../../services";
-import { Form, Button } from "react-bootstrap";
+import { details, publishers } from "../../services";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
-import { getOr, map } from "lodash/fp";
+import { getOr, map, find } from "lodash/fp";
+import FormDetails from "./FormDetails";
+import SimpleReactValidator from "simple-react-validator";
+
+const fields = {
+  information: "",
+  idPublisher: 0,
+  idStatus: 0,
+};
 
 class EditDetailsContact extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { data: [] };
-    this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
-    //  this.handleDelete = this.handleDelete.bind(this);
+    this.state = {
+      form: fields,
+      submitting: false,
+      loading: false,
+      validated: false,
+      publisherSelected: {},
+      publishersOptions: [],
+    };
+    this.handleGetOne = this.handleGetOne.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      locale:
+        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      element: (message) => <div className="invalid-feedback">{message}</div>,
+    });
   }
-  async handleGetAllOneContact() {
-    const phone = getOr(0, "props.match.params.phone", this);
+
+  reducePublishers = (publishers) =>
+    map(
+      (publisher) => ({ value: publisher.id, label: publisher.name }),
+      getOr([], "data.data", publishers)
+    );
+
+  async handleGetOne() {
+    const id = getOr(0, "props.match.params.id", this);
+    this.setState({ loading: true });
+    const response = await details.getOne(id);
+    const form = getOr(fields, "data.data", response);
+    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publisherSelected = find(
+      (option) => option.value === form.idPublisher,
+      publishersOptions
+    );
+
+    this.setState({
+      form,
+      publishersOptions,
+      publisherSelected,
+      loading: false,
+    });
+  }
+
+  setFormData = (name, value) => {
+    const { form } = this.state;
+    this.setState({
+      form: {
+        ...form,
+        [name]: value,
+      },
+    });
+  };
+
+  handleInputChange(obj) {
+    const {
+      target: { name, value },
+    } = obj;
+    this.setFormData(name, value);
+  }
+
+  async handleSubmit(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    console.log(this.validator.allValid())
+    if (!this.validator.allValid()) {
+      this.setState({ validated: true });
+      this.validator.showMessages();
+      return true;
+    }
+
     this.setState({ submitting: true });
-    const response = await details.getAllOneContact(phone);
-    this.setState({ data: response.data.data, submitting: false });
+
+    const { form } = this.state;
+    // const { history } = this.props;
+    console.log(form);
   }
-
-  // handleEdit(id) {
-  //   console.log("i will get contact id " + id);
-  // }
-
-  // async handleDelete(t, id) {
-  //   this.setState({ submitting: true });
-  //   await contacts
-  //     .dellOne(id)
-  //     .then(() => {
-  //       this.handleGetAll();
-  //     })
-  //     .catch((error) => {
-  //       this.setState({ submitting: false });
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: t(getOr("errorTextUndefined", "response.data.cod", error)),
-  //       });
-  //     });
-  // }
 
   componentDidMount() {
-    this.handleGetAllOneContact();
+    this.handleGetOne();
   }
 
   render() {
     const { t } = this.props;
-    const { data } = this.state;
-    console.log(data);
     const phone = getOr(0, "props.match.params.phone", this);
     const id = getOr(0, "props.match.params.id", this);
 
@@ -57,44 +109,7 @@ class EditDetailsContact extends React.Component {
           <h1>EDIT TODOS OS DETALHES</h1>
           <h4>Phone:{phone}</h4>
           <h4>Details number:{id}</h4>
-          <Form key={data.id}>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>Publisher</Form.Label>
-              <Form.Control type="text" placeholder={data.name} />
-            </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              <Form.Label>Status</Form.Label>
-              <Form.Control as="select">
-                <option>Disponivel</option>
-                <option>Revisita</option>
-                <option>Estudo</option>
-                <option>Nao ligar</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Details</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder={data.information}
-              />
-            </Form.Group>
-            <Button variant="primary">Save</Button>{" "}
-          </Form>
-          
-          {/* <td>
-                    <Button
-                      variant="success"
-                      onClick={handleEdit.bind(this, id_detail)}
-                      href={`contacts/${data.phone}/details/${id_detail}`}
-                    >
-                      {t("common:edit")}
-                    </Button>{" "}
-                    <AskDelete
-                      id={id_detail}
-                      funcToCallAfterConfirmation={handleDelete}
-                    />
-                  </td> */}
+          <FormDetails {...this} onSubmit={this.handleSubmit} />
         </ContainerCRUD>
       </>
     );
