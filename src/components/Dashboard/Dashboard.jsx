@@ -81,7 +81,7 @@ class Dashboard extends React.Component {
         <NavBarMenu {...this.props} />
         <Container fluid>
           <Row className="mt-4">
-            <Col lg={6} xs={12}>
+            <Col lg={{ span: 4, offset: 1 }} xs={12}>
               <Row>
                 <Col className="text-center">
                   <h1>Agenda Telefonica</h1>
@@ -90,12 +90,12 @@ class Dashboard extends React.Component {
                 </Col>
               </Row>
             </Col>
-            <Col>
+            <Col lg={{ span: 4, offset: 1 }}>
               <img src={logo} alt="logo" className="hero-image" />
             </Col>
           </Row>
           <Row className="mt-4">
-            <Col xs={12} lg={{ span: 4, offset: 1 }}>
+            <Col xs={12} lg={{ span: 3, offset: 2 }}>
               <h2 className="text-center">{t("titleChartContacts")}</h2>
               <PieChart
                 animate={true}
@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
                 }}
               />
             </Col>
-            <Col xs={12} lg={{ span: 4, offset: 1 }}>
+            <Col xs={12} lg={{ span: 3, offset: 2 }}>
               <h2 className="text-center">{t("titleChartWaitingFeedback")}</h2>
               <PieChart
                 animate={true}
