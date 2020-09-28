@@ -5,6 +5,7 @@ import { details } from "../../services";
 import { getOr, map } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -58,11 +59,9 @@ class ListDetailsContact extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{t("common:name")}</th>
-              <th>{t("phone")}</th>
-              <th>{t("language")}</th>
-              <th>{t("status")}</th>
-              <th>{t("details")}</th>
+              <th>{t("common:publisher")}</th>
+              <th>{t("common:date")}</th>
+              <th>{t("common:information")}</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
               </th>
@@ -72,6 +71,8 @@ class ListDetailsContact extends React.Component {
             {map(
               (detail) => (
                 <tr>
+                  <td>{detail.publisherName}</td>
+                  <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td>{detail.information}</td>
                   <td>
                     <Button

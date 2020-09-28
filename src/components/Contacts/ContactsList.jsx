@@ -77,8 +77,8 @@ class Contacts extends React.Component {
                 <tr key={contact.phone}>
                   <td>{contact.name}</td>
                   <td>{contact.phone}</td>
-                  <td>{contact.language_name}</td>
-                  <td>{contact.status_description}</td>
+                  <td>{contact.languageName}</td>
+                  <td>{contact.statusDescription}</td>
                   <td>
                     <QuickLookDetailsContact data={contact} />{" "}
                     <Button

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Table} from "react-bootstrap";
+import { Button, Modal, Table } from "react-bootstrap";
 import moment from "moment";
 import { map, get } from "lodash/fp";
 import { useTranslation } from "react-i18next";
@@ -7,8 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
-
-
   return (
     <Modal
       show={show}
@@ -36,11 +34,11 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
           </thead>
           <tbody>
             {map(
-              ({ createdAt, name_publisher, information, id_detail }) => (
+              ({ createdAt, namePublisher, information }) => (
                 <tr key={createdAt}>
-                  <td>{name_publisher}</td>
+                  <td>{namePublisher}</td>
                   <td>{moment(createdAt).format("DD/MM/YYYY HH:mm")}</td>
-                  <td>{information}</td>
+                  <td colSpan="2">{information}</td>
                 </tr>
               ),
               get("details", data)
@@ -62,7 +60,7 @@ const ShowDetails = (props) => {
   return (
     <>
       <Button variant="primary" onClick={() => setModalShow(true)}>
-      <FontAwesomeIcon icon={faEye} />
+        <FontAwesomeIcon icon={faEye} />
       </Button>
 
       <MyVerticallyCenteredModal
