@@ -1,11 +1,11 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import moment from "moment";
 import { details } from "../../services";
 import { getOr, map } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import moment from "moment";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -59,9 +59,9 @@ class ListDetailsContact extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{t("common:publisher")}</th>
-              <th>{t("common:date")}</th>
-              <th>{t("common:information")}</th>
+              <th>{t("Publisher")}</th>
+              <th>{t("date")}</th>
+              <th>{t("details")}</th>
               <th>
                 <Button variant="primary">{t("common:add")}</Button>
               </th>
@@ -70,15 +70,16 @@ class ListDetailsContact extends React.Component {
           <tbody>
             {map(
               (detail) => (
-                <tr>
+                <tr key={detail.id}>
                   <td>{detail.publisherName}</td>
                   <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td>{detail.information}</td>
+
                   <td>
                     <Button
                       variant="success"
                       as={Link}
-                      to={`/contacts/${phone}/details/edit/1`}
+                      to={`/contacts/${phone}/details/edit/${detail.id}`}
                     >
                       Editar
                     </Button>
