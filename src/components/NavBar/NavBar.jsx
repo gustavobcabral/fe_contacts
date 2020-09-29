@@ -30,15 +30,7 @@ const MenuLogged = ({ t, ...props }) => (
       </NavDropdown>
     </Nav>
     <Nav>
-      <Nav.Link as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
-        {t("itemLanguages")}
-      </Nav.Link>{" "}
-    </Nav>
-    <Nav>
-      <NavDropdown
-        title={get("name", getUserData())}
-        id="collasible-nav-dropdown"
-      >
+      <NavDropdown title={get("name", getUserData())}>
         <NavDropdown.Item as={Link} to="#me">
           My data
         </NavDropdown.Item>
@@ -46,6 +38,12 @@ const MenuLogged = ({ t, ...props }) => (
         <Logout {...props} />
       </NavDropdown>
     </Nav>
+    <Nav>
+      <Nav.Link as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
+        {t("itemLanguages")}
+      </Nav.Link>{" "}
+    </Nav>
+
   </>
 );
 
