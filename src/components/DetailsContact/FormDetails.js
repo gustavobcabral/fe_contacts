@@ -31,12 +31,12 @@ const FormDetails = (props) => {
         <Form.Control
           as="select"
           name="idStatus"
-          defaultValue={form.idStatus}
+          value={form.idStatus}
           onChange={props.handleInputChange}
         >
           <option value=""></option>
-          <option value={1}>Livre</option>
-          <option value={2}>Revisita</option>
+          <option value="1">Livre</option>
+          <option value="2">Revisita</option>
           <option>Estudo</option>
           <option>Nao ligar</option>
         </Form.Control>

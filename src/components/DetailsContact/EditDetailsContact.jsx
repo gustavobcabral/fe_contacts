@@ -8,8 +8,8 @@ import SimpleReactValidator from "simple-react-validator";
 
 const fields = {
   information: "",
-  idPublisher: null,
-  idStatus: null,
+  idPublisher: "",
+  idStatus: "",
 };
 
 class EditDetailsContact extends React.Component {
@@ -82,11 +82,10 @@ class EditDetailsContact extends React.Component {
     // const { history } = this.props;
 
     const id = getOr(0, "props.match.params.id", this);
-    const phone = getOr(0, "props.match.params.phone", this);
 
     const data = {
       detailsContact: pick(["idPublisher", "information"], form),
-      contact: { idStatus: get("idStatus", form), phone: phone },
+      contact: { idStatus: get("idStatus", form), phone: get("phoneContact", form) },
     };
     try {
       const res = await details.updateOneContactDetail(id, data);
