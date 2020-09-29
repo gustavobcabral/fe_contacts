@@ -2,7 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { details, publishers } from "../../services";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
-import { getOr, map } from "lodash/fp";
+import { getOr, map, pick, get } from "lodash/fp";
 import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";
 
@@ -76,16 +76,23 @@ class EditDetailsContact extends React.Component {
       this.validator.showMessages();
       return true;
     }
-    alert("vou enviar");
     this.setState({ submitting: true });
 
     const { form } = this.state;
     // const { history } = this.props;
-    console.log("Aqui esta o", form);
 
     const id = getOr(0, "props.match.params.id", this);
-    const res = await details.updateOneContactDetail(id, form);
-    console.log(res);
+    const phone = getOr(0, "props.match.params.phone", this);
+
+    const data = {
+      detailsContact: pick(["idPublisher", "information"], form),
+      contact: { idStatus: get("idStatus", form), phone: phone },
+    };
+    try {
+      const res = await details.updateOneContactDetail(id, data);
+      console.log(res);
+    } catch (error) {}
+    this.setState({ submitting: false });
   }
 
   componentDidMount() {
