@@ -4,10 +4,9 @@ import { getUserData } from "../../utils/loginDataManager";
 import { contacts } from "../../services";
 import { withTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import NavBarMenu from "../NavBar/NavBar";
-import "./styles.css";
+import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
 import logo from "../../assets/images/logo.png";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row, Card, Image } from "react-bootstrap";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -77,51 +76,56 @@ class Dashboard extends React.Component {
     const { contacted, feedback } = this.state;
     const { t } = this.props;
     return (
-      <>
-        <NavBarMenu {...this.props} />
-        <Container fluid>
-          <Row className="mt-4">
-            <Col lg={{ span: 4, offset: 1 }} xs={12}>
-              <Row>
-                <Col className="text-center">
-                  <h1>Agenda Telefonica</h1>
-                  <h2>Cong. Santa Rita</h2>
-                  <h3>{this.buildSubTitleMessage()}</h3>
-                </Col>
-              </Row>
-            </Col>
-            <Col lg={{ span: 4, offset: 1 }}>
-              <img src={logo} alt="logo" className="hero-image" />
-            </Col>
-          </Row>
-          <Row className="mt-4">
-            <Col xs={12} lg={{ span: 3, offset: 2 }}>
-              <h2 className="text-center">{t("titleChartContacts")}</h2>
-              <PieChart
-                animate={true}
-                data={contacted}
-                totalValue={100}
-                label={({ dataEntry }) => dataEntry.label}
-                labelStyle={{
-                  fontSize: "5px",
-                }}
-              />
-            </Col>
-            <Col xs={12} lg={{ span: 3, offset: 2 }}>
-              <h2 className="text-center">{t("titleChartWaitingFeedback")}</h2>
-              <PieChart
-                animate={true}
-                data={feedback}
-                totalValue={100}
-                label={({ dataEntry }) => dataEntry.label}
-                labelStyle={{
-                  fontSize: "5px",
-                }}
-              />
-            </Col>
-          </Row>
-        </Container>
-      </>
+      <ContainerWithNavBar {...this.props}>
+        <Row className="mt-4">
+          <Col lg={{ span: 4, offset: 1 }} xs={12}>
+            <Row>
+              <Col className="text-center" style={{ marginTop: '31%'}}>
+                <h1>Agenda Telefonica</h1>
+                <h2>Cong. Santa Rita</h2>
+                <h3>{this.buildSubTitleMessage()}</h3>
+              </Col>
+            </Row>
+          </Col>
+          <Col lg={{ span: 4, offset: 1 }}>
+          <Image src={logo} fluid />
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col xs={12} lg={{ span: 3, offset: 2 }}>
+            <Card>
+              <Card.Header className="text-center">{t("titleChartContacts")}</Card.Header>
+              <Card.Body>
+                <PieChart
+                  animate={true}
+                  data={contacted}
+                  totalValue={100}
+                  label={({ dataEntry }) => dataEntry.label}
+                  labelStyle={{
+                    fontSize: "5px",
+                  }}
+                />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col xs={12} lg={{ span: 3, offset: 2 }}>
+            <Card>
+              <Card.Header className="text-center">{t("titleChartWaitingFeedback")}</Card.Header>
+              <Card.Body>
+                <PieChart
+                  animate={true}
+                  data={feedback}
+                  totalValue={100}
+                  label={({ dataEntry }) => dataEntry.label}
+                  labelStyle={{
+                    fontSize: "5px",
+                  }}
+                />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </ContainerWithNavBar>
     );
   }
 }
