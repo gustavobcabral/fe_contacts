@@ -10,80 +10,93 @@ class Charts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contacted: [],
-      feedback: [],
+      byContacted: [],
+      byFeedback: [],
       byPublishers: [],
       submitting: false,
     };
     this.handleGetSummary = this.handleGetSummary.bind(this);
   }
 
-  async handleGetSummary() {
-    this.setState({ submitting: true });
-    const response = await contacts.getSummary();
-    const data = get("data", response);
+  getByContacted(data) {
     const { t } = this.props;
-    const dataContactedSummaryParsed = [
-      {
-        title: t("contacted"),
-        value: data.totalPercentContacted,
-        label: `${data.totalPercentContacted}% ${t("contacted")}`,
-        color: "#ffc107",
-      },
-      {
-        title: t("withoutContact"),
-        label: `${data.totalPercentWithoutContacted}% ${t("withoutContact")}`,
-        value: data.totalPercentWithoutContacted,
-        color: "#1ad641",
-      },
-    ];
 
-    const randomColor = () => {
-      let n = (Math.random() * 0xfffff * 1000000).toString(16);
-      return "#" + n.slice(0, 6);
-    };
+    return data.totalPercentContacted > 0 ||
+      data.totalPercentWithoutContacted > 0
+      ? [
+          {
+            title: t("contacted"),
+            value: data.totalPercentContacted,
+            label: `${data.totalPercentContacted}% ${t("contacted")}`,
+            color: "#ffc107",
+          },
+          {
+            title: t("withoutContact"),
+            label: `${data.totalPercentWithoutContacted}% ${t(
+              "withoutContact"
+            )}`,
+            value: data.totalPercentWithoutContacted,
+            color: "#1ad641",
+          },
+        ]
+      : [];
+  }
 
-    const generateLabel = (dataPublisher) =>
-      data.totalsContactsWaitingFeedbackByPublisher.length <= 4
-        ? `${dataPublisher.percent}% ${dataPublisher.publisherName.slice(
-            0,
-            10
-          )}`
-        : "";
+  randomColor = () => {
+    let n = (Math.random() * 0xfffff * 1000000).toString(16);
+    return "#" + n.slice(0, 6);
+  };
 
-    const dataWaitingFeedbackByPublishersSummaryParsed = map(
+  generateLabel = (dataPublisher, data) =>
+    data.totalsContactsWaitingFeedbackByPublisher.length <= 4
+      ? `${dataPublisher.percent}% ${dataPublisher.publisherName.slice(0, 10)}`
+      : "";
+
+  getByPublishers = (data) =>
+    map(
       (dataPublisher) => ({
         title: `${dataPublisher.percent}% ${dataPublisher.publisherName}`,
         value: dataPublisher.percent,
-        label: generateLabel(dataPublisher),
-        color: randomColor(),
+        label: this.generateLabel(dataPublisher, data),
+        color: this.randomColor(),
       }),
       data.totalsContactsWaitingFeedbackByPublisher
     );
 
-    const dataWaitingFeedbackSummaryParsed = [
-      {
-        title: t("totalContactsAssignByMeWaitingFeedback"),
-        value: data.totalPercentContactsAssignByMeWaitingFeedback,
-        label: `${data.totalPercentContactsAssignByMeWaitingFeedback}% ${t(
-          "totalContactsAssignByMeWaitingFeedback"
-        )}`,
-        color: "#007bff",
-      },
-      {
-        title: t("totalContactsWaitingFeedback"),
-        label: `${data.totalPercentContactsAssignByOthersWaitingFeedback}% ${t(
-          "totalContactsWaitingFeedback"
-        )}`,
-        value: data.totalPercentContactsAssignByOthersWaitingFeedback,
-        color: "#6610f2",
-      },
-    ];
+  getByFeedback = (data) => {
+    const { t } = this.props;
+    return data.totalPercentContactsAssignByMeWaitingFeedback > 0 ||
+      data.totalPercentContactsAssignByOthersWaitingFeedback > 0
+      ? [
+          {
+            title: t("totalContactsAssignByMeWaitingFeedback"),
+            value: data.totalPercentContactsAssignByMeWaitingFeedback,
+            label: `${data.totalPercentContactsAssignByMeWaitingFeedback}% ${t(
+              "totalContactsAssignByMeWaitingFeedback"
+            )}`,
+            color: "#007bff",
+          },
+          {
+            title: t("totalContactsWaitingFeedback"),
+            label: `${
+              data.totalPercentContactsAssignByOthersWaitingFeedback
+            }% ${t("totalContactsWaitingFeedback")}`,
+            value: data.totalPercentContactsAssignByOthersWaitingFeedback,
+            color: "#6610f2",
+          },
+        ]
+      : [];
+  };
+
+  async handleGetSummary() {
+    this.setState({ submitting: true });
+    const response = await contacts.getSummary();
+    const data = get("data", response);
 
     this.setState({
-      contacted: dataContactedSummaryParsed,
-      feedback: dataWaitingFeedbackSummaryParsed,
-      byPublishers: dataWaitingFeedbackByPublishersSummaryParsed,
+      byContacted: this.getByContacted(data),
+      byFeedback: this.getByFeedback(data),
+      byPublishers: this.getByPublishers(data),
       submitting: false,
     });
   }
@@ -96,20 +109,20 @@ class Charts extends React.Component {
   }
 
   render() {
-    const { contacted, feedback, byPublishers } = this.state;
+    const { byContacted, byFeedback, byPublishers } = this.state;
     const { t } = this.props;
     return (
       <Row className="mt-4">
         <Col xs={12} lg={{ span: 3, offset: 1 }}>
           <Card>
-            <Card.Header className="text-center" style={{ minHeight: '73px'}}>
+            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartContacts")}
             </Card.Header>
             <Card.Body>
-              {!isEmpty(contacted) ? (
+              {!isEmpty(byContacted) ? (
                 <PieChart
                   animate={true}
-                  data={contacted}
+                  data={byContacted}
                   totalValue={100}
                   label={({ dataEntry }) => dataEntry.label}
                   labelStyle={{
@@ -126,14 +139,14 @@ class Charts extends React.Component {
         </Col>
         <Col xs={12} lg={{ span: 3, offset: 0 }}>
           <Card>
-            <Card.Header className="text-center" style={{ minHeight: '73px'}}>
+            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartWaitingFeedback")}
             </Card.Header>
             <Card.Body>
-              {!isEmpty(feedback) ? (
+              {!isEmpty(byFeedback) ? (
                 <PieChart
                   animate={true}
-                  data={feedback}
+                  data={byFeedback}
                   totalValue={100}
                   label={({ dataEntry }) => dataEntry.label}
                   labelStyle={{
@@ -150,7 +163,7 @@ class Charts extends React.Component {
         </Col>
         <Col xs={12} lg={{ span: 3, offset: 0 }}>
           <Card>
-            <Card.Header className="text-center" style={{ minHeight: '73px'}}>
+            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartWaitingFeedback")}
             </Card.Header>
             <Card.Body>
