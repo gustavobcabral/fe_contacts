@@ -1,10 +1,10 @@
 import React from "react";
-import { get, map, isEmpty } from "lodash/fp";
+import { get, map, isEmpty, getOr } from "lodash/fp";
 import { getUserData } from "../../utils/loginDataManager";
 import { contacts } from "../../services";
 import { withTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { Col, Row, Card } from "react-bootstrap";
+import { Col, Row, Card, ListGroup } from "react-bootstrap";
 
 class Charts extends React.Component {
   constructor(props) {
@@ -13,83 +13,100 @@ class Charts extends React.Component {
       byContacted: [],
       byFeedback: [],
       byPublishers: [],
-      submitting: false,
+      loading: false,
     };
     this.handleGetSummary = this.handleGetSummary.bind(this);
   }
 
   getByContacted(data) {
     const { t } = this.props;
+    if (
+      getOr(0, "totalPercentContacted", data) === 0 ||
+      getOr(0, "totalPercentWithoutContacted", data) === 0
+    )
+      return [];
 
-    return data.totalPercentContacted > 0 ||
-      data.totalPercentWithoutContacted > 0
-      ? [
-          {
-            title: t("contacted"),
-            value: data.totalPercentContacted,
-            label: `${data.totalPercentContacted}% ${t("contacted")}`,
-            color: "#ffc107",
-          },
-          {
-            title: t("withoutContact"),
-            label: `${data.totalPercentWithoutContacted}% ${t(
-              "withoutContact"
-            )}`,
-            value: data.totalPercentWithoutContacted,
-            color: "#1ad641",
-          },
-        ]
-      : [];
+    return [
+      {
+        title: t("contacted"),
+        value: getOr(0, "totalPercentContacted", data),
+        label: `${getOr(0, "totalPercentContacted", data)}% ${t("contacted")}`,
+        color: "#28a745",
+      },
+      {
+        title: t("withoutContact"),
+        label: `${getOr(0, "totalPercentWithoutContacted", data)}% ${t(
+          "withoutContact"
+        )}`,
+        value: getOr(0, "totalPercentWithoutContacted", data),
+        color: "#f73939",
+      },
+    ];
   }
 
-  randomColor = () => {
-    let n = (Math.random() * 0xfffff * 1000000).toString(16);
-    return "#" + n.slice(0, 6);
+  getByFeedback = (data) => {
+    const { t } = this.props;
+    if (
+      getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) === 0 ||
+      getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data) === 0
+    )
+      return [];
+
+    return [
+      {
+        title: t("totalContactsAssignByMeWaitingFeedback"),
+        value: getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data),
+        label: `${getOr(
+          0,
+          "totalPercentContactsAssignByMeWaitingFeedback",
+          data
+        )}% ${t("totalContactsAssignByMeWaitingFeedback")}`,
+        color: "#007bff",
+      },
+      {
+        title: t("totalContactsWaitingFeedback"),
+        label: `${getOr(
+          0,
+          "totalPercentContactsAssignByOthersWaitingFeedback",
+          data
+        )}% ${t("totalContactsWaitingFeedback")}`,
+        value: getOr(
+          0,
+          "totalPercentContactsAssignByOthersWaitingFeedback",
+          data
+        ),
+        color: "#6610f2",
+      },
+    ];
   };
 
-  generateLabel = (dataPublisher, data) =>
-    data.totalsContactsWaitingFeedbackByPublisher.length <= 4
-      ? `${dataPublisher.percent}% ${dataPublisher.publisherName.slice(0, 10)}`
-      : "";
+  randomColor = () =>
+    `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
+
+  generateLabel = (dataPublisher) =>
+    `${getOr(0, "percent", dataPublisher)}% ${getOr(
+      "no Name",
+      "publisherName",
+      dataPublisher
+    ).slice(0, 10)}`;
 
   getByPublishers = (data) =>
     map(
       (dataPublisher) => ({
-        title: `${dataPublisher.percent}% ${dataPublisher.publisherName}`,
-        value: dataPublisher.percent,
-        label: this.generateLabel(dataPublisher, data),
+        title: `${getOr(0, "percent", dataPublisher)}% ${getOr(
+          this.props.t("noName"),
+          "publisherName",
+          dataPublisher
+        )}`,
+        value: getOr(0, "percent", dataPublisher),
+        label: this.generateLabel(dataPublisher),
         color: this.randomColor(),
       }),
-      data.totalsContactsWaitingFeedbackByPublisher
+      getOr([], "totalsContactsWaitingFeedbackByPublisher", data)
     );
 
-  getByFeedback = (data) => {
-    const { t } = this.props;
-    return data.totalPercentContactsAssignByMeWaitingFeedback > 0 ||
-      data.totalPercentContactsAssignByOthersWaitingFeedback > 0
-      ? [
-          {
-            title: t("totalContactsAssignByMeWaitingFeedback"),
-            value: data.totalPercentContactsAssignByMeWaitingFeedback,
-            label: `${data.totalPercentContactsAssignByMeWaitingFeedback}% ${t(
-              "totalContactsAssignByMeWaitingFeedback"
-            )}`,
-            color: "#007bff",
-          },
-          {
-            title: t("totalContactsWaitingFeedback"),
-            label: `${
-              data.totalPercentContactsAssignByOthersWaitingFeedback
-            }% ${t("totalContactsWaitingFeedback")}`,
-            value: data.totalPercentContactsAssignByOthersWaitingFeedback,
-            color: "#6610f2",
-          },
-        ]
-      : [];
-  };
-
   async handleGetSummary() {
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
     const response = await contacts.getSummary();
     const data = get("data", response);
 
@@ -97,7 +114,7 @@ class Charts extends React.Component {
       byContacted: this.getByContacted(data),
       byFeedback: this.getByFeedback(data),
       byPublishers: this.getByPublishers(data),
-      submitting: false,
+      loading: false,
     });
   }
 
@@ -113,7 +130,7 @@ class Charts extends React.Component {
     const { t } = this.props;
     return (
       <Row className="mt-4">
-        <Col xs={12} lg={{ span: 3, offset: 1 }}>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 1 }}>
           <Card>
             <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartContacts")}
@@ -124,7 +141,7 @@ class Charts extends React.Component {
                   animate={true}
                   data={byContacted}
                   totalValue={100}
-                  label={({ dataEntry }) => dataEntry.label}
+                  label={({ dataEntry }) => get("label", dataEntry)}
                   labelStyle={{
                     fontSize: "5px",
                   }}
@@ -137,7 +154,7 @@ class Charts extends React.Component {
             </Card.Body>
           </Card>
         </Col>
-        <Col xs={12} lg={{ span: 3, offset: 0 }}>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
           <Card>
             <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartWaitingFeedback")}
@@ -148,7 +165,7 @@ class Charts extends React.Component {
                   animate={true}
                   data={byFeedback}
                   totalValue={100}
-                  label={({ dataEntry }) => dataEntry.label}
+                  label={({ dataEntry }) => get("label", dataEntry)}
                   labelStyle={{
                     fontSize: "5px",
                   }}
@@ -161,22 +178,38 @@ class Charts extends React.Component {
             </Card.Body>
           </Card>
         </Col>
-        <Col xs={12} lg={{ span: 3, offset: 0 }}>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 4, offset: 0 }}>
           <Card>
             <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-              {t("titleChartWaitingFeedback")}
+              {t("titleChartWaitingFeedbackByPublishers")}
             </Card.Header>
             <Card.Body>
               {!isEmpty(byPublishers) ? (
-                <PieChart
-                  animate={true}
-                  data={byPublishers}
-                  totalValue={100}
-                  label={({ dataEntry }) => dataEntry.label}
-                  labelStyle={{
-                    fontSize: "5px",
-                  }}
-                />
+                <Row>
+                  <Col>
+                    <PieChart
+                      animate={true}
+                      data={byPublishers}
+                      totalValue={100}
+                    />
+                  </Col>
+                  <Col lg={4} md={12}>
+                    <ListGroup>
+                      {map(
+                        (dataPublisher) => (
+                          <ListGroup.Item
+                            style={{
+                              backgroundColor: get("color", dataPublisher),
+                            }}
+                          >
+                            {dataPublisher.label}
+                          </ListGroup.Item>
+                        ),
+                        byPublishers
+                      )}
+                    </ListGroup>
+                  </Col>
+                </Row>
               ) : (
                 <Card.Text className="text-center">
                   {t("common:noData")}

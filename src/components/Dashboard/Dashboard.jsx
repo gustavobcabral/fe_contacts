@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
               </Col>
             </Row>
           </Col>
-          <Col lg={{ span: 4, offset: 1 }}>
+          <Col lg={{ span: 4, offset: 1 }} xs={{ span: 8, offset: 2 }}>
             <Image src={logo} fluid />
           </Col>
         </Row>

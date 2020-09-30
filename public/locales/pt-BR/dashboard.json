@@ -5,5 +5,8 @@
   "totalContactsAssignByMeWaitingFeedback": "Por mim",
   "totalContactsWaitingFeedback": "Outros",
   "titleChartContacts": "Contatados Vs. não contatados",
-  "titleChartWaitingFeedback": "Aguardam um comentario por mim Vs. de outros"
+  "titleChartWaitingFeedback": "Aguardam meu comentario Vs. de outros",
+  "titleChartWaitingFeedbackByPublishers": "Aguardam comentario por cada publicador",
+  "noName": "No Name"
+
 }
