@@ -1,0 +1,9 @@
+{
+  "welcome": "This is your dashboard",
+  "contacted": "Contacted",
+  "withoutContact": "Without contact",
+  "totalContactsAssignByMeWaitingFeedback": "Me",
+  "totalContactsWaitingFeedback": "Others",
+  "titleChartContacts": "Contacted vs. not contacted",
+  "titleChartWaitingFeedback": "Waiting Feedback by me vs. others"
+}
