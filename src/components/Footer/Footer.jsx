@@ -6,7 +6,7 @@ const Footer = (props) => {
   const { t } = useTranslation(["footer"]);
 
   return (
-    <Row {...props} className="bg-light mt-4">
+    <Row className="bg-light mt-4">
       <Col className="mt-4 mb-4 text-center">{t("message")}</Col>
     </Row>
   );
