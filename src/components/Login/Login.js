@@ -58,12 +58,10 @@ class LoginPopup extends React.Component {
       const authRes = await auth.authenticate(form);
       setLoginData(get("data.data", authRes));
       this.setState({ submitting: false });
-
+      history.push("/dashboard");
       Swal.fire({
         title: t(get("data.cod", authRes)),
         icon: "success",
-      }).then(() => {
-        history.push("/dashboard");
       });
     } catch (error) {
       this.setState({ submitting: false });
