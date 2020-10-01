@@ -1,5 +1,5 @@
 import React from "react";
-import { get, map, isEmpty, getOr } from "lodash/fp";
+import { get, map, isEmpty, getOr, find } from "lodash/fp";
 import { getUserData } from "../../utils/loginDataManager";
 import { contacts } from "../../services";
 import { withTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ class Charts extends React.Component {
       byContacted: [],
       byFeedback: [],
       byPublishers: [],
+      getByGender: [],
       loading: false,
     };
     this.handleGetSummary = this.handleGetSummary.bind(this);
@@ -85,7 +86,7 @@ class Charts extends React.Component {
 
   generateLabel = (dataPublisher) =>
     `${getOr(0, "percent", dataPublisher)}% ${getOr(
-      "no Name",
+      this.props.t("noName"),
       "publisherName",
       dataPublisher
     ).slice(0, 10)}`;
@@ -105,6 +106,48 @@ class Charts extends React.Component {
       getOr([], "totalsContactsWaitingFeedbackByPublisher", data)
     );
 
+  getByGender = (data) => {
+    const { t } = this.props;
+    const female = find(
+      (object) => object.gender === "female",
+      getOr({}, "totalContactsByGenderContacted", data)
+    );
+
+    const male = find(
+      (object) => object.gender === "male",
+      getOr({}, "totalContactsByGenderContacted", data)
+    );
+    
+    const undefinedGender = find(
+      (object) => object.gender === null,
+      getOr({}, "totalContactsByGenderContacted", data)
+    );
+    return [
+      {
+        title: `${getOr(0, "percent", female)}% ${t("common:female")}`,
+        value: getOr(0, "percent", female),
+        label: `${getOr(0, "percent", female)}% ${t("common:female")}`,
+        color: "#f008d2",
+      },
+      {
+        title: `${getOr(0, "percent", male)}% ${t("common:male")}`,
+        value: getOr(0, "percent", male),
+        label: `${getOr(0, "percent", male)}% ${t("common:male")}`,
+        color: "#007bff",
+      },
+      {
+        title: `${getOr(0, "percent", undefinedGender)}% ${t(
+          "common:undefinedGender"
+        )}`,
+        value: getOr(0, "percent", undefinedGender),
+        label: `${getOr(0, "percent", undefinedGender)}% ${t(
+          "common:undefinedGender"
+        )}`,
+        color: "#6c757d",
+      },
+    ];
+  };
+
   async handleGetSummary() {
     this.setState({ loading: true });
     const response = await contacts.getSummary();
@@ -114,6 +157,7 @@ class Charts extends React.Component {
       byContacted: this.getByContacted(data),
       byFeedback: this.getByFeedback(data),
       byPublishers: this.getByPublishers(data),
+      getByGender: this.getByGender(data),
       loading: false,
     });
   }
@@ -126,11 +170,11 @@ class Charts extends React.Component {
   }
 
   render() {
-    const { byContacted, byFeedback, byPublishers } = this.state;
+    const { byContacted, byFeedback, byPublishers, getByGender } = this.state;
     const { t } = this.props;
     return (
       <Row className="mt-4">
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 1 }}>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
           <Card>
             <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartContacts")}
@@ -178,38 +222,67 @@ class Charts extends React.Component {
             </Card.Body>
           </Card>
         </Col>
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 4, offset: 0 }}>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+          <Card>
+            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
+              {t("titleChartGender")}
+            </Card.Header>
+            <Card.Body>
+              {!isEmpty(getByGender) ? (
+                <PieChart
+                  animate={true}
+                  data={getByGender}
+                  totalValue={100}
+                  label={({ dataEntry }) => get("label", dataEntry)}
+                  labelStyle={{
+                    fontSize: "5px",
+                  }}
+                />
+              ) : (
+                <Card.Text className="text-center">
+                  {t("common:noData")}
+                </Card.Text>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
           <Card>
             <Card.Header className="text-center" style={{ minHeight: "73px" }}>
               {t("titleChartWaitingFeedbackByPublishers")}
             </Card.Header>
             <Card.Body>
               {!isEmpty(byPublishers) ? (
-                <Row>
-                  <Col>
-                    <PieChart
-                      animate={true}
-                      data={byPublishers}
-                      totalValue={100}
-                    />
-                  </Col>
-                  <Col lg={4} md={12}>
-                    <ListGroup>
-                      {map(
-                        (dataPublisher) => (
-                          <ListGroup.Item
-                            style={{
-                              backgroundColor: get("color", dataPublisher),
-                            }}
-                          >
-                            {dataPublisher.label}
-                          </ListGroup.Item>
-                        ),
-                        byPublishers
-                      )}
-                    </ListGroup>
-                  </Col>
-                </Row>
+                <>
+                  <Row>
+                    <Col>
+                      <PieChart
+                        animate={true}
+                        data={byPublishers}
+                        totalValue={100}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col>
+                      <ListGroup>
+                        {map(
+                          (dataPublisher) => (
+                            <ListGroup.Item
+                              key={get("color", dataPublisher)}
+                              style={{
+                                backgroundColor: get("color", dataPublisher),
+                              }}
+                            >
+                              {dataPublisher.label}
+                            </ListGroup.Item>
+                          ),
+                          byPublishers
+                        )}
+                      </ListGroup>
+                    </Col>
+                  </Row>
+                </>
               ) : (
                 <Card.Text className="text-center">
                   {t("common:noData")}
