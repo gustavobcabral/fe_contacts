@@ -5,5 +5,9 @@
   "totalContactsAssignByMeWaitingFeedback": "Me",
   "totalContactsWaitingFeedback": "Others",
   "titleChartContacts": "Contacted vs. not contacted",
-  "titleChartWaitingFeedback": "Waiting Feedback by me vs. others"
+  "titleChartWaitingFeedback": "Waiting Feedback by me vs. others",
+  "titleChartWaitingFeedbackByPublishers": "Waiting Feedback by each publishers",
+  "titleChartGender": "By gender",
+  "titleChartLanguage": "By language",
+  "noName": "No Name"
 }

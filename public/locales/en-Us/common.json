@@ -40,5 +40,7 @@
   "deleteSuccessful": "The record was deleted",
   "labelNewValueOption": "Choice a new value",
   "askDeleteMessage": "Are you sure you want to delete this record?",
-  "noData": "No data"
+  "male": "Male",
+  "female": "Female",
+  "undefinedGender": "Undefined"
 }

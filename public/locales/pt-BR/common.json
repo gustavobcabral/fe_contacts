@@ -40,5 +40,7 @@
   "deleteSuccessful": "O registro foi apagado com sucesso",
   "labelNewValueOption": "Escolha um novo valor",
   "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
-  "noData": "Sem dados"
+  "male": "Masculino",
+  "female": "Feminino",
+  "undefinedGender": "Indefinido"
 }
