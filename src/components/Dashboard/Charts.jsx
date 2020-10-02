@@ -123,7 +123,19 @@ class Charts extends React.Component {
       (object) => object.gender === null,
       getOr({}, "totalContactsByGenderContacted", data)
     );
-    return [
+
+    const objectGenderUndefined = {
+      title: `${getOr(0, "percent", undefinedGender)}% ${t(
+        "common:undefinedGender"
+      )}`,
+      value: getOr(0, "percent", undefinedGender),
+      label: `${getOr(0, "percent", undefinedGender)}% ${t(
+        "common:undefinedGender"
+      )}`,
+      color: "#6c757d",
+    };
+
+    const arrayGender = [
       {
         title: `${getOr(0, "percent", female)}% ${t("common:female")}`,
         value: getOr(0, "percent", female),
@@ -136,17 +148,10 @@ class Charts extends React.Component {
         label: `${getOr(0, "percent", male)}% ${t("common:male")}`,
         color: "#007bff",
       },
-      getOr(0, "percent", undefinedGender) > 0 && {
-        title: `${getOr(0, "percent", undefinedGender)}% ${t(
-          "common:undefinedGender"
-        )}`,
-        value: getOr(0, "percent", undefinedGender),
-        label: `${getOr(0, "percent", undefinedGender)}% ${t(
-          "common:undefinedGender"
-        )}`,
-        color: "#6c757d",
-      },
     ];
+    return getOr(0, "percent", undefinedGender) > 0
+      ? [...arrayGender, objectGenderUndefined]
+      : arrayGender;
   };
 
   getByLanguage = (data) =>
@@ -196,150 +201,168 @@ class Charts extends React.Component {
     } = this.state;
     const { t } = this.props;
     return (
-      <Row className="mt-4">
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
-          <Card>
-            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-              {t("titleChartContacts")}
-            </Card.Header>
-            <Card.Body>
-              {!isEmpty(byContacted) ? (
-                <PieChart
-                  animate={true}
-                  data={byContacted}
-                  totalValue={100}
-                  label={({ dataEntry }) => get("label", dataEntry)}
-                  labelStyle={{
-                    fontSize: "5px",
-                  }}
-                />
-              ) : (
-                <Card.Text className="text-center">
-                  {t("common:noData")}
-                </Card.Text>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
-          <Card>
-            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-              {t("titleChartWaitingFeedback")}
-            </Card.Header>
-            <Card.Body>
-              {!isEmpty(byFeedback) ? (
-                <PieChart
-                  animate={true}
-                  data={byFeedback}
-                  totalValue={100}
-                  label={({ dataEntry }) => get("label", dataEntry)}
-                  labelStyle={{
-                    fontSize: "5px",
-                  }}
-                />
-              ) : (
-                <Card.Text className="text-center">
-                  {t("common:noData")}
-                </Card.Text>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
-          <Card>
-            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-              {t("titleChartGender")}
-            </Card.Header>
-            <Card.Body>
-              {!isEmpty(getByGender) ? (
-                <PieChart
-                  animate={true}
-                  data={getByGender}
-                  totalValue={100}
-                  label={({ dataEntry }) => get("label", dataEntry)}
-                  labelStyle={{
-                    fontSize: "5px",
-                  }}
-                />
-              ) : (
-                <Card.Text className="text-center">
-                  {t("common:noData")}
-                </Card.Text>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
-          <Card>
-            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-              {t("titleChartLanguage")}
-            </Card.Header>
-            <Card.Body>
-              {!isEmpty(getByLanguage) ? (
-                <PieChart
-                  animate={true}
-                  data={getByLanguage}
-                  totalValue={100}
-                  label={({ dataEntry }) => get("label", dataEntry)}
-                  labelStyle={{
-                    fontSize: "5px",
-                  }}
-                />
-              ) : (
-                <Card.Text className="text-center">
-                  {t("common:noData")}
-                </Card.Text>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
-          <Card>
-            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-              {t("titleChartWaitingFeedbackByPublishers")}
-            </Card.Header>
-            <Card.Body>
-              {!isEmpty(byPublishers) ? (
-                <>
-                  <Row>
-                    <Col>
-                      <PieChart
-                        animate={true}
-                        data={byPublishers}
-                        totalValue={100}
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="mt-2">
-                    <Col>
-                      <ListGroup>
-                        {map(
-                          (dataPublisher) => (
-                            <ListGroup.Item
-                              key={get("color", dataPublisher)}
-                              style={{
-                                backgroundColor: get("color", dataPublisher),
-                              }}
-                            >
-                              {dataPublisher.label}
-                            </ListGroup.Item>
-                          ),
-                          byPublishers
-                        )}
-                      </ListGroup>
-                    </Col>
-                  </Row>
-                </>
-              ) : (
-                <Card.Text className="text-center">
-                  {t("common:noData")}
-                </Card.Text>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      <>
+        <Row className="mt-4">
+          <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 1 }}>
+            <Card>
+              <Card.Header
+                className="text-center"
+                style={{ minHeight: "73px" }}
+              >
+                {t("titleChartContacts")}
+              </Card.Header>
+              <Card.Body>
+                {!isEmpty(byContacted) ? (
+                  <PieChart
+                    animate={true}
+                    data={byContacted}
+                    totalValue={100}
+                    label={({ dataEntry }) => get("label", dataEntry)}
+                    labelStyle={{
+                      fontSize: "5px",
+                    }}
+                  />
+                ) : (
+                  <Card.Text className="text-center">
+                    {t("common:noData")}
+                  </Card.Text>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+            <Card>
+              <Card.Header
+                className="text-center"
+                style={{ minHeight: "73px" }}
+              >
+                {t("titleChartWaitingFeedback")}
+              </Card.Header>
+              <Card.Body>
+                {!isEmpty(byFeedback) ? (
+                  <PieChart
+                    animate={true}
+                    data={byFeedback}
+                    totalValue={100}
+                    label={({ dataEntry }) => get("label", dataEntry)}
+                    labelStyle={{
+                      fontSize: "5px",
+                    }}
+                  />
+                ) : (
+                  <Card.Text className="text-center">
+                    {t("common:noData")}
+                  </Card.Text>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+            <Card>
+              <Card.Header
+                className="text-center"
+                style={{ minHeight: "73px" }}
+              >
+                {t("titleChartGender")}
+              </Card.Header>
+              <Card.Body>
+                {!isEmpty(getByGender) ? (
+                  <PieChart
+                    animate={true}
+                    data={getByGender}
+                    totalValue={100}
+                    label={({ dataEntry }) => get("label", dataEntry)}
+                    labelStyle={{
+                      fontSize: "5px",
+                    }}
+                  />
+                ) : (
+                  <Card.Text className="text-center">
+                    {t("common:noData")}
+                  </Card.Text>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 3 }}>
+            <Card>
+              <Card.Header
+                className="text-center"
+                style={{ minHeight: "73px" }}
+              >
+                {t("titleChartLanguage")}
+              </Card.Header>
+              <Card.Body>
+                {!isEmpty(getByLanguage) ? (
+                  <PieChart
+                    animate={true}
+                    data={getByLanguage}
+                    totalValue={100}
+                    label={({ dataEntry }) => get("label", dataEntry)}
+                    labelStyle={{
+                      fontSize: "5px",
+                    }}
+                  />
+                ) : (
+                  <Card.Text className="text-center">
+                    {t("common:noData")}
+                  </Card.Text>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+            <Card>
+              <Card.Header
+                className="text-center"
+                style={{ minHeight: "73px" }}
+              >
+                {t("titleChartWaitingFeedbackByPublishers")}
+              </Card.Header>
+              <Card.Body>
+                {!isEmpty(byPublishers) ? (
+                  <>
+                    <Row>
+                      <Col>
+                        <PieChart
+                          animate={true}
+                          data={byPublishers}
+                          totalValue={100}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col>
+                        <ListGroup>
+                          {map(
+                            (dataPublisher) => (
+                              <ListGroup.Item
+                                key={get("color", dataPublisher)}
+                                style={{
+                                  backgroundColor: get("color", dataPublisher),
+                                }}
+                              >
+                                {dataPublisher.label}
+                              </ListGroup.Item>
+                            ),
+                            byPublishers
+                          )}
+                        </ListGroup>
+                      </Col>
+                    </Row>
+                  </>
+                ) : (
+                  <Card.Text className="text-center">
+                    {t("common:noData")}
+                  </Card.Text>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     );
   }
 }
