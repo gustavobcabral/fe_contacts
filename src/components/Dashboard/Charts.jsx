@@ -14,6 +14,7 @@ class Charts extends React.Component {
       byFeedback: [],
       byPublishers: [],
       getByGender: [],
+      getByLanguage: [],
       loading: false,
     };
     this.handleGetSummary = this.handleGetSummary.bind(this);
@@ -84,11 +85,11 @@ class Charts extends React.Component {
   randomColor = () =>
     `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
 
-  generateLabel = (dataPublisher) =>
-    `${getOr(0, "percent", dataPublisher)}% ${getOr(
+  generateLabel = (data, field) =>
+    `${getOr(0, "percent", data)}% ${getOr(
       this.props.t("noName"),
-      "publisherName",
-      dataPublisher
+      field,
+      data
     ).slice(0, 10)}`;
 
   getByPublishers = (data) =>
@@ -100,7 +101,7 @@ class Charts extends React.Component {
           dataPublisher
         )}`,
         value: getOr(0, "percent", dataPublisher),
-        label: this.generateLabel(dataPublisher),
+        label: this.generateLabel(dataPublisher, "publisherName"),
         color: this.randomColor(),
       }),
       getOr([], "totalsContactsWaitingFeedbackByPublisher", data)
@@ -117,7 +118,7 @@ class Charts extends React.Component {
       (object) => object.gender === "male",
       getOr({}, "totalContactsByGenderContacted", data)
     );
-    
+
     const undefinedGender = find(
       (object) => object.gender === null,
       getOr({}, "totalContactsByGenderContacted", data)
@@ -135,7 +136,7 @@ class Charts extends React.Component {
         label: `${getOr(0, "percent", male)}% ${t("common:male")}`,
         color: "#007bff",
       },
-      {
+      getOr(0, "percent", undefinedGender) > 0 && {
         title: `${getOr(0, "percent", undefinedGender)}% ${t(
           "common:undefinedGender"
         )}`,
@@ -148,6 +149,21 @@ class Charts extends React.Component {
     ];
   };
 
+  getByLanguage = (data) =>
+    map(
+      (dataLanguage) => ({
+        title: `${getOr(0, "percent", dataLanguage)}% ${getOr(
+          this.props.t("noName"),
+          "languageName",
+          dataLanguage
+        )}`,
+        value: getOr(0, "percent", dataLanguage),
+        label: this.generateLabel(dataLanguage, "languageName"),
+        color: this.randomColor(),
+      }),
+      getOr([], "totalContactsByLanguageContacted", data)
+    );
+
   async handleGetSummary() {
     this.setState({ loading: true });
     const response = await contacts.getSummary();
@@ -158,6 +174,7 @@ class Charts extends React.Component {
       byFeedback: this.getByFeedback(data),
       byPublishers: this.getByPublishers(data),
       getByGender: this.getByGender(data),
+      getByLanguage: this.getByLanguage(data),
       loading: false,
     });
   }
@@ -170,7 +187,13 @@ class Charts extends React.Component {
   }
 
   render() {
-    const { byContacted, byFeedback, byPublishers, getByGender } = this.state;
+    const {
+      byContacted,
+      byFeedback,
+      byPublishers,
+      getByGender,
+      getByLanguage,
+    } = this.state;
     const { t } = this.props;
     return (
       <Row className="mt-4">
@@ -246,6 +269,31 @@ class Charts extends React.Component {
             </Card.Body>
           </Card>
         </Col>
+        <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+          <Card>
+            <Card.Header className="text-center" style={{ minHeight: "73px" }}>
+              {t("titleChartLanguage")}
+            </Card.Header>
+            <Card.Body>
+              {!isEmpty(getByLanguage) ? (
+                <PieChart
+                  animate={true}
+                  data={getByLanguage}
+                  totalValue={100}
+                  label={({ dataEntry }) => get("label", dataEntry)}
+                  labelStyle={{
+                    fontSize: "5px",
+                  }}
+                />
+              ) : (
+                <Card.Text className="text-center">
+                  {t("common:noData")}
+                </Card.Text>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+
         <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
           <Card>
             <Card.Header className="text-center" style={{ minHeight: "73px" }}>
