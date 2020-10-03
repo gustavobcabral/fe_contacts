@@ -17,7 +17,7 @@ const AskDelete = (props) => {
       denyButtonText: t("no"),
     }).then((result) => {
       if (result.isConfirmed) {
-        props.funcToCallAfterConfirmation(t, props.id);
+        props.funcToCallAfterConfirmation(props.id);
       }
     });
   };
