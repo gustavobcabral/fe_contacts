@@ -3,6 +3,7 @@
   "passwordPlaceHolder": "Fill your password",
   "btnSubmit": "Send",
   "passwordLabel": "Password",
+  "emailLabel": "Email",
   "titleModal": "Login",
   "btnOpenModal": "Login",
   "AUTHORIZED": "You was loged in successfully",
