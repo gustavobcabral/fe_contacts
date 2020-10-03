@@ -3,6 +3,7 @@
   "passwordPlaceHolder": "Preencha sua senha",
   "btnSubmit": "Enviar",
   "passwordLabel": "Senha",
+  "emailLabel": "Email",
   "titleModal": "Iniciar sessão",
   "btnOpenModal": "Iniciar sessão",
   "AUTHORIZED": "Voce foi logado corretamente",

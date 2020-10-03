@@ -10,6 +10,8 @@ const handleLogout = (props) => {
   Swal.fire({
     title: "You was logout successfully",
     icon: "success",
+    timer: 2000,
+    timerProgressBar: true,
   });
 };
 
