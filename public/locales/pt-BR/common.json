@@ -42,5 +42,6 @@
   "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
   "male": "Masculino",
   "female": "Feminino",
-  "undefinedGender": "Indefinido"
+  "undefinedGender": "Indefinido",
+  "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro"
 }
