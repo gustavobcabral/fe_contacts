@@ -1,6 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
+import { find } from "lodash/fp";
 import "./style-super-select.css";
 
 const SuperSelect = (props) => {
@@ -13,7 +14,7 @@ const SuperSelect = (props) => {
     form,
     validated,
     label,
-    rules
+    rules,
   } = props;
 
   const [touched, setTouched] = React.useState(false);
@@ -22,7 +23,6 @@ const SuperSelect = (props) => {
     setTouched(true);
     validator.showMessageFor(name);
   };
-
   return (
     <Form.Group
       className={
@@ -36,7 +36,7 @@ const SuperSelect = (props) => {
       <Form.Label>{label}</Form.Label>
       <Select
         name={name}
-        value={value}
+        value={value && value !== "" && options && find(option => option.value === value,options)}
         options={options}
         onBlur={onBlurLocal}
         onChange={({ value }) => onChange({ target: { name, value } })}
