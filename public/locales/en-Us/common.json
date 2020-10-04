@@ -43,5 +43,7 @@
   "male": "Male",
   "female": "Female",
   "undefinedGender": "Undefined",
-  "ERROR_WHILE_DELETING": "Error while deleting this record"
+  "ERROR_WHILE_DELETING": "Error while deleting this record",
+  "UPDATE_SUCCESSFUL": "The record was updated successfully",
+  "CREATING_SUCCESSFUL": "The record was created successfully"
 }
