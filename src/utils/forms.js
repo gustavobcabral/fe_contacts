@@ -9,3 +9,17 @@ export const formatDate = (date) => {
 };
 
 export const getLocale = (props) => props.i18n.language === "en-US" ? "en" : props.i18n.language
+
+export const handleInputChangeGeneric = (event, componentReact) => {
+  const {
+    target: { name, value },
+  } = event;
+  const { form } = componentReact.state;
+
+  componentReact.setState({
+    form: {
+      ...form,
+      [name]: value,
+    },
+  });
+}
