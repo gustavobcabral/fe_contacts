@@ -31,20 +31,24 @@ const getByGender = (t, data) => {
     color: "#6c757d",
   };
 
-  const arrayGender = [
-    {
-      title: `${getOr(0, "percent", female)}% ${t("common:female")}`,
-      value: getOr(0, "percent", female),
-      label: `${getOr(0, "percent", female)}% ${t("common:female")}`,
-      color: "#f008d2",
-    },
-    {
-      title: `${getOr(0, "percent", male)}% ${t("common:male")}`,
-      value: getOr(0, "percent", male),
-      label: `${getOr(0, "percent", male)}% ${t("common:male")}`,
-      color: "#007bff",
-    },
-  ];
+  const arrayGender =
+    getOr(0, "percent", male) > 0 || getOr(0, "percent", female)
+      ? [
+          {
+            title: `${getOr(0, "percent", female)}% ${t("common:female")}`,
+            value: getOr(0, "percent", female),
+            label: `${getOr(0, "percent", female)}% ${t("common:female")}`,
+            color: "#f008d2",
+          },
+          {
+            title: `${getOr(0, "percent", male)}% ${t("common:male")}`,
+            value: getOr(0, "percent", male),
+            label: `${getOr(0, "percent", male)}% ${t("common:male")}`,
+            color: "#007bff",
+          },
+        ]
+      : [];
+
   return getOr(0, "percent", undefinedGender) > 0
     ? [...arrayGender, objectGenderUndefined]
     : arrayGender;
