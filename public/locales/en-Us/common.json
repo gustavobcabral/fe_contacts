@@ -1,4 +1,5 @@
 {
+  "btnSubmit": "Submit",
   "information": "Information",
   "date": "Date",
   "publisher": "Publisher",
@@ -23,6 +24,7 @@
   "requiredFieldAndPatternValid": "This field is required and need to be valid value",
   "numericField": "This field only allows numbers",
   "dataSuccessfullySaved": "Data Successfully Saved",
+  "dataFailedSaved": "Data Failed Saved",
   "typeToSearch": "Type to Search...",
   "view": "View",
   "viewDetails": "View Details",

@@ -4,7 +4,10 @@ import moment from "moment";
 import { map, get } from "lodash/fp";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import QuickLookDetailsEdit from "../DetailsContact/QuickLookDetailsEdit";
+import Teste from "../DetailsContact/teste";
 
 const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
   return (
@@ -39,6 +42,10 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
                   <td>{namePublisher}</td>
                   <td>{moment(createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td colSpan="2">{information}</td>
+                  <td>
+                    {/* <QuickLookDetailsEdit data={data} />{" "} */}
+                    <Teste data={data} />{" "}
+                  </td>
                 </tr>
               ),
               get("details", data)
