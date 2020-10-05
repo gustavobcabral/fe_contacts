@@ -2,11 +2,11 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, pipe, curry } from "lodash/fp";
+import { get, isEmpty, getOr } from "lodash/fp";
 
 const getByContacted = (t, data) => {
   if (
-    getOr(0, "totalPercentContacted", data) === 0 ||
+    getOr(0, "totalPercentContacted", data) === 0 &&
     getOr(0, "totalPercentWithoutContacted", data) === 0
   )
     return [];
@@ -31,7 +31,7 @@ const getByContacted = (t, data) => {
 
 const ByContacted = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
-  const byContacted = pipe(get("data"), curry(getByContacted)(t))(props);
+  const byContacted = getByContacted(t, get("data", props));
 
   return (
     <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 1 }}>

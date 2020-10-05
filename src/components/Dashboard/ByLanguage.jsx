@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, map, getOr, pipe, curry } from "lodash/fp";
+import { get, isEmpty, map, getOr } from "lodash/fp";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
 
@@ -23,7 +23,7 @@ const getByLanguage = (t, data) =>
 
 const ByLanguage = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
-  const byLanguage = pipe(get("data"), curry(getByLanguage)(t))(props);
+  const byLanguage = getByLanguage(t, get("data", props));
 
   return (
     <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 3 }}>

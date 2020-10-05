@@ -2,11 +2,11 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, pipe, curry } from "lodash/fp";
+import { get, isEmpty, getOr } from "lodash/fp";
 
 const getByFeedback = (t, data) => {
   if (
-    getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) === 0 ||
+    getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) === 0 &&
     getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data) === 0
   )
     return [];
@@ -41,7 +41,7 @@ const getByFeedback = (t, data) => {
 
 const ByFeedback = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
-  const byFeedback = pipe(get("data"), curry(getByFeedback)(t))(props);
+  const byFeedback = getByFeedback(t, get("data", props));
   return (
     <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
       <Card>

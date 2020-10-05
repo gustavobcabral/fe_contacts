@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Card, Row, ListGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, pipe, curry, map } from "lodash/fp";
+import { get, isEmpty, getOr, map } from "lodash/fp";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
 
@@ -23,7 +23,8 @@ const getByPublishers = (t, data) =>
 
 const ByPublishers = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
-  const byPublishers = pipe(get("data"), curry(getByPublishers)(t))(props);
+  const byPublishers = getByPublishers(t, get("data", props));
+
   return (
     <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
       <Card>
