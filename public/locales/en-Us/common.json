@@ -34,7 +34,7 @@
   "permissionDenied": "Permission Denied",
   "show": "Show",
   "hide": "Hide",
-  "emptyStateMessage": "There are no records to show.",
+  "noRecords": "There are no records to show.",
   "emptyFilteredMessage": "There are no records matching your request.",
   "delete": "Delete",
   "deleteSuccessful": "The record was deleted",

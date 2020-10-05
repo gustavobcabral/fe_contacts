@@ -4,11 +4,11 @@ import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
 import Swal from "sweetalert2";
-import { getOr, map } from "lodash/fp";
+import { getOr, map, isEmpty } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
-
+import NoRecords from "../Common/NoRecords/NoRecords";
 class StatusList extends React.Component {
   constructor(props) {
     super(props);
@@ -64,20 +64,27 @@ class StatusList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {map(
-              (status) => (
-                <tr key={status.id}>
-                  <td>{t(status.description)}</td>
-                  <td>
-                    <StatusEdit data={status} afterClose={this.handleGetAll} />{" "}
-                    <AskDelete
-                      id={status.id}
-                      funcToCallAfterConfirmation={this.handleDelete}
-                    />
-                  </td>
-                </tr>
-              ),
-              data
+            {!isEmpty(data) ? (
+              map(
+                (status) => (
+                  <tr key={status.id}>
+                    <td>{t(status.description)}</td>
+                    <td>
+                      <StatusEdit
+                        data={status}
+                        afterClose={this.handleGetAll}
+                      />{" "}
+                      <AskDelete
+                        id={status.id}
+                        funcToCallAfterConfirmation={this.handleDelete}
+                      />
+                    </td>
+                  </tr>
+                ),
+                data
+              )
+            ) : (
+              <NoRecords cols={2} />
             )}
           </tbody>
         </Table>
