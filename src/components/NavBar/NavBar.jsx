@@ -11,6 +11,7 @@ import {
   contactsPaths,
   publishersPaths,
   languagesPaths,
+  statusPaths
 } from "../../routes/paths";
 
 const MenuLogged = ({ t, ...props }) => (
@@ -24,8 +25,8 @@ const MenuLogged = ({ t, ...props }) => (
           {t("publishers")}
         </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item as={Link} to="#action/3.4">
-          Separated link
+        <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
+          {t("status")}
         </NavDropdown.Item>
       </NavDropdown>
     </Nav>
