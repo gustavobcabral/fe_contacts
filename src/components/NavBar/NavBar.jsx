@@ -7,11 +7,11 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
+import SystemLanguages from "../SystemLanguages/SystemLanguages";
 import {
   contactsPaths,
   publishersPaths,
-  languagesPaths,
-  statusPaths
+  statusPaths,
 } from "../../routes/paths";
 
 const MenuLogged = ({ t, ...props }) => (
@@ -40,11 +40,8 @@ const MenuLogged = ({ t, ...props }) => (
       </NavDropdown>
     </Nav>
     <Nav>
-      <Nav.Link as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
-        {t("itemLanguages")}
-      </Nav.Link>{" "}
+      <SystemLanguages {...props} />
     </Nav>
-
   </>
 );
 
@@ -54,9 +51,7 @@ const MenuLogout = ({ t, ...props }) => (
       <Login {...props} />
     </Nav>
     <Nav>
-      <Nav.Link as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
-        {t("itemLanguages")}
-      </Nav.Link>{" "}
+      <SystemLanguages {...props} />
     </Nav>
   </>
 );
