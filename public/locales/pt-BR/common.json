@@ -30,16 +30,24 @@
   "viewDetails": "Visualizar Detalhes",
   "warning": "Atenção",
   "yes": "Sim",
-  "submit": "Enviar",
   "btnSubmitting": "Enviando...",
+  "btnSubmit": "Enviar",
   "success": "Sucesso",
   "permissionDenied": "Permissão denegada",
   "show": "Mostrar",
   "hide": "Ocultar",
-  "emptyStateMessage": "Não há arquivos para mostrar.",
-  "emptyFilteredMessage": "Não há arquivos para mostrar de acordo com a pesquisa.",
+  "noRecords": "Não há registros para mostrar.",
+  "emptyFilteredMessage": "Não há registros para mostrar de acordo com a pesquisa.",
   "delete": "Apagar",
   "deleteSuccessful": "O registro foi apagado com sucesso",
   "labelNewValueOption": "Escolha um novo valor",
-  "askDeleteMessage": "Você tem certeza que deseja apagar este registro?"
+  "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
+  "male": "Masculino",
+  "female": "Feminino",
+  "undefinedGender": "Indefinido",
+  "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro",
+  "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",
+  "CREATING_SUCCESSFUL": "O registro foi criado com sucesso",
+  "noData": "Sem dados"
 }
+

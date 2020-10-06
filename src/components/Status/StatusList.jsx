@@ -1,13 +1,15 @@
 import React from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
-import { publishers } from "../../services";
+import { status } from "../../services";
 import Swal from "sweetalert2";
-import { getOr } from "lodash/fp";
+import { getOr, map, isEmpty } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
-
-class Publishers extends React.Component {
+import StatusEdit from "./StatusEdit";
+import StatusNew from "./StatusNew";
+import NoRecords from "../Common/NoRecords/NoRecords";
+class StatusList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: [], submitting: false };
@@ -16,18 +18,14 @@ class Publishers extends React.Component {
   }
 
   async handleGetAll() {
-    const response = await publishers.getAll("");
+    const response = await status.getAll("");
     this.setState({ data: response.data.data });
-  }
-
-  handleEdit(id) {
-    console.log("i will get contact id " + id);
   }
 
   async handleDelete(id) {
     const { t } = this.props;
     this.setState({ submitting: true });
-    await publishers
+    await status
       .dellOne(id)
       .then(() => {
         this.handleGetAll();
@@ -59,36 +57,39 @@ class Publishers extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Email</th>
+              <th>{t("descriptionLabel")}</th>
               <th>
-                <Button variant="primary">{t("common:add")}</Button>
+                <StatusNew afterClose={this.handleGetAll} />
               </th>
             </tr>
           </thead>
           <tbody>
-            {data.map((publishers) => (
-              <tr key={publishers.id}>
-                <td>{publishers.name}</td>
-                <td>{publishers.email}</td>
-                <td>
-                  <Button
-                    variant="success"
-                    onClick={this.handleEdit.bind(this, publishers.id)}
-                  >
-                    {t("common:edit")}
-                  </Button>{" "}
-                  <AskDelete
-                    id={publishers.id}
-                    funcToCallAfterConfirmation={this.handleDelete}
-                  />
-                </td>
-              </tr>
-            ))}
+            {!isEmpty(data) ? (
+              map(
+                (status) => (
+                  <tr key={status.id}>
+                    <td>{t(status.description)}</td>
+                    <td>
+                      <StatusEdit
+                        data={status}
+                        afterClose={this.handleGetAll}
+                      />{" "}
+                      <AskDelete
+                        id={status.id}
+                        funcToCallAfterConfirmation={this.handleDelete}
+                      />
+                    </td>
+                  </tr>
+                ),
+                data
+              )
+            ) : (
+              <NoRecords cols={2} />
+            )}
           </tbody>
         </Table>
       </ContainerCRUD>
     );
   }
 }
-export default withTranslation(["publishers", "common"])(Publishers);
+export default withTranslation(["status", "common"])(StatusList);

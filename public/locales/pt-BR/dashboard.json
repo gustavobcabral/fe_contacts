@@ -4,6 +4,10 @@
   "withoutContact": "Sem contato",
   "totalContactsAssignByMeWaitingFeedback": "Por mim",
   "totalContactsWaitingFeedback": "Outros",
-  "titleChartContacts": "Contatados X não contatados",
-  "titleChartWaitingFeedback": "Aguardam um comentario por mim X de outros"
+  "titleChartContacts": "Contatados Vs. não contatados",
+  "titleChartWaitingFeedback": "Aguardam meu comentario Vs. de outros",
+  "titleChartWaitingFeedbackByPublishers": "Aguardam comentario por cada publicador",
+  "titleChartGender": "Por Gênero",
+  "titleChartLanguage": "Por Idioma",
+  "noName": "No Name"
 }

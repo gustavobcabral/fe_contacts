@@ -6,6 +6,8 @@ import { auth } from "../../services";
 import { setLoginData } from "../../utils/loginDataManager";
 import Swal from "sweetalert2";
 import { withTranslation } from "react-i18next";
+import SimpleReactValidator from "simple-react-validator";
+import { getLocale } from "../../utils/forms";
 
 const fields = {
   email: "",
@@ -23,6 +25,11 @@ class LoginPopup extends React.Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      locale: getLocale(this.props),
+      element: (message) => <div className="text-danger">{message}</div>,
+    });
   }
 
   handleInputChange(event) {
@@ -39,31 +46,28 @@ class LoginPopup extends React.Component {
     });
   }
 
-  async handleSubmit(event, t) {
-    event.stopPropagation();
-    event.preventDefault();
-    const formCheck = event.currentTarget;
-    if (formCheck.checkValidity() === false) {
-      this.setState({ validated: true });
-      return true;
+  async handleSubmit() {
+    if (!this.validator.allValid()) {
+      this.validator.showMessages();
 
+      return true;
     }
 
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { history } = this.props;
+    const { history, t } = this.props;
 
     try {
       const authRes = await auth.authenticate(form);
       setLoginData(get("data.data", authRes));
       this.setState({ submitting: false });
-
+      history.push("/dashboard");
       Swal.fire({
         title: t(get("data.cod", authRes)),
         icon: "success",
-      }).then(() => {
-        history.push("/dashboard");
+        timer: 2000,
+        timerProgressBar: true,
       });
     } catch (error) {
       this.setState({ submitting: false });
@@ -88,7 +92,7 @@ class LoginPopup extends React.Component {
         </Nav.Link>
         <FormLogin
           show={modalShow}
-          onSubmit={(e) => this.handleSubmit(e, t)}
+          onSubmit={this.handleSubmit}
           onHide={() => this.setModalShow(false)}
           {...this}
         />

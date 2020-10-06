@@ -6,7 +6,7 @@ import { contacts } from "../../services";
 import Swal from "sweetalert2";
 import { getOr } from "lodash/fp";
 import { map } from "lodash/fp";
-import AskDelete from "../AskDelete/AskDelete";
+import AskDelete from "../Common/AskDelete/AskDelete";
 import QuickLookDetailsContact from "./QuickLookDetailsContact";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,7 +30,8 @@ class Contacts extends React.Component {
     console.log("i will get contact id " + id);
   }
 
-  async handleDelete(t, id) {
+  async handleDelete(id) {
+    const { t } = this.props;
     this.setState({ submitting: true });
     await contacts
       .dellOne(id)
