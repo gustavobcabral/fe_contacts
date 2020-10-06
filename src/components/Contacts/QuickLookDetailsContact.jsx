@@ -4,10 +4,8 @@ import moment from "moment";
 import { map, get } from "lodash/fp";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import QuickLookDetailsEdit from "../DetailsContact/QuickLookDetailsEdit";
-import Teste from "../DetailsContact/teste";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 
 const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
   return (
@@ -43,8 +41,11 @@ const MyVerticallyCenteredModal = ({ data, onHide, show, t }) => {
                   <td>{moment(createdAt).format("DD/MM/YYYY HH:mm")}</td>
                   <td colSpan="2">{information}</td>
                   <td>
+                    {/* Acho que deveriamos renomear para ModalListDetailsContact ao inves de usar QuickLookDetailsEdit
+                    porque ao ver o nome ja sabemos que é um modal e sabemos que ele lista os detalhes de um contato
+                    */}
                     {/* <QuickLookDetailsEdit data={data} />{" "} */}
-                    <Teste data={data} />{" "}
+                    <ListDetailsContact data={data} />{" "}
                   </td>
                 </tr>
               ),
