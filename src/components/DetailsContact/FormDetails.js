@@ -5,6 +5,7 @@ import Select from "react-select";
 import { find } from "lodash/fp";
 
 const FormDetails = (props) => {
+  console.log(props, "MERDA PROPS URL EDIT")
   const { t } = useTranslation(["common"]);
   const { validator } = props;
   const { form, submitting, publishersOptions, statusOptions } = props.state;

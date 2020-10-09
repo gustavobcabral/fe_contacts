@@ -41,9 +41,8 @@ class EditDetailsContact extends React.Component {
   reducePublishers = (publishers) =>
     map(
       (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
+      getOr([], "data.data", publishers), console.log(publishers, "BOSTA")
     );
-
   reduceStatus = (status) =>
     map(
       (status) => ({ value: status.id, label: status.description }),

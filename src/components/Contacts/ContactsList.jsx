@@ -55,7 +55,6 @@ class Contacts extends React.Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
-   
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Table striped bordered hover responsive>
@@ -83,7 +82,10 @@ class Contacts extends React.Component {
                   <td>{contact.statusDescription}</td>
                   <td>
                     {/* <QuickLookDetailsContact data={contact} />{" "} */}
-                    <ListDetailsContact data={contact} id={contact.phone} />{" "}
+                    <ListDetailsContact
+                      contact={contact}
+                      id={contact.phone}
+                    />{" "}
                     <Button
                       variant="success"
                       as={Link}

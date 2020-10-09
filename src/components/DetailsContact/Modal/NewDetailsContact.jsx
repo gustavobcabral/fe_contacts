@@ -2,60 +2,84 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../ContainerCRUD/ContainerCRUD";
 import { Button, Modal, Table } from "react-bootstrap";
-import { getOr } from "lodash/fp";
+import { getOr, get } from "lodash/fp";
 import ModalListDetailsContact from "./ModalListDetailsContact";
+import Swal from "sweetalert2";
+import SimpleReactValidator from "simple-react-validator";
+import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
+import { details } from "../../../services";
+
+const fields = {
+  description: "",
+};
 
 class NewDetailsContactModel extends React.Component {
   constructor(props) {
     super(props);
-    //   this.state = { data: [] };
-    //   this.handleGetAll = this.handleGetAll.bind(this);
-    //   this.handleDelete = this.handleDelete.bind(this);
+    this.state = {
+      form: fields,
+      submitting: false,
+      validated: false,
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      locale: getLocale(this.props),
+      element: (message) => <div className="text-danger">{message}</div>,
+    });
   }
 
-  // async handleGetAll() {
-  //   this.setState({ submitting: true });
-  //   const response = await contacts.getAll("");
-  //   this.setState({ data: response.data.data.list, submitting: false });
-  // }
+  handleInputChange(event) {
+    handleInputChangeGeneric(event, this);
+  }
 
-  // handleEdit(id) {
-  //   console.log("i will get contact id " + id);
-  // }
+  async handleSubmit(onHide) {
+    if (!this.validator.allValid()) {
+      this.validator.showMessages();
+      return true;
+    }
 
-  // async handleDelete(t, id) {
-  //   this.setState({ submitting: true });
-  //   await contacts
-  //     .dellOne(id)
-  //     .then(() => {
-  //       this.handleGetAll();
-  //     })
-  //     .catch((error) => {
-  //       this.setState({ submitting: false });
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: t(getOr("errorTextUndefined", "response.data.cod", error)),
-  //       });
-  //     });
-  // }
+    this.setState({ submitting: true });
+    const { form } = this.state;
+    const { t, afterClose } = this.props;
 
-  // componentDidMount() {
-  //   this.handleGetAll();
-  // }
+    try {
+      const res = await details.create(form);
+      this.setState({ submitting: false });
+      Swal.fire({
+        title: t(`common:${get("data.cod", res)}`),
+        icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
+      });
+      onHide();
+      afterClose();
+    } catch (error) {
+      this.setState({ submitting: false });
+      Swal.fire({
+        icon: "error",
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+      });
+    }
+  }
 
   render() {
     const { t, data } = this.props;
+    const { form, validated } = this.state;
 
     return (
       <>
         <ModalListDetailsContact
           data={data}
           modeEdit={false}
-          //validator={this.validator}
-          //validated={validated}
-          //handleSubmit={this.handleSubmit}
-          //handleInputChange={this.handleInputChange}
-          // form={form}
+          validator={this.validator}
+          validated={validated}
+          handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+          form={form}
         />
       </>
     );

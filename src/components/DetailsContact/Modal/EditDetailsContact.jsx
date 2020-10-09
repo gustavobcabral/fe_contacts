@@ -1,59 +1,138 @@
 //aqui vai toda a logica para editar
 // Aqui voce devera usar o mesmo formulario que vc usa via rora o arquivo FormDetails.js que na verdade deveri ser jsx porque rederiza componentes
 
-
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ContainerCRUD from "../../ContainerCRUD/ContainerCRUD";
-import { Button, Modal, Table } from "react-bootstrap";
-import { getOr } from "lodash/fp";
 import ModalListDetailsContact from "./ModalListDetailsContact";
+import Swal from "sweetalert2";
+import { getOr, map, pick, get } from "lodash/fp";
+import SimpleReactValidator from "simple-react-validator";
+import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
+import { details, publishers, status } from "../../../services";
+
+const fields = {
+  information: "",
+  idPublisher: "",
+  idStatus: "",
+};
 
 class EditDetailsContactModel extends React.Component {
   constructor(props) {
     super(props);
-    //   this.state = { data: [] };
-    //   this.handleGetAll = this.handleGetAll.bind(this);
-    //   this.handleDelete = this.handleDelete.bind(this);
+    this.state = {
+      form: fields,
+      submitting: false,
+      loading: false,
+      validated: false,
+      publisherSelected: {},
+      publishersOptions: [],
+      statusSelected: {},
+      statusOptions: [],
+    };
+    this.handleGetOne = this.handleGetOne.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      locale:
+        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      element: (message) => <div className="text-danger">{message}</div>,
+    });
   }
 
-  // async handleGetAll() {
-  //   this.setState({ submitting: true });
-  //   const response = await contacts.getAll("");
-  //   this.setState({ data: response.data.data.list, submitting: false });
-  // }
+  reducePublishers = (publishers) =>
+    map(
+      (publisher) => ({ value: publisher.id, label: publisher.name }),
+      getOr([], "data.data", publishers)
+    );
+  reduceStatus = (status) =>
+    map(
+      (status) => ({ value: status.id, label: status.description }),
+      getOr([], "data.data", status)
+    );
 
-  // handleEdit(id) {
-  //   console.log("i will get contact id " + id);
-  // }
+  async handleGetOne(id) {
+    // const id = getOr(0, "props.match.params.id", this);
+    this.setState({ loading: true });
+    const response = await details.getOne(id);
+    const form = getOr(fields, "data.data", response);
+    console.log(form, "OQ TA AQUI FORM?");
+    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const statusOptions = this.reduceStatus(await status.getAll());
+    this.setState({
+      form,
+      publishersOptions,
+      statusOptions,
+      loading: false,
+    });
+  }
+  setFormData = (name, value) => {
+    const { form } = this.state;
+    this.setState({
+      form: {
+        ...form,
+        [name]: value,
+      },
+    });
+  };
 
-  // async handleDelete(t, id) {
-  //   this.setState({ submitting: true });
-  //   await contacts
-  //     .dellOne(id)
-  //     .then(() => {
-  //       this.handleGetAll();
-  //     })
-  //     .catch((error) => {
-  //       this.setState({ submitting: false });
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: t(getOr("errorTextUndefined", "response.data.cod", error)),
-  //       });
-  //     });
-  // }
+  handleInputChange(obj) {
+    const {
+      target: { name, value },
+    } = obj;
+    this.setFormData(name, value);
+  }
 
-  // componentDidMount() {
-  //   this.handleGetAll();
-  // }
+  async handleSubmit() {
+    if (!this.validator.allValid()) {
+      this.validator.showMessages();
+      return true;
+    }
+    this.setState({ submitting: true });
+
+    const { form } = this.state;
+    const { history } = this.props;
+    const { t } = this.props;
+
+    const id = getOr(0, "props.match.params.id", this);
+
+    const data = {
+      detailsContact: pick(["idPublisher", "information"], form),
+      contact: {
+        idStatus: get("idStatus", form),
+        phone: get("phoneContact", form),
+      },
+    };
+    try {
+      const res = await details.updateOneContactDetail(id, data);
+      this.setState({ submitting: false });
+
+      Swal.fire({
+        title: t("common:dataSuccessfullySaved"),
+        icon: "success",
+      }).then(() => {
+        history.goBack();
+      });
+    } catch (error) {
+      this.setState({ submitting: false });
+      Swal.fire({
+        icon: "error",
+        title: t("common:dataFailedSaved"),
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.handleGetOne(this.props.id);
+  }
 
   render() {
     const { t } = this.props;
+    const { form, validated } = this.state;
+
     return (
       <>
-        
         <ModalListDetailsContact
-        
           modeEdit={true}
           //validator={this.validator}
           //validated={validated}

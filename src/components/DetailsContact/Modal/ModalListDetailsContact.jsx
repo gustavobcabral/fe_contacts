@@ -9,8 +9,6 @@ import { faEdit, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 
 const ModalListDetailsContact = (props) => {
-  console.log(props, "MERDA.PROPS");
-
   return (
     <Modal show={props.show} onHide={props.onHide} size="lg" centered>
       <Modal.Header closeButton>
@@ -92,80 +90,3 @@ const ModalListDetailsContactComponent = (props) => {
   );
 };
 export default ModalListDetailsContactComponent;
-
-// import React from "react";
-// import { Button, Modal, Table } from "react-bootstrap";
-// import moment from "moment";
-// import { map, get } from "lodash/fp";
-// import EditDetailsContacts from "./EditDetailsContact";
-// import AskDelete from "../../Common/AskDelete/AskDelete";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
-// import { details } from "../../../services";
-// import { delay } from "lodash";
-// import FormDetailsNew from "./NewDetailsContact";
-
-// const ModalDetailsContact = ({ data, onHide, show, t, del }) => {
-//   //  console.log(data, "OQ VEM DESSA MERDA ?");
-//   return (
-//     <Modal
-//       show={show}
-//       onHide={onHide}
-//       size="lg"
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Modal.Header closeButton>
-//         <Modal.Title id="contained-modal-title-vcenter">
-//           {data.name} - {data.phone}
-//         </Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>
-//         <Table striped bordered hover responsive>
-//           <thead>
-//             <tr>
-//               <th>{t("common:publisher")}</th>
-//               <th>{t("common:date")}</th>
-//               <th>{t("common:information")}</th>
-//               <th>
-//                 <Button onClick={<FormDetailsNew />} variant="primary">
-//                   {t("common:add")}
-//                 </Button>
-//               </th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {map(
-//               ({ createdAt, namePublisher, information }) => (
-//                 <tr key={createdAt}>
-//                   <td>{namePublisher}</td>
-//                   <td>{moment(createdAt).format("DD/MM/YYYY HH:mm")}</td>
-//                   <td colSpan="2">{information}</td>
-//                   <td>
-//                     <Button variant="success" onClick={() => {}}>
-//                       <FontAwesomeIcon icon={faEdit} />
-//                     </Button>{" "}
-//                     {/* <EditDetailsContacts
-//                          data={status}
-//                         afterClose={this.handleGetAll}
-//                       />{" "} */}
-//                     <AskDelete
-//                       id={data.details.id}
-//                       funcToCallAfterConfirmation={del}
-//                     />
-//                   </td>
-//                 </tr>
-//               ),
-//               get("details", data)
-//             )}
-//           </tbody>
-//         </Table>
-//       </Modal.Body>
-//       <Modal.Footer>
-//         <Button onClick={onHide}>Close</Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// };
-
-// export default ModalDetailsContact;

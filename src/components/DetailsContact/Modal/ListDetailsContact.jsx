@@ -16,7 +16,7 @@ import AskDelete from "../../Common/AskDelete/AskDelete";
 class ModalEdit extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log(props, "PROPS NO LIST")
     this.state = { data: [], modalShow: false };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -58,8 +58,8 @@ class ModalEdit extends React.Component {
     this.handleGetAllOneContact(this.props.id);
   }
   render() {
-    const { t, data } = this.props;
-    const { modalShow } = this.state;
+    const { t, contact } = this.props;
+    const { modalShow, data } = this.state;
     return (
       <>
         <Button variant="primary" onClick={() => this.setModalShow(true)}>
@@ -72,14 +72,6 @@ class ModalEdit extends React.Component {
         MyVerticallyCenteredModalToEdit -> ModalDetailsContact
         
         */}
-        {/* <ModalListDetailsContact
-          data={data}
-          show={modalShow}
-          del={this.handleDelete.bind(this)}
-          onHide={this.setModalShow.bind(this, false)}
-          t={t}
-        /> */}
-
         <Modal
           show={modalShow}
           onHide={this.setModalShow.bind(this, false)}
@@ -89,7 +81,7 @@ class ModalEdit extends React.Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              {data.name} - {data.phone}
+              {contact.name} - {contact.phone}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -100,36 +92,38 @@ class ModalEdit extends React.Component {
                   <th>{t("common:date")}</th>
                   <th>{t("common:information")}</th>
                   <th>
-                    <NewDetailsContact data={data} />
+                    <NewDetailsContact
+                      afterClose={this.handleGetAllOneContact}
+                      data={contact}
+                    />
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {map(
-                  ({ createdAt, namePublisher, information }) => (
-                    <tr key={createdAt}>
-                      <td>{namePublisher}</td>
-                      <td>{moment(createdAt).format("DD/MM/YYYY HH:mm")}</td>
-                      <td colSpan="2">{information}</td>
+                  (detail) => (
+                    console.log(detail, "MERDA DETAIL LIST"),
+                    <tr key={detail.createdAt}>
+                      <td>{detail.publisherName}</td>
                       <td>
-                        {/* <Button variant="success" onClick={() => {}}>
-                          <FontAwesomeIcon icon={faEdit} />
-                        </Button>{" "} */}
-                        {/* <EditDetailsContacts
-                         data={status}
-                        afterClose={this.handleGetAll}
-                      />{" "} */}
-                        <EditDetailsContact data={data} />{" "}
+                        {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
+                      </td>
+                      <td colSpan="2">{detail.information}</td>
+                      <td>{detail.id}</td>
+                      <td>
+                        <EditDetailsContact
+                          data={contact}
+                          id={contact.phone}
+                          afterClose={this.handleGetAllOneContact}
+                        />{" "}
                         <AskDelete
-                          id={data.details.id}
-                          funcToCallAfterConfirmation={this.handleDelete.bind(
-                            this
-                          )}
+                          id={detail.id}
+                          funcToCallAfterConfirmation={this.handleDelete}
                         />
                       </td>
                     </tr>
                   ),
-                  get("details", data)
+                  data
                 )}
               </tbody>
             </Table>
