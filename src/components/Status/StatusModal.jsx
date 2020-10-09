@@ -7,12 +7,7 @@ import StatusForm from "./StatusForm";
 
 const ModalStatus = (props) => {
   return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      size="lg"
-      centered
-    >
+    <Modal show={props.show} onHide={props.onHide} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title>{props.t("title")}</Modal.Title>
       </Modal.Header>

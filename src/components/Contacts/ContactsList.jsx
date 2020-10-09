@@ -11,6 +11,7 @@ import QuickLookDetailsContact from "./QuickLookDetailsContact";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList, faEdit, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -54,7 +55,7 @@ class Contacts extends React.Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
-
+   
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Table striped bordered hover responsive>
@@ -81,7 +82,8 @@ class Contacts extends React.Component {
                   <td>{contact.languageName}</td>
                   <td>{contact.statusDescription}</td>
                   <td>
-                    <QuickLookDetailsContact data={contact} />{" "}
+                    {/* <QuickLookDetailsContact data={contact} />{" "} */}
+                    <ListDetailsContact data={contact} id={contact.phone} />{" "}
                     <Button
                       variant="success"
                       as={Link}

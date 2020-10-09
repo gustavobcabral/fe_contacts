@@ -42,6 +42,7 @@ class StatusEdit extends React.Component {
 
     const { form } = this.state;
     const { t, afterClose } = this.props;
+    console.log(form, "FORM DO STATUS")
 
     try {
       const data = pick(["description"], form);
@@ -70,9 +71,10 @@ class StatusEdit extends React.Component {
     const { data } = this.props;
     this.setState({ form: data });
   }
-
+  
   render() {
     const { form, validated } = this.state;
+    console.log(form, "FORMgfdgfd")
 
     return (
       <StatusModal

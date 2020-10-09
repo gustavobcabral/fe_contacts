@@ -21,6 +21,7 @@ class ListDetailsContact extends React.Component {
     this.setState({ submitting: true });
     const response = await details.getAllOneContact(phone);
     this.setState({ data: response.data.data, submitting: false });
+    console.log(response, "O RESPONSE NO LIST")
   }
 
   // handleEdit(id) {

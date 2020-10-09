@@ -9,4 +9,9 @@ const getOne = (id) => api.get(`/detailsContacts/${id}`);
 
 const dellOne = (id) => api.delete(`/detailsContacts/${id}`);
 
-export default { getAllOneContact, dellOne, getOne, updateOneContactDetail };
+export default {
+  getAllOneContact,
+  dellOne,
+  getOne,
+  updateOneContactDetail,
+};

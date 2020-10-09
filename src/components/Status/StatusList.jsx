@@ -9,6 +9,7 @@ import AskDelete from "../Common/AskDelete/AskDelete";
 import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
 import NoRecords from "../Common/NoRecords/NoRecords";
+
 class StatusList extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,7 @@ class StatusList extends React.Component {
   async handleGetAll() {
     const response = await status.getAll("");
     this.setState({ data: response.data.data });
-  }
+   }
 
   async handleDelete(id) {
     const { t } = this.props;
