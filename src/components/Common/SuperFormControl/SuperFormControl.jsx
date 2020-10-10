@@ -7,7 +7,6 @@ const SuperFormControl = (props) => {
     onChange,
     name,
     value,
-    form,
     validated,
     label,
     as,
@@ -23,7 +22,7 @@ const SuperFormControl = (props) => {
 
   const onBlurLocal = (e) => {
     setTouched(true);
-    validator.showMessageFor(name);
+    //validator.showMessageFor(name);
     if (typeof onBlur === "function") {
       onBlur(e);
     }
@@ -50,7 +49,7 @@ const SuperFormControl = (props) => {
             : ""
         }
       />
-      {rules && validator.message(name, form[name], rules)}
+      {rules && validator.message(name, value, rules)}
     </Form.Group>
   );
 };

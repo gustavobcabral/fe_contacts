@@ -1,32 +1,61 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ContainerCRUD from "../../ContainerCRUD/ContainerCRUD";
-import { Button, Modal, Table } from "react-bootstrap";
-import { getOr, get } from "lodash/fp";
 import ModalForm from "./ModalForm";
 import Swal from "sweetalert2";
+import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { details } from "../../../services";
+import { details, publishers, status } from "../../../services";
 
 const fields = {
-  description: "",
+  information: "",
+  idPublisher: "",
+  idStatus: "",
 };
 
-class NewDetailsContactModel extends React.Component {
+class NewDetailsContact extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       form: fields,
       submitting: false,
+      loading: false,
       validated: false,
+      publishersOptions: [],
+      statusOptions: [],
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
+
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onOpen = this.onOpen.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
+    });
+  }
+
+  reducePublishers = (publishers) =>
+    map(
+      (publisher) => ({ value: publisher.id, label: publisher.name }),
+      getOr([], "data.data", publishers)
+    );
+
+  reduceStatus = (status) =>
+    map(
+      (status) => ({ value: status.id, label: status.description }),
+      getOr([], "data.data", status)
+    );
+
+  async componentDidMount() {
+    this.setState({ loading: true });
+    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const statusOptions = this.reduceStatus(await status.getAll());
+
+    this.setState({
+      publishersOptions,
+      statusOptions,
+      loading: false,
     });
   }
 
@@ -35,20 +64,32 @@ class NewDetailsContactModel extends React.Component {
   }
 
   async handleSubmit(onHide) {
+    this.setState({ validated: true });
+
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
     }
-
     this.setState({ submitting: true });
-    const { form } = this.state;
-    const { t, afterClose } = this.props;
 
+    const { form } = this.state;
+    const { afterClose, contact, t } = this.props;
+
+    const data = {
+      detailsContact: {
+        ...pick(["idPublisher", "information"], form),
+        phoneContact: get("phone", contact),
+      },
+      contact: {
+        idStatus: get("idStatus", form),
+        phone: get("phone", contact),
+      },
+    };
     try {
-      const res = await details.create(form);
+      await details.create(data);
       this.setState({ submitting: false });
       Swal.fire({
-        title: t(`common:${get("data.cod", res)}`),
+        title: t("common:dataSuccessfullySaved"),
         icon: "success",
         timer: 2000,
         timerProgressBar: true,
@@ -59,31 +100,39 @@ class NewDetailsContactModel extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
+        title: t("common:dataFailedSaved"),
       });
     }
   }
 
-  render() {
-    const { t, data } = this.props;
-    const { form, validated } = this.state;
+  onOpen() {
+    this.setState({
+      form: fields,
+      validated: false,
+    });
+    this.validator.hideMessages();
+    console.log(this.validator.hideMessages());
+  }
 
+  render() {
+    const { form, validated, publishersOptions, statusOptions } = this.state;
+    //  console.log(form);
     return (
       <>
         <ModalForm
-          data={data}
           modeEdit={false}
           validator={this.validator}
           validated={validated}
           handleSubmit={this.handleSubmit}
           handleInputChange={this.handleInputChange}
+          onOpen={this.onOpen}
           form={form}
+          publishersOptions={publishersOptions}
+          statusOptions={statusOptions}
         />
       </>
     );
   }
 }
 
-export default withTranslation(["contacts", "common"])(NewDetailsContactModel);
+export default withTranslation(["contacts", "common"])(NewDetailsContact);

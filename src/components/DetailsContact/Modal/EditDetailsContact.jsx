@@ -1,6 +1,3 @@
-//aqui vai toda a logica para editar
-// Aqui voce devera usar o mesmo formulario que vc usa via rora o arquivo FormDetails.js que na verdade deveri ser jsx porque rederiza componentes
-
 import React from "react";
 import { withTranslation } from "react-i18next";
 import ModalForm from "./ModalForm";
@@ -16,7 +13,7 @@ const fields = {
   idStatus: "",
 };
 
-class EditDetailsContactModel extends React.Component {
+class EditDetailsContact extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,8 +31,7 @@ class EditDetailsContactModel extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
-      locale:
-        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
     });
   }
@@ -45,6 +41,7 @@ class EditDetailsContactModel extends React.Component {
       (publisher) => ({ value: publisher.id, label: publisher.name }),
       getOr([], "data.data", publishers)
     );
+
   reduceStatus = (status) =>
     map(
       (status) => ({ value: status.id, label: status.description }),
@@ -52,13 +49,14 @@ class EditDetailsContactModel extends React.Component {
     );
 
   async handleGetOne() {
-    const id = getOr(0, "props.id", this);
     this.setState({ loading: true });
+    const id = getOr(0, "props.id", this);
     const response = await details.getOne(id);
-    console.log(response,  "response  NO MODAL")
+    // console.log(response, "response  NO MODAL");
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
+
     this.setState({
       form,
       publishersOptions,
@@ -66,25 +64,12 @@ class EditDetailsContactModel extends React.Component {
       loading: false,
     });
   }
-  setFormData = (name, value) => {
-    const { form } = this.state;
 
-    this.setState({
-      form: {
-        ...form,
-        [name]: value,
-      },
-    });
-  };
-
-  handleInputChange(obj) {
-    const {
-      target: { name, value },
-    } = obj;
-    this.setFormData(name, value);
+  handleInputChange(event) {
+    handleInputChangeGeneric(event, this);
   }
 
-  async handleSubmit() {
+  async handleSubmit(onHide) {
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -92,7 +77,7 @@ class EditDetailsContactModel extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { history } = this.props;
+    const { afterClose } = this.props;
     const { t } = this.props;
 
     const id = getOr(0, "props.id", this);
@@ -105,15 +90,17 @@ class EditDetailsContactModel extends React.Component {
       },
     };
     try {
-      const res = await details.updateOneContactDetail(id, data);
+      await details.updateOneContactDetail(id, data);
       this.setState({ submitting: false });
-
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
-      }).then(() => {
-        history.goBack();
+        timer: 2000,
+        timerProgressBar: true,
       });
+      onHide()
+      afterClose();
+
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
@@ -124,15 +111,17 @@ class EditDetailsContactModel extends React.Component {
   }
 
   componentDidMount() {
-    this.handleGetOne(this.props.id);
-    const { data } = this.props;
-    this.setState({ form: data });
+    //tirei daqui porque estava indo no banco pegar a informacao sem sabrmos se o usuario iria clicar para editar.
+    //agora so traz depois que o usuario abrir o modal
+    // this.handleGetOne();
+    // const { data } = this.props;
+    //vc nao pode pegar o data aqui pode ela vem do banco e demora um tempo por isso tem o await para esperar pela resposta, entao nesse momento aqui ainda nao temos essa informacao
+    // this.setState({ form: data });
   }
 
   render() {
-    const { t } = this.props;
-    const { form, validated } = this.state;
-
+    const { form, validated, publishersOptions, statusOptions } = this.state;
+    // console.log(form);
     return (
       <>
         <ModalForm
@@ -141,11 +130,14 @@ class EditDetailsContactModel extends React.Component {
           validated={validated}
           handleSubmit={this.handleSubmit}
           handleInputChange={this.handleInputChange}
+          onOpen={this.handleGetOne}
           form={form}
+          publishersOptions={publishersOptions}
+          statusOptions={statusOptions}
         />
       </>
     );
   }
 }
 
-export default withTranslation(["contacts", "common"])(EditDetailsContactModel);
+export default withTranslation(["contacts", "common"])(EditDetailsContact);

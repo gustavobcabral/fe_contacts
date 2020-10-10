@@ -7,10 +7,8 @@ import Swal from "sweetalert2";
 import { getOr } from "lodash/fp";
 import { map } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
-import QuickLookDetailsContact from "./QuickLookDetailsContact";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList, faEdit, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 
 class Contacts extends React.Component {
@@ -81,18 +79,14 @@ class Contacts extends React.Component {
                   <td>{contact.languageName}</td>
                   <td>{contact.statusDescription}</td>
                   <td>
-                    {/* <QuickLookDetailsContact data={contact} />{" "} */}
-                    <ListDetailsContact
-                      contact={contact}
-                      id={contact.phone}
-                    />{" "}
-                    <Button
+                    <ListDetailsContact contact={contact} id={contact.phone} />{" "}
+                    {/* <Button
                       variant="success"
                       as={Link}
                       to={`/contacts/${contact.phone}/details`}
                     >
                       <FontAwesomeIcon icon={faList} />
-                    </Button>
+                    </Button> */}
                   </td>
                   <td>
                     <Button

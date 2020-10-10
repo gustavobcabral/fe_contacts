@@ -2,10 +2,9 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { Button, Modal, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye } from "@fortawesome/free-solid-svg-icons";
-import ModalForm from "./ModalForm";
+import {  faList } from "@fortawesome/free-solid-svg-icons";
 import { details } from "../../../services";
-import { getOr, map, get } from "lodash/fp";
+import { getOr, map } from "lodash/fp";
 import Swal from "sweetalert2";
 import moment from "moment";
 import NewDetailsContact from "./NewDetailsContact";
@@ -13,7 +12,7 @@ import EditDetailsContact from "./EditDetailsContact";
 
 import AskDelete from "../../Common/AskDelete/AskDelete";
 
-class ModalEdit extends React.Component {
+class ListDetailsContact extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: [], modalShow: false };
@@ -55,23 +54,17 @@ class ModalEdit extends React.Component {
   setModalShow = (action) => this.setState({ modalShow: action });
 
   componentDidMount() {
-    this.handleGetAllOneContact(this.props.id);
+    this.handleGetAllOneContact();
   }
+
   render() {
     const { t, contact } = this.props;
     const { modalShow, data } = this.state;
     return (
       <>
         <Button variant="primary" onClick={() => this.setModalShow(true)}>
-          <FontAwesomeIcon icon={faEye} />
+          <FontAwesomeIcon icon={faList} />
         </Button>
-        {/* Eu nao recomendo chamar esse component abaixo dessa maneira ja que teria que ficar fora da classe. 
-        É melhor voce importar. o ideal seria ate criar um component chamado modal la na pasta de common ja que usamos bastante e passariamos para esse
-        component somente o que vai mostrar no modal.body. mas isso pode ser feito depois.
-        E o nome do component tem que ser algo mais claro o que ele é.
-        MyVerticallyCenteredModalToEdit -> ModalDetailsContact
-        
-        */}
         <Modal
           show={modalShow}
           onHide={this.setModalShow.bind(this, false)}
@@ -94,7 +87,7 @@ class ModalEdit extends React.Component {
                   <th>
                     <NewDetailsContact
                       afterClose={this.handleGetAllOneContact}
-                      data={contact}
+                      contact={contact}
                     />
                   </th>
                 </tr>
@@ -102,17 +95,16 @@ class ModalEdit extends React.Component {
               <tbody>
                 {map(
                   (detail) => (
-                     <tr key={detail.createdAt}>
+                     <tr key={detail.id}>
                       <td>{detail.publisherName}</td>
                       <td>
                         {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
                       </td>
-                      <td colSpan="2">{detail.information}</td>
-                      <td>{detail.id}</td>
-                      <td>
+                      <td >{detail.information}</td>
+                      <td style={{width:"114px"}}>
                         <EditDetailsContact
-                          data={contact}
-                          id={contact.phone}
+                          data={detail}
+                          id={detail.id}
                           afterClose={this.handleGetAllOneContact}
                         />{" "}
                         <AskDelete
@@ -136,4 +128,4 @@ class ModalEdit extends React.Component {
   }
 }
 
-export default withTranslation(["contacts", "common"])(ModalEdit);
+export default withTranslation(["contacts", "common"])(ListDetailsContact);

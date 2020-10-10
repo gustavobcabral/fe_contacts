@@ -1,23 +1,21 @@
-//aqui vai toda a logica para criar um novo
-// Aqui voce devera usar o mesmo formulario que vc usa via rora o arquivo FormDetails.js que na verdade deveri ser jsx porque rederiza componentes
-
 import React, { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import Select from "react-select";
-import FormDetails from "../FormDetails";
+import FormDetails from "./FormDetails";
 
-const ModalListDetailsContact = (props) => {
- 
+const ModalForm = (props) => {
   return (
     <Modal show={props.show} onHide={props.onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>{props.name}</Modal.Title>
+        <Modal.Title>
+          {props.modeEdit ? "Edit" : "New"} Details Contact
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
+        {/* tive que copiar o form details para esta pasta porque era diferente alguns parametros */}
+        <FormDetails {...props} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>{props.t("common:close")}</Button>
@@ -26,26 +24,30 @@ const ModalListDetailsContact = (props) => {
   );
 };
 
-const ModalListDetailsContactComponent = (props) => {
+const ModalFormComponent = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const { t } = useTranslation(["status", "common"]);
-  const { modeEdit } = props;
+  const { modeEdit, onOpen } = props;
+
+  const toogleModal = () => {
+    if (onOpen) onOpen();
+    setModalShow(true);
+  };
+
 
   return (
     <>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
+      <Button variant="primary" onClick={toogleModal}>
         <FontAwesomeIcon icon={modeEdit ? faEdit : faPlusSquare} />
       </Button>
-      {/* <Button variant="primary" onClick={() => setModalShow(true)}>
-        {t("common:add")}
-      </Button> */}
-      <ModalListDetailsContact
+
+      <ModalForm
         {...props}
         show={modalShow}
-        onHide={setModalShow.bind(this, false)}
+        onHide={() => setModalShow(false)}
         t={t}
       />
     </>
   );
 };
-export default ModalListDetailsContactComponent;
+export default ModalFormComponent;
