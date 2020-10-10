@@ -41,7 +41,7 @@ class EditDetailsContact extends React.Component {
   reducePublishers = (publishers) =>
     map(
       (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers), console.log(publishers, "BOSTA")
+      getOr([], "data.data", publishers)
     );
   reduceStatus = (status) =>
     map(
@@ -53,6 +53,7 @@ class EditDetailsContact extends React.Component {
     const id = getOr(0, "props.match.params.id", this);
     this.setState({ loading: true });
     const response = await details.getOne(id);
+    console.log(response,"response na URl");
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());

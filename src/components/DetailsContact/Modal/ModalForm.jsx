@@ -7,58 +7,17 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
+import FormDetails from "../FormDetails";
 
 const ModalListDetailsContact = (props) => {
+ 
   return (
     <Modal show={props.show} onHide={props.onHide} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title>{props.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Group>
-          <Form.Label>Publisher</Form.Label>
-          <Select
-          // name="idPublisher"
-          // value={publisherSelected}
-          // options={publishersOptions}
-          // onChange={({ value }) => props.setFormData("idPublisher", value)}
-          />
-          {/* {validator.message("idPublisher", form.idPublisher, "required")} */}
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Status</Form.Label>
-          <Select
-          // name="idStatus"
-          // value={statusSelected}
-          // options={statusOptions}
-          // onChange={({ value }) => props.setFormData("idStatus", value)}
-          />
-          {/* {validator.message("idStatus", form.idStatus, "required")} */}
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Details</Form.Label>
-          <Form.Control
-          // as="textarea"
-          // rows={3}
-          // name="information"
-          // onChange={props.handleInputChange}
-          // defaultValue={form.information}
-          />
-          {/* {validator.message("information", form.information, "required")} */}
-        </Form.Group>
-        <Button
-          //disabled={submitting}
-          variant="primary"
-          onClick={props.onSubmit}
-        >
-          {/* {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")} */}
-        </Button>{" "}
-        <Button
-          variant="secondary"
-          //onClick={() => props.props.history.goBack()}
-        >
-          {/* {t("common:back")} */}
-        </Button>{" "}
+          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>{props.t("common:close")}</Button>

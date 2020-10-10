@@ -3,7 +3,7 @@
 
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ModalListDetailsContact from "./ModalListDetailsContact";
+import ModalForm from "./ModalForm";
 import Swal from "sweetalert2";
 import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
@@ -51,12 +51,12 @@ class EditDetailsContactModel extends React.Component {
       getOr([], "data.data", status)
     );
 
-  async handleGetOne(id) {
-    // const id = getOr(0, "props.match.params.id", this);
+  async handleGetOne() {
+    const id = getOr(0, "props.id", this);
     this.setState({ loading: true });
     const response = await details.getOne(id);
+    console.log(response,  "response  NO MODAL")
     const form = getOr(fields, "data.data", response);
-    console.log(form, "OQ TA AQUI FORM?");
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
     this.setState({
@@ -68,6 +68,7 @@ class EditDetailsContactModel extends React.Component {
   }
   setFormData = (name, value) => {
     const { form } = this.state;
+
     this.setState({
       form: {
         ...form,
@@ -94,7 +95,7 @@ class EditDetailsContactModel extends React.Component {
     const { history } = this.props;
     const { t } = this.props;
 
-    const id = getOr(0, "props.match.params.id", this);
+    const id = getOr(0, "props.id", this);
 
     const data = {
       detailsContact: pick(["idPublisher", "information"], form),
@@ -124,6 +125,8 @@ class EditDetailsContactModel extends React.Component {
 
   componentDidMount() {
     this.handleGetOne(this.props.id);
+    const { data } = this.props;
+    this.setState({ form: data });
   }
 
   render() {
@@ -132,13 +135,13 @@ class EditDetailsContactModel extends React.Component {
 
     return (
       <>
-        <ModalListDetailsContact
+        <ModalForm
           modeEdit={true}
-          //validator={this.validator}
-          //validated={validated}
-          //handleSubmit={this.handleSubmit}
-          //handleInputChange={this.handleInputChange}
-          // form={form}
+          validator={this.validator}
+          validated={validated}
+          handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+          form={form}
         />
       </>
     );

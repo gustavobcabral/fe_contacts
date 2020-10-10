@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import { Button, Modal, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye } from "@fortawesome/free-solid-svg-icons";
-import ModalListDetailsContact from "./ModalListDetailsContact";
+import ModalForm from "./ModalForm";
 import { details } from "../../../services";
 import { getOr, map, get } from "lodash/fp";
 import Swal from "sweetalert2";
@@ -16,14 +16,14 @@ import AskDelete from "../../Common/AskDelete/AskDelete";
 class ModalEdit extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props, "PROPS NO LIST")
     this.state = { data: [], modalShow: false };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  async handleGetAllOneContact(id) {
+  async handleGetAllOneContact() {
     this.setState({ submitting: true });
+    const id = getOr(0, 'props.id', this)
     const response = await details.getAllOneContact(id);
     this.setState({ data: response.data.data, submitting: false });
   }
@@ -102,8 +102,7 @@ class ModalEdit extends React.Component {
               <tbody>
                 {map(
                   (detail) => (
-                    console.log(detail, "MERDA DETAIL LIST"),
-                    <tr key={detail.createdAt}>
+                     <tr key={detail.createdAt}>
                       <td>{detail.publisherName}</td>
                       <td>
                         {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}

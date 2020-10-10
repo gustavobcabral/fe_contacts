@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../ContainerCRUD/ContainerCRUD";
 import { Button, Modal, Table } from "react-bootstrap";
 import { getOr, get } from "lodash/fp";
-import ModalListDetailsContact from "./ModalListDetailsContact";
+import ModalForm from "./ModalForm";
 import Swal from "sweetalert2";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
@@ -72,7 +72,7 @@ class NewDetailsContactModel extends React.Component {
 
     return (
       <>
-        <ModalListDetailsContact
+        <ModalForm
           data={data}
           modeEdit={false}
           validator={this.validator}
