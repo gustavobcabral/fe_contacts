@@ -39,6 +39,7 @@ class ListDataDetailsContact extends React.Component {
               <td style={{width:"114px"}}>
                 <EditDetailsContact
                   data={detail}
+                  contact={contact}
                   id={detail.id}
                   afterClose={afterClose}
                 />{" "}
