@@ -1,5 +1,4 @@
 {
-  "btnSubmit": "Enviar",
   "information": "Informações",
   "date": "Data",
   "publisher": "Publicador",
@@ -48,6 +47,7 @@
   "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro",
   "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",
   "CREATING_SUCCESSFUL": "O registro foi criado com sucesso",
-  "noData": "Sem dados"
+  "noData": "Sem dados",
+  "errorTextUndefined": "Erro indefinido"
 }
 

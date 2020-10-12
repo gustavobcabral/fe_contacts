@@ -3,9 +3,12 @@ import { withTranslation } from "react-i18next";
 import { status } from "../../services";
 import Swal from "sweetalert2";
 import { getOr, get, pick } from "lodash/fp";
-import StatusModal from "./StatusModal";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
+import OurModal from "../Common/OurModal/OurModal";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import StatusForm from "./StatusForm.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const fields = {
   description: "",
@@ -41,13 +44,11 @@ class StatusEdit extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t, afterClose } = this.props;
-    
+    const { t } = this.props;
 
     try {
       const data = pick(["description"], form);
       const res = await status.updateOne(get("id", form), data);
-      this.setState({ submitting: false });
       Swal.fire({
         title: t(`common:${get("data.cod", res)}`),
         icon: "success",
@@ -55,7 +56,9 @@ class StatusEdit extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      afterClose();
+      this.setState({ form: fields, submitting: false, validated: false });
+      this.validator.hideMessages();
+
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
@@ -71,19 +74,22 @@ class StatusEdit extends React.Component {
     const { data } = this.props;
     this.setState({ form: data });
   }
-  
+
   render() {
     const { form, validated } = this.state;
-    console.log(form, "FORM DO STATUS")
-  
+    const { t, afterClose } = this.props;
+
     return (
-      <StatusModal
-        modeEdit={true}
+      <OurModal
+        body={StatusForm}
         validator={this.validator}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
+        onExit={afterClose}
+        title={t("title")}
+        buttonText={<FontAwesomeIcon icon={faEdit} />}
       />
     );
   }

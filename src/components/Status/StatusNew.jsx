@@ -3,15 +3,18 @@ import { withTranslation } from "react-i18next";
 import { status } from "../../services";
 import Swal from "sweetalert2";
 import { getOr, get } from "lodash/fp";
-import StatusModal from "./StatusModal";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
+import OurModal from "../Common/OurModal/OurModal";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import StatusForm from "./StatusForm.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const fields = {
   description: "",
 };
 
-class StatusEdit extends React.Component {
+class StatusNew extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +36,8 @@ class StatusEdit extends React.Component {
   }
 
   async handleSubmit(onHide) {
+    this.setState({ validated: true });
+
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -41,11 +46,10 @@ class StatusEdit extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t, afterClose } = this.props;
+    const { t } = this.props;
 
     try {
       const res = await status.create(form);
-      this.setState({ submitting: false });
       Swal.fire({
         title: t(`common:${get("data.cod", res)}`),
         icon: "success",
@@ -53,7 +57,8 @@ class StatusEdit extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      afterClose();
+      this.setState({ form: fields, submitting: false, validated: false });
+      this.validator.hideMessages();
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
@@ -67,17 +72,21 @@ class StatusEdit extends React.Component {
 
   render() {
     const { form, validated } = this.state;
+    const { t, afterClose } = this.props;
 
     return (
-      <StatusModal
-        modeEdit={false}
+      <OurModal
+        body={StatusForm}
         validator={this.validator}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
+        onExit={afterClose}
+        title={t("title")}
+        buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     );
   }
 }
-export default withTranslation(["status", "common"])(StatusEdit);
+export default withTranslation(["status", "common"])(StatusNew);
