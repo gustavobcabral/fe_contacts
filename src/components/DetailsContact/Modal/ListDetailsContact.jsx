@@ -54,7 +54,7 @@ class ListDetailsContact extends React.Component {
   }
 
   render() {
-    const { t, contact } = this.props;
+    const { t, contact, afterClose } = this.props;
     const { data } = this.state;
     return (
       <OurModal
@@ -64,6 +64,7 @@ class ListDetailsContact extends React.Component {
         title={`${t("title")} - ${contact.name} - ${contact.phone}`}
         buttonText={<FontAwesomeIcon icon={faList} />}
         afterClose={this.handleGetAllOneContact}
+        onExit={afterClose}
         funcToCallAfterConfirmation={this.handleDelete}
       />
     );
