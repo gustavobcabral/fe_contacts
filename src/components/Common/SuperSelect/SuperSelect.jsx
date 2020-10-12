@@ -11,7 +11,6 @@ const SuperSelect = (props) => {
     name,
     value,
     options,
-    form,
     validated,
     label,
     rules,
@@ -21,7 +20,7 @@ const SuperSelect = (props) => {
 
   const onBlurLocal = () => {
     setTouched(true);
-    validator.showMessageFor(name);
+    //validator.showMessageFor(name);
   };
   return (
     <Form.Group
@@ -42,7 +41,7 @@ const SuperSelect = (props) => {
         onChange={({ value }) => onChange({ target: { name, value } })}
         classNamePrefix="react-select"
       />
-      {rules && validator.message(name, form[name], rules)}
+      {rules && validator.message(name, value, rules)}
     </Form.Group>
   );
 };

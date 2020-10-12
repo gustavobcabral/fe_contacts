@@ -6,7 +6,7 @@ const NoRecords = ({cols}) => {
 
   return (
     <tr>
-       <td className="text-center" colspan={cols}>{t("noRecords")}</td>
+       <td className="text-center" colSpan={cols}>{t("noRecords")}</td>
     </tr>
   );
 };

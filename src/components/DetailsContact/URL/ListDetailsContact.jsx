@@ -1,8 +1,8 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import ContainerCRUD from "../../../components/ContainerCRUD/ContainerCRUD";
 import moment from "moment";
-import { details } from "../../services";
+import { details } from "../../../services";
 import { getOr, map } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -14,15 +14,14 @@ class ListDetailsContact extends React.Component {
     this.state = { data: [] };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
     //  this.handleDelete = this.handleDelete.bind(this);
-   }
-   
+  }
+
   async handleGetAllOneContact() {
     const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
     const response = await details.getAllOneContact(phone);
     this.setState({ data: response.data.data, submitting: false });
-    
-  }
+      }
 
   // handleEdit(id) {
   //   console.log("i will get contact id " + id);
@@ -52,8 +51,6 @@ class ListDetailsContact extends React.Component {
     const { t } = this.props;
     const { data } = this.state;
     const phone = getOr(0, "props.match.params.phone", this);
-  
-  
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
@@ -83,7 +80,7 @@ class ListDetailsContact extends React.Component {
                       as={Link}
                       to={`/contacts/${phone}/details/edit/${detail.id}`}
                     >
-                      Editar
+                      {t("common:edit")}
                     </Button>
                   </td>
                 </tr>

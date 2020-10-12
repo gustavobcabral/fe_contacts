@@ -4,16 +4,19 @@ import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import { find } from "lodash/fp";
 
-
 const FormDetails = (props) => {
   const { t } = useTranslation(["common"]);
   const { validator } = props;
-  const { form, submitting, publishersOptions } = props.state;
-  const publisherSelected = find(
+  const { form, submitting, publishersOptions, statusOptions } = props.state;
+   const publisherSelected = find(
     (option) => option.value === form.idPublisher,
     publishersOptions
   );
-
+  const statusSelected = find(
+    (option) => option.value === form.idStatus,
+    statusOptions
+  );
+  // const { history } = this.state;
   return (
     <div>
       <Form.Group>
@@ -28,18 +31,12 @@ const FormDetails = (props) => {
       </Form.Group>
       <Form.Group>
         <Form.Label>Status</Form.Label>
-        <Form.Control
-          as="select"
+        <Select
           name="idStatus"
-          value={form.idStatus}
-          onChange={props.handleInputChange}
-        >
-          <option value=""></option>
-          <option value="1">Livre</option>
-          <option value="2">Revisita</option>
-          <option>Estudo</option>
-          <option>Nao ligar</option>
-        </Form.Control>
+          value={statusSelected}
+          options={statusOptions}
+          onChange={({ value }) => props.setFormData("idStatus", value)}
+        />
         {validator.message("idStatus", form.idStatus, "required")}
       </Form.Group>
       <Form.Group>
@@ -54,8 +51,11 @@ const FormDetails = (props) => {
         {validator.message("information", form.information, "required")}
       </Form.Group>
       <Button disabled={submitting} variant="primary" onClick={props.onSubmit}>
-        {t(submitting ? "btnSubmitting" : "btnSubmit")}
-      </Button>
+        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+      </Button>{" "}
+      <Button variant="secondary" onClick={() => props.props.history.goBack()}>
+        {t("common:back")}
+      </Button>{" "}
     </div>
   );
 };
