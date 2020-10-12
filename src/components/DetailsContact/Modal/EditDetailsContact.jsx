@@ -14,6 +14,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  gender: "",
 };
 
 class EditDetailsContact extends React.Component {
@@ -77,7 +78,7 @@ class EditDetailsContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t } = this.props;
+    const { t, contact } = this.props;
 
     const id = getOr(0, "props.id", this);
 
@@ -85,7 +86,8 @@ class EditDetailsContact extends React.Component {
       detailsContact: pick(["idPublisher", "information"], form),
       contact: {
         idStatus: get("idStatus", form),
-        phone: get("phoneContact", form),
+        gender: get("gender", form),
+        phone: get("phone", contact),
       },
     };
     try {

@@ -2,8 +2,10 @@
   "title": "Contacts",
   "phone": "Phone",
   "language": "Language",
-  "date":"Date",
-  "status":"Status",
-  "details":"Details"
+  "date": "Date",
+  "status": "Status",
+  "gender": "Gender",
+  "details": "Details",
+  "male": "Male",
+  "female": "Female"
 }
-

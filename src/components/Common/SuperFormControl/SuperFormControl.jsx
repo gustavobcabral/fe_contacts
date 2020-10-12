@@ -42,13 +42,14 @@ const SuperFormControl = (props) => {
         onBlur={onBlurLocal}
         value={value}
         className={
-          (validated || touched) && !validator.fieldValid(name)
+          (validated || touched) && rules && !validator.fieldValid(name)
             ? "is-invalid"
-            : (validated || touched) && validator.fieldValid(name)
+            : (validated || touched) &&
+              ((rules && validator.fieldValid(name)) || !rules)
             ? "is-valid"
             : ""
         }
-      />
+        />
       {rules && validator.message(name, value, rules)}
     </Form.Group>
   );

@@ -6,9 +6,9 @@ import { get, isEmpty, find, getOr, pipe, curry, filter } from "lodash/fp";
 
 const getByGender = (t, data) => {
   const parseObject = (label, color, data) => ({
-    title: `${getOr(0, "percent", data)}% ${t(`common:${label}`)}`,
+    title: `${getOr(0, "percent", data)}% ${t(`contacts:${label}`)}`,
     value: getOr(0, "percent", data),
-    label: `${getOr(0, "percent", data)}% ${t(`common:${label}`)}`,
+    label: `${getOr(0, "percent", data)}% ${t(`contacts:${label}`)}`,
     color,
   });
 
@@ -35,7 +35,7 @@ const getByGender = (t, data) => {
 };
 
 const ByGender = (props) => {
-  const { t } = useTranslation(["dashboard", "common"]);
+  const { t } = useTranslation(["dashboard", "common", "contacts"]);
   const byGender = getByGender(t, get('data', props));
 
   return (

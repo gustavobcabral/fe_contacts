@@ -14,6 +14,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  gender: "",
 };
 
 class NewDetailsContact extends React.Component {
@@ -84,6 +85,7 @@ class NewDetailsContact extends React.Component {
       },
       contact: {
         idStatus: get("idStatus", form),
+        gender: get("gender", form),
         phone: get("phone", contact),
       },
     };
@@ -125,22 +127,10 @@ class NewDetailsContact extends React.Component {
         title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
-
-      // <>
-      //   <ModalForm
-      //     modeEdit={false}
-      //     validator={this.validator}
-      //     validated={validated}
-      //     handleSubmit={this.handleSubmit}
-      //     handleInputChange={this.handleInputChange}
-      //     onOpen={this.onOpen}
-      //     form={form}
-      //     publishersOptions={publishersOptions}
-      //     statusOptions={statusOptions}
-      //   />
-      // </>
     );
   }
 }
 
-export default withTranslation(["detailsContacts", "common"])(NewDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(
+  NewDetailsContact
+);

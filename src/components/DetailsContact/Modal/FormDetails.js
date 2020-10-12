@@ -3,9 +3,10 @@ import { Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
 import SuperSelect from "../../Common/SuperSelect/SuperSelect";
+import GenderSelect from "../../Common/GenderSelect/GenderSelect";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["detailsContacts","common"]);
+  const { t } = useTranslation(["detailsContacts","common", "contacts"]);
   const { validator } = props;
   const {
     form,
@@ -18,11 +19,12 @@ const FormDetails = (props) => {
     validated,
   } = props;
 
+
   return (
     <Form>
       <SuperSelect
         name="idPublisher"
-        label="Publisher"
+        label={t("publisher")}
         validator={validator}
         validated={validated}
         value={form.idPublisher}
@@ -30,9 +32,15 @@ const FormDetails = (props) => {
         onChange={handleInputChange}
         rules="required"
       />
+      <GenderSelect
+        validator={validator}
+        validated={validated}
+        value={form.gender}
+        onChange={handleInputChange}
+      />
       <SuperSelect
         name="idStatus"
-        label="Status"
+        label={t("contacts:status")}
         validator={validator}
         validated={validated}
         value={form.idStatus}
