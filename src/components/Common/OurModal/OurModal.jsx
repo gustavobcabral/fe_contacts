@@ -16,7 +16,7 @@ class OurModal extends Component {
   onShow = () => this.setModalShow(true);
 
   render() {
-    const { buttonText, title, size, onEnter, onExit, t } = this.props;
+    const { buttonText, title, size, onEnter, onExit, t, dialogClassName } = this.props;
     const { modalShow } = this.state;
     const Component = this.props.body;
     return (
@@ -32,6 +32,7 @@ class OurModal extends Component {
           onExit={onExit}
           size={size || "lg"}
           centered
+          dialogClassName={dialogClassName}
         >
           <Modal.Header closeButton>
             <Modal.Title>{title || "Title"}</Modal.Title>

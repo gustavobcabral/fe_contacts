@@ -88,7 +88,7 @@ class StatusEdit extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
-        title={t("title")}
+        title={`Edit ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
       />
     );

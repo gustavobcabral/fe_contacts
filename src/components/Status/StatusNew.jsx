@@ -83,7 +83,7 @@ class StatusNew extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
-        title={t("title")}
+        title={`New ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     );

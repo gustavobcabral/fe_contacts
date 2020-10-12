@@ -1,11 +1,14 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ModalForm from "./ModalForm";
+import OurModal from "../../Common/OurModal/OurModal";
 import Swal from "sweetalert2";
 import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { details, publishers, status } from "../../../services";
+import FormDetails from "./FormDetails";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const fields = {
   information: "",
@@ -21,9 +24,7 @@ class EditDetailsContact extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
-      publisherSelected: {},
       publishersOptions: [],
-      statusSelected: {},
       statusOptions: [],
     };
     this.handleGetOne = this.handleGetOne.bind(this);
@@ -52,7 +53,6 @@ class EditDetailsContact extends React.Component {
     this.setState({ loading: true });
     const id = getOr(0, "props.id", this);
     const response = await details.getOne(id);
-    // console.log(response, "response  NO MODAL");
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
@@ -77,7 +77,6 @@ class EditDetailsContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { afterClose } = this.props;
     const { t } = this.props;
 
     const id = getOr(0, "props.id", this);
@@ -91,15 +90,15 @@ class EditDetailsContact extends React.Component {
     };
     try {
       await details.updateOneContactDetail(id, data);
-      this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
         timer: 2000,
         timerProgressBar: true,
       });
-      onHide()
-      afterClose();
+      onHide();
+      this.setState({ form: fields, submitting: false, validated: false });
+      this.validator.hideMessages();
 
     } catch (error) {
       this.setState({ submitting: false });
@@ -121,23 +120,24 @@ class EditDetailsContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions, statusOptions } = this.state;
-    // console.log(form);
+    const { t, afterClose } = this.props;
     return (
-      <>
-        <ModalForm
-          modeEdit={true}
-          validator={this.validator}
-          validated={validated}
-          handleSubmit={this.handleSubmit}
-          handleInputChange={this.handleInputChange}
-          onOpen={this.handleGetOne}
-          form={form}
-          publishersOptions={publishersOptions}
-          statusOptions={statusOptions}
-        />
-      </>
+      <OurModal
+        body={FormDetails}
+        validator={this.validator}
+        validated={validated}
+        handleSubmit={this.handleSubmit}
+        handleInputChange={this.handleInputChange}
+        form={form}
+        onEnter={this.handleGetOne}
+        onExit={afterClose}
+        publishersOptions={publishersOptions}
+        statusOptions={statusOptions}
+        title={`${t("common:edit")} ${t("title")}`}
+        buttonText={<FontAwesomeIcon icon={faEdit} />}
+      />
     );
   }
 }
 
-export default withTranslation(["contacts", "common"])(EditDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(EditDetailsContact);

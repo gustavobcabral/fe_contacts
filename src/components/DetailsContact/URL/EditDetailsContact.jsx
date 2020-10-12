@@ -1,7 +1,7 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import { details, publishers, status } from "../../services";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import { details, publishers, status } from "../../../services";
+import ContainerCRUD from "../../../components/ContainerCRUD/ContainerCRUD";
 import { getOr, map, pick, get } from "lodash/fp";
 import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";

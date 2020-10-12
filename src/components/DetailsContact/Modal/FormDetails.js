@@ -5,7 +5,7 @@ import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
 import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(["detailsContacts","common"]);
   const { validator } = props;
   const {
     form,
@@ -17,7 +17,6 @@ const FormDetails = (props) => {
     handleInputChange,
     validated,
   } = props;
-  console.log("validated:" + validated);
 
   return (
     <Form>
@@ -48,7 +47,7 @@ const FormDetails = (props) => {
         label={t("informationLabel")}
         validator={validator}
         validated={validated}
-        placeholder={t("descriptionPlaceHolder")}
+        placeholder={t("informationPlaceHolder")}
         value={form.information}
         onChange={handleInputChange}
         rules="required|max:250"

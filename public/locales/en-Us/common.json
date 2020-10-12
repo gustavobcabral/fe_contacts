@@ -1,8 +1,4 @@
 {
-  "information": "Information",
-  "date": "Date",
-  "publisher": "Publisher",
-  "name": "Name",
   "add": "Add",
   "back": "Back",
   "cancel": "Cancel",
@@ -26,7 +22,6 @@
   "dataFailedSaved": "Data Failed Saved",
   "typeToSearch": "Type to Search...",
   "view": "View",
-  "viewDetails": "View Details",
   "warning": "Warning | Warnings",
   "yes": "Yes",
   "btnSubmit": "Submit",
@@ -48,5 +43,6 @@
   "UPDATE_SUCCESSFUL": "The record was updated successfully",
   "CREATING_SUCCESSFUL": "The record was created successfully",
   "noData": "No data",
-  "errorTextUndefined": "Error undefined"
+  "errorTextUndefined": "Error undefined",
+  "new": "New"
 }

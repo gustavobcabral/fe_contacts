@@ -1,6 +1,6 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import ContainerCRUD from "../../../components/ContainerCRUD/ContainerCRUD";
 import { getOr } from "lodash/fp";
 
 class NewDetailsContact extends React.Component {

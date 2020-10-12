@@ -1,8 +1,8 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import ContainerCRUD from "../../../components/ContainerCRUD/ContainerCRUD";
 import moment from "moment";
-import { details } from "../../services";
+import { details } from "../../../services";
 import { getOr, map } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";

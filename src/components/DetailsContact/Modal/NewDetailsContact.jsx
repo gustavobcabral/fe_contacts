@@ -1,11 +1,14 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import ModalForm from "./ModalForm";
+import OurModal from "../../Common/OurModal/OurModal";
 import Swal from "sweetalert2";
 import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { details, publishers, status } from "../../../services";
+import FormDetails from "./FormDetails";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const fields = {
   information: "",
@@ -26,7 +29,6 @@ class NewDetailsContact extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onOpen = this.onOpen.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -73,7 +75,7 @@ class NewDetailsContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { afterClose, contact, t } = this.props;
+    const { contact, t } = this.props;
 
     const data = {
       detailsContact: {
@@ -95,7 +97,8 @@ class NewDetailsContact extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      afterClose();
+      this.setState({ form: fields, submitting: false, validated: false });
+      this.validator.hideMessages();
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
@@ -105,34 +108,39 @@ class NewDetailsContact extends React.Component {
     }
   }
 
-  onOpen() {
-    this.setState({
-      form: fields,
-      validated: false,
-    });
-    this.validator.hideMessages();
-    console.log(this.validator.hideMessages());
-  }
-
   render() {
     const { form, validated, publishersOptions, statusOptions } = this.state;
-    //  console.log(form);
+    const { t, afterClose } = this.props;
     return (
-      <>
-        <ModalForm
-          modeEdit={false}
-          validator={this.validator}
-          validated={validated}
-          handleSubmit={this.handleSubmit}
-          handleInputChange={this.handleInputChange}
-          onOpen={this.onOpen}
-          form={form}
-          publishersOptions={publishersOptions}
-          statusOptions={statusOptions}
-        />
-      </>
+      <OurModal
+        body={FormDetails}
+        validator={this.validator}
+        validated={validated}
+        handleSubmit={this.handleSubmit}
+        handleInputChange={this.handleInputChange}
+        form={form}
+        onExit={afterClose}
+        publishersOptions={publishersOptions}
+        statusOptions={statusOptions}
+        title={`${t("common:new")} ${t("title")}`}
+        buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
+      />
+
+      // <>
+      //   <ModalForm
+      //     modeEdit={false}
+      //     validator={this.validator}
+      //     validated={validated}
+      //     handleSubmit={this.handleSubmit}
+      //     handleInputChange={this.handleInputChange}
+      //     onOpen={this.onOpen}
+      //     form={form}
+      //     publishersOptions={publishersOptions}
+      //     statusOptions={statusOptions}
+      //   />
+      // </>
     );
   }
 }
 
-export default withTranslation(["contacts", "common"])(NewDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(NewDetailsContact);

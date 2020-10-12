@@ -1,8 +1,4 @@
 {
-  "information": "Informações",
-  "date": "Data",
-  "publisher": "Publicador",
-  "name": "Nome",
   "add": "Adicionar",
   "back": "Voltar",
   "cancel": "Cancelar",
@@ -26,7 +22,6 @@
   "dataFailedSaved": "Falha ao salvar os dados",
   "typeToSearch": "Digite para buscar...",
   "view": "Visualizar",
-  "viewDetails": "Visualizar Detalhes",
   "warning": "Atenção",
   "yes": "Sim",
   "btnSubmitting": "Enviando...",
@@ -48,6 +43,8 @@
   "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",
   "CREATING_SUCCESSFUL": "O registro foi criado com sucesso",
   "noData": "Sem dados",
-  "errorTextUndefined": "Erro indefinido"
+  "errorTextUndefined": "Erro indefinido",
+  "new": "Novo"
+
 }
 
