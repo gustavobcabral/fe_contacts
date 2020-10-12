@@ -6,7 +6,8 @@ import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 import GenderSelect from "../../Common/GenderSelect/GenderSelect";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["detailsContacts","common", "contacts"]);
+  console.log(props, "PROPS DO FORM")
+  const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
   const { validator } = props;
   const {
     form,
@@ -19,7 +20,6 @@ const FormDetails = (props) => {
     validated,
   } = props;
 
-
   return (
     <Form>
       <SuperSelect
@@ -31,6 +31,15 @@ const FormDetails = (props) => {
         options={publishersOptions}
         onChange={handleInputChange}
         rules="required"
+      />
+      <SuperFormControl
+        type="text"
+        name="name"
+        label={t("name")}
+        validator={validator}
+        validated={validated}
+        value={form.name}
+        onChange={handleInputChange}
       />
       <GenderSelect
         validator={validator}

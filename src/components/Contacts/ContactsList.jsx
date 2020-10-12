@@ -8,8 +8,9 @@ import { getOr } from "lodash/fp";
 import { map } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUserPlus, faList } from "@fortawesome/free-solid-svg-icons";
 import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
+import { Link } from "react-router-dom";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -80,13 +81,13 @@ class Contacts extends React.Component {
                   <td>{contact.statusDescription}</td>
                   <td>
                     <ListDetailsContact contact={contact} id={contact.phone} />{" "}
-                    {/* <Button
+                    <Button
                       variant="success"
                       as={Link}
                       to={`/contacts/${contact.phone}/details`}
                     >
                       <FontAwesomeIcon icon={faList} />
-                    </Button> */}
+                    </Button>
                   </td>
                   <td>
                     <Button

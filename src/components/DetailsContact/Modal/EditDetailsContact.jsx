@@ -15,6 +15,7 @@ const fields = {
   idPublisher: "",
   idStatus: "",
   gender: "",
+  name: "",
 };
 
 class EditDetailsContact extends React.Component {
@@ -79,7 +80,7 @@ class EditDetailsContact extends React.Component {
 
     const { form } = this.state;
     const { t, contact } = this.props;
-
+    console.log(contact, "CONTACT NO EDIT");
     const id = getOr(0, "props.id", this);
 
     const data = {
@@ -88,6 +89,7 @@ class EditDetailsContact extends React.Component {
         idStatus: get("idStatus", form),
         gender: get("gender", form),
         phone: get("phone", contact),
+        name: get("name", form),
       },
     };
     try {
@@ -101,7 +103,6 @@ class EditDetailsContact extends React.Component {
       onHide();
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
-
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
@@ -142,4 +143,6 @@ class EditDetailsContact extends React.Component {
   }
 }
 
-export default withTranslation(["detailsContacts", "common"])(EditDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(
+  EditDetailsContact
+);
