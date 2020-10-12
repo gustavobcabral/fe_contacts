@@ -80,13 +80,8 @@ class Contacts extends React.Component {
                   <td>{contact.languageName}</td>
                   <td>{contact.statusDescription}</td>
                   <td>
-<<<<<<< HEAD
-                    <ListDetailsContact contact={contact} id={contact.phone} />{" "}
-                    <Button
-=======
                     <ListDetailsContact contact={contact} id={contact.phone} afterClose={this.handleGetAll} />{" "}
-                    {/* <Button
->>>>>>> f75c1b9d0a65f73fa57eee0759cc859a7df65ba7
+                    <Button
                       variant="success"
                       as={Link}
                       to={`/contacts/${contact.phone}/details`}
