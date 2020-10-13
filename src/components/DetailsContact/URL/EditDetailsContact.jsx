@@ -53,7 +53,6 @@ class EditDetailsContact extends React.Component {
     const id = getOr(0, "props.match.params.id", this);
     this.setState({ loading: true });
     const response = await details.getOne(id);
-    console.log(response, "response na URl");
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());

@@ -80,7 +80,6 @@ class EditDetailsContact extends React.Component {
 
     const { form } = this.state;
     const { t, contact } = this.props;
-    console.log(contact, "CONTACT NO EDIT");
     const id = getOr(0, "props.id", this);
 
     const data = {
@@ -110,15 +109,6 @@ class EditDetailsContact extends React.Component {
         title: t("common:dataFailedSaved"),
       });
     }
-  }
-
-  componentDidMount() {
-    //tirei daqui porque estava indo no banco pegar a informacao sem sabrmos se o usuario iria clicar para editar.
-    //agora so traz depois que o usuario abrir o modal
-    // this.handleGetOne();
-    // const { data } = this.props;
-    //vc nao pode pegar o data aqui pode ela vem do banco e demora um tempo por isso tem o await para esperar pela resposta, entao nesse momento aqui ainda nao temos essa informacao
-    // this.setState({ form: data });
   }
 
   render() {

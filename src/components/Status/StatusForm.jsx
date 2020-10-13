@@ -21,7 +21,6 @@ const StatusForm = (props) => {
         type="text"
         name="description"
         label={t("descriptionLabel")}
-        form={form}
         validator={validator}
         validated={validated}
         placeholder={t("descriptionPlaceHolder")}
