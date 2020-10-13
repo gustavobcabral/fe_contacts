@@ -6,43 +6,47 @@ import { details } from "../../../services";
 import { getOr, map } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import AskDelete from "../../Common/AskDelete/AskDelete";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { data: [] };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
-    //  this.handleDelete = this.handleDelete.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   async handleGetAllOneContact() {
     const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
     const response = await details.getAllOneContact(phone);
+    console.log(response)
     this.setState({ data: response.data.data, submitting: false });
-      }
-
-  // handleEdit(id) {
-  //   console.log("i will get contact id " + id);
-  // }
-
-  // async handleDelete(t, id) {
-  //   this.setState({ submitting: true });
-  //   await contacts
-  //     .dellOne(id)
-  //     .then(() => {
-  //       this.handleGetAll();
-  //     })
-  //     .catch((error) => {
-  //       this.setState({ submitting: false });
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: t(getOr("errorTextUndefined", "response.data.cod", error)),
-  //       });
-  //     });
-  // }
-
+  }
+  async handleDelete(id) {
+    const t = this.props;
+    this.setState({ submitting: true });
+    await details
+      .dellOne(id)
+      .then(() => {
+        this.handleGetAllOneContact();
+        this.setState({ submitting: false });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ submitting: false });
+        Swal.fire({
+          icon: "error",
+          title: t(
+            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+          ),
+          text: t(
+            `${getOr("errorTextUndefined", "response.data.error", error)}`
+          ),
+        });
+      });
+  }
   componentDidMount() {
     this.handleGetAllOneContact();
   }
@@ -50,6 +54,7 @@ class ListDetailsContact extends React.Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
+
     const phone = getOr(0, "props.match.params.phone", this);
 
     return (
@@ -63,7 +68,13 @@ class ListDetailsContact extends React.Component {
               <th>{t("date")}</th>
               <th>{t("details")}</th>
               <th>
-                <Button variant="primary">{t("common:add")}</Button>
+                <Button
+                  variant="primary"
+                  as={Link}
+                  to={`/contacts/${phone}/details/new`}
+                >
+                  {t("common:add")}
+                </Button>
               </th>
             </tr>
           </thead>
@@ -81,7 +92,11 @@ class ListDetailsContact extends React.Component {
                       to={`/contacts/${phone}/details/edit/${detail.id}`}
                     >
                       {t("common:edit")}
-                    </Button>
+                    </Button>{" "}
+                    <AskDelete
+                      id={detail.id}
+                      funcToCallAfterConfirmation={this.handleDelete}
+                    />
                   </td>
                 </tr>
               ),

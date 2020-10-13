@@ -1,12 +1,11 @@
 import React from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
 import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 import GenderSelect from "../../Common/GenderSelect/GenderSelect";
 
 const FormDetails = (props) => {
-  console.log(props, "PROPS DO FORM")
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
   const { validator } = props;
   const {
@@ -22,6 +21,39 @@ const FormDetails = (props) => {
 
   return (
     <Form>
+      <Row>
+        <Col>
+          <SuperFormControl
+            type="text"
+            name="name"
+            label={t("name")}
+            validator={validator}
+            validated={validated}
+            value={form.name}
+            onChange={handleInputChange}
+          />
+        </Col>
+        <Col>
+          <GenderSelect
+            validator={validator}
+            validated={validated}
+            value={form.gender}
+            onChange={handleInputChange}
+          />
+        </Col>
+        <Col>
+          <SuperSelect
+            name="idStatus"
+            label={t("contacts:status")}
+            validator={validator}
+            validated={validated}
+            value={form.idStatus}
+            options={statusOptions}
+            onChange={handleInputChange}
+            rules="required"
+          />
+        </Col>
+      </Row>
       <SuperSelect
         name="idPublisher"
         label={t("publisher")}
@@ -29,31 +61,6 @@ const FormDetails = (props) => {
         validated={validated}
         value={form.idPublisher}
         options={publishersOptions}
-        onChange={handleInputChange}
-        rules="required"
-      />
-      <SuperFormControl
-        type="text"
-        name="name"
-        label={t("name")}
-        validator={validator}
-        validated={validated}
-        value={form.name}
-        onChange={handleInputChange}
-      />
-      <GenderSelect
-        validator={validator}
-        validated={validated}
-        value={form.gender}
-        onChange={handleInputChange}
-      />
-      <SuperSelect
-        name="idStatus"
-        label={t("contacts:status")}
-        validator={validator}
-        validated={validated}
-        value={form.idStatus}
-        options={statusOptions}
         onChange={handleInputChange}
         rules="required"
       />

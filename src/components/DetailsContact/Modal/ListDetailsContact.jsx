@@ -20,6 +20,7 @@ class ListDetailsContact extends React.Component {
     this.setState({ submitting: true });
     const id = getOr(0, "props.id", this);
     const response = await details.getAllOneContact(id);
+    console.log(response, "RESPONSE MODEL")
     this.setState({ data: response.data.data, submitting: false });
   }
 

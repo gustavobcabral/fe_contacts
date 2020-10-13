@@ -79,8 +79,8 @@ class EditDetailsContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
+    console.log(form, "FORM NO MODAL")
     const { t, contact } = this.props;
-    console.log(contact, "CONTACT NO EDIT");
     const id = getOr(0, "props.id", this);
 
     const data = {

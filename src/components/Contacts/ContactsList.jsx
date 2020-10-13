@@ -80,7 +80,11 @@ class Contacts extends React.Component {
                   <td>{contact.languageName}</td>
                   <td>{contact.statusDescription}</td>
                   <td>
-                    <ListDetailsContact contact={contact} id={contact.phone} afterClose={this.handleGetAll} />{" "}
+                    <ListDetailsContact
+                      contact={contact}
+                      id={contact.phone}
+                      afterClose={this.handleGetAll}
+                    />{" "}
                     <Button
                       variant="success"
                       as={Link}
