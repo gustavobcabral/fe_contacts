@@ -74,7 +74,7 @@ class LoginPopup extends React.Component {
       Swal.fire({
         icon: "error",
         title: t(
-          `${getOr("errorTextUndefined", "response.data.cod", error)}`
+          `${getOr("errorTryLogIn", "response.data.cod", error)}`
         ),
         text: t(
           `common:${getOr(
