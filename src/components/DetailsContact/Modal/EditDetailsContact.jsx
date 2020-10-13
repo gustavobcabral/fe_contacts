@@ -107,18 +107,18 @@ class EditDetailsContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t("common:dataFailedSaved"),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
       });
     }
-  }
-
-  componentDidMount() {
-    //tirei daqui porque estava indo no banco pegar a informacao sem sabrmos se o usuario iria clicar para editar.
-    //agora so traz depois que o usuario abrir o modal
-    // this.handleGetOne();
-    // const { data } = this.props;
-    //vc nao pode pegar o data aqui pode ela vem do banco e demora um tempo por isso tem o await para esperar pela resposta, entao nesse momento aqui ainda nao temos essa informacao
-    // this.setState({ form: data });
   }
 
   render() {

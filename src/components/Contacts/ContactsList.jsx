@@ -4,13 +4,13 @@ import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
 import Swal from "sweetalert2";
-import { getOr } from "lodash/fp";
-import { map } from "lodash/fp";
+import { map, getOr, isEmpty } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faUserPlus, faList } from "@fortawesome/free-solid-svg-icons";
 import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 import { Link } from "react-router-dom";
+import NoRecords from "../Common/NoRecords/NoRecords";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -72,7 +72,9 @@ class Contacts extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {map(
+            {!isEmpty(data) ?
+            map
+            (
               (contact) => (
                 <tr key={contact.phone}>
                   <td>{contact.name}</td>
@@ -108,7 +110,7 @@ class Contacts extends React.Component {
                 </tr>
               ),
               data
-            )}
+            ) : <NoRecords cols="6" />}
           </tbody>
         </Table>
       </ContainerCRUD>

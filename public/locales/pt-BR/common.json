@@ -19,7 +19,6 @@
   "requiredFieldAndPatternValid": "Este campo é obrigatório e precisa ser um valor válido",
   "numericField": "Este campo aceita somente números",
   "dataSuccessfullySaved": "Dados salvos com sucesso",
-  "dataFailedSaved": "Falha ao salvar os dados",
   "typeToSearch": "Digite para buscar...",
   "view": "Visualizar",
   "warning": "Atenção",
