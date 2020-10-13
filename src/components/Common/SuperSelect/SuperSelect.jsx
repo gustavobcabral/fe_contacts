@@ -12,6 +12,7 @@ const SuperSelect = (props) => {
     value,
     options,
     validated,
+    isClearable,
     label,
     rules,
   } = props;
@@ -25,9 +26,10 @@ const SuperSelect = (props) => {
   return (
     <Form.Group
       className={
-        (validated || touched) && !validator.fieldValid(name)
+        (validated || touched) && rules && !validator.fieldValid(name)
           ? "is-invalid"
-          : (validated || touched) && validator.fieldValid(name)
+          : (validated || touched) &&
+            ((rules && validator.fieldValid(name)) || !rules)
           ? "is-valid"
           : ""
       }
@@ -35,10 +37,18 @@ const SuperSelect = (props) => {
       <Form.Label>{label}</Form.Label>
       <Select
         name={name}
-        value={value && value !== "" && options && find(option => option.value === value,options)}
+        value={
+          value &&
+          value !== "" &&
+          options &&
+          find((option) => option.value === value, options)
+        }
         options={options}
+        isClearable={isClearable || false}
         onBlur={onBlurLocal}
-        onChange={({ value }) => onChange({ target: { name, value } })}
+        onChange={(obj) =>
+          onChange({ target: { name, value: obj ? obj.value : "" } })
+        }
         classNamePrefix="react-select"
       />
       {rules && validator.message(name, value, rules)}

@@ -11,6 +11,8 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  gender: "",
+  name: "",
 };
 
 class EditDetailsContact extends React.Component {
@@ -53,10 +55,11 @@ class EditDetailsContact extends React.Component {
     const id = getOr(0, "props.match.params.id", this);
     this.setState({ loading: true });
     const response = await details.getOne(id);
-    console.log(response, "response na URl");
     const form = getOr(fields, "data.data", response);
+    console.log(form, "FORM via url");
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
+
     this.setState({
       form,
       publishersOptions,
@@ -92,7 +95,6 @@ class EditDetailsContact extends React.Component {
     const { form } = this.state;
     const { history } = this.props;
     const { t } = this.props;
-
     const id = getOr(0, "props.match.params.id", this);
 
     const data = {
@@ -100,13 +102,15 @@ class EditDetailsContact extends React.Component {
       contact: {
         idStatus: get("idStatus", form),
         phone: get("phoneContact", form),
+        gender: get("gender", form),
+        name: get("name", form),
       },
     };
+
     try {
       await details.updateOneContactDetail(id, data);
       this.setState({ submitting: false });
-
-      Swal.fire({
+        Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
       }).then(() => {
@@ -116,7 +120,16 @@ class EditDetailsContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t("common:dataFailedSaved"),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
       });
     }
   }

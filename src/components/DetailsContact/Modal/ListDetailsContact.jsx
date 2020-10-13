@@ -1,7 +1,7 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList } from "@fortawesome/free-solid-svg-icons";
+import { faList, faEye } from "@fortawesome/free-solid-svg-icons";
 import { details } from "../../../services";
 import { getOr } from "lodash/fp";
 import Swal from "sweetalert2";
@@ -20,6 +20,7 @@ class ListDetailsContact extends React.Component {
     this.setState({ submitting: true });
     const id = getOr(0, "props.id", this);
     const response = await details.getAllOneContact(id);
+    console.log(response, "RESPONSE MODEL")
     this.setState({ data: response.data.data, submitting: false });
   }
 
@@ -62,7 +63,7 @@ class ListDetailsContact extends React.Component {
         contact={contact}
         data={data}
         title={`${t("title")} - ${contact.name} - ${contact.phone}`}
-        buttonText={<FontAwesomeIcon icon={faList} />}
+        buttonText={<FontAwesomeIcon icon={faEye} />}
         afterClose={this.handleGetAllOneContact}
         onExit={afterClose}
         funcToCallAfterConfirmation={this.handleDelete}

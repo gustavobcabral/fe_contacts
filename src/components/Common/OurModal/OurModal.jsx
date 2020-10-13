@@ -16,7 +16,15 @@ class OurModal extends Component {
   onShow = () => this.setModalShow(true);
 
   render() {
-    const { buttonText, title, size, onEnter, onExit, t, dialogClassName } = this.props;
+    const {
+      buttonText,
+      title,
+      size,
+      onEnter,
+      onExit,
+      t,
+      dialogClassName,
+    } = this.props;
     const { modalShow } = this.state;
     const Component = this.props.body;
     return (
@@ -38,12 +46,10 @@ class OurModal extends Component {
             <Modal.Title>{title || "Title"}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Component {...this.props} onHide={this.onHide}  />
+            <Component {...this.props} onHide={this.onHide} />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.onHide}>
-              {t("close")}
-            </Button>
+            <Button onClick={this.onHide}>{t("close")}</Button>
           </Modal.Footer>
         </Modal>
       </>

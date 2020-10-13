@@ -14,6 +14,8 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  gender: "",
+  name: "",
 };
 
 class EditDetailsContact extends React.Component {
@@ -77,15 +79,17 @@ class EditDetailsContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t } = this.props;
-
+    console.log(form, "FORM NO MODAL")
+    const { t, contact } = this.props;
     const id = getOr(0, "props.id", this);
 
     const data = {
       detailsContact: pick(["idPublisher", "information"], form),
       contact: {
         idStatus: get("idStatus", form),
-        phone: get("phoneContact", form),
+        gender: get("gender", form),
+        phone: get("phone", contact),
+        name: get("name", form),
       },
     };
     try {
@@ -99,23 +103,22 @@ class EditDetailsContact extends React.Component {
       onHide();
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
-
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t("common:dataFailedSaved"),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
       });
     }
-  }
-
-  componentDidMount() {
-    //tirei daqui porque estava indo no banco pegar a informacao sem sabrmos se o usuario iria clicar para editar.
-    //agora so traz depois que o usuario abrir o modal
-    // this.handleGetOne();
-    // const { data } = this.props;
-    //vc nao pode pegar o data aqui pode ela vem do banco e demora um tempo por isso tem o await para esperar pela resposta, entao nesse momento aqui ainda nao temos essa informacao
-    // this.setState({ form: data });
   }
 
   render() {
@@ -140,4 +143,6 @@ class EditDetailsContact extends React.Component {
   }
 }
 
-export default withTranslation(["detailsContacts", "common"])(EditDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(
+  EditDetailsContact
+);

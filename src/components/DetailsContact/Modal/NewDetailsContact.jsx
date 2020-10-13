@@ -14,6 +14,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  gender: "",
 };
 
 class NewDetailsContact extends React.Component {
@@ -84,11 +85,13 @@ class NewDetailsContact extends React.Component {
       },
       contact: {
         idStatus: get("idStatus", form),
+        gender: get("gender", form),
         phone: get("phone", contact),
       },
     };
     try {
-      await details.create(data);
+     const noModal = await details.create(data);
+     console.log(noModal, "Conexao no modal")
       this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
@@ -103,7 +106,16 @@ class NewDetailsContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t("common:dataFailedSaved"),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
       });
     }
   }
@@ -125,22 +137,10 @@ class NewDetailsContact extends React.Component {
         title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
-
-      // <>
-      //   <ModalForm
-      //     modeEdit={false}
-      //     validator={this.validator}
-      //     validated={validated}
-      //     handleSubmit={this.handleSubmit}
-      //     handleInputChange={this.handleInputChange}
-      //     onOpen={this.onOpen}
-      //     form={form}
-      //     publishersOptions={publishersOptions}
-      //     statusOptions={statusOptions}
-      //   />
-      // </>
     );
   }
 }
 
-export default withTranslation(["detailsContacts", "common"])(NewDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(
+  NewDetailsContact
+);

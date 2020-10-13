@@ -40,15 +40,16 @@ const SuperFormControl = (props) => {
         autoComplete={autocomplete}
         onChange={onChange}
         onBlur={onBlurLocal}
-        value={value}
+        defaultValue={value}
         className={
-          (validated || touched) && !validator.fieldValid(name)
+          (validated || touched) && rules && !validator.fieldValid(name)
             ? "is-invalid"
-            : (validated || touched) && validator.fieldValid(name)
+            : (validated || touched) &&
+              ((rules && validator.fieldValid(name)) || !rules)
             ? "is-valid"
             : ""
         }
-      />
+        />
       {rules && validator.message(name, value, rules)}
     </Form.Group>
   );

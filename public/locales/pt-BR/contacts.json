@@ -2,7 +2,10 @@
   "title": "Contatos",
   "phone": "Telefone",
   "language": "Idioma",
-  "date":"Data",
-  "status":"Status",
-  "details":"Detalhes"
+  "date": "Data",
+  "status": "Status",
+  "gender": "Gênero",
+  "details": "Detalhes",
+  "male": "Masculino",
+  "female": "Feminino"
 }
