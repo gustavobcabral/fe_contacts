@@ -4,6 +4,7 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import GenderSelect from "../../Common/GenderSelect/GenderSelect";
 import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
+import StatusSelect from "../../Common/StatusSelect/StatusSelect";
 
 const FormDetails = (props) => {
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
@@ -12,7 +13,6 @@ const FormDetails = (props) => {
     form,
     submitting,
     publishersOptions,
-    statusOptions,
     validated,
    } = props.state;
 
@@ -39,13 +39,12 @@ const FormDetails = (props) => {
           />
         </Col>
         <Col>
-          <SuperSelect
+        <StatusSelect
             name="idStatus"
             label={t("contacts:status")}
             validator={validator}
             validated={validated}
             value={form.idStatus}
-            options={statusOptions}
             onChange={props.handleInputChange}
             rules="required"
           />

@@ -5,7 +5,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { getOr, map, pick, get } from "lodash/fp";
 import FormDetails from "./FormDetails";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { details, publishers, status } from "../../../services";
+import { details, publishers } from "../../../services";
 import Swal from "sweetalert2";
 
 const fields = {
@@ -41,20 +41,12 @@ class NewDetailsContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
-
   async componentDidMount() {
     this.setState({ loading: true });
     const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
 
     this.setState({
       publishersOptions,
-      statusOptions,
       loading: false,
     });
   }
@@ -90,13 +82,10 @@ class NewDetailsContact extends React.Component {
     try {
       await details.create(data);
       this.setState({ submitting: false });
+      history.goBack();
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      }).then(() => {
-        history.goBack();
       });
     } catch (error) {
       this.setState({ submitting: false });

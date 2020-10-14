@@ -1,6 +1,6 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import { details, publishers, status } from "../../../services";
+import { details, publishers } from "../../../services";
 import ContainerCRUD from "../../../components/ContainerCRUD/ContainerCRUD";
 import { getOr, map, pick, get } from "lodash/fp";
 import FormDetails from "./FormDetails";
@@ -25,10 +25,7 @@ class EditDetailsContact extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
-      publisherSelected: {},
       publishersOptions: [],
-      statusSelected: {},
-      statusOptions: [],
     };
     this.handleGetOne = this.handleGetOne.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,11 +42,6 @@ class EditDetailsContact extends React.Component {
       (publisher) => ({ value: publisher.id, label: publisher.name }),
       getOr([], "data.data", publishers)
     );
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
 
   async handleGetOne() {
     const id = getOr(0, "props.match.params.id", this);
@@ -57,12 +49,10 @@ class EditDetailsContact extends React.Component {
     const response = await details.getOne(id);
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
 
     this.setState({
       form,
       publishersOptions,
-      statusOptions,
       loading: false,
     });
   }
@@ -97,13 +87,10 @@ class EditDetailsContact extends React.Component {
     try {
       await details.updateOneContactDetail(id, data);
       this.setState({ submitting: false });
+      history.goBack();
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      }).then(() => {
-        history.goBack();
       });
     } catch (error) {
       this.setState({ submitting: false });
