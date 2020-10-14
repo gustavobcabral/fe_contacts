@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
 import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 import GenderSelect from "../../Common/GenderSelect/GenderSelect";
+import StatusSelect from "../../Common/StatusSelect/StatusSelect";
 
 const FormDetails = (props) => {
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
@@ -12,7 +13,6 @@ const FormDetails = (props) => {
     form,
     submitting,
     publishersOptions,
-    statusOptions,
     handleSubmit,
     onHide,
     handleInputChange,
@@ -42,13 +42,12 @@ const FormDetails = (props) => {
           />
         </Col>
         <Col>
-          <SuperSelect
+          <StatusSelect
             name="idStatus"
             label={t("contacts:status")}
             validator={validator}
             validated={validated}
             value={form.idStatus}
-            options={statusOptions}
             onChange={handleInputChange}
             rules="required"
           />

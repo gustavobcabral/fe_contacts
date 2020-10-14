@@ -21,7 +21,6 @@ class ListDetailsContact extends React.Component {
     const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
     const response = await details.getAllOneContact(phone);
-    console.log(response)
     this.setState({ data: response.data.data, submitting: false });
   }
   async handleDelete(id) {
@@ -34,7 +33,6 @@ class ListDetailsContact extends React.Component {
         this.setState({ submitting: false });
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ submitting: false });
         Swal.fire({
           icon: "error",

@@ -90,8 +90,7 @@ class NewDetailsContact extends React.Component {
       },
     };
     try {
-     const noModal = await details.create(data);
-     console.log(noModal, "Conexao no modal")
+      await details.create(data);
       this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
