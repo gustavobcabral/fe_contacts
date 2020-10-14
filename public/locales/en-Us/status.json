@@ -1,5 +1,11 @@
 {
   "title": "Status",
   "descriptionLabel": "Description",
-  "descriptionPlaceHolder": "Please write a short description"
+  "descriptionPlaceHolder": "Please write a short description", 
+  "available": "Available",
+  "bibleStudy": "Bible Study",
+  "returnVisit": "Return Visit",
+  "noVisit": "No Visit",
+  "sentToOtherCongregation": "Sent to other congregation"
+
 }
