@@ -26,7 +26,7 @@ const FormDetails = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t("name")}
+            label={t("detailsContacts:name")}
             validator={validator}
             validated={validated}
             value={form.name}

@@ -51,7 +51,6 @@ class NewDetailsContact extends React.Component {
     this.setState({ loading: true });
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
-    
 
     this.setState({
       publishersOptions,
@@ -60,24 +59,12 @@ class NewDetailsContact extends React.Component {
     });
   }
 
-  setFormData = (name, value) => {
-    const { form } = this.state;
-    this.setState({
-      form: {
-        ...form,
-        [name]: value,
-      },
-    });
-  };
-
-  handleInputChange(obj) {
-    const {
-      target: { name, value },
-    } = obj;
-    this.setFormData(name, value);
+  handleInputChange(event) {
+    handleInputChangeGeneric(event, this);
   }
 
   async handleSubmit() {
+    this.setState({ validated: true });
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -87,12 +74,11 @@ class NewDetailsContact extends React.Component {
     const { form } = this.state;
     const { history } = this.props;
     const { t } = this.props;
-    const id = getOr(0, "props.match.params.id", this);
 
     const data = {
       detailsContact: {
         ...pick(["idPublisher", "information"], form),
-        phoneContact : getOr(0, "props.match.params.phone", this)
+        phoneContact: getOr(0, "props.match.params.phone", this),
       },
       contact: {
         idStatus: get("idStatus", form),
@@ -102,28 +88,37 @@ class NewDetailsContact extends React.Component {
       },
     };
     try {
-      const eoq = await details.create(data);
-      console.log(eoq, "EOQ MERDA")
+      await details.create(data);
       this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
       }).then(() => {
         history.goBack();
       });
     } catch (error) {
-       this.setState({ submitting: false });
+      this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t("common:dataFailedSaved"),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
       });
     }
   }
 
   render() {
     const { t } = this.props;
-    // const { data } = this.state;
-    const phone = getOr(0, "props.match.params.phone", this);
+      const phone = getOr(0, "props.match.params.phone", this);
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <h1>CREATE TODOS OS DETALHES</h1>

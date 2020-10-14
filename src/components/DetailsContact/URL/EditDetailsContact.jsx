@@ -6,6 +6,7 @@ import { getOr, map, pick, get } from "lodash/fp";
 import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
+import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 
 const fields = {
   information: "",
@@ -34,8 +35,7 @@ class EditDetailsContact extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
-      locale:
-        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
     });
   }
@@ -56,7 +56,6 @@ class EditDetailsContact extends React.Component {
     this.setState({ loading: true });
     const response = await details.getOne(id);
     const form = getOr(fields, "data.data", response);
-    console.log(form, "FORM via url");
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
 
@@ -68,24 +67,12 @@ class EditDetailsContact extends React.Component {
     });
   }
 
-  setFormData = (name, value) => {
-    const { form } = this.state;
-    this.setState({
-      form: {
-        ...form,
-        [name]: value,
-      },
-    });
-  };
-
-  handleInputChange(obj) {
-    const {
-      target: { name, value },
-    } = obj;
-    this.setFormData(name, value);
+  handleInputChange(event) {
+    handleInputChangeGeneric(event, this);
   }
 
   async handleSubmit() {
+    this.setState({ validated: true });
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -110,9 +97,11 @@ class EditDetailsContact extends React.Component {
     try {
       await details.updateOneContactDetail(id, data);
       this.setState({ submitting: false });
-        Swal.fire({
+      Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
       }).then(() => {
         history.goBack();
       });

@@ -8,6 +8,10 @@ import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import AskDelete from "../../Common/AskDelete/AskDelete";
+import { faPlusSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -21,7 +25,6 @@ class ListDetailsContact extends React.Component {
     const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
     const response = await details.getAllOneContact(phone);
-    console.log(response)
     this.setState({ data: response.data.data, submitting: false });
   }
   async handleDelete(id) {
@@ -34,7 +37,6 @@ class ListDetailsContact extends React.Component {
         this.setState({ submitting: false });
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ submitting: false });
         Swal.fire({
           icon: "error",
@@ -54,17 +56,16 @@ class ListDetailsContact extends React.Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
-
     const phone = getOr(0, "props.match.params.phone", this);
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>LIST TODOS OS DETALHES phone: {phone}</h1>
+        <h1>{`LIST TODOS OS DETALHES phone: ${phone} -  ${data.name}`}</h1>
 
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{t("Publisher")}</th>
+              <th>{t("publisher")}</th>
               <th>{t("date")}</th>
               <th>{t("details")}</th>
               <th>
@@ -73,7 +74,7 @@ class ListDetailsContact extends React.Component {
                   as={Link}
                   to={`/contacts/${phone}/details/new`}
                 >
-                  {t("common:add")}
+                  <FontAwesomeIcon icon={faPlusSquare} />
                 </Button>
               </th>
             </tr>
@@ -91,7 +92,7 @@ class ListDetailsContact extends React.Component {
                       as={Link}
                       to={`/contacts/${phone}/details/edit/${detail.id}`}
                     >
-                      {t("common:edit")}
+                     <FontAwesomeIcon icon={faEdit} />
                     </Button>{" "}
                     <AskDelete
                       id={detail.id}

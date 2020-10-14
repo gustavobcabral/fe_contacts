@@ -59,7 +59,7 @@ class Contacts extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{t("common:name")}</th>
+              <th>{t("name")}</th>
               <th>{t("phone")}</th>
               <th>{t("language")}</th>
               <th>{t("status")}</th>
@@ -118,4 +118,4 @@ class Contacts extends React.Component {
   }
 }
 
-export default withTranslation(["contacts", "common"])(Contacts);
+export default withTranslation(["contacts", "common", "detailsContacts"])(Contacts);

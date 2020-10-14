@@ -6,7 +6,7 @@ import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
   const { validator } = props;
   const {
     form,
@@ -14,7 +14,7 @@ const FormDetails = (props) => {
     publishersOptions,
     statusOptions,
     validated,
-  } = props.state;
+   } = props.state;
 
   return (
     <Form>
@@ -23,7 +23,7 @@ const FormDetails = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t("name")}
+            label={t("detailsContacts:name")}
             validator={validator}
             validated={validated}
             value={form.name}

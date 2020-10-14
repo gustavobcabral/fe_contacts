@@ -7,5 +7,7 @@
   "gender": "Gênero",
   "details": "Detalhes",
   "male": "Masculino",
-  "female": "Feminino"
+  "female": "Feminino",
+  "publisher":"Publicador",
+  "name":"Nome"
 }
