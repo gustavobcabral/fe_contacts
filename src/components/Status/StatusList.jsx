@@ -21,7 +21,7 @@ class StatusList extends React.Component {
   async handleGetAll() {
     const response = await status.getAll("");
     this.setState({ data: response.data.data });
-   }
+  }
 
   async handleDelete(id) {
     const { t } = this.props;
@@ -59,6 +59,7 @@ class StatusList extends React.Component {
           <thead>
             <tr>
               <th>{t("descriptionLabel")}</th>
+              <th>{t("descriptionTraducedLabel")}</th>
               <th>
                 <StatusNew afterClose={this.handleGetAll} />
               </th>
@@ -69,6 +70,7 @@ class StatusList extends React.Component {
               map(
                 (status) => (
                   <tr key={status.id}>
+                    <td>{status.description}</td>
                     <td>{t(status.description)}</td>
                     <td>
                       <StatusEdit

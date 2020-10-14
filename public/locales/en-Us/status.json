@@ -1,6 +1,7 @@
 {
   "title": "Status",
   "descriptionLabel": "Description",
+  "descriptionTraducedLabel": "Description Traduced",
   "descriptionPlaceHolder": "Please write a short description", 
   "available": "Available",
   "bibleStudy": "Bible Study",
