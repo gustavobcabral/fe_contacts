@@ -3,7 +3,7 @@ import "./styles.css";
 import { Row, Col } from "react-bootstrap";
 import SideMenu from "../SideMenu/SideMenu";
 import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
-
+import { withTranslation } from "react-i18next";
 const ContainerCRUD = (props) => (
   <ContainerWithNavBar {...props}>
     <Col className="page-header">
@@ -20,4 +20,4 @@ const ContainerCRUD = (props) => (
   </ContainerWithNavBar>
 );
 
-export default ContainerCRUD;
+export default  withTranslation(["detailsContacts", "common"])(ContainerCRUD);

@@ -118,11 +118,11 @@ class NewDetailsContact extends React.Component {
 
   render() {
     const { t } = this.props;
-      const phone = getOr(0, "props.match.params.phone", this);
+    const phone = getOr(0, "props.match.params.phone", this);
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>CREATE TODOS OS DETALHES</h1>
-        phone:{phone}
+        <h1>{`${t("common:new")} ${t("detailsContacts:title")}: ${phone}`}</h1>
+
         <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
       </ContainerCRUD>
     );

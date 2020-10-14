@@ -129,15 +129,13 @@ class EditDetailsContact extends React.Component {
 
   render() {
     const { t } = this.props;
-    const phone = getOr(0, "props.match.params.phone", this);
-    const id = getOr(0, "props.match.params.id", this);
+    // const phone = getOr(0, "props.match.params.phone", this);
+    // const id = getOr(0, "props.match.params.id", this);
 
     return (
       <>
         <ContainerCRUD title={t("title")} {...this.props}>
-          <h1>EDIT TODOS OS DETALHES</h1>
-          <h4>Phone:{phone}</h4>
-          <h4>Details number:{id}</h4>
+          <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
           <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
         </ContainerCRUD>
       </>

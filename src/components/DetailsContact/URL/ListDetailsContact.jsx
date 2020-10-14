@@ -11,8 +11,6 @@ import AskDelete from "../../Common/AskDelete/AskDelete";
 import { faPlusSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-
 class ListDetailsContact extends React.Component {
   constructor(props) {
     super(props);
@@ -60,8 +58,7 @@ class ListDetailsContact extends React.Component {
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`LIST TODOS OS DETALHES phone: ${phone} -  ${data.name}`}</h1>
-
+        <h1>{`${t("detailsContacts:title")}- ${phone}- ${data.name}`} </h1>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
@@ -92,7 +89,7 @@ class ListDetailsContact extends React.Component {
                       as={Link}
                       to={`/contacts/${phone}/details/edit/${detail.id}`}
                     >
-                     <FontAwesomeIcon icon={faEdit} />
+                      <FontAwesomeIcon icon={faEdit} />
                     </Button>{" "}
                     <AskDelete
                       id={detail.id}
