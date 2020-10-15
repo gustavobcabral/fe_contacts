@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../../components/ContainerCRUD/ContainerCRUD";
 import moment from "moment";
 import { details } from "../../../services";
-import { getOr, map, first } from "lodash/fp";
+import { getOr, map, first, isEmpty } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -27,8 +27,7 @@ class ListDetailsContact extends React.Component {
     const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
     const data = getOr([], "data.data", await details.getAllOneContact(phone));
-    //const { name } = first(data);
-    const { name } = first(data) || " ";
+    const { name } = first(data) || { name: "" };
     this.setState({ data, name, submitting: false });
   }
   async handleDelete(id) {
@@ -57,13 +56,18 @@ class ListDetailsContact extends React.Component {
     this.handleGetAllOneContact();
   }
 
+  getNameForTitle() {
+    const { name } = this.state;
+    return !isEmpty(name) ? `- ${name}` : ""
+  }
+
   render() {
     const { t } = this.props;
-    const { data, name, phone } = this.state;
+    const { data, phone } = this.state;
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`${t("detailsContacts:title")} # ${phone} - ${name || " "}`}</h1>
+        <h1>{`${t("detailsContacts:title")} #${phone} ${this.getNameForTitle()}`}</h1>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
