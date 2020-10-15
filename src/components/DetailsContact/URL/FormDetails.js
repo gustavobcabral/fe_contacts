@@ -5,16 +5,13 @@ import GenderSelect from "../../Common/GenderSelect/GenderSelect";
 import SuperSelect from "../../Common/SuperSelect/SuperSelect";
 import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
 import StatusSelect from "../../Common/StatusSelect/StatusSelect";
+import LanguageSelect from "../../Common/LanguageSelect/LanguageSelect";
 
-const FormDetails = (props) => {
+const FormDetails = (component) => {
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
-  const { validator } = props;
-  const {
-    form,
-    submitting,
-    publishersOptions,
-    validated,
-   } = props.state;
+  const { validator, handleInputChange, onSubmit } = component;
+  const { history } = component.props;
+  const { form, submitting, publishersOptions, validated } = component.state;
 
   return (
     <Form>
@@ -27,7 +24,7 @@ const FormDetails = (props) => {
             validator={validator}
             validated={validated}
             value={form.name}
-            onChange={props.handleInputChange}
+            onChange={handleInputChange}
           />
         </Col>
         <Col>
@@ -35,49 +32,72 @@ const FormDetails = (props) => {
             validator={validator}
             validated={validated}
             value={form.gender}
-            onChange={props.handleInputChange}
+            onChange={handleInputChange}
           />
         </Col>
         <Col>
-        <StatusSelect
+          <StatusSelect
             name="idStatus"
             label={t("contacts:status")}
             validator={validator}
             validated={validated}
             value={form.idStatus}
-            onChange={props.handleInputChange}
+            onChange={handleInputChange}
             rules="required"
           />
         </Col>
       </Row>
-      <SuperSelect
-        name="idPublisher"
-        label={t("publisher")}
-        validator={validator}
-        validated={validated}
-        value={form.idPublisher}
-        options={publishersOptions}
-        onChange={props.handleInputChange}
-        rules="required"
-      />
-      <SuperFormControl
-        as="textarea"
-        name="information"
-        rows={3}
-        label={t("informationLabel")}
-        validator={validator}
-        validated={validated}
-        placeholder={t("informationPlaceHolder")}
-        value={form.information}
-        onChange={props.handleInputChange}
-        rules="required|max:250"
-      />
-      <Button disabled={submitting} variant="primary" onClick={props.onSubmit}>
-        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
-      </Button>{" "}
-      <Button variant="secondary" onClick={() => props.props.history.goBack()}>
-        {t("common:back")}
-      </Button>{" "}
+      <Row>
+        <Col>
+          <LanguageSelect
+            validator={validator}
+            validated={validated}
+            value={form.idLanguage}
+            onChange={handleInputChange}
+          />
+        </Col>
+        <Col>
+          <SuperSelect
+            name="idPublisher"
+            label={t("publisher")}
+            validator={validator}
+            validated={validated}
+            value={form.idPublisher}
+            options={publishersOptions}
+            onChange={handleInputChange}
+            rules="required"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <SuperFormControl
+            as="textarea"
+            name="information"
+            rows={3}
+            label={t("informationLabel")}
+            validator={validator}
+            validated={validated}
+            placeholder={t("informationPlaceHolder")}
+            value={form.information}
+            onChange={handleInputChange}
+            rules="required|max:250"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button disabled={submitting} variant="primary" onClick={onSubmit}>
+            {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+          </Button>{" "}
+          <Button
+            variant="secondary"
+            onClick={() => history.goBack()}
+          >
+            {t("common:back")}
+          </Button>
+        </Col>
+      </Row>
     </Form>
   );
 };

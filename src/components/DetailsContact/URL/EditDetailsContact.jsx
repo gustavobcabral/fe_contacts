@@ -12,6 +12,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: "",
   gender: "",
   name: "",
 };
@@ -78,6 +79,7 @@ class EditDetailsContact extends React.Component {
       detailsContact: pick(["idPublisher", "information"], form),
       contact: {
         idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
         phone: get("phoneContact", form),
         gender: get("gender", form),
         name: get("name", form),
@@ -91,6 +93,8 @@ class EditDetailsContact extends React.Component {
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
       });
     } catch (error) {
       this.setState({ submitting: false });
@@ -116,14 +120,12 @@ class EditDetailsContact extends React.Component {
 
   render() {
     const { t } = this.props;
-    // const phone = getOr(0, "props.match.params.phone", this);
-    // const id = getOr(0, "props.match.params.id", this);
 
     return (
       <>
         <ContainerCRUD title={t("title")} {...this.props}>
           <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
-          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
+          <FormDetails {...this} onSubmit={this.handleSubmit}  />
         </ContainerCRUD>
       </>
     );

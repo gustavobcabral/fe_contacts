@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { details, publishers, status } from "../../../services";
+import { details, publishers } from "../../../services";
 import FormDetails from "./FormDetails";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +14,9 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: "",
   gender: "",
+  name: "",
 };
 
 class NewDetailsContact extends React.Component {
@@ -26,7 +28,6 @@ class NewDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
-      statusOptions: [],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,20 +45,13 @@ class NewDetailsContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
 
   async componentDidMount() {
     this.setState({ loading: true });
     const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
 
     this.setState({
       publishersOptions,
-      statusOptions,
       loading: false,
     });
   }
@@ -85,6 +79,7 @@ class NewDetailsContact extends React.Component {
       },
       contact: {
         idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
         gender: get("gender", form),
         phone: get("phone", contact),
       },
@@ -120,7 +115,7 @@ class NewDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state;
+    const { form, validated, publishersOptions } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
@@ -132,7 +127,6 @@ class NewDetailsContact extends React.Component {
         form={form}
         onExit={afterClose}
         publishersOptions={publishersOptions}
-        statusOptions={statusOptions}
         title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />

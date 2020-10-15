@@ -1,25 +1,25 @@
 import React from "react";
 import SuperSelect from "../SuperSelect/SuperSelect";
 import { withTranslation } from "react-i18next";
-import { status } from "../../../services";
+import { languages } from "../../../services";
 import { getOr, pipe, curry } from "lodash/fp";
-import { reduceStatus } from "../../../stateReducers/status";
+import { reduceLanguages } from "../../../stateReducers/languages";
 
-class StatusSelect extends React.Component {
+class LanguageSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { statusOptions: [], submitting: false };
+    this.state = { languagesOptions: [], submitting: false };
     this.handleGetAll = this.handleGetAll.bind(this);
   }
 
   async handleGetAll() {
     this.setState({ submitting: true });
     const { t } = this.props;
-    const statusOptions = pipe(
+    const languagesOptions = pipe(
       getOr([], "data.data"),
-      curry(reduceStatus)(t)
-    )(await status.getAll());
-    this.setState({ statusOptions, submitting: false });
+      curry(reduceLanguages)(t)
+    )(await languages.getAll());
+    this.setState({ languagesOptions, submitting: false });
   }
 
   componentDidMount() {
@@ -37,17 +37,17 @@ class StatusSelect extends React.Component {
       label,
       rules,
     } = this.props;
-    const { statusOptions } = this.state;
+    const { languagesOptions } = this.state;
 
     return (
       <SuperSelect
-        name={name || "idStatus"}
-        label={label || t("status")}
+        name={name || "idLanguage"}
+        label={label || t("labelSelect")}
         isClearable={true}
         validator={validator}
         validated={validated}
         value={value}
-        options={statusOptions}
+        options={languagesOptions}
         onChange={onChange}
         rules={rules}
       />
@@ -55,4 +55,4 @@ class StatusSelect extends React.Component {
   }
 }
 
-export default withTranslation(["status", "common"])(StatusSelect);
+export default withTranslation(["languages", "common"])(LanguageSelect);

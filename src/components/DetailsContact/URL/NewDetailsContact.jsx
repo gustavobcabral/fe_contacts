@@ -12,7 +12,9 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: "",
   gender: "",
+  name: "",
 };
 
 class NewDetailsContact extends React.Component {
@@ -74,6 +76,7 @@ class NewDetailsContact extends React.Component {
       },
       contact: {
         idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
         phone: getOr(0, "props.match.params.phone", this),
         gender: get("gender", form),
         name: get("name", form),
