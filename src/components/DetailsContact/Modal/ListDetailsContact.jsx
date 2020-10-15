@@ -60,7 +60,7 @@ class ListDetailsContact extends React.Component {
         body={ListDataDetailsContact}
         contact={contact}
         data={data}
-        title={`${t("title")} - ${contact.name} - ${contact.phone}`}
+        title={`${t("title")} # ${contact.name} - ${contact.phone}`}
         buttonText={<FontAwesomeIcon icon={faEye} />}
         afterClose={this.handleGetAllOneContact}
         onExit={afterClose}

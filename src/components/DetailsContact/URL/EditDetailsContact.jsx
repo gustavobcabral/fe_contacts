@@ -116,8 +116,6 @@ class EditDetailsContact extends React.Component {
 
   render() {
     const { t } = this.props;
-    // const phone = getOr(0, "props.match.params.phone", this);
-    // const id = getOr(0, "props.match.params.id", this);
 
     return (
       <>
