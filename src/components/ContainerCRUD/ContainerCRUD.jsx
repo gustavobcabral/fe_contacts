@@ -3,21 +3,21 @@ import "./styles.css";
 import { Row, Col } from "react-bootstrap";
 import SideMenu from "../SideMenu/SideMenu";
 import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
-import { withTranslation } from "react-i18next";
+
 const ContainerCRUD = (props) => (
   <ContainerWithNavBar {...props}>
     <Col className="page-header">
       <h1>{props.title}</h1>
     </Col>
     <Row>
-      <Col lg={2} xs={12}>
+      <Col lg={2} xs={12} className="d-none d-sm-block">
         <SideMenu {...props} />
       </Col>
       <Col lg={10} xs={12}>
-        <div>{props.children}</div>
+        {props.children}
       </Col>
     </Row>
   </ContainerWithNavBar>
 );
 
-export default  withTranslation(["detailsContacts", "common"])(ContainerCRUD);
+export default ContainerCRUD;

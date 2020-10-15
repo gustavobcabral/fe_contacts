@@ -26,7 +26,7 @@ const ByLanguage = (props) => {
   const byLanguage = getByLanguage(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 3 }}>
+    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 0 }} className="mt-2">
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartLanguage")}

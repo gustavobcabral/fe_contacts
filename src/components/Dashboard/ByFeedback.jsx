@@ -43,7 +43,7 @@ const ByFeedback = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
   const byFeedback = getByFeedback(t, get("data", props));
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 4 }} className="mt-2">
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartWaitingFeedback")}
