@@ -9,16 +9,18 @@
 }
 
 .side-menu a {
-  color: black;
+  color: white;
   display: block; 
   padding: 12px; 
   text-decoration: none; 
   border-radius: 10px;
   margin: 2px;
+  background-color: #15b6c0; 
+
 }
 
 .side-menu a:hover, a.selected {
-  background-color: #15b6c0; 
+  color: rgb(16, 47, 228);
   text-decoration: none; 
 
 }

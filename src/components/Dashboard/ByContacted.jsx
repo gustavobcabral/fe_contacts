@@ -34,7 +34,7 @@ const ByContacted = (props) => {
   const byContacted = getByContacted(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 1 }}>
+    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 3 }} className="mt-2">
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartContacts")}

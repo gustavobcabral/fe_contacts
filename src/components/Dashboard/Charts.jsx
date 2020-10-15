@@ -43,11 +43,11 @@ class Charts extends React.Component {
       <>
         <Row className="mt-4">
           <ChartByContacted data={data} />
-          <ChartByFeedback data={data} />
           <ChartByGender data={data} />
+          <ChartByLanguage data={data} />
         </Row>
         <Row className="mt-4">
-          <ChartByLanguage data={data} />
+          <ChartByFeedback data={data} />
           <ChartByPublishers data={data} />
         </Row>
       </>

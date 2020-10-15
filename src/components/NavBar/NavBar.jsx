@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { get } from "lodash/fp";
-import { getUserData, hasToken } from "../../utils/loginDataManager";
+import { getUserData, hasToken, isAtLeastSM } from "../../utils/loginDataManager";
 import logo from "../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -20,15 +20,17 @@ const MenuLogged = ({ t, ...props }) => (
       <Nav.Link as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
         {t("contacts")}
       </Nav.Link>
-      <NavDropdown title={t("admin")} id="collasible-nav-dropdown">
-        <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
-          {t("publishers")}
-        </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
-          {t("status")}
-        </NavDropdown.Item>
-      </NavDropdown>
+      {isAtLeastSM() && (
+        <NavDropdown title={t("admin")} id="collasible-nav-dropdown">
+          <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
+            {t("publishers")}
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
+            {t("status")}
+          </NavDropdown.Item>
+        </NavDropdown>
+      )}
     </Nav>
     <Nav>
       <NavDropdown title={get("name", getUserData())}>

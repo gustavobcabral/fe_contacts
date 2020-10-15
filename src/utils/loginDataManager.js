@@ -1,4 +1,4 @@
-import { get, omit, pipe } from "lodash/fp";
+import { get, omit, pipe, getOr } from "lodash/fp";
 import {
   LENS_TOKEN_KEY,
   LENS_TOKEN_EXPIRES,
@@ -44,6 +44,12 @@ export const getUserData = () =>
   localStorage.getItem(LENS_TOKEN_USER_DATA)
     ? JSON.parse(localStorage.getItem(LENS_TOKEN_USER_DATA))
     : "";
+
+export const isAdmin = () => getOr(1, "idResponsibility", getUserData()) === 4;
+export const isAtLeastElder = () =>
+  getOr(1, "idResponsibility", getUserData()) >= 3;
+export const isAtLeastSM = () =>
+  getOr(1, "idResponsibility", getUserData()) >= 2;
 
 export const hasToken = () => {
   const tokenString = !!localStorage.getItem(LENS_TOKEN_KEY);

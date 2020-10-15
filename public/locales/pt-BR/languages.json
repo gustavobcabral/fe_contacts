@@ -1,6 +1,12 @@
 {
   "title": "Escolha um idioma abaixo",
+  "noLanguage": "Sem idioma",
   "optionsLabel": "Opções",
   "languageOptionEnglish": "Inglês",
-  "languageOptionPortuguese": "Português"
+  "languageOptionPortuguese": "Português",
+  "english": "Inglês",
+  "spanish": "Espanhol",
+  "germany": "Alemão",
+  "portuguese": "Português"
+
 }
