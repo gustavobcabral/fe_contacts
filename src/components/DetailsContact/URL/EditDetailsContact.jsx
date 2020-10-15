@@ -12,6 +12,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: null,
   gender: "",
   name: "",
 };
@@ -26,6 +27,7 @@ class EditDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
+      phone: getOr(0, "match.params.phone", props),
     };
     this.handleGetOne = this.handleGetOne.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,16 +71,20 @@ class EditDetailsContact extends React.Component {
     }
     this.setState({ submitting: true });
 
-    const { form } = this.state;
+    const { form, phone } = this.state;
     const { history } = this.props;
     const { t } = this.props;
     const id = getOr(0, "props.match.params.id", this);
 
     const data = {
-      detailsContact: pick(["idPublisher", "information"], form),
+      detailsContact: {
+        ...pick(["idPublisher", "information"], form),
+        phoneContact: phone,
+      },
       contact: {
         idStatus: get("idStatus", form),
-        phone: get("phoneContact", form),
+        idLanguage: get("idLanguage", form),
+        phone,
         gender: get("gender", form),
         name: get("name", form),
       },
@@ -91,6 +97,8 @@ class EditDetailsContact extends React.Component {
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
       });
     } catch (error) {
       this.setState({ submitting: false });
@@ -121,7 +129,7 @@ class EditDetailsContact extends React.Component {
       <>
         <ContainerCRUD title={t("title")} {...this.props}>
           <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
-          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
+          <FormDetails {...this} onSubmit={this.handleSubmit}  />
         </ContainerCRUD>
       </>
     );

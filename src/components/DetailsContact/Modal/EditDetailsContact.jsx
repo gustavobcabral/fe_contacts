@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { details, publishers, status } from "../../../services";
+import { details, publishers } from "../../../services";
 import FormDetails from "./FormDetails";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: null,
   gender: "",
   name: "",
 };
@@ -27,7 +28,6 @@ class EditDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
-      statusOptions: [],
     };
     this.handleGetOne = this.handleGetOne.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,24 +45,16 @@ class EditDetailsContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
-
   async handleGetOne() {
     this.setState({ loading: true });
     const id = getOr(0, "props.id", this);
     const response = await details.getOne(id);
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
 
     this.setState({
       form,
       publishersOptions,
-      statusOptions,
       loading: false,
     });
   }
@@ -72,6 +64,9 @@ class EditDetailsContact extends React.Component {
   }
 
   async handleSubmit(onHide) {
+    
+    this.setState({ validated: true });
+
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -86,6 +81,7 @@ class EditDetailsContact extends React.Component {
       detailsContact: pick(["idPublisher", "information"], form),
       contact: {
         idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
         gender: get("gender", form),
         phone: get("phone", contact),
         name: get("name", form),
@@ -121,7 +117,7 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state;
+    const { form, validated, publishersOptions } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
@@ -134,7 +130,6 @@ class EditDetailsContact extends React.Component {
         onEnter={this.handleGetOne}
         onExit={afterClose}
         publishersOptions={publishersOptions}
-        statusOptions={statusOptions}
         title={`${t("common:edit")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
       />

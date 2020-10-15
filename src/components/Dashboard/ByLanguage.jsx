@@ -16,23 +16,11 @@ const getByLanguage = (t, data) =>
       ))}`,
       value: getOr(0, "percent", dataLanguage),
       label: generateLabel(t, dataLanguage, "languageName"),
-      color: getRightColor(getOr("other", "languageName", dataLanguage)),
+      color: getOr(randomColor(), "languageColor", dataLanguage),
     }),
     getOr([], "totalContactsByLanguageContacted", data)
   );
 
-const getRightColor = (language) => {
-  switch (language) {
-    case "portuguese":
-      return "#dc3545";
-    case "spanish":
-      return "#28a745";
-    case "germany":
-      return "#ffc107";
-    default:
-      return randomColor();
-  }
-};
 
 const ByLanguage = (props) => {
   const { t } = useTranslation(["dashboard", "common", "languages"]);

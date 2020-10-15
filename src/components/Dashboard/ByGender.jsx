@@ -13,7 +13,7 @@ const getByGender = (t, data) => {
   });
 
   const objectGenderUndefined = pipe(
-    find((object) => object.gender === null),
+    find((object) => isEmpty(object.gender)),
     curry(parseObject)("undefinedGender", "#6c757d")
   )(getOr({}, "totalContactsByGenderContacted", data));
 
@@ -36,10 +36,14 @@ const getByGender = (t, data) => {
 
 const ByGender = (props) => {
   const { t } = useTranslation(["dashboard", "common", "contacts"]);
-  const byGender = getByGender(t, get('data', props));
+  const byGender = getByGender(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 0 }} className="mt-2">
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 0 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartGender")}

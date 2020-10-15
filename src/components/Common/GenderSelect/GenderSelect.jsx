@@ -3,7 +3,7 @@ import SuperSelect from "../SuperSelect/SuperSelect";
 import { useTranslation } from "react-i18next";
 
 const GenderSelect = (props) => {
-  const { t } = useTranslation(["contacts", "common"]);
+  const { t } = useTranslation(["contacts"]);
 
   const { validator } = props;
   const { value, onChange, validated } = props;
@@ -11,7 +11,6 @@ const GenderSelect = (props) => {
   const genderOptions = [
     { label: t("male"), value: "male" },
     { label: t("female"), value: "female" },
-    { label: t("common:undefined"), value: "" },
   ];
 
   return (

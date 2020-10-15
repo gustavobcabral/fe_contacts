@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { getOr, map, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { details, publishers, status } from "../../../services";
+import { details, publishers } from "../../../services";
 import FormDetails from "./FormDetails";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +14,9 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: null,
   gender: "",
+  name: "",
 };
 
 class NewDetailsContact extends React.Component {
@@ -26,10 +28,10 @@ class NewDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
-      statusOptions: [],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onOpen = this.onOpen.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -44,20 +46,22 @@ class NewDetailsContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
+  onOpen() {
+    // const contact  = await contacts.getOne(phone);
+    // const newForm = {
+    //   ...fields,
+    //   ...contact,
+    // };
+    // this.setState({ form: newForm });
+  }
 
   async componentDidMount() {
     this.setState({ loading: true });
+    this.onOpen();
     const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
 
     this.setState({
       publishersOptions,
-      statusOptions,
       loading: false,
     });
   }
@@ -85,13 +89,14 @@ class NewDetailsContact extends React.Component {
       },
       contact: {
         idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
         gender: get("gender", form),
         phone: get("phone", contact),
       },
     };
     try {
-     await details.create(data);
-       this.setState({ submitting: false });
+      await details.create(data);
+      this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
@@ -120,7 +125,7 @@ class NewDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state;
+    const { form, validated, publishersOptions } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
@@ -131,8 +136,8 @@ class NewDetailsContact extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
+        onEnter={this.onOpen}
         publishersOptions={publishersOptions}
-        statusOptions={statusOptions}
         title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />

@@ -1,5 +1,6 @@
 {
   "title": "Escolha um idioma abaixo",
+  "labelSelect": "Idioma",
   "noLanguage": "Sem idioma",
   "optionsLabel": "Opções",
   "languageOptionEnglish": "Inglês",

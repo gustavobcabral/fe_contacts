@@ -12,7 +12,9 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: null,
   gender: "",
+  name: "",
 };
 
 class NewDetailsContact extends React.Component {
@@ -25,7 +27,7 @@ class NewDetailsContact extends React.Component {
       validated: false,
       publishersOptions: [],
       statusOptions: [],
-      phone: getOr(0, "match.params.phone", props)
+      phone: getOr(0, "match.params.phone", props),
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -71,10 +73,11 @@ class NewDetailsContact extends React.Component {
     const data = {
       detailsContact: {
         ...pick(["idPublisher", "information"], form),
-        phone
+        phoneContact: phone,
       },
       contact: {
         idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
         phone,
         gender: get("gender", form),
         name: get("name", form),
