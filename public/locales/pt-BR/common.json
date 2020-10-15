@@ -35,7 +35,6 @@
   "deleteSuccessful": "O registro foi apagado com sucesso",
   "labelNewValueOption": "Escolha um novo valor",
   "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
-  "undefinedGender": "Indefinido",
   "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro",
   "ERROR_WHILE_CREATING": "Error while creating a new record",
   "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",

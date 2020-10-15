@@ -14,7 +14,7 @@ const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
-  idLanguage: "",
+  idLanguage: null,
   gender: "",
   name: "",
 };

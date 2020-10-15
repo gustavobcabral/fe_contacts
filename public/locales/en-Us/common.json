@@ -35,7 +35,6 @@
   "deleteSuccessful": "The record was deleted",
   "labelNewValueOption": "Choice a new value",
   "askDeleteMessage": "Are you sure you want to delete this record?",
-  "undefinedGender": "Undefined",
   "ERROR_WHILE_DELETING": "Error while deleting this record",
   "ERROR_WHILE_CREATING": "Error while creating a new record",
   "UPDATE_SUCCESSFUL": "The record was updated successfully",
