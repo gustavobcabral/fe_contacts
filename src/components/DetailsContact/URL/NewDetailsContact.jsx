@@ -25,6 +25,7 @@ class NewDetailsContact extends React.Component {
       validated: false,
       publishersOptions: [],
       statusOptions: [],
+      phone: getOr(0, "match.params.phone", props)
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -63,18 +64,18 @@ class NewDetailsContact extends React.Component {
     }
     this.setState({ submitting: true });
 
-    const { form } = this.state;
+    const { form, phone } = this.state;
     const { history } = this.props;
     const { t } = this.props;
 
     const data = {
       detailsContact: {
         ...pick(["idPublisher", "information"], form),
-        phoneContact: getOr(0, "props.match.params.phone", this),
+        phone
       },
       contact: {
         idStatus: get("idStatus", form),
-        phone: getOr(0, "props.match.params.phone", this),
+        phone,
         gender: get("gender", form),
         name: get("name", form),
       },
@@ -107,10 +108,9 @@ class NewDetailsContact extends React.Component {
 
   render() {
     const { t } = this.props;
-    const phone = getOr(0, "props.match.params.phone", this);
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`${t("common:new")} ${t("detailsContacts:title")}: ${phone}`}</h1>
+        <h1>{`${t("common:new")} ${t("detailsContacts:title")}`}</h1>
 
         <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
       </ContainerCRUD>
