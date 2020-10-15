@@ -31,6 +31,7 @@ class NewDetailsContact extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onOpen = this.onOpen.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -45,9 +46,18 @@ class NewDetailsContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
+  onOpen() {
+    // const contact  = await contacts.getOne(phone);
+    // const newForm = {
+    //   ...fields,
+    //   ...contact,
+    // };
+    // this.setState({ form: newForm });
+  }
 
   async componentDidMount() {
     this.setState({ loading: true });
+    this.onOpen();
     const publishersOptions = this.reducePublishers(await publishers.getAll());
 
     this.setState({
@@ -85,8 +95,8 @@ class NewDetailsContact extends React.Component {
       },
     };
     try {
-     await details.create(data);
-       this.setState({ submitting: false });
+      await details.create(data);
+      this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
@@ -126,6 +136,7 @@ class NewDetailsContact extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
+        onEnter={this.onOpen}
         publishersOptions={publishersOptions}
         title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
