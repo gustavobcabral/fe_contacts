@@ -1,9 +1,11 @@
-import api from "../api";
+import api from '../api'
 
-const getAll = () => api.get("/contacts");
+const getAll = () => api.get('/contacts')
 
-const getSummary = () => api.get("/contacts/summary");
+const create = (data) => api.post('/contacts', data)
 
-const dellOne = (id) => api.delete(`/contacts/${id}`);
+const getSummary = () => api.get('/contacts/summary')
 
-export default { getAll, dellOne, getSummary };
+const dellOne = (id) => api.delete(`/contacts/${id}`)
+
+export default { getAll, create, dellOne, getSummary }
