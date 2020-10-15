@@ -90,7 +90,7 @@ class Contacts extends React.Component {
                     <Button
                       variant="success"
                       as={Link}
-                      to={`/contacts/${contact.phone}/details`}
+                      to={`/contacts/${encodeURI(contact.phone)}/details`}
                     >
                       <FontAwesomeIcon icon={faList} />
                     </Button>

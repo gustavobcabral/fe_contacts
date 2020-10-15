@@ -73,7 +73,7 @@ class ListDetailsContact extends React.Component {
                 <Button
                   variant="primary"
                   as={Link}
-                  to={`/contacts/${phone}/details/new`}
+                  to={`/contacts/${encodeURI(phone)}/details/new`}
                 >
                   <FontAwesomeIcon icon={faPlusSquare} />
                 </Button>
@@ -91,7 +91,7 @@ class ListDetailsContact extends React.Component {
                     <Button
                       variant="success"
                       as={Link}
-                      to={`/contacts/${phone}/details/edit/${detail.id}`}
+                      to={`/contacts/${encodeURI(phone)}/details/edit/${detail.id}`}
                     >
                       <FontAwesomeIcon icon={faEdit} />
                     </Button>{" "}
