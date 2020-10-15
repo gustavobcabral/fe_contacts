@@ -27,7 +27,8 @@ class ListDetailsContact extends React.Component {
     const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
     const data = getOr([], "data.data", await details.getAllOneContact(phone));
-    const { name } = first(data);
+    //const { name } = first(data);
+    const { name } = first(data) || " ";
     this.setState({ data, name, submitting: false });
   }
   async handleDelete(id) {
@@ -62,7 +63,7 @@ class ListDetailsContact extends React.Component {
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`${t("detailsContacts:title")} # ${phone}- ${name}`} </h1>
+        <h1>{`${t("detailsContacts:title")} # ${phone} - ${name || " "}`}</h1>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
