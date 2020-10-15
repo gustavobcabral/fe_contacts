@@ -1,6 +1,11 @@
 {
   "title": "Languages",
+  "noLanguage": "No language",
   "optionsLabel": "Choice a new language above",
   "languageOptionEnglish": "English",
-  "languageOptionPortuguese": "Portuguese"
+  "languageOptionPortuguese": "Portuguese",
+  "english": "English",
+  "spanish": "Spanish",
+  "germany": "Germany",
+  "portuguese": "Portuguese"
 }

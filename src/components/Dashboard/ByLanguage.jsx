@@ -9,24 +9,41 @@ import { generateLabel } from "../../stateReducers/dashboard";
 const getByLanguage = (t, data) =>
   map(
     (dataLanguage) => ({
-      title: `${getOr(0, "percent", dataLanguage)}% ${getOr(
-        t("noName"),
+      title: `${getOr(0, "percent", dataLanguage)}% ${t("languages:"+getOr(
+        "noName",
         "languageName",
         dataLanguage
-      )}`,
+      ))}`,
       value: getOr(0, "percent", dataLanguage),
       label: generateLabel(t, dataLanguage, "languageName"),
-      color: randomColor(),
+      color: getRightColor(getOr("other", "languageName", dataLanguage)),
     }),
     getOr([], "totalContactsByLanguageContacted", data)
   );
 
+const getRightColor = (language) => {
+  switch (language) {
+    case "portuguese":
+      return "#dc3545";
+    case "spanish":
+      return "#28a745";
+    case "germany":
+      return "#ffc107";
+    default:
+      return randomColor();
+  }
+};
+
 const ByLanguage = (props) => {
-  const { t } = useTranslation(["dashboard", "common"]);
+  const { t } = useTranslation(["dashboard", "common", "languages"]);
   const byLanguage = getByLanguage(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 0 }} className="mt-2">
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 0 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartLanguage")}
