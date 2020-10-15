@@ -62,7 +62,7 @@ class ListDetailsContact extends React.Component {
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`${t("detailsContacts:title")}- ${phone}- ${name}`} </h1>
+        <h1>{`${t("detailsContacts:title")} # ${phone}- ${name}`} </h1>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
