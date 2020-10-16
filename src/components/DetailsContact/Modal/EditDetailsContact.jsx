@@ -117,7 +117,7 @@ class EditDetailsContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions } = this.state
-  
+    console.log(form, "FOR EDIT")
     const { t, afterClose } = this.props
     return (
       <OurModal
