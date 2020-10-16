@@ -1,25 +1,24 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import OurModal from '../../Common/OurModal/OurModal'
+import OurModal from '../Common/OurModal/OurModal'
 import Swal from 'sweetalert2'
 import { getOr, map, pick, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
-import { details, publishers } from '../../../services'
-import FormDetails from './FormDetails'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import { contacts, publishers, status } from '../../services'
+import FormContacts from './FormContacts'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const fields = {
-  information: '',
-  idPublisher: '',
+  phone: '',
+  name: '',
+  gender: '',
   idStatus: '',
   idLanguage: null,
-  gender: '',
-  name: '',
 }
 
-class EditDetailsContact extends React.Component {
+class EditContact extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -28,6 +27,7 @@ class EditDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
+      statusOptions: [],
     }
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -45,16 +45,35 @@ class EditDetailsContact extends React.Component {
       getOr([], 'data.data', publishers)
     )
 
+  reduceStatus = (status) =>
+    map(
+      (status) => ({ value: status.id, label: status.description }),
+      getOr([], 'data.data', status)
+    )
+
   async handleGetOne() {
     this.setState({ loading: true })
     const id = getOr(0, 'props.id', this)
-    const response = await details.getOne(id)
+    const response = await contacts.getOne(id)
     const form = getOr(fields, 'data.data', response)
     const publishersOptions = this.reducePublishers(await publishers.getAll())
 
     this.setState({
       form,
       publishersOptions,
+      loading: false,
+    })
+  }
+
+  async componentDidMount() {
+    this.setState({ loading: true })
+    this.handleGetOne()
+    const publishersOptions = this.reducePublishers(await publishers.getAll())
+    const statusOptions = this.reduceStatus(await status.getAll())
+
+    this.setState({
+      publishersOptions,
+      statusOptions,
       loading: false,
     })
   }
@@ -73,21 +92,20 @@ class EditDetailsContact extends React.Component {
     this.setState({ submitting: true })
 
     const { form } = this.state
-    const { t, contact } = this.props
+    const { t } = this.props
     const id = getOr(0, 'props.id', this)
 
     const data = {
-      detailsContact: pick(['idPublisher', 'information'], form),
-      contact: {
-        idStatus: get('idStatus', form),
-        idLanguage: get('idLanguage', form),
-        gender: get('gender', form),
-        phone: get('phone', contact),
-        name: get('name', form),
-      },
+      phone: get('phone', form),
+      name: get('name', form),
+      gender: get('gender', form),
+      idStatus: get('idStatus', form),
+      idLanguage: get('idLanguage', form),
     }
+
     try {
-      await details.updateOneContactDetail(id, data)
+      await contacts.updateContact(id, data)
+      this.setState({ submitting: false })
       Swal.fire({
         title: t('common:dataSuccessfullySaved'),
         icon: 'success',
@@ -116,26 +134,24 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions } = this.state
+    const { form, validated, publishersOptions, statusOptions } = this.state
     const { t, afterClose } = this.props
     return (
       <OurModal
-        body={FormDetails}
+        body={FormContacts}
         validator={this.validator}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
-        onEnter={this.handleGetOne}
         onExit={afterClose}
         publishersOptions={publishersOptions}
+        statusOptions={statusOptions}
         title={`${t('common:edit')} ${t('title')}`}
-        buttonText={<FontAwesomeIcon variant="success"icon={faEdit} />}
+        buttonText={<FontAwesomeIcon icon={faEdit} />}
       />
     )
   }
 }
 
-export default withTranslation(['detailsContacts', 'common'])(
-  EditDetailsContact
-)
+export default withTranslation(['Contacts', 'common'])(EditContact)

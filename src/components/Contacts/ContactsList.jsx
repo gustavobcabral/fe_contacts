@@ -11,7 +11,8 @@ import { faEdit, faUserPlus, faList } from '@fortawesome/free-solid-svg-icons'
 import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
 import { Link } from 'react-router-dom'
 import NoRecords from '../Common/NoRecords/NoRecords'
-import NewContacts from './NewContacts'
+import NewContact from './NewContact'
+import EditContact from './EditContact'
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -66,10 +67,7 @@ class Contacts extends React.Component {
               <th>{t('status')}</th>
               <th>{t('details')}</th>
               <th>
-                {/* <Button variant="primary">
-                  <FontAwesomeIcon icon={faUserPlus} />
-                </Button> */}
-                <NewContacts />
+                <NewContact afterClose={this.handleGetAll} />
               </th>
             </tr>
           </thead>
@@ -81,7 +79,7 @@ class Contacts extends React.Component {
                     <td>{contact.name}</td>
                     <td>{contact.phone}</td>
                     <td>{contact.languageName}</td>
-                    <td>{contact.statusDescription}</td>
+                    <td>{t(contact.statusDescription)}</td>
                     <td>
                       <ListDetailsContact
                         contact={contact}
@@ -97,12 +95,10 @@ class Contacts extends React.Component {
                       </Button>
                     </td>
                     <td>
-                      <Button
-                        variant="success"
-                        onClick={this.handleEdit.bind(this, contact.phone)}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </Button>{' '}
+                      <EditContact
+                        id={contact.phone}
+                        afterClose={this.handleGetAll}
+                      />{' '}
                       <AskDelete
                         id={contact.phone}
                         funcToCallAfterConfirmation={this.handleDelete}
@@ -122,6 +118,9 @@ class Contacts extends React.Component {
   }
 }
 
-export default withTranslation(['contacts', 'common', 'detailsContacts'])(
-  Contacts
-)
+export default withTranslation([
+  'contacts',
+  'common',
+  'detailsContacts',
+  'status',
+])(Contacts)
