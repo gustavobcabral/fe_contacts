@@ -1,6 +1,7 @@
 import api from "../api";
+import { toQueryString } from "../../utils/forms";
 
-const getAll = () => api.get("/contacts");
+const getAll = (params) => api.get(`/contacts${toQueryString(params)}`);
 
 const getSummary = () => api.get("/contacts/summary");
 

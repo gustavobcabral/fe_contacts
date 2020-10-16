@@ -8,7 +8,7 @@ export const formatDate = (date) => {
   return `${split[2]}-${split[1]}-${split[0]}`;
 };
 
-export const getLocale = (props) => props.i18n.language
+export const getLocale = (props) => props.i18n.language;
 
 export const handleInputChangeGeneric = (event, componentReact) => {
   const {
@@ -22,4 +22,13 @@ export const handleInputChangeGeneric = (event, componentReact) => {
       [name]: value,
     },
   });
-}
+};
+
+export const toQueryString = (paramsObject) =>
+  "?" +
+  Object.keys(paramsObject)
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`
+    )
+    .join("&");
