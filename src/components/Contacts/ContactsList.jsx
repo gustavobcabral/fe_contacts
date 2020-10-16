@@ -7,10 +7,11 @@ import Swal from "sweetalert2";
 import { map, getOr, isEmpty } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faUserPlus, faList } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faList } from "@fortawesome/free-solid-svg-icons";
 import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 import { Link } from "react-router-dom";
 import NoRecords from "../Common/NoRecords/NoRecords";
+import NewContacts from "./NewContacts";
 import Pagination from "../Common/Pagination/Pagination";
 
 class Contacts extends React.Component {
@@ -58,7 +59,16 @@ class Contacts extends React.Component {
         this.setState({ submitting: false });
         Swal.fire({
           icon: "error",
-          title: t(getOr("errorTextUndefined", "response.data.cod", error)),
+          title: t(
+            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+          ),
+          text: t(
+            `common:${getOr(
+              "errorWithoutDetails",
+              "response.data.error.code",
+              error
+            )}`
+          ),
         });
       });
   }
@@ -92,9 +102,10 @@ class Contacts extends React.Component {
               <th>{t("status")}</th>
               <th>{t("details")}</th>
               <th>
-                <Button variant="primary">
+                {/* <Button variant="primary">
                   <FontAwesomeIcon icon={faUserPlus} />
-                </Button>
+                </Button> */}
+                <NewContacts />
               </th>
             </tr>
           </thead>
