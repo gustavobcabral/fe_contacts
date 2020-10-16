@@ -31,6 +31,12 @@ export const parseQuery = (objQuery, state) => {
   return objQuery ? { ...queryParams, ...objQuery } : queryParams;
 };
 
+export const objectFlip = (obj) =>
+  Object.keys(obj).reduce((ret, key) => {
+    ret[obj[key]] = key;
+    return ret;
+  }, {});
+
 export const toQueryString = (paramsObject) =>
   "?" +
   Object.keys(paramsObject)

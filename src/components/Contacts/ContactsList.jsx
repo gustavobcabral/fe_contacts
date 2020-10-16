@@ -2,9 +2,9 @@ import React from "react";
 import { Button, Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
-import { contacts } from "../../services";
+import { contacts, translations } from "../../services";
 import Swal from "sweetalert2";
-import { map, getOr, isEmpty } from "lodash/fp";
+import { map, getOr, isEmpty, upperFirst } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faList } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,7 @@ import NoRecords from "../Common/NoRecords/NoRecords";
 import NewContacts from "./NewContacts";
 import Pagination from "../Common/Pagination/Pagination";
 import Search from "../Common/Search/Search";
-import { parseQuery } from "../../utils/forms";
+import { parseQuery, objectFlip } from "../../utils/forms";
 import { RECORDS_PER_PAGE } from "../../constants/application";
 
 class Contacts extends React.Component {
@@ -24,21 +24,41 @@ class Contacts extends React.Component {
     this.state = {
       data: [],
       pagination: {},
-      queryParams: { sort: "name:ASC", perPage: RECORDS_PER_PAGE, currentPage: 1, filter: "" },
+      queryParams: {
+        sort: "name:ASC",
+        perPage: RECORDS_PER_PAGE,
+        currentPage: 1,
+        filter: "",
+      },
     };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.translateSearch = this.translateSearch.bind(this);
   }
 
   async handleGetAll(objQuery) {
     this.setState({ submitting: true });
     const queryParams = parseQuery(objQuery, this.state);
+    console.log(queryParams);
     const response = await contacts.getAll(queryParams);
     this.setState({
       data: getOr([], "data.data.list", response),
       pagination: getOr({}, "data.data.pagination", response),
       submitting: false,
     });
+  }
+
+  async translateSearch(search) {
+    const { t, i18n } = this.props;
+    const { filter } = search;
+    const translationsContacts = await translations.get(
+      i18n.language,
+      "contacts"
+    );
+    const swap = objectFlip(translationsContacts.data);
+    const newFilter = { filter: swap[upperFirst(filter)] || "" };
+    console.log(newFilter);
+    this.handleGetAll(newFilter);
   }
 
   handleEdit(id) {
@@ -82,7 +102,7 @@ class Contacts extends React.Component {
       <ContainerCRUD title={t("title")} {...this.props}>
         <Table striped bordered hover responsive>
           <thead>
-            <Search onFilter={this.handleGetAll} />
+            <Search onFilter={this.translateSearch} />
             <tr>
               <th>{t("name")}</th>
               <th>{t("phone")}</th>
