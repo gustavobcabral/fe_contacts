@@ -1,3 +1,5 @@
+import { getOr } from "lodash/fp";
+
 export const unformatDate = (date) => {
   const split = date.slice(0, 10).split("-");
   return `${split[2]}/${split[1]}/${split[0]}`;
@@ -22,6 +24,11 @@ export const handleInputChangeGeneric = (event, componentReact) => {
       [name]: value,
     },
   });
+};
+
+export const parseQuery = (objQuery, state) => {
+  const queryParams = getOr({}, "queryParams", state);
+  return objQuery ? { ...queryParams, ...objQuery } : queryParams;
 };
 
 export const toQueryString = (paramsObject) =>

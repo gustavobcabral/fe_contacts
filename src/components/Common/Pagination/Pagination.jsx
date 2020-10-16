@@ -4,13 +4,14 @@ import { toNumber } from "lodash/fp";
 
 const PaginationComponent = (props) => {
   let items = [];
-  const { currentPage, totalRows, lastPage, from, to } = props.pagination;
-  for (let number = 1; number <= totalRows; number++) {
+  const { lastPage, to, from, currentPage } = props.pagination;
+
+  for (let number = 1; number <= lastPage; number++) {
     items.push(
       <Pagination.Item
         key={number}
         active={number === toNumber(currentPage)}
-        onClick={() => props.onClick(number)}
+        onClick={() => props.onClick({ currentPage: number })}
       >
         {number}
       </Pagination.Item>
@@ -19,11 +20,33 @@ const PaginationComponent = (props) => {
 
   return (
     <Pagination>
-      <Pagination.First onClick={() => props.onClick(1)} />
-      <Pagination.Prev onClick={() => props.onClick(from)} />
+      <Pagination.First
+        onClick={() =>
+          currentPage !== 1 ? props.onClick({ currentPage: 1 }) : null
+        }
+      />
+      <Pagination.Prev
+        onClick={() =>
+          currentPage !== from && from > 0
+            ? props.onClick({ currentPage: from })
+            : null
+        }
+      />
       <Pagination>{items}</Pagination>
-      <Pagination.Next onClick={() => props.onClick(to)} />
-      <Pagination.Last onClick={() => props.onClick(lastPage)} />
+      <Pagination.Next
+        onClick={() =>
+          currentPage !== to && to <= lastPage
+            ? props.onClick({ currentPage: to })
+            : null
+        }
+      />
+      <Pagination.Last
+        onClick={() =>
+          currentPage !== lastPage
+            ? props.onClick({ currentPage: lastPage })
+            : null
+        }
+      />
     </Pagination>
   );
 };

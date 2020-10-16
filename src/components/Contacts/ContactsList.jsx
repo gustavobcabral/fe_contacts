@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Table, Form } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
@@ -13,6 +13,9 @@ import { Link } from "react-router-dom";
 import NoRecords from "../Common/NoRecords/NoRecords";
 import NewContacts from "./NewContacts";
 import Pagination from "../Common/Pagination/Pagination";
+import Search from "../Common/Search/Search";
+import { parseQuery } from "../../utils/forms";
+import { RECORDS_PER_PAGE } from "../../constants/application";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -21,21 +24,16 @@ class Contacts extends React.Component {
     this.state = {
       data: [],
       pagination: {},
-      queryParams: { sort: "name:ASC", perPage: 1, currentPage: 1 },
+      queryParams: { sort: "name:ASC", perPage: RECORDS_PER_PAGE, currentPage: 1, filter: "" },
     };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.parseQuery = this.parseQuery.bind(this);
   }
 
-  parseQuery(toPage) {
-    const queryParams = getOr({}, "queryParams", this.state);
-    return toPage ? { ...queryParams, currentPage: toPage } : queryParams;
-  }
-
-  async handleGetAll(toPage) {
+  async handleGetAll(objQuery) {
     this.setState({ submitting: true });
-    const response = await contacts.getAll(this.parseQuery(toPage));
+    const queryParams = parseQuery(objQuery, this.state);
+    const response = await contacts.getAll(queryParams);
     this.setState({
       data: getOr([], "data.data.list", response),
       pagination: getOr({}, "data.data.pagination", response),
@@ -84,17 +82,7 @@ class Contacts extends React.Component {
       <ContainerCRUD title={t("title")} {...this.props}>
         <Table striped bordered hover responsive>
           <thead>
-            <tr>
-              <th colSpan="6" style={{ border: 0 }}>
-                <Form.Control
-                  name="search"
-                  type="search"
-                  placeholder="search here to filter results"
-                  onChange={(e) => console.log(e)}
-                  onBlur={(e) => console.log(e)}
-                />
-              </th>
-            </tr>
+            <Search onFilter={this.handleGetAll} />
             <tr>
               <th>{t("name")}</th>
               <th>{t("phone")}</th>
