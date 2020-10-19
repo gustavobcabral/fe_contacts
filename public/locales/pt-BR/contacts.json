@@ -1,5 +1,6 @@
 {
   "title": "Contatos",
+  "titleCrud": "Contato",
   "phone": "Telefone",
   "language": "Idioma",
   "date": "Data",
@@ -13,3 +14,4 @@
   "publisher":"Publicador",
   "name":"Nome"
 }
+

@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { Button, Modal } from "react-bootstrap";
-import { withTranslation } from "react-i18next";
+import React, { Component } from 'react'
+import { Button, Modal } from 'react-bootstrap'
+import { withTranslation } from 'react-i18next'
 
 class OurModal extends Component {
   constructor(props) {
-    super(props);
-    this.state = { modalShow: false };
+    super(props)
+    this.state = { modalShow: false }
   }
 
   setModalShow = (visibility) => {
-    this.setState({ modalShow: visibility });
-  };
+    this.setState({ modalShow: visibility })
+  }
 
-  onHide = () => this.setModalShow(false);
-  onShow = () => this.setModalShow(true);
+  onHide = () => this.setModalShow(false)
+  onShow = () => this.setModalShow(true)
 
   render() {
     const {
@@ -25,9 +25,9 @@ class OurModal extends Component {
       onExit,
       t,
       dialogClassName,
-    } = this.props;
-    const { modalShow } = this.state;
-    const Component = this.props.body;
+    } = this.props
+    const { modalShow } = this.state
+    const Component = this.props.body
     return (
       <>
         <Button variant={buttonVariant || "primary"} onClick={this.onShow}>
@@ -39,22 +39,22 @@ class OurModal extends Component {
           onHide={this.onHide}
           onEnter={onEnter}
           onExit={onExit}
-          size={size || "lg"}
+          size={size || 'lg'}
           centered
           dialogClassName={dialogClassName}
         >
           <Modal.Header closeButton>
-            <Modal.Title>{title || "Title"}</Modal.Title>
+            <Modal.Title>{title || 'Title'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Component {...this.props} onHide={this.onHide} />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.onHide}>{t("close")}</Button>
+            <Button onClick={this.onHide}>{t('close')}</Button>
           </Modal.Footer>
         </Modal>
       </>
-    );
+    )
   }
 }
-export default withTranslation(["common"])(OurModal);
+export default withTranslation(['common'])(OurModal)

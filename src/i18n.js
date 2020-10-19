@@ -12,6 +12,7 @@ i18n
   .init({
     lng,
     debug: false,
+    load: 'currentOnly',
     fallbackLng: "en-US",
     defaultNS: "common",
     ns: "common",

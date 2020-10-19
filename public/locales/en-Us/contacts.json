@@ -1,5 +1,6 @@
 {
   "title": "Contacts",
+  "titleCrud": "Contact",
   "phone": "Phone",
   "language": "Language",
   "date": "Date",
@@ -11,5 +12,9 @@
   "female": "Female",
   "undefinedGender": "Undefined",
   "publisher":"Publisher",
-  "name":"Name"
+  "name":"Name",
+  "available": "Available",
+  "bibleStudy": "Bible Study",
+  "returnVisit": "Return Visit",
+  "noVisit": "No Visit"
 }
