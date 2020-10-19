@@ -78,8 +78,8 @@ class Contacts extends React.Component {
                   <tr key={contact.phone}>
                     <td>{contact.name}</td>
                     <td>{contact.phone}</td>
-                    <td>{contact.languageName}</td>
-                    <td>{t(contact.statusDescription)}</td>
+                    <td>{t(`languages:${contact.languageName}`)}</td>
+                    <td>{t(`status:${contact.statusDescription}`)}</td>
                     <td>
                       <ListDetailsContact
                         contact={contact}
@@ -124,4 +124,5 @@ export default withTranslation([
   'common',
   'detailsContacts',
   'status',
+  'languages',
 ])(Contacts)
