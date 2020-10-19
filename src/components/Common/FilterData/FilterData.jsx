@@ -33,6 +33,7 @@ class FilterData extends React.Component {
     handleFilters({
       [name]: newValues,
     });
+    return ""
   }
 
   async getAllGenderOptions() {

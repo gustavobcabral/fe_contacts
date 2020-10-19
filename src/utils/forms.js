@@ -37,8 +37,8 @@ export const appendFilters = (newFilters, state) => {
   const filtersString = getOr("", "queryParams.filters", state);
   const filters = !isEmpty(filtersString)
     ? JSON.parse(filtersString)
-    : filtersString;
-
+    : {};
+console.log(filters, newFilters)
   return !isEmpty(newFilters)
     ? { filters: JSON.stringify({ ...filters, ...newFilters }) }
     : filters;

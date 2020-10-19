@@ -38,8 +38,11 @@ class Contacts extends React.Component {
   }
 
   async handleGetAll(objQuery) {
+    console.log("objQuery", objQuery);
     this.setState({ submitting: true });
     const queryParams = parseQuery(objQuery, this.state);
+    console.log("queryParams", queryParams);
+
     const response = await contacts.getAll(queryParams);
     this.setState({
       data: getOr([], "data.data.list", response),
@@ -103,7 +106,7 @@ class Contacts extends React.Component {
                   <th>{t("status")}</th>
                   <th>{t("details")}</th>
                   <th>
-                    <NewContact afterClose={this.handleGetAll} />
+                    <NewContact afterClose={() => this.handleGetAll()} />
                   </th>
                 </tr>
               </thead>
@@ -120,7 +123,7 @@ class Contacts extends React.Component {
                           <ListDetailsContact
                             contact={contact}
                             id={contact.phone}
-                            afterClose={this.handleGetAll}
+                            afterClose={() => this.handleGetAll()}
                           />{" "}
                           <Button
                             variant="success"
@@ -133,7 +136,7 @@ class Contacts extends React.Component {
                         <td>
                           <EditContact
                             id={contact.phone}
-                            afterClose={this.handleGetAll}
+                            afterClose={() => this.handleGetAll()}
                           />{" "}
                           <AskDelete
                             id={contact.phone}
