@@ -56,7 +56,7 @@ const SystemLanguages = (props) => {
   );
   return (
     <>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
+      <Button variant="primary" onClick={() => setModalShow(true)} style={{width: '50px'}}>
         <FontAwesomeIcon icon={faLanguage} />
       </Button>
 

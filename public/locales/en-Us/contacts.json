@@ -5,6 +5,7 @@
   "date": "Date",
   "status": "Status",
   "gender": "Gender",
+  "gendersTitleFilter": "Genders",
   "details": "Details",
   "male": "Male",
   "female": "Female",

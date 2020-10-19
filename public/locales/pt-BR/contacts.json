@@ -5,6 +5,7 @@
   "date": "Data",
   "status": "Status",
   "gender": "Gênero",
+  "gendersTitleFilter": "Gêneros",
   "details": "Detalhes",
   "male": "Masculino",
   "undefinedGender": "Indefinido",
