@@ -2,7 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../Common/OurModal/OurModal'
 import Swal from 'sweetalert2'
-import { getOr, map, pick, get } from 'lodash/fp'
+import { getOr, map, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import { contacts, publishers, status } from '../../services'
@@ -57,25 +57,18 @@ class EditContact extends React.Component {
     const response = await contacts.getOne(id)
     const form = getOr(fields, 'data.data', response)
     const publishersOptions = this.reducePublishers(await publishers.getAll())
+    const statusOptions = this.reduceStatus(await status.getAll())
 
     this.setState({
       form,
       publishersOptions,
+      statusOptions,
       loading: false,
     })
   }
 
-  async componentDidMount() {
-    this.setState({ loading: true })
+  onEnter() {
     this.handleGetOne()
-    const publishersOptions = this.reducePublishers(await publishers.getAll())
-    const statusOptions = this.reduceStatus(await status.getAll())
-
-    this.setState({
-      publishersOptions,
-      statusOptions,
-      loading: false,
-    })
   }
 
   handleInputChange(event) {
@@ -143,12 +136,14 @@ class EditContact extends React.Component {
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
+        onEnter={this.handleGetOne}
         form={form}
         onExit={afterClose}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
-        title={`${t('common:edit')} ${t('title')}`}
+        title={`${t('common:edit')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
+        buttonVariant="success"
       />
     )
   }

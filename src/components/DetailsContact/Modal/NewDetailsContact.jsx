@@ -49,12 +49,13 @@ class NewDetailsContact extends React.Component {
   async onOpen() {
     const { phone } = this.props
     const contact = await contacts.getOne(phone)
-    const form = getOr(fields, "data.data", contact)
-     const newForm = {
-       ...fields,
-       ...form,
-     }
+    const form = getOr(fields, 'data.data', contact)
+    const newForm = {
+      ...fields,
+      ...form,
+    }
     this.setState({ form: newForm })
+    console.log(newForm, 'MERDA NEW FORM')
   }
 
   async componentDidMount() {
@@ -93,6 +94,7 @@ class NewDetailsContact extends React.Component {
         idLanguage: get('idLanguage', form),
         gender: get('gender', form),
         phone: get('phone', contact),
+        name: get('name', form),
       },
     }
 
@@ -140,7 +142,7 @@ class NewDetailsContact extends React.Component {
         onExit={afterClose}
         onEnter={this.onOpen}
         publishersOptions={publishersOptions}
-        title={`${t('common:new')} ${t('title')}`}
+        title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     )

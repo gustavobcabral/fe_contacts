@@ -1,5 +1,6 @@
 {
   "title": "Contacts",
+  "titleCrud": "Contact",
   "phone": "Phone",
   "language": "Language",
   "date": "Date",

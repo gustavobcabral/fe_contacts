@@ -2,7 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../Common/OurModal/OurModal'
 import Swal from 'sweetalert2'
-import { getOr, map, pick, get } from 'lodash/fp'
+import { getOr, map, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import { contacts, publishers, status } from '../../services'
@@ -131,7 +131,7 @@ class NewContact extends React.Component {
         onExit={afterClose}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
-        title={`${t('common:new')} ${t('title')}`}
+        title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
     )

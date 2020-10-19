@@ -129,8 +129,9 @@ class EditDetailsContact extends React.Component {
         onEnter={this.handleGetOne}
         onExit={afterClose}
         publishersOptions={publishersOptions}
-        title={`${t('common:edit')} ${t('title')}`}
+        title={`${t('common:edit')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon variant="success"icon={faEdit} />}
+        buttonVariant="success"
       />
     )
   }
