@@ -7,16 +7,17 @@ import Swal from "sweetalert2";
 import { map, getOr, isEmpty } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faList } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faUserPlus, faList } from "@fortawesome/free-solid-svg-icons";
 import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 import { Link } from "react-router-dom";
 import NoRecords from "../Common/NoRecords/NoRecords";
-import NewContacts from "./NewContacts";
 import Pagination from "../Common/Pagination/Pagination";
 import Search from "../Common/Search/Search";
 import { parseQuery } from "../../utils/forms";
 import { RECORDS_PER_PAGE } from "../../constants/application";
 import FilterData from "../Common/FilterData/FilterData";
+import NewContact from "./NewContact";
+import EditContact from "./EditContact";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -39,16 +40,15 @@ class Contacts extends React.Component {
   async handleGetAll(objQuery) {
     this.setState({ submitting: true });
     const queryParams = parseQuery(objQuery, this.state);
-    // console.log(queryParams);
-    
     const response = await contacts.getAll(queryParams);
     this.setState({
       data: getOr([], "data.data.list", response),
       pagination: getOr({}, "data.data.pagination", response),
       submitting: false,
+      queryParams,
     });
   }
-  
+
   handleEdit(id) {
     console.log("i will get contact id " + id);
   }
@@ -103,10 +103,7 @@ class Contacts extends React.Component {
                   <th>{t("status")}</th>
                   <th>{t("details")}</th>
                   <th>
-                    {/* <Button variant="primary">
-                  <FontAwesomeIcon icon={faUserPlus} />
-                </Button> */}
-                    <NewContacts />
+                    <NewContact afterClose={this.handleGetAll} />
                   </th>
                 </tr>
               </thead>
@@ -134,12 +131,10 @@ class Contacts extends React.Component {
                           </Button>
                         </td>
                         <td>
-                          <Button
-                            variant="success"
-                            onClick={this.handleEdit.bind(this, contact.phone)}
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                          </Button>{" "}
+                          <EditContact
+                            id={contact.phone}
+                            afterClose={this.handleGetAll}
+                          />{" "}
                           <AskDelete
                             id={contact.phone}
                             funcToCallAfterConfirmation={this.handleDelete}
@@ -171,6 +166,9 @@ class Contacts extends React.Component {
   }
 }
 
-export default withTranslation(["contacts", "common", "detailsContacts"])(
-  Contacts
-);
+export default withTranslation([
+  "contacts",
+  "common",
+  "detailsContacts",
+  "status",
+])(Contacts);

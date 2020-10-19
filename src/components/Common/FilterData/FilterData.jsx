@@ -31,9 +31,7 @@ class FilterData extends React.Component {
       [name]: newValues,
     });
     handleFilters({
-      filters: JSON.stringify({
-        [name]: newValues,
-      }),
+      [name]: newValues,
     });
   }
 

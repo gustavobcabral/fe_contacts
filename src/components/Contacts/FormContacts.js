@@ -23,7 +23,7 @@ const FormDetails = (props) => {
       <Row>
         <Col>
           <SuperFormControl
-            type="text"
+            type="number"
             name="phone"
             label={t("contacts:phone")}
             validator={validator}

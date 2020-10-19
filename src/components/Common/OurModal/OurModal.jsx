@@ -18,6 +18,7 @@ class OurModal extends Component {
   render() {
     const {
       buttonText,
+      buttonVariant,
       title,
       size,
       onEnter,
@@ -29,7 +30,7 @@ class OurModal extends Component {
     const Component = this.props.body;
     return (
       <>
-        <Button variant="primary" onClick={this.onShow}>
+        <Button variant={buttonVariant || "primary"} onClick={this.onShow}>
           {buttonText || t("open")}
         </Button>
 

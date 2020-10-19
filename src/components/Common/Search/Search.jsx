@@ -9,7 +9,7 @@ const Search = (props) => {
   const sendSearch = (event) => {
     if (event.key === "Enter") {
       const value = getOr("", "target.value", event);
-      onFilter({ filters: JSON.stringify({ name: value, phone: value }) });
+      onFilter({ name: value, phone: value });
     }
   };
 
@@ -23,10 +23,8 @@ const Search = (props) => {
           onKeyPress={sendSearch}
           onBlur={(e) =>
             onFilter({
-              filters: JSON.stringify({
-                name: getOr("", "target.value", e),
-                phone: getOr("", "target.value", e),
-              }),
+              name: getOr("", "target.value", e),
+              phone: getOr("", "target.value", e),
             })
           }
         />

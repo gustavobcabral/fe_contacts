@@ -49,10 +49,11 @@ class NewDetailsContact extends React.Component {
   async onOpen() {
     const { phone } = this.props
     const contact = await contacts.getOne(phone)
-    const newForm = {
-      ...fields,
-      ...contact,
-    }
+    const form = getOr(fields, "data.data", contact)
+     const newForm = {
+       ...fields,
+       ...form,
+     }
     this.setState({ form: newForm })
   }
 
@@ -127,7 +128,6 @@ class NewDetailsContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions } = this.state
-    console.log(form, "MERDA")
     const { t, afterClose } = this.props
     return (
       <OurModal
