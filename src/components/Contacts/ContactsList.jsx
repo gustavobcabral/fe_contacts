@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { map, getOr, isEmpty } from "lodash/fp";
 import AskDelete from "../Common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faUserPlus, faList } from "@fortawesome/free-solid-svg-icons";
+import { faList } from "@fortawesome/free-solid-svg-icons";
 import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
 import { Link } from "react-router-dom";
 import NoRecords from "../Common/NoRecords/NoRecords";
