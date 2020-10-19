@@ -59,6 +59,7 @@ const FormDetails = (props) => {
             validated={validated}
             value={form.idLanguage}
             onChange={handleInputChange}
+            rules="required"
           />
         </Col>
         <Col>

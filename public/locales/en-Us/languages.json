@@ -8,5 +8,6 @@
   "english": "English",
   "spanish": "Spanish",
   "germany": "Germany",
-  "portuguese": "Portuguese"
+  "portuguese": "Portuguese",
+  "unknown":"Unknown"
 }

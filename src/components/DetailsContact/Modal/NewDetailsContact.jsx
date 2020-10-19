@@ -55,8 +55,7 @@ class NewDetailsContact extends React.Component {
       ...form,
     }
     this.setState({ form: newForm })
-    console.log(newForm, 'MERDA NEW FORM')
-  }
+    }
 
   async componentDidMount() {
     this.setState({ loading: true })

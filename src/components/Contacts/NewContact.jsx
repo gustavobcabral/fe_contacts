@@ -15,7 +15,7 @@ const fields = {
   name: '',
   gender: '',
   idStatus: '',
-  idLanguage: null,
+  idLanguage: '5',
 }
 
 class NewContact extends React.Component {

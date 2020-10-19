@@ -28,10 +28,6 @@ class Contacts extends React.Component {
     this.setState({ data: response.data.data.list, submitting: false })
   }
 
-  handleEdit(id) {
-    console.log('i will get contact id ' + id)
-  }
-
   async handleDelete(id) {
     const { t } = this.props
     this.setState({ submitting: true })
