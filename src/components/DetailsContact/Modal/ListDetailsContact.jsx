@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { details } from '../../../services'
-import { getOr } from 'lodash/fp'
+import { getOr, isEmpty } from 'lodash/fp'
 import Swal from 'sweetalert2'
 import OurModal from '../../Common/OurModal/OurModal'
 import ListDataDetailsContact from './ListDataDetailsContact'
@@ -48,6 +48,10 @@ class ListDetailsContact extends React.Component {
 
   setModalShow = (action) => this.setState({ modalShow: action })
 
+  getNameForTitle() {
+    const { contact } = this.props
+    return !isEmpty(contact.name) ? `- ${contact.name}` : ''
+  }
 
   render() {
     const { t, contact, afterClose } = this.props
@@ -57,7 +61,7 @@ class ListDetailsContact extends React.Component {
         body={ListDataDetailsContact}
         contact={contact}
         data={data}
-        title={`${t('title')} # ${contact.name} - ${contact.phone}`}
+        title={`${t('title')} # ${contact.phone} ${this.getNameForTitle()}`}
         buttonText={<FontAwesomeIcon icon={faEye} />}
         afterClose={this.handleGetAllOneContact}
         onExit={afterClose}

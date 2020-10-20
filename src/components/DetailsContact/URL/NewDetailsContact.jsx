@@ -103,6 +103,8 @@ class NewDetailsContact extends React.Component {
       Swal.fire({
         title: t('common:dataSuccessfullySaved'),
         icon: 'success',
+        timer: 2000,
+        timerProgressBar: true,
       })
     } catch (error) {
       this.setState({ submitting: false })
