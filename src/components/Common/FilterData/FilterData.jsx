@@ -14,6 +14,8 @@ class FilterData extends React.Component {
       checksGender: [],
       languages: [],
       checksLanguages: [],
+      status: [],
+      checksStatus: [],
     };
     this.getAllFilters = this.getAllFilters.bind(this);
   }
@@ -43,6 +45,7 @@ class FilterData extends React.Component {
     this.setState({
       checksGender: getOr([], "data.data.genders", response),
       checksLanguages: getOr([], "data.data.languages", response),
+      checksStatus: getOr([], "data.data.status", response),
       loading: false,
     });
   }
@@ -52,7 +55,7 @@ class FilterData extends React.Component {
   }
 
   render() {
-    const { checksGender, checksLanguages } = this.state;
+    const { checksGender, checksLanguages, checksStatus } = this.state;
     const { t } = this.props;
     return (
       <Form>
@@ -83,7 +86,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         </Row>
-        <Row>
+        <Row className="mt-4">
           <Col>
             <Card style={{ width: "18rem" }}>
               <Card.Body>
@@ -100,6 +103,28 @@ class FilterData extends React.Component {
                     />
                   ),
                   checksLanguages
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <Card style={{ width: "18rem" }}>
+              <Card.Body>
+                <Card.Title>{t("statusTitleFilter")}</Card.Title>
+                {map(
+                  (data) => (
+                    <Form.Check
+                      key={data.idStatus}
+                      type="checkbox"
+                      name="status"
+                      label={t(`status:${data.statusDescription}`)}
+                      value={data.idStatus}
+                      onClick={this.handleOnClick}
+                    />
+                  ),
+                  checksStatus
                 )}
               </Card.Body>
             </Card>

@@ -8,6 +8,7 @@
   "gender": "Gender",
   "gendersTitleFilter": "Genders",
   "languagesTitleFilter": "Languages",
+  "statusTitleFilter" : "Status",
   "details": "Details",
   "male": "Male",
   "female": "Female",
