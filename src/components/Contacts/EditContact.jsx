@@ -149,4 +149,4 @@ class EditContact extends React.Component {
   }
 }
 
-export default withTranslation(['Contacts', 'common'])(EditContact)
+export default withTranslation(['contacts', 'common'])(EditContact)

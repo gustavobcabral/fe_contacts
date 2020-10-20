@@ -2,7 +2,7 @@ import api from "../api";
 import { toQueryString } from "../../utils/forms";
 
 const getAll = (params) => api.get(`/contacts${toQueryString(params)}`);
-const getByGender = () => api.get(`/contacts/byGender`);
+const getAllFilters = () => api.get(`/contacts/filters`);
 const getOne = (id) => api.get(`/contacts/${id}`);
 const getSummary = () => api.get("/contacts/summary");
 
@@ -19,5 +19,5 @@ export default {
   updateContact,
   dellOne,
   getSummary,
-  getByGender,
+  getAllFilters,
 };

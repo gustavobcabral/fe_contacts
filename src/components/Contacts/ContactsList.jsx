@@ -30,7 +30,12 @@ class Contacts extends React.Component {
         sort: "name:ASC",
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
-        filters: "",
+        filters: JSON.stringify({
+          name: "",
+          phone: "",
+          genders: [],
+          languages: [],
+        }),
       },
     };
     this.handleGetAll = this.handleGetAll.bind(this);
@@ -38,11 +43,8 @@ class Contacts extends React.Component {
   }
 
   async handleGetAll(objQuery) {
-    console.log("objQuery", objQuery);
     this.setState({ submitting: true });
     const queryParams = parseQuery(objQuery, this.state);
-    console.log("queryParams", queryParams);
-
     const response = await contacts.getAll(queryParams);
     this.setState({
       data: getOr([], "data.data.list", response),
@@ -50,10 +52,6 @@ class Contacts extends React.Component {
       submitting: false,
       queryParams,
     });
-  }
-
-  handleEdit(id) {
-    console.log("i will get contact id " + id);
   }
 
   async handleDelete(id) {
