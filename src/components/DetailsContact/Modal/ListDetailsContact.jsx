@@ -52,10 +52,11 @@ class ListDetailsContact extends React.Component {
     const { contact } = this.props
     return !isEmpty(contact.name) ? `- ${contact.name}` : ''
   }
-
+  
   render() {
     const { t, contact, afterClose } = this.props
     const { data } = this.state
+
     return (
       <OurModal
         body={ListDataDetailsContact}
