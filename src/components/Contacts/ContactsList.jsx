@@ -102,7 +102,7 @@ class Contacts extends React.Component {
           <Col xs={12} lg={10}>
             <Table striped bordered hover responsive>
               <thead>
-                <Search onFilter={this.handleGetAll} />
+                <Search onFilter={this.handleGetAll} fields={['name', 'phone']} />
                 <tr>
                   <th>{t("name")}</th>
                   <th>{t("phone")}</th>

@@ -1,18 +1,27 @@
 import React from "react";
 import { Form, InputGroup } from "react-bootstrap";
-import { getOr } from "lodash/fp";
+import { getOr, reduce } from "lodash/fp";
 import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Search = (props) => {
-  const { onFilter, t, name, colspan } = props;
+  const { onFilter, t, name, colspan, fields } = props;
 
   const sendSearch = (event) => {
     if (event.key === "Enter") {
-      const value = getOr("", "target.value", event);
-      onFilter({ name: value, phone: value });
+      toSearch(event);
     }
+  };
+
+  const toSearch = (event) => {
+    const value = getOr("", "target.value", event);
+    const newValues = reduce(
+      (result, current) => ({ ...result, [current]: value }),
+      {},
+      fields
+    );
+    onFilter(newValues);
   };
 
   return (
@@ -30,12 +39,7 @@ const Search = (props) => {
               type="text"
               placeholder={t("placeHolder")}
               onKeyPress={sendSearch}
-              onBlur={(e) =>
-                onFilter({
-                  name: getOr("", "target.value", e),
-                  phone: getOr("", "target.value", e),
-                })
-              }
+              onBlur={toSearch}
             />
           </InputGroup>
         </th>
