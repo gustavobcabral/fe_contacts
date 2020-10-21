@@ -93,7 +93,10 @@ class Contacts extends React.Component {
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
           <Col xs={12} lg={2}>
-            <FilterData handleFilters={this.handleGetAll} refresh={submitting} />
+            <FilterData
+              handleFilters={this.handleGetAll}
+              refresh={submitting}
+            />
           </Col>
           <Col xs={12} lg={10}>
             <Table striped bordered hover responsive>
@@ -117,8 +120,8 @@ class Contacts extends React.Component {
                       <tr key={contact.phone}>
                         <td>{contact.name}</td>
                         <td>{contact.phone}</td>
-                        <td>{contact.languageName}</td>
-                        <td>{contact.statusDescription}</td>
+                        <td>{t(`languages:${contact.languageName}`)}</td>
+                        <td>{t(`status:${contact.statusDescription}`)}</td>
                         <td>
                           <ListDetailsContact
                             contact={contact}

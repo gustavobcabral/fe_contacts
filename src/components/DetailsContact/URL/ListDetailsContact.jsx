@@ -27,7 +27,7 @@ class ListDetailsContact extends React.Component {
   async handleGetAllOneContact() {
     const phone = getOr(0, 'props.match.params.phone', this)
     this.setState({ submitting: true })
-    const data = getOr([], 'data.data', await details.getAllOneContact(phone))
+    const data = getOr([], 'data.data', await details.getAllOneContact(phone, null))
     const { name } = first(data) || { name: '' }
     this.setState({ data, name, submitting: false })
   }
