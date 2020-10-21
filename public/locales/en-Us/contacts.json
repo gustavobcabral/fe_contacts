@@ -6,17 +6,10 @@
   "date": "Date",
   "status": "Status",
   "gender": "Gender",
-  "gendersTitleFilter": "Genders",
-  "languagesTitleFilter": "Languages",
-  "statusTitleFilter" : "Status",
   "details": "Details",
   "male": "Male",
   "female": "Female",
   "undefinedGender": "Undefined",
-  "publisher":"Publisher",
-  "name":"Name",
-  "available": "Available",
-  "bibleStudy": "Bible Study",
-  "returnVisit": "Return Visit",
-  "noVisit": "No Visit"
+  "publisher": "Publisher",
+  "name": "Name"
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { Form, Card, Row, Col } from "react-bootstrap";
 import { pipe, uniq, compact, remove, getOr, map } from "lodash/fp";
-import { contacts } from "../../../services/";
+
 class FilterData extends React.Component {
   constructor(props) {
     super(props);
@@ -40,8 +40,8 @@ class FilterData extends React.Component {
 
   async getAllFilters() {
     this.setState({ loading: true });
-
-    const response = await contacts.getAllFilters();
+    const { getFilters } = this.props;
+    const response = await getFilters();
     this.setState({
       checksGender: getOr([], "data.data.genders", response),
       checksLanguages: getOr([], "data.data.languages", response),
@@ -82,7 +82,7 @@ class FilterData extends React.Component {
                       key={data.gender}
                       type="checkbox"
                       name="genders"
-                      label={t(data.gender)}
+                      label={t(`contacts:${data.gender}`)}
                       value={data.gender}
                       onClick={this.handleOnClick}
                     />
@@ -142,4 +142,9 @@ class FilterData extends React.Component {
   }
 }
 
-export default withTranslation(["contacts", "languages"])(FilterData);
+export default withTranslation([
+  "filterData",
+  "languages",
+  "status",
+  "contacts",
+])(FilterData);

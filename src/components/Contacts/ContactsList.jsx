@@ -96,6 +96,7 @@ class Contacts extends React.Component {
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
+              getFilters={contacts.getAllFilters}
             />
           </Col>
           <Col xs={12} lg={10}>
