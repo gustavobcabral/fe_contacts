@@ -1,10 +1,14 @@
 {
   "title": "Contatos",
+  "titleCrud": "Contato",
   "phone": "Telefone",
   "language": "Idioma",
   "date": "Data",
-  "status": "Status",
+  "status": "Estado",
   "gender": "Gênero",
+  "gendersTitleFilter": "Gêneros",
+  "languagesTitleFilter": "Idiomas",
+  "statusTitleFilter" : "Estado",
   "details": "Detalhes",
   "male": "Masculino",
   "undefinedGender": "Indefinido",
@@ -12,3 +16,4 @@
   "publisher":"Publicador",
   "name":"Nome"
 }
+

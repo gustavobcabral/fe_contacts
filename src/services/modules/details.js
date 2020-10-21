@@ -1,6 +1,6 @@
 import api from "../api";
 
-const getAllOneContact = (id) => api.get(`/detailsContacts/oneContact/${id}`);
+const getAllOneContact = (id, limit = 5) => api.get(`/detailsContacts/oneContact/${id}?limit=${limit}`);
 
 const updateOneContactDetail = (id, data) =>
   api.put(`/detailsContacts/${id}`, data);

@@ -70,7 +70,7 @@ class StatusList extends React.Component {
               map(
                 (status) => (
                   <tr key={status.id}>
-                    <td>{status.description}</td>
+                    <td>{(status.description)}</td>
                     <td>{t(status.description)}</td>
                     <td>
                       <StatusEdit
