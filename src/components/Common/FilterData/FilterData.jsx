@@ -54,10 +54,11 @@ class FilterData extends React.Component {
     this.getAllFilters();
   }
 
-  componentDidUpdate() {
-    const { refresh } = this.props;
+  componentDidUpdate(prevProps) {
     const { loading } = this.state;
-    if (refresh && !loading) this.getAllFilters();
+    const { refresh } = this.props;
+    const { prevRefresh } = prevProps;
+    if (refresh && !prevRefresh && !loading) this.getAllFilters();
   }
 
   render() {

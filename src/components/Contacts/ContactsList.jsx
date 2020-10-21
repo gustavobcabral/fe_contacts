@@ -176,5 +176,6 @@ export default withTranslation([
   "contacts",
   "common",
   "detailsContacts",
+  "languages",
   "status",
 ])(Contacts);
