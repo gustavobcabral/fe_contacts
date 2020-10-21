@@ -1,7 +1,7 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { Form, Card, Row, Col } from "react-bootstrap";
-import { pipe, uniq, compact, remove, getOr, map } from "lodash/fp";
+import { pipe, uniq, compact, remove, getOr, map, isEmpty } from "lodash/fp";
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -71,72 +71,78 @@ class FilterData extends React.Component {
             <h3>Filters</h3>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Body>
-                <Card.Title>{t("gendersTitleFilter")}</Card.Title>
-                {map(
-                  (data) => (
-                    <Form.Check
-                      key={data.gender}
-                      type="checkbox"
-                      name="genders"
-                      label={t(`contacts:${data.gender}`)}
-                      value={data.gender}
-                      onClick={this.handleOnClick}
-                    />
-                  ),
-                  checksGender
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Body>
-                <Card.Title>{t("languagesTitleFilter")}</Card.Title>
-                {map(
-                  (data) => (
-                    <Form.Check
-                      key={data.idLanguage}
-                      type="checkbox"
-                      name="languages"
-                      label={t(`languages:${data.languageName}`)}
-                      value={data.idLanguage}
-                      onClick={this.handleOnClick}
-                    />
-                  ),
-                  checksLanguages
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Body>
-                <Card.Title>{t("statusTitleFilter")}</Card.Title>
-                {map(
-                  (data) => (
-                    <Form.Check
-                      key={data.idStatus}
-                      type="checkbox"
-                      name="status"
-                      label={t(`status:${data.statusDescription}`)}
-                      value={data.idStatus}
-                      onClick={this.handleOnClick}
-                    />
-                  ),
-                  checksStatus
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        {!isEmpty(checksGender) && (
+          <Row>
+            <Col>
+              <Card style={{ width: "18rem" }}>
+                <Card.Body>
+                  <Card.Title>{t("gendersTitleFilter")}</Card.Title>
+                  {map(
+                    (data) => (
+                      <Form.Check
+                        key={data.gender}
+                        type="checkbox"
+                        name="genders"
+                        label={t(`contacts:${data.gender}`)}
+                        value={data.gender}
+                        onClick={this.handleOnClick}
+                      />
+                    ),
+                    checksGender
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        )}
+        {!isEmpty(checksLanguages) && (
+          <Row className="mt-4">
+            <Col>
+              <Card style={{ width: "18rem" }}>
+                <Card.Body>
+                  <Card.Title>{t("languagesTitleFilter")}</Card.Title>
+                  {map(
+                    (data) => (
+                      <Form.Check
+                        key={data.idLanguage}
+                        type="checkbox"
+                        name="languages"
+                        label={t(`languages:${data.languageName}`)}
+                        value={data.idLanguage}
+                        onClick={this.handleOnClick}
+                      />
+                    ),
+                    checksLanguages
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        )}
+        {!isEmpty(checksStatus) && (
+          <Row className="mt-4">
+            <Col>
+              <Card style={{ width: "18rem" }}>
+                <Card.Body>
+                  <Card.Title>{t("statusTitleFilter")}</Card.Title>
+                  {map(
+                    (data) => (
+                      <Form.Check
+                        key={data.idStatus}
+                        type="checkbox"
+                        name="status"
+                        label={t(`status:${data.statusDescription}`)}
+                        value={data.idStatus}
+                        onClick={this.handleOnClick}
+                      />
+                    ),
+                    checksStatus
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        )}
       </Form>
     );
   }
