@@ -1,6 +1,6 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import { Form, Card, Row, Col } from "react-bootstrap";
+import { Form, Card, Col } from "react-bootstrap";
 import { pipe, uniq, compact, remove, getOr, map, isEmpty } from "lodash/fp";
 
 class FilterData extends React.Component {
