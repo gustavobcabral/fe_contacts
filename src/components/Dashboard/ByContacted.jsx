@@ -13,14 +13,14 @@ const getByContacted = (t, data) => {
 
   return [
     {
-      title: t("contacted"),
+      label: t("contacted"),
+      title: `${getOr(0, "totalPercentContacted", data)}% ${t("contacted")}`,
       value: getOr(0, "totalPercentContacted", data),
-      label: `${getOr(0, "totalPercentContacted", data)}% ${t("contacted")}`,
       color: "#28a745",
     },
     {
-      title: t("withoutContact"),
-      label: `${getOr(0, "totalPercentWithoutContacted", data)}% ${t(
+      label: t("withoutContact"),
+      title: `${getOr(0, "totalPercentWithoutContacted", data)}% ${t(
         "withoutContact"
       )}`,
       value: getOr(0, "totalPercentWithoutContacted", data),

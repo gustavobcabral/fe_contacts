@@ -2,7 +2,7 @@ import SimpleReactValidator from "simple-react-validator";
 
 // Brazilian Portuguesse
 SimpleReactValidator.addLocale("pt-BR", {
-  accepted: "Este campo devem ser aceito.",
+  accepted: "Este campo deve ser aceito.",
   after: "Este campo deve ser depois de :date.",
   after_or_equal: "Este campo deve ser depois ou igual à :date.",
   alpha: "Este campo deve conter apenas letras.",
@@ -26,7 +26,7 @@ SimpleReactValidator.addLocale("pt-BR", {
   in: "Este campo deve ser :values.",
   integer: "Este campo deve ser um valor inteiro.",
   max: "Este campo não deve ser maior que :max:type.",
-  min: "Este campo deve ser ao menos :min:type.",
+  min: "Este campo deve ter ao menos :min:type.",
   not_in: "Este campo não deve ser :values.",
   not_regex: "Este campo não é válido.",
   numeric: "Este campo deve ser um número.",
@@ -36,5 +36,5 @@ SimpleReactValidator.addLocale("pt-BR", {
   size: "Este campo deve ser :size:type.",
   string: "Este campo deve ser um conjunto de caracteres.",
   typeof: "Este campo deve ser do tipo :type.",
-  url: "Este campo deve ser uma url.",
+  url: "Este campo deve ser uma URL válida.",
 });

@@ -6,9 +6,9 @@ import { get, isEmpty, find, getOr, pipe, curry, filter } from "lodash/fp";
 
 const getByGender = (t, data) => {
   const parseObject = (label, color, data) => ({
-    title: `${getOr(0, "percent", data)}% ${t(`contacts:${label}`)}`,
+    label: `${t(`contacts:${label}`)}`,
     value: getOr(0, "percent", data),
-    label: `${getOr(0, "percent", data)}% ${t(`contacts:${label}`)}`,
+    title: `${getOr(0, "percent", data)}% ${t(`contacts:${label}`)}`,
     color,
   });
 

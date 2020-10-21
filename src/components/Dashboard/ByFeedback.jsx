@@ -13,9 +13,9 @@ const getByFeedback = (t, data) => {
 
   return [
     {
-      title: t("totalContactsAssignByMeWaitingFeedback"),
+      label: t("totalContactsAssignByMeWaitingFeedback"),
       value: getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data),
-      label: `${getOr(
+      title: `${getOr(
         0,
         "totalPercentContactsAssignByMeWaitingFeedback",
         data
@@ -23,8 +23,8 @@ const getByFeedback = (t, data) => {
       color: "#007bff",
     },
     {
-      title: t("totalContactsWaitingFeedback"),
-      label: `${getOr(
+      label: t("totalContactsWaitingFeedback"),
+      title: `${getOr(
         0,
         "totalPercentContactsAssignByOthersWaitingFeedback",
         data

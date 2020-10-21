@@ -86,6 +86,11 @@ class Contacts extends React.Component {
     this.handleGetAll()
   }
 
+  setGenderValue(data) {
+    return isEmpty(data) ? 'undefinedGender' : data
+  }
+
+
   render() {
     const { t } = this.props
     const { data, pagination, submitting } = this.state
@@ -122,7 +127,7 @@ class Contacts extends React.Component {
                       <tr key={contact.phone}>
                         <td>{contact.name}</td>
                         <td>{contact.phone}</td>
-                        <td>{t(`contacts:${contact.gender}`)}</td>
+                        <td>{t(`contacts:${this.setGenderValue(contact.gender)}`)}</td>
                         <td>{t(`languages:${contact.languageName}`)}</td>
                         <td>{t(`status:${contact.statusDescription}`)}</td>
                         <td>
