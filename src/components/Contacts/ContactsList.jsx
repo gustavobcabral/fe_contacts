@@ -25,6 +25,7 @@ class Contacts extends React.Component {
 
     this.state = {
       data: [],
+      submitting: false,
       pagination: {},
       queryParams: {
         sort: "name:ASC",
@@ -35,6 +36,7 @@ class Contacts extends React.Component {
           phone: "",
           genders: [],
           languages: [],
+          status: [],
         }),
       },
     };
@@ -86,12 +88,12 @@ class Contacts extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { data, pagination } = this.state;
+    const { data, pagination, submitting } = this.state;
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
           <Col xs={12} lg={2}>
-            <FilterData handleFilters={this.handleGetAll} />
+            <FilterData handleFilters={this.handleGetAll} refresh={submitting} />
           </Col>
           <Col xs={12} lg={10}>
             <Table striped bordered hover responsive>

@@ -35,7 +35,7 @@ class FilterData extends React.Component {
     handleFilters({
       [name]: newValues,
     });
-    return ""
+    return "";
   }
 
   async getAllFilters() {
@@ -52,6 +52,12 @@ class FilterData extends React.Component {
 
   componentDidMount() {
     this.getAllFilters();
+  }
+
+  componentDidUpdate() {
+    const { refresh } = this.props;
+    const { loading } = this.state;
+    if (refresh && !loading) this.getAllFilters();
   }
 
   render() {
@@ -135,6 +141,4 @@ class FilterData extends React.Component {
   }
 }
 
-export default withTranslation(["contacts", "languages"])(
-  FilterData
-);
+export default withTranslation(["contacts", "languages"])(FilterData);
