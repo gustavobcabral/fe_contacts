@@ -1,16 +1,19 @@
-import api from "../api";
-import { toQueryString } from "../../utils/forms";
+import api from '../api'
+import { toQueryString } from '../../utils/forms'
 
-const getAll = (params) => api.get(`/contacts${toQueryString(params)}`);
-const getAllFilters = () => api.get(`/contacts/filters`);
-const getOne = (id) => api.get(`/contacts/${id}`);
-const getSummary = () => api.get("/contacts/summary");
+const getAll = (params) => api.get(`/contacts${toQueryString(params)}`)
 
-const updateContact = (id, data) => api.put(`/contacts/${id}`, data);
+const getAllFilters = () => api.get(`/contacts/filters`)
 
-const create = (data) => api.post("/contacts", data);
+const getOne = (id) => api.get(`/contacts/${id}`)
 
-const dellOne = (id) => api.delete(`/contacts/${id}`);
+const getSummary = () => api.get('/contacts/summary')
+
+const updateContact = (id, data) => api.put(`/contacts/${id}`, data)
+
+const create = (data) => api.post('/contacts', data)
+
+const dellOne = (id) => api.delete(`/contacts/${id}`)
 
 export default {
   getAll,
@@ -20,4 +23,4 @@ export default {
   dellOne,
   getSummary,
   getAllFilters,
-};
+}
