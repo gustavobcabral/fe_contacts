@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { Table } from 'react-bootstrap'
-import { map, isEmpty } from 'lodash/fp'
+import { map, isEmpty, truncate } from 'lodash/fp'
 import moment from 'moment'
 import NewDetailsContact from './NewDetailsContact'
 import EditDetailsContact from './EditDetailsContact'
@@ -40,7 +40,7 @@ class ListDataDetailsContact extends React.Component {
                 <tr key={detail.id}>
                   <td>{detail.publisherName}</td>
                   <td>{moment(detail.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-                  <td>{detail.information}</td>
+                  <td>{truncate({ length: 45 }, detail.information)}</td>
                   <td style={{ width: '114px' }}>
                     <EditDetailsContact
                       data={detail}

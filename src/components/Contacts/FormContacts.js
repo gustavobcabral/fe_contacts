@@ -29,7 +29,7 @@ const FormDetails = (props) => {
             validated={validated}
             value={form.phone}
             onChange={handleInputChange}
-            rules="required"
+            rules="required|min:10"
           />
         </Col>
         <Col>
