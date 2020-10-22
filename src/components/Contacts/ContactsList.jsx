@@ -126,6 +126,7 @@ class Contacts extends React.Component {
                 <Search
                   onFilter={this.handleGetAll}
                   fields={["name", "phone"]}
+                  colspan={"8"}
                 />
                 <tr>
                   <th>
@@ -155,13 +156,11 @@ class Contacts extends React.Component {
                       <tr key={contact.phone}>
                         <td>
                           <Form.Check
-                            //key={data.gender}
                             type="checkbox"
                             name="checksContactsPhones"
-                            // label={t(`contacts:${data.gender}`)}
+                            label={t(`contacts:checkAll`)}
                             value={contact.phone}
                             onClick={this.handleOnClick}
-                            //enableButton={checked.length>0}
                           />
                         </td>
                         <td>{contact.name}</td>
