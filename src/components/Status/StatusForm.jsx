@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import SuperFormControl from "../Common/SuperFormControl/SuperFormControl";
+import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
 
 const StatusForm = (props) => {
   const { t } = useTranslation(["status", "common"]);

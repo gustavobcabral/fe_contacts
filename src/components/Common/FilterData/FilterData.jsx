@@ -18,7 +18,6 @@ class FilterData extends React.Component {
       checksStatus: [],
     };
     this.getAllFilters = this.getAllFilters.bind(this);
-    this.setGenderLabel = this.setGenderLabel.bind(this);
   }
 
   handleOnClick(event) {
@@ -62,16 +61,6 @@ class FilterData extends React.Component {
     if (refresh && !prevRefresh && !loading) this.getAllFilters();
   }
 
-  setGenderLabel(data) {
-    const { t } = this.props;
-    const gender = isEmpty(data) ? "undefinedGender" : data;
-    return t(`contacts:${gender}`);
-  }
-
-  setGenderValue(data) {
-    return isEmpty(data) ? "undefinedGender" : data;
-  }
-
   render() {
     const { checksGender, checksLanguages, checksStatus } = this.state;
     const { t } = this.props;
@@ -91,8 +80,8 @@ class FilterData extends React.Component {
                       key={data.gender}
                       type="checkbox"
                       name="genders"
-                      label={this.setGenderLabel(data.gender)}
-                      value={this.setGenderValue(data.gender)}
+                      label={t(`contacts:${data.gender}`)}
+                      value={data.gender}
                       onClick={this.handleOnClick}
                     />
                   ),

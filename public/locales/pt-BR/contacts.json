@@ -8,8 +8,8 @@
   "gender": "Gênero",
   "details": "Detalhes",
   "male": "Masculino",
-  "undefinedGender": "Indefinido",
   "female": "Feminino",
+  "unknown": "Desconhecido",
   "publisher":"Publicador",
   "name":"Nome"
 }

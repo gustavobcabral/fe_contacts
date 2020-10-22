@@ -13,8 +13,8 @@ const getByGender = (t, data) => {
   });
 
   const objectGenderUndefined = pipe(
-    find((object) => isEmpty(object.gender)),
-    curry(parseObject)("undefinedGender", "#6c757d")
+    find((object) => object.gender === "unknown"),
+    curry(parseObject)("unknown", "#6c757d")
   )(getOr({}, "totalContactsByGenderContacted", data));
 
   const objectGenderFemale = pipe(

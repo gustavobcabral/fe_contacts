@@ -1,18 +1,18 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { get } from "lodash/fp";
-import { getUserData, hasToken, isAtLeastSM } from "../../utils/loginDataManager";
-import logo from "../../assets/images/logo.png";
+import { getUserData, hasToken, isAtLeastSM } from "../../../utils/loginDataManager";
+import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import Login from "../Login/Login";
-import Logout from "../Logout/Logout";
-import SystemLanguages from "../SystemLanguages/SystemLanguages";
+import Login from "../../Login/Login";
+import Logout from "../../Logout/Logout";
+import SystemLanguages from "../../SystemLanguages/SystemLanguages";
 import {
   contactsPaths,
   publishersPaths,
   statusPaths,
-} from "../../routes/paths";
+} from "../../../routes/paths";
 
 const MenuLogged = ({ t, ...props }) => (
   <>

@@ -1,82 +1,86 @@
-import React from 'react'
-import { withTranslation } from 'react-i18next'
-import ContainerCRUD from '../../../components/ContainerCRUD/ContainerCRUD'
-import moment from 'moment'
-import { details } from '../../../services'
-import { getOr, map, first, isEmpty } from 'lodash/fp'
-import { Button, Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import AskDelete from '../../Common/AskDelete/AskDelete'
-import NoRecords from '../../Common/NoRecords/NoRecords'
-import { faPlusSquare, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react";
+import { withTranslation } from "react-i18next";
+import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
+import moment from "moment";
+import { details } from "../../../services";
+import { getOr, map, first, isEmpty } from "lodash/fp";
+import { Button, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import AskDelete from "../../common/AskDelete/AskDelete";
+import NoRecords from "../../common/NoRecords/NoRecords";
+import { faPlusSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       data: [],
-      name: '',
-      phone: getOr(0, 'match.params.phone', props),
-    }
-    this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
+      name: "",
+      phone: getOr(0, "match.params.phone", props),
+    };
+    this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   async handleGetAllOneContact() {
-    const phone = getOr(0, 'props.match.params.phone', this)
-    this.setState({ submitting: true })
-    const data = getOr([], 'data.data', await details.getAllOneContact(phone, null))
-    const { name } = first(data) || { name: '' }
-    this.setState({ data, name, submitting: false })
+    const phone = getOr(0, "props.match.params.phone", this);
+    this.setState({ submitting: true });
+    const data = getOr(
+      [],
+      "data.data",
+      await details.getAllOneContact(phone, null)
+    );
+    const { name } = first(data) || { name: "" };
+    this.setState({ data, name, submitting: false });
   }
   async handleDelete(id) {
-    const t = this.props
-    this.setState({ submitting: true })
+    const t = this.props;
+    this.setState({ submitting: true });
     await details
       .dellOne(id)
       .then(() => {
-        this.handleGetAllOneContact()
-        this.setState({ submitting: false })
+        this.handleGetAllOneContact();
+        this.setState({ submitting: false });
       })
       .catch((error) => {
-        this.setState({ submitting: false })
+        this.setState({ submitting: false });
         Swal.fire({
-          icon: 'error',
+          icon: "error",
           title: t(
-            `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
           ),
           text: t(
-            `${getOr('errorTextUndefined', 'response.data.error', error)}`
+            `${getOr("errorTextUndefined", "response.data.error", error)}`
           ),
-        })
-      })
+        });
+      });
   }
   componentDidMount() {
-    this.handleGetAllOneContact()
+    this.handleGetAllOneContact();
   }
 
   getNameForTitle() {
-    const { name } = this.state
-    return !isEmpty(name) ? `- ${name}` : ''
+    const { name } = this.state;
+    return !isEmpty(name) ? `- ${name}` : "";
   }
 
   render() {
-    const { t, history } = this.props
-    const { data, phone } = this.state
+    const { t, history } = this.props;
+    const { data, phone } = this.state;
 
     return (
-      <ContainerCRUD title={t('title')} {...this.props}>
+      <ContainerCRUD title={t("title")} {...this.props}>
         <h1>{`${t(
-          'detailsContacts:title'
+          "detailsContacts:title"
         )} #${phone} ${this.getNameForTitle()}`}</h1>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{t('publisher')}</th>
-              <th>{t('date')}</th>
-              <th>{t('details')}</th>
+              <th>{t("publisher")}</th>
+              <th>{t("date")}</th>
+              <th>{t("details")}</th>
               <th>
                 <Button
                   variant="primary"
@@ -84,9 +88,9 @@ class ListDetailsContact extends React.Component {
                   to={`/contacts/${encodeURI(phone)}/details/new`}
                 >
                   <FontAwesomeIcon icon={faPlusSquare} />
-                </Button>{' '}
+                </Button>{" "}
                 <Button variant="secondary" onClick={() => history.goBack()}>
-                  {t('common:back')}
+                  {t("common:back")}
                 </Button>
               </th>
             </tr>
@@ -98,7 +102,7 @@ class ListDetailsContact extends React.Component {
                   <tr key={detail.id}>
                     <td>{detail.publisherName}</td>
                     <td>
-                      {moment(detail.createdAt).format('DD/MM/YYYY HH:mm')}
+                      {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
                     </td>
                     <td>{detail.information}</td>
                     <td>
@@ -110,7 +114,7 @@ class ListDetailsContact extends React.Component {
                         }`}
                       >
                         <FontAwesomeIcon icon={faEdit} />
-                      </Button>{' '}
+                      </Button>{" "}
                       <AskDelete
                         id={detail.id}
                         funcToCallAfterConfirmation={this.handleDelete}
@@ -126,8 +130,8 @@ class ListDetailsContact extends React.Component {
           </tbody>
         </Table>
       </ContainerCRUD>
-    )
+    );
   }
 }
 
-export default withTranslation(['contacts', 'common'])(ListDetailsContact)
+export default withTranslation(["contacts", "common"])(ListDetailsContact);

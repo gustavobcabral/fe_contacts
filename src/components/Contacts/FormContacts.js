@@ -1,14 +1,14 @@
-import React from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import SuperFormControl from '../Common/SuperFormControl/SuperFormControl'
-import GenderSelect from '../Common/GenderSelect/GenderSelect'
-import StatusSelect from '../Common/StatusSelect/StatusSelect'
-import LanguageSelect from '../Common/LanguageSelect/LanguageSelect'
+import React from "react";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
+import GenderSelect from "../common/GenderSelect/GenderSelect";
+import StatusSelect from "../common/StatusSelect/StatusSelect";
+import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
-  const { validator } = props
+  const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
+  const { validator } = props;
   const {
     form,
     submitting,
@@ -16,7 +16,7 @@ const FormDetails = (props) => {
     onHide,
     handleInputChange,
     validated,
-  } = props
+  } = props;
   return (
     <Form>
       <Row>
@@ -24,7 +24,7 @@ const FormDetails = (props) => {
           <SuperFormControl
             type="number"
             name="phone"
-            label={t('contacts:phone')}
+            label={t("contacts:phone")}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -36,7 +36,7 @@ const FormDetails = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t('detailsContacts:name')}
+            label={t("detailsContacts:name")}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -65,7 +65,7 @@ const FormDetails = (props) => {
         <Col>
           <StatusSelect
             name="idStatus"
-            label={t('contacts:status')}
+            label={t("contacts:status")}
             validator={validator}
             validated={validated}
             value={form.idStatus}
@@ -79,10 +79,10 @@ const FormDetails = (props) => {
         variant="primary"
         onClick={() => handleSubmit(onHide)}
       >
-        {t(submitting ? 'common:btnSubmitting' : 'common:btnSubmit')}
-      </Button>{' '}
+        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+      </Button>{" "}
     </Form>
-  )
-}
+  );
+};
 
-export default FormDetails
+export default FormDetails;

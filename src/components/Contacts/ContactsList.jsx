@@ -1,21 +1,21 @@
 import React from 'react'
 import { Button, Table, Row, Col } from 'react-bootstrap'
-import ContainerCRUD from '../../components/ContainerCRUD/ContainerCRUD'
+import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
 import { withTranslation } from 'react-i18next'
 import { contacts } from '../../services'
 import Swal from 'sweetalert2'
 import { map, getOr, isEmpty } from 'lodash/fp'
-import AskDelete from '../Common/AskDelete/AskDelete'
+import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
 import { Link } from 'react-router-dom'
-import NoRecords from '../Common/NoRecords/NoRecords'
-import Pagination from '../Common/Pagination/Pagination'
-import Search from '../Common/Search/Search'
+import NoRecords from '../common/NoRecords/NoRecords'
+import Pagination from '../common/Pagination/Pagination'
+import Search from '../common/Search/Search'
 import { parseQuery } from '../../utils/forms'
 import { RECORDS_PER_PAGE } from '../../constants/application'
-import FilterData from '../Common/FilterData/FilterData'
+import FilterData from '../common/FilterData/FilterData'
 import NewContact from './NewContact'
 import EditContact from './EditContact'
 
@@ -86,11 +86,6 @@ class Contacts extends React.Component {
     this.handleGetAll()
   }
 
-  setGenderValue(data) {
-    return isEmpty(data) ? 'undefinedGender' : data
-  }
-
-
   render() {
     const { t } = this.props
     const { data, pagination, submitting } = this.state
@@ -127,7 +122,7 @@ class Contacts extends React.Component {
                       <tr key={contact.phone}>
                         <td>{contact.name}</td>
                         <td>{contact.phone}</td>
-                        <td>{t(`contacts:${this.setGenderValue(contact.gender)}`)}</td>
+                        <td>{t(`contacts:${contact.gender}`)}</td>
                         <td>{t(`languages:${contact.languageName}`)}</td>
                         <td>{t(`status:${contact.statusDescription}`)}</td>
                         <td>

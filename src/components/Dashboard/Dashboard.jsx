@@ -2,7 +2,7 @@ import React from "react";
 import { get } from "lodash/fp";
 import { getUserData } from "../../utils/loginDataManager";
 import { withTranslation } from "react-i18next";
-import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
+import ContainerWithNavBar from "../common/ContainerWithNavBar/ContainerWithNavBar";
 import logo from "../../assets/images/logo.png";
 import { Col, Row, Image } from "react-bootstrap";
 import Charts from "./Charts";

@@ -1,14 +1,14 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
 import Swal from "sweetalert2";
 import { getOr, map, isEmpty } from "lodash/fp";
-import AskDelete from "../Common/AskDelete/AskDelete";
+import AskDelete from "../common/AskDelete/AskDelete";
 import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
-import NoRecords from "../Common/NoRecords/NoRecords";
+import NoRecords from "../common/NoRecords/NoRecords";
 
 class StatusList extends React.Component {
   constructor(props) {

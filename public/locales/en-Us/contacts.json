@@ -9,7 +9,7 @@
   "details": "Details",
   "male": "Male",
   "female": "Female",
-  "undefinedGender": "Undefined",
+  "unknown": "Unknown",
   "publisher": "Publisher",
   "name": "Name"
 }

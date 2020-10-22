@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { getOr, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import OurModal from "../Common/OurModal/OurModal";
+import OurModal from "../common/OurModal/OurModal";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import StatusForm from "./StatusForm.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

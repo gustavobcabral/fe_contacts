@@ -1,11 +1,11 @@
 import React from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
-import SuperSelect from "../../Common/SuperSelect/SuperSelect";
-import GenderSelect from "../../Common/GenderSelect/GenderSelect";
-import StatusSelect from "../../Common/StatusSelect/StatusSelect";
-import LanguageSelect from "../../Common/LanguageSelect/LanguageSelect";
+import SuperFormControl from "../../common/SuperFormControl/SuperFormControl";
+import SuperSelect from "../../common/SuperSelect/SuperSelect";
+import GenderSelect from "../../common/GenderSelect/GenderSelect";
+import StatusSelect from "../../common/StatusSelect/StatusSelect";
+import LanguageSelect from "../../common/LanguageSelect/LanguageSelect";
 
 const FormDetails = (props) => {
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);

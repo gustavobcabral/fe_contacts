@@ -1,5 +1,5 @@
 {
-   "add": "Adicionar",
+  "add": "Adicionar",
   "back": "Voltar",
   "cancel": "Cancelar",
   "clear": "Limpar",
@@ -44,6 +44,4 @@
   "errorTextUndefined": "Erro indefinido",
   "new": "Novo",
   "errorWithoutDetails": "Sem detalhes"
-
 }
-
