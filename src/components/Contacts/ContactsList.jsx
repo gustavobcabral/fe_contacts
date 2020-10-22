@@ -133,6 +133,7 @@ class Contacts extends React.Component {
                     <Form.Check
                       type="checkbox"
                       name="checkAll"
+                      label={t(`contacts:checkAll`)}
                       value="all"
                       onClick={this.handleCheckAll}
                     />
@@ -158,7 +159,6 @@ class Contacts extends React.Component {
                           <Form.Check
                             type="checkbox"
                             name="checksContactsPhones"
-                            label={t(`contacts:checkAll`)}
                             value={contact.phone}
                             onClick={this.handleOnClick}
                           />
