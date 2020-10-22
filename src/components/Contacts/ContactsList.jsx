@@ -1,13 +1,13 @@
 import React from 'react'
-import { Button, Table, Row, Col } from 'react-bootstrap'
+import { Button, Table, Row, Col, Form } from 'react-bootstrap'
 import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
 import { withTranslation } from 'react-i18next'
 import { contacts } from '../../services'
 import Swal from 'sweetalert2'
-import { map, getOr, isEmpty } from 'lodash/fp'
+import { map, getOr, isEmpty, pipe, uniq, compact, remove } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList } from '@fortawesome/free-solid-svg-icons'
+import { faList, faShareAlt } from '@fortawesome/free-solid-svg-icons'
 import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
 import { Link } from 'react-router-dom'
 import NoRecords from '../common/NoRecords/NoRecords'
@@ -18,13 +18,16 @@ import { RECORDS_PER_PAGE } from '../../constants/application'
 import FilterData from '../common/FilterData/FilterData'
 import NewContact from './NewContact'
 import EditContact from './EditContact'
+import OurModal from '../common/OurModal/OurModal'
 
 class Contacts extends React.Component {
   constructor(props) {
     super(props)
 
+    this.handleOnClick = this.handleOnClick.bind(this)
     this.state = {
       data: [],
+      checksContactsPhones: [],
       submitting: false,
       pagination: {},
       queryParams: {
@@ -50,6 +53,7 @@ class Contacts extends React.Component {
     const response = await contacts.getAll(queryParams)
     this.setState({
       data: getOr([], 'data.data.list', response),
+      phone: getOr([], 'data.data.list.phone', response),
       pagination: getOr({}, 'data.data.pagination', response),
       submitting: false,
       queryParams,
@@ -81,6 +85,17 @@ class Contacts extends React.Component {
         })
       })
   }
+  handleOnClick(event) {
+    const {
+      target: { name, value, checked },
+    } = event
+    const newValues = checked
+      ? pipe(uniq, compact)([...this.state.checksContactsPhones, value])
+      : remove((arrayValue) => arrayValue === value, this.state[name])
+
+    this.setState({ checksContactsPhones: newValues })
+    return ''
+  }
 
   componentDidMount() {
     this.handleGetAll()
@@ -88,7 +103,8 @@ class Contacts extends React.Component {
 
   render() {
     const { t } = this.props
-    const { data, pagination, submitting } = this.state
+    const { data, pagination, submitting, checksContactsPhones } = this.state
+    console.log(checksContactsPhones, "MARCADO")
     return (
       <ContainerCRUD title={t('title')} {...this.props}>
         <Row>
@@ -102,16 +118,42 @@ class Contacts extends React.Component {
           <Col xs={12} lg={10}>
             <Table striped bordered hover responsive>
               <thead>
-                <Search onFilter={this.handleGetAll} fields={['name', 'phone']} />
+                <Search
+                  onFilter={this.handleGetAll}
+                  fields={['name', 'phone']}
+                />
                 <tr>
-                  <th>{t('name')}</th>
+                  <th colSpan="2">{t('name')}</th>
                   <th>{t('phone')}</th>
                   <th>{t('gender')}</th>
                   <th>{t('language')}</th>
                   <th>{t('status')}</th>
                   <th>{t('details')}</th>
                   <th>
-                    <NewContact afterClose={() => this.handleGetAll()} />
+                    <NewContact afterClose={() => this.handleGetAll()} />{' '}
+                    <Button
+                      variant="warning"
+                      disabled={!checksContactsPhones.length > 0}
+                      onClick={
+                        <OurModal
+                        //body={FormContacts}
+                        // validator={this.validator}
+                        // validated={validated}
+                        //handleSubmit={this.handleSubmit}
+                        //handleInputChange={this.handleInputChange}
+                        // form={form}
+                        //onEnter={this.handleGetOne}
+                        //onExit={afterClose}
+                        //publishersOptions={publishersOptions}
+                        // statusOptions={statusOptions}
+                        // title={`${t('common:edit')} ${t('titleCrud')}`}
+                        //buttonText={<FontAwesomeIcon icon={faEdit} />}
+                        // buttonVariant="success"
+                        />
+                      }
+                    >
+                      <FontAwesomeIcon icon={faShareAlt} />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -120,6 +162,17 @@ class Contacts extends React.Component {
                   map(
                     (contact) => (
                       <tr key={contact.phone}>
+                        <td>
+                          <Form.Check
+                            //key={data.gender}
+                            type="checkbox"
+                            name="checksContactsPhones"
+                            // label={t(`contacts:${data.gender}`)}
+                            value={contact.phone}
+                            onClick={this.handleOnClick}
+                            //enableButton={checked.length>0}
+                          />
+                        </td>
                         <td>{contact.name}</td>
                         <td>{contact.phone}</td>
                         <td>{t(`contacts:${contact.gender}`)}</td>
