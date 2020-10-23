@@ -11,6 +11,7 @@ import AskDelete from "../../common/AskDelete/AskDelete";
 import NoRecords from "../../common/NoRecords/NoRecords";
 import { faPlusSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseErrorMessage } from "../../../utils/generic";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -25,16 +26,25 @@ class ListDetailsContact extends React.Component {
   }
 
   async handleGetAllOneContact() {
-    const phone = getOr(0, "props.match.params.phone", this);
     this.setState({ submitting: true });
-    const data = getOr(
-      [],
-      "data.data",
-      await details.getAllOneContact(phone, null)
-    );
-    const { name } = first(data) || { name: "" };
-    this.setState({ data, name, submitting: false });
+    try {
+      const phone = getOr(0, "props.match.params.phone", this);
+      const data = getOr(
+        [],
+        "data.data",
+        await details.getAllOneContact(phone, null)
+      );
+      const { name } = first(data) || { name: "" };
+      this.setState({ data, name, submitting: false });
+    } catch (error) {
+      const { t } = this.props;
+      Swal.fire({
+        icon: "error",
+        title: t(`common:${parseErrorMessage(error)}`),
+      });
+    }
   }
+
   async handleDelete(id) {
     const t = this.props;
     this.setState({ submitting: true });

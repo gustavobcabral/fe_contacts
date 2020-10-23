@@ -2,6 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { Form, Card, Col } from "react-bootstrap";
 import { pipe, uniq, compact, remove, getOr, map, isEmpty } from "lodash/fp";
+import { parseErrorMessage } from "../../../utils/generic";
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class FilterData extends React.Component {
     this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       loading: false,
+      error: false,
       genders: [],
       checksGender: [],
       languages: [],
@@ -40,14 +42,22 @@ class FilterData extends React.Component {
 
   async getAllFilters() {
     this.setState({ loading: true });
-    const { getFilters } = this.props;
-    const response = await getFilters();
-    this.setState({
-      checksGender: getOr([], "data.data.genders", response),
-      checksLanguages: getOr([], "data.data.languages", response),
-      checksStatus: getOr([], "data.data.status", response),
-      loading: false,
-    });
+    try {
+      const { getFilters } = this.props;
+      const response = await getFilters();
+      this.setState({
+        checksGender: getOr([], "data.data.genders", response),
+        checksLanguages: getOr([], "data.data.languages", response),
+        checksStatus: getOr([], "data.data.status", response),
+        loading: false,
+      });
+    } catch (error) {
+      const { t } = this.props;
+      this.setState({
+        error: t(`common:${parseErrorMessage(error)}`),
+        loading: false,
+      });
+    }
   }
 
   componentDidMount() {
@@ -55,19 +65,22 @@ class FilterData extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { loading } = this.state;
+    const { loading, error } = this.state;
     const { refresh } = this.props;
     const { prevRefresh } = prevProps;
-    if (refresh && !prevRefresh && !loading) this.getAllFilters();
+    if (refresh && !prevRefresh && !loading && !error) this.getAllFilters();
   }
 
   render() {
-    const { checksGender, checksLanguages, checksStatus } = this.state;
+    const { checksGender, checksLanguages, checksStatus, error } = this.state;
     const { t } = this.props;
     return (
       <>
         <Col xs={3} lg={12} className="text-center">
           <h3>Filters</h3>
+        </Col>
+        <Col xs={3} lg={12} className="text-center text-muted">
+          {error}
         </Col>
         {!isEmpty(checksGender) && (
           <Col xs={3} lg={12} className="mb-4">

@@ -7,6 +7,7 @@ import { getOr, isEmpty } from "lodash/fp";
 import Swal from "sweetalert2";
 import OurModal from "../../common/OurModal/OurModal";
 import ListDataDetailsContact from "./ListDataDetailsContact";
+import { parseErrorMessage } from "../../../utils/generic";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -18,9 +19,17 @@ class ListDetailsContact extends React.Component {
 
   async handleGetAllOneContact() {
     this.setState({ submitting: true });
-    const id = getOr(0, "props.id", this);
-    const response = await details.getAllOneContact(id);
-    this.setState({ data: response.data.data, submitting: false });
+    try {
+      const id = getOr(0, "props.id", this);
+      const response = await details.getAllOneContact(id);
+      this.setState({ data: response.data.data, submitting: false });
+    } catch (error) {
+      const { t } = this.props;
+      Swal.fire({
+        icon: "error",
+        title: t(`common:${parseErrorMessage(error)}`),
+      });
+    }
   }
 
   async handleDelete(id) {
