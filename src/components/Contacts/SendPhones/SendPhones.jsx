@@ -2,16 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../../common/OurModal/OurModal'
 import Swal from 'sweetalert2'
-import {
-  getOr,
-  map,
-  get,
-  find,
-  pipe,
-  startsWith,
-  join,
-  replace,
-} from 'lodash/fp'
+import { getOr, map, get, find, pipe, startsWith, join } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { contacts, publishers } from '../../../services'
@@ -79,12 +70,7 @@ class NewContact extends React.Component {
 
   parsePhonesToBeEasierToRead() {
     const { phones } = this.props
-    return pipe(
-      join(','),
-      replace(',', '\n'),
-      (data) => '\n\n' + data,
-      encodeURIComponent
-    )(phones)
+    return pipe(join('\n'), (data) => '\n\n' + data, encodeURIComponent)(phones)
   }
 
   sendMessage() {

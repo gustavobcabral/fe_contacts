@@ -28,6 +28,7 @@ import FilterData from "../common/FilterData/FilterData";
 import NewContact from "./NewContact";
 import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
+import { parseErrorMessage } from "../../utils/generic";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -70,22 +71,12 @@ class Contacts extends React.Component {
         submitting: false,
         queryParams,
       });
-        
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        title: t(`common:${parseErrorMessage(error)}`),
       });
-  }
+    }
   }
 
   async handleDelete(id) {
@@ -142,7 +133,7 @@ class Contacts extends React.Component {
   render() {
     const { t } = this.props;
     const { data, pagination, submitting, checksContactsPhones } = this.state;
-    const colSpan = "8"
+    const colSpan = "8";
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
