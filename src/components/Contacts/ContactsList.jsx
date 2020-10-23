@@ -201,10 +201,10 @@ class Contacts extends React.Component {
                             )}
                             disabled={contact.forbiddenSend}
                             name="checksContactsPhones"
-                            value={{
+                            value={JSON.stringify({
                               phone: contact.phone,
-                              details: contact.details,
-                            }}
+                              details: contact.details.information,
+                            })}
                             className="checkBoxPhones"
                             onChange={this.handleOnClick}
                           />
