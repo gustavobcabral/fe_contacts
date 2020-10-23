@@ -1,5 +1,7 @@
 {
   "title": "Send phones",
-  "messageToSend":"*Boa tarde*. \nAqui estao os números ao seus cuidados"
+  "messageToSend":"*Good afternoon*. \nHere are the numbers in your care",
+  "sendTo": "Send To:",
+  "numbers": "Numbers: "
 
 }
