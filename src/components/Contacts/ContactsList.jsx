@@ -4,7 +4,16 @@ import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
 import Swal from "sweetalert2";
-import { map, getOr, isEmpty, pipe, uniq, compact, remove } from "lodash/fp";
+import {
+  map,
+  getOr,
+  isEmpty,
+  pipe,
+  uniq,
+  compact,
+  remove,
+  includes,
+} from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +27,7 @@ import { RECORDS_PER_PAGE } from "../../constants/application";
 import FilterData from "../common/FilterData/FilterData";
 import NewContact from "./NewContact";
 import EditContact from "./EditContact";
-import SendPhones from "./SendPhones/SendPhones"
+import SendPhones from "./SendPhones/SendPhones";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -45,6 +54,7 @@ class Contacts extends React.Component {
     };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleCheckAll = this.handleCheckAll.bind(this);
   }
 
   async handleGetAll(objQuery) {
@@ -98,8 +108,13 @@ class Contacts extends React.Component {
     return "";
   }
 
-  handleCheckAll(){
-    //fazer marcar/desmarcar todos os checks
+  handleCheckAll(event) {
+    const {
+      target: { checked },
+    } = event;
+
+    const newValues = checked ? map((item) => item.phone, this.state.data) : [];
+    this.setState({ checksContactsPhones: newValues });
   }
 
   componentDidMount() {
@@ -109,7 +124,6 @@ class Contacts extends React.Component {
   render() {
     const { t } = this.props;
     const { data, pagination, submitting, checksContactsPhones } = this.state;
-    console.log(checksContactsPhones, "MARCADO");
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
@@ -158,9 +172,15 @@ class Contacts extends React.Component {
                         <td>
                           <Form.Check
                             type="checkbox"
+                            checked={includes(
+                              contact.phone,
+                              checksContactsPhones
+                            )}
                             name="checksContactsPhones"
                             value={contact.phone}
-                            onClick={this.handleOnClick}
+                            className="checkBoxPhones"
+                            // onClick={this.handleOnClick}
+                            onChange={this.handleOnClick}
                           />
                         </td>
                         <td>{contact.name}</td>
