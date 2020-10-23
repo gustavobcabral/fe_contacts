@@ -179,7 +179,6 @@ class Contacts extends React.Component {
                             name="checksContactsPhones"
                             value={contact.phone}
                             className="checkBoxPhones"
-                            // onClick={this.handleOnClick}
                             onChange={this.handleOnClick}
                           />
                         </td>
