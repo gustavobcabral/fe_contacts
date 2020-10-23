@@ -118,12 +118,25 @@ class Contacts extends React.Component {
   }
 
   handleCheckAll(event) {
+    const { t } = this.props;
+
     const {
       target: { checked },
     } = event;
 
-    const newValues = checked ? map((item) => item.phone, this.state.data) : [];
-    this.setState({ checksContactsPhones: newValues });
+    const newValues = checked
+      ? pipe(
+          map((item) => (!item.forbiddenSend ? item.phone : null)),
+          compact
+        )(this.state.data)
+      : [];
+    if (!isEmpty(newValues)) this.setState({ checksContactsPhones: newValues });
+    else if (checked)
+      Swal.fire({
+        icon: "error",
+        title: t("allNumbersWasAlreadySent"),
+        text: t("reviewThisNumbersOnPageWaitingFeedback"),
+      });
   }
 
   componentDidMount() {
@@ -186,8 +199,12 @@ class Contacts extends React.Component {
                               contact.phone,
                               checksContactsPhones
                             )}
+                            disabled={contact.forbiddenSend}
                             name="checksContactsPhones"
-                            value={contact.phone}
+                            value={{
+                              phone: contact.phone,
+                              details: contact.details,
+                            }}
                             className="checkBoxPhones"
                             onChange={this.handleOnClick}
                           />
