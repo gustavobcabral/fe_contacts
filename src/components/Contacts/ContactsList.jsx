@@ -165,8 +165,8 @@ class Contacts extends React.Component {
                   <th>
                     <Form.Check
                       type="checkbox"
-                      name="checkAll"
-                      label={t(`contacts:checkAll`)}
+                      name=""
+                      label=""
                       value="all"
                       onClick={this.handleCheckAll}
                     />
