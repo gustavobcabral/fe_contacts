@@ -43,5 +43,6 @@
   "noData": "No data",
   "errorTextUndefined": "Error undefined",
   "new": "New",
-  "errorWithoutDetails": "Without details"
+  "errorWithoutDetails": "Without details",
+  "Network Error": "Error Network"
 }

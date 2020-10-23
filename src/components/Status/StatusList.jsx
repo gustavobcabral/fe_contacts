@@ -9,6 +9,7 @@ import AskDelete from "../common/AskDelete/AskDelete";
 import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
 import NoRecords from "../common/NoRecords/NoRecords";
+import { parseErrorMessage } from "../../utils/generic";
 
 class StatusList extends React.Component {
   constructor(props) {
@@ -19,8 +20,16 @@ class StatusList extends React.Component {
   }
 
   async handleGetAll() {
-    const response = await status.getAll("");
-    this.setState({ data: response.data.data });
+    try {
+      const response = await status.getAll("");
+      this.setState({ data: response.data.data });
+    } catch (error) {
+      const { t } = this.props;
+      Swal.fire({
+        icon: "error",
+        title: t(`common:${parseErrorMessage(error)}`),
+      });
+    }
   }
 
   async handleDelete(id) {
@@ -70,7 +79,7 @@ class StatusList extends React.Component {
               map(
                 (status) => (
                   <tr key={status.id}>
-                    <td>{(status.description)}</td>
+                    <td>{status.description}</td>
                     <td>{t(status.description)}</td>
                     <td>
                       <StatusEdit
@@ -87,7 +96,7 @@ class StatusList extends React.Component {
                 data
               )
             ) : (
-              <NoRecords cols={2} />
+              <NoRecords cols={3} />
             )}
           </tbody>
         </Table>

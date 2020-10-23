@@ -43,5 +43,7 @@
   "noData": "Sem dados",
   "errorTextUndefined": "Erro indefinido",
   "new": "Novo",
-  "errorWithoutDetails": "Sem detalhes"
+  "errorWithoutDetails": "Sem detalhes",
+  "Network Error": "Erro de conexão"
+
 }
