@@ -59,15 +59,33 @@ class Contacts extends React.Component {
 
   async handleGetAll(objQuery) {
     this.setState({ submitting: true });
-    const queryParams = parseQuery(objQuery, this.state);
-    const response = await contacts.getAll(queryParams);
-    this.setState({
-      data: getOr([], "data.data.list", response),
-      phone: getOr([], "data.data.list.phone", response),
-      pagination: getOr({}, "data.data.pagination", response),
-      submitting: false,
-      queryParams,
-    });
+    const { t } = this.props;
+    try {
+      const queryParams = parseQuery(objQuery, this.state);
+      const response = await contacts.getAll(queryParams);
+      this.setState({
+        data: getOr([], "data.data.list", response),
+        phone: getOr([], "data.data.list.phone", response),
+        pagination: getOr({}, "data.data.pagination", response),
+        submitting: false,
+        queryParams,
+      });
+        
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
+      });
+  }
   }
 
   async handleDelete(id) {
@@ -124,6 +142,7 @@ class Contacts extends React.Component {
   render() {
     const { t } = this.props;
     const { data, pagination, submitting, checksContactsPhones } = this.state;
+    const colSpan = "8"
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
@@ -140,7 +159,7 @@ class Contacts extends React.Component {
                 <Search
                   onFilter={this.handleGetAll}
                   fields={["name", "phone"]}
-                  colspan={"8"}
+                  colspan={colSpan}
                 />
                 <tr>
                   <th>
@@ -216,12 +235,12 @@ class Contacts extends React.Component {
                     data
                   )
                 ) : (
-                  <NoRecords cols="6" />
+                  <NoRecords cols={colSpan} />
                 )}
               </tbody>
               <tfoot>
                 <tr>
-                  <td colSpan="6" style={{ border: 0 }}>
+                  <td colSpan={colSpan} style={{ border: 0 }}>
                     <Pagination
                       pagination={pagination}
                       onClick={this.handleGetAll}
