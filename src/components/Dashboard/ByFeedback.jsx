@@ -12,30 +12,38 @@ const getByFeedback = (t, data) => {
     return [];
 
   return [
-    {
-      label: t("totalContactsAssignByMeWaitingFeedback"),
-      value: getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data),
-      title: `${getOr(
-        0,
-        "totalPercentContactsAssignByMeWaitingFeedback",
-        data
-      )}% ${t("totalContactsAssignByMeWaitingFeedback")}`,
-      color: "#007bff",
-    },
-    {
-      label: t("totalContactsWaitingFeedback"),
-      title: `${getOr(
-        0,
-        "totalPercentContactsAssignByOthersWaitingFeedback",
-        data
-      )}% ${t("totalContactsWaitingFeedback")}`,
-      value: getOr(
-        0,
-        "totalPercentContactsAssignByOthersWaitingFeedback",
-        data
-      ),
-      color: "#6610f2",
-    },
+    getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) > 0
+      ? {
+          label: t("totalContactsAssignByMeWaitingFeedback"),
+          value: getOr(
+            0,
+            "totalPercentContactsAssignByMeWaitingFeedback",
+            data
+          ),
+          title: `${getOr(
+            0,
+            "totalPercentContactsAssignByMeWaitingFeedback",
+            data
+          )}% ${t("totalContactsAssignByMeWaitingFeedback")}`,
+          color: "#007bff",
+        }
+      : {},
+    getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data) > 0
+      ? {
+          label: t("totalContactsWaitingFeedback"),
+          title: `${getOr(
+            0,
+            "totalPercentContactsAssignByOthersWaitingFeedback",
+            data
+          )}% ${t("totalContactsWaitingFeedback")}`,
+          value: getOr(
+            0,
+            "totalPercentContactsAssignByOthersWaitingFeedback",
+            data
+          ),
+          color: "#6610f2",
+        }
+      : {},
   ];
 };
 
@@ -43,7 +51,11 @@ const ByFeedback = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
   const byFeedback = getByFeedback(t, get("data", props));
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 4 }} className="mt-2">
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 4 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartWaitingFeedback")}

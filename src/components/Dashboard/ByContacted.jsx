@@ -12,20 +12,26 @@ const getByContacted = (t, data) => {
     return [];
 
   return [
-    {
-      label: t("contacted"),
-      title: `${getOr(0, "totalPercentContacted", data)}% ${t("contacted")}`,
-      value: getOr(0, "totalPercentContacted", data),
-      color: "#28a745",
-    },
-    {
-      label: t("withoutContact"),
-      title: `${getOr(0, "totalPercentWithoutContacted", data)}% ${t(
-        "withoutContact"
-      )}`,
-      value: getOr(0, "totalPercentWithoutContacted", data),
-      color: "#f73939",
-    },
+    getOr(0, "totalPercentContacted", data) > 0
+      ? {
+          label: t("contacted"),
+          title: `${getOr(0, "totalPercentContacted", data)}% ${t(
+            "contacted"
+          )}`,
+          value: getOr(0, "totalPercentContacted", data),
+          color: "#28a745",
+        }
+      : {},
+    getOr(0, "totalPercentWithoutContacted", data) > 0
+      ? {
+          label: t("withoutContact"),
+          title: `${getOr(0, "totalPercentWithoutContacted", data)}% ${t(
+            "withoutContact"
+          )}`,
+          value: getOr(0, "totalPercentWithoutContacted", data),
+          color: "#f73939",
+        }
+      : {},
   ];
 };
 
@@ -34,7 +40,11 @@ const ByContacted = (props) => {
   const byContacted = getByContacted(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 3 }} className="mt-2">
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 3 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartContacts")}
