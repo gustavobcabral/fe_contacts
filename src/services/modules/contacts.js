@@ -9,6 +9,7 @@ const getSummary = () => api.get("/contacts/summary");
 const updateContact = (id, data) => api.put(`/contacts/${id}`, data);
 
 const create = (data) => api.post("/contacts", data);
+const assign = (data) => api.post("/contacts/assign", data);
 
 const dellOne = (id) => api.delete(`/contacts/${id}`);
 
@@ -20,4 +21,5 @@ export default {
   dellOne,
   getSummary,
   getAllFilters,
+  assign
 };

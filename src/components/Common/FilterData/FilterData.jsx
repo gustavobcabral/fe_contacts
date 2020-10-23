@@ -77,7 +77,7 @@ class FilterData extends React.Component {
     return (
       <>
         <Col xs={3} lg={12} className="text-center">
-          <h3>Filters</h3>
+          <h3>{t("title")}</h3>
         </Col>
         <Col xs={3} lg={12} className="text-center text-muted">
           {error}

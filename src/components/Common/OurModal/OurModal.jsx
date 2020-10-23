@@ -25,12 +25,13 @@ class OurModal extends Component {
       onExit,
       t,
       dialogClassName,
+      buttonDisabled = false
     } = this.props
     const { modalShow } = this.state
     const Component = this.props.body
     return (
       <>
-        <Button variant={buttonVariant || "primary"} onClick={this.onShow}>
+        <Button variant={buttonVariant || "primary"} disabled={buttonDisabled} onClick={this.onShow}>
           {buttonText || t("open")}
         </Button>
 

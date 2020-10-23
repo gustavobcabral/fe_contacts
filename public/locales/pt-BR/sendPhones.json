@@ -1,0 +1,6 @@
+{
+  "title": "Enviar número",
+  "messageToSend": "*Boa tarde*. \nAqui estao os números ao seus cuidados",
+  "sendTo": "Enviar para:",
+  "numbers": "Números: "
+}
