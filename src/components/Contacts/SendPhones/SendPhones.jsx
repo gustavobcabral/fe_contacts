@@ -10,7 +10,6 @@ import {
   pipe,
   startsWith,
   join,
-  replace,
 } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
@@ -80,8 +79,7 @@ class NewContact extends React.Component {
   parsePhonesToBeEasierToRead() {
     const { phones } = this.props
     return pipe(
-      join(','),
-      replace(',', '\n'),
+      join('\n'),
       (data) => '\n\n' + data,
       encodeURIComponent
     )(phones)
