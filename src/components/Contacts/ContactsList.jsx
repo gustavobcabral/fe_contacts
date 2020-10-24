@@ -12,7 +12,7 @@ import {
   uniq,
   compact,
   remove,
-  includes,
+  find,
 } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,6 +56,9 @@ class Contacts extends React.Component {
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
+    this.checkIfThisPhonesWasSelected = this.checkIfThisPhonesWasSelected.bind(
+      this
+    );
   }
 
   async handleGetAll(objQuery) {
@@ -107,36 +110,46 @@ class Contacts extends React.Component {
 
   handleOnClick(event) {
     const {
-      target: { name, value, checked },
+      target: { value, checked },
     } = event;
     const newValues = checked
       ? pipe(uniq, compact)([...this.state.checksContactsPhones, value])
-      : remove((arrayValue) => arrayValue === value, this.state[name]);
+      : remove((valueSaved) => {
+          const objValueSaved = !isEmpty(valueSaved)
+            ? JSON.parse(valueSaved)
+            : null;
 
-    this.setState({ checksContactsPhones: newValues });
-    return "";
+          const objValueClicked = !isEmpty(value) ? JSON.parse(value) : null;
+          if (!objValueSaved && !objValueClicked) return true;
+          return objValueSaved.phone === objValueClicked.phone;
+        }, this.state.checksContactsPhones);
+        
+    this.setState({
+      checksContactsPhones: newValues,
+    });
   }
 
   handleCheckAll(event) {
-    const { t } = this.props;
-
     const {
       target: { checked },
     } = event;
 
     const newValues = checked
-      ? pipe(
-          map((item) => (!item.forbiddenSend ? item.phone : null)),
-          compact
-        )(this.state.data)
+      ? map((item) => JSON.stringify(item), this.state.data)
       : [];
-    if (!isEmpty(newValues)) this.setState({ checksContactsPhones: newValues });
-    else if (checked)
-      Swal.fire({
-        icon: "error",
-        title: t("allNumbersWasAlreadySent"),
-        text: t("reviewThisNumbersOnPageWaitingFeedback"),
-      });
+    this.setState({ checksContactsPhones: newValues });
+  }
+
+  checkIfThisPhonesWasSelected(phone) {
+    const { checksContactsPhones } = this.state;
+    return Boolean(
+      find((stringObjContact) => {
+        const contact = !isEmpty(stringObjContact)
+          ? JSON.parse(stringObjContact)
+          : null;
+        return contact && contact.phone === phone;
+      }, checksContactsPhones)
+    );
   }
 
   componentDidMount() {
@@ -183,7 +196,7 @@ class Contacts extends React.Component {
                   <th>{t("details")}</th>
                   <th>
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
-                    <SendPhones phones={checksContactsPhones} />
+                    <SendPhones contactsPhones={checksContactsPhones} />
                   </th>
                 </tr>
               </thead>
@@ -195,16 +208,11 @@ class Contacts extends React.Component {
                         <td>
                           <Form.Check
                             type="checkbox"
-                            checked={includes(
-                              contact.phone,
-                              checksContactsPhones
+                            checked={this.checkIfThisPhonesWasSelected(
+                              contact.phone
                             )}
-                            disabled={contact.forbiddenSend}
                             name="checksContactsPhones"
-                            value={JSON.stringify({
-                              phone: contact.phone,
-                              details: contact.details.information,
-                            })}
+                            value={JSON.stringify(contact)}
                             className="checkBoxPhones"
                             onChange={this.handleOnClick}
                           />

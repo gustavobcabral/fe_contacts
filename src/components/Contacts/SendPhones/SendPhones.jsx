@@ -2,14 +2,23 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import { getOr, map, get, find, pipe, startsWith, join } from "lodash/fp";
+import {
+  getOr,
+  map,
+  get,
+  find,
+  pipe,
+  join,
+  compact,
+  isEmpty,
+} from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { contacts, publishers } from "../../../services";
 import FormSendPhones from "./FormSendPhones";
 import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { COD_COUNTRY } from "../../../constants/settings";
+import moment from "moment";
 
 const fields = {
   idPublisher: "",
@@ -28,7 +37,8 @@ class NewContact extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.justNumbers = this.justNumbers.bind(this);
+    this.onlyPhones = this.onlyPhones.bind(this);
+    this.mappingContactsPhones = this.mappingContactsPhones.bind(this);
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -61,36 +71,38 @@ class NewContact extends React.Component {
     handleInputChangeGeneric(event, this);
   }
 
-  getPhonePublisher(idPublisher) {
+  getDataPublisherSeleccted(idPublisher) {
     const { publishersOptions } = this.state;
-    const phone = pipe(
+    return pipe(
       find((publisher) => publisher.value === idPublisher),
-      getOr(0, "data.phone"),
-      (data) => (startsWith("0", data) ? data.substr(1) : data)
+      getOr(0, "data")
     )(publishersOptions);
-    return phone.indexOf(COD_COUNTRY) === -1 ? `${COD_COUNTRY}${phone}` : phone;
   }
 
-  mappingObjData(phones) {
+  getInformation(objData) {
+    return !isEmpty(objData.details)
+      ? `: ${objData.details.information} - ${moment(
+          objData.details.createdAt
+        ).format("DD/MM/YYYY HH:mm")}`
+      : null;
+  }
+
+  mappingContactsPhones(contactsPhones) {
     return map((data) => {
       const objData = JSON.parse(data);
-      const info = `${objData.phone}: ${objData.details}`;
+      const info = `${objData.phone} ${this.getInformation(objData)}`;
       return info;
-    }, phones);
+    }, contactsPhones);
   }
 
   parsePhonesToBeEasierToRead() {
-    const { phones } = this.props;
+    const { contactsPhones } = this.props;
     const formatted = pipe(
-      this.mappingObjData,
-      (data) => {
-        console.log(data);
-        return data;
-      },
+      this.mappingContactsPhones,
       join("\n"),
       (data) => "\n\n" + data,
       encodeURIComponent
-    )(phones);
+    )(contactsPhones);
 
     return formatted;
   }
@@ -99,11 +111,21 @@ class NewContact extends React.Component {
     const { t } = this.props;
     const { form } = this.state;
     const idPublisher = get("idPublisher", form);
-    const publisherPhone = this.getPhonePublisher(idPublisher);
+    const publisherData = this.getDataPublisherSeleccted(idPublisher);
     const textToSend = `${encodeURIComponent(
-      t("messageToSend")
+      t("messageToSend", { name: publisherData.name })
     )}: ${this.parsePhonesToBeEasierToRead()} `;
-    window.open(`https://wa.me/${publisherPhone}?text=${textToSend}`);
+    window.open(`https://wa.me/${publisherData.phone}?text=${textToSend}`);
+  }
+
+  getJustPhonesAllowed(contactsPhones) {
+    return pipe(
+      map((data) => {
+        const objData = JSON.parse(data);
+        return !objData.forbiddenSend ? objData.phone : null;
+      }),
+      compact
+    )(contactsPhones);
   }
 
   async handleSubmit(onHide) {
@@ -116,17 +138,17 @@ class NewContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t, phones } = this.props;
+    const { t, contactsPhones } = this.props;
     const idPublisher = get("idPublisher", form);
 
     const data = {
-      phones,
+      phones: this.getJustPhonesAllowed(contactsPhones),
       idPublisher,
     };
-    this.sendMessage();
 
     try {
-      await contacts.assign(data);
+      if (getOr([], "phones", data).length > 0) await contacts.assign(data);
+      this.sendMessage();
       this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
@@ -138,6 +160,7 @@ class NewContact extends React.Component {
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
+      console.log(error);
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
@@ -155,19 +178,20 @@ class NewContact extends React.Component {
     }
   }
 
-  justNumbers() {
-    return join(
-      ", ",
+  onlyPhones() {
+    return pipe(
       map((data) => {
+        if (isEmpty(data)) return;
         const objData = JSON.parse(data);
         return objData.phone;
-      }, this.props.phones)
-    );
+      }),
+      join(", ")
+    )(this.props.contactsPhones);
   }
 
   render() {
     const { form, validated, publishersOptions } = this.state;
-    const { t, phones } = this.props;
+    const { t, contactsPhones } = this.props;
     return (
       <OurModal
         body={FormSendPhones}
@@ -176,15 +200,15 @@ class NewContact extends React.Component {
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
-        phones={this.justNumbers(phones)}
+        phones={this.onlyPhones(contactsPhones)}
         publishersOptions={publishersOptions}
         title={`${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faShareAlt} />}
-        buttonDisabled={phones.length === 0}
+        buttonDisabled={contactsPhones.length === 0}
         buttonVariant="warning"
       />
     );
   }
 }
 
-export default withTranslation(["SendPhones", "common"])(NewContact);
+export default withTranslation(["sendPhones", "common"])(NewContact);
