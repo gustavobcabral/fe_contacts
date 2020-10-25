@@ -2,16 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import {
-  getOr,
-  map,
-  get,
-  find,
-  pipe,
-  join,
-  compact,
-  isEmpty,
-} from "lodash/fp";
+import { getOr, map, get, find, pipe, join, compact, isEmpty } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { contacts, publishers } from "../../../services";
@@ -19,6 +10,7 @@ import FormSendPhones from "./FormSendPhones";
 import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
+import { URL_SEND_MESSAGE } from "../../../constants/settings";
 
 const fields = {
   idPublisher: "",
@@ -37,8 +29,8 @@ class NewContact extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.onlyPhones = this.onlyPhones.bind(this);
     this.mappingContactsPhones = this.mappingContactsPhones.bind(this);
+    this.getInformation = this.getInformation.bind(this);
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -71,7 +63,7 @@ class NewContact extends React.Component {
     handleInputChangeGeneric(event, this);
   }
 
-  getDataPublisherSeleccted(idPublisher) {
+  getDataPublisherSelected(idPublisher) {
     const { publishersOptions } = this.state;
     return pipe(
       find((publisher) => publisher.value === idPublisher),
@@ -79,53 +71,57 @@ class NewContact extends React.Component {
     )(publishersOptions);
   }
 
-  getInformation(objData) {
-    return !isEmpty(objData.details)
-      ? `: ${objData.details.information} - ${moment(
-          objData.details.createdAt
+  getInformation(contact) {
+    const { t } = this.props;
+
+    return !isEmpty(contact.details)
+      ? `${contact.details.information} - ${moment(
+          contact.details.createdAt
         ).format("DD/MM/YYYY HH:mm")}`
-      : null;
+      : t("withoutDetails");
   }
 
-  mappingContactsPhones(contactsPhones) {
-    return map((data) => {
-      const objData = JSON.parse(data);
-      const info = `${objData.phone} ${this.getInformation(objData)}`;
-      return info;
-    }, contactsPhones);
+  mappingContactsPhones({ checksContactsPhones, contactsData }) {
+    return map((phone) => {
+      const contact = find((contact) => contact.phone === phone, contactsData);
+      return `*${phone}:* ${this.getInformation(contact)}`;
+    }, checksContactsPhones);
   }
 
   parsePhonesToBeEasierToRead() {
-    const { contactsPhones } = this.props;
-    const formatted = pipe(
+    const { checksContactsPhones, contactsData } = this.props;
+    return pipe(
       this.mappingContactsPhones,
       join("\n"),
       (data) => "\n\n" + data,
       encodeURIComponent
-    )(contactsPhones);
-
-    return formatted;
+    )({ checksContactsPhones, contactsData });
   }
 
   sendMessage() {
     const { t } = this.props;
     const { form } = this.state;
     const idPublisher = get("idPublisher", form);
-    const publisherData = this.getDataPublisherSeleccted(idPublisher);
+    const publisherData = this.getDataPublisherSelected(idPublisher);
     const textToSend = `${encodeURIComponent(
       t("messageToSend", { name: publisherData.name })
     )}: ${this.parsePhonesToBeEasierToRead()} `;
-    window.open(`https://wa.me/${publisherData.phone}?text=${textToSend}`);
+    window.open(
+      `${URL_SEND_MESSAGE}?phone=${publisherData.phone}&text=${textToSend}`
+    );
   }
 
-  getJustPhonesAllowed(contactsPhones) {
+  getJustPhonesAllowed(checksContactsPhones, contactsData) {
     return pipe(
-      map((data) => {
-        const objData = JSON.parse(data);
-        return !objData.forbiddenSend ? objData.phone : null;
+      map((phone) => {
+        const contact = find(
+          (contact) => contact.phone === phone,
+          contactsData
+        );
+        return !contact.waitingFeedback ? contact.phone : null;
       }),
       compact
-    )(contactsPhones);
+    )(checksContactsPhones);
   }
 
   async handleSubmit(onHide) {
@@ -138,16 +134,17 @@ class NewContact extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t, contactsPhones } = this.props;
+    const { t, checksContactsPhones, contactsData } = this.props;
     const idPublisher = get("idPublisher", form);
 
-    const data = {
-      phones: this.getJustPhonesAllowed(contactsPhones),
+    const dataAssign = {
+      phones: this.getJustPhonesAllowed(checksContactsPhones, contactsData),
       idPublisher,
     };
 
     try {
-      if (getOr([], "phones", data).length > 0) await contacts.assign(data);
+      if (getOr([], "phones", dataAssign).length > 0)
+        await contacts.assign(dataAssign);
       this.sendMessage();
       this.setState({ submitting: false });
       Swal.fire({
@@ -160,7 +157,6 @@ class NewContact extends React.Component {
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
-      console.log(error);
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
@@ -178,20 +174,9 @@ class NewContact extends React.Component {
     }
   }
 
-  onlyPhones() {
-    return pipe(
-      map((data) => {
-        if (isEmpty(data)) return;
-        const objData = JSON.parse(data);
-        return objData.phone;
-      }),
-      join(", ")
-    )(this.props.contactsPhones);
-  }
-
   render() {
     const { form, validated, publishersOptions } = this.state;
-    const { t, contactsPhones } = this.props;
+    const { t, checksContactsPhones } = this.props;
     return (
       <OurModal
         body={FormSendPhones}
@@ -200,11 +185,11 @@ class NewContact extends React.Component {
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
-        phones={this.onlyPhones(contactsPhones)}
+        phones={join(", ", checksContactsPhones)}
         publishersOptions={publishersOptions}
         title={`${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faShareAlt} />}
-        buttonDisabled={contactsPhones.length === 0}
+        buttonDisabled={checksContactsPhones.length === 0}
         buttonVariant="warning"
       />
     );

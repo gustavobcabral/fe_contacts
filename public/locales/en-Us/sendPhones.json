@@ -1,7 +1,9 @@
 {
   "title": "Send phones",
-  "messageToSend":"*Hello, {{name}}*. \nHere are the numbers in your care with the last conversation",
+  "messageToSend":"Hello, *{{name}}*. \nHere are the numbers in your care with the last conversation",
   "sendTo": "Send To:",
-  "numbers": "Numbers: "
+  "numbersSelected": "Numbers selected: ",
+  "withoutDetails": "No Details",
+  "labelPublisher": "Publisher"
 
 }

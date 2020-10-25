@@ -12,7 +12,7 @@ import {
   uniq,
   compact,
   remove,
-  find,
+  contains,
 } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,9 +56,6 @@ class Contacts extends React.Component {
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
-    this.checkIfThisPhonesWasSelected = this.checkIfThisPhonesWasSelected.bind(
-      this
-    );
   }
 
   async handleGetAll(objQuery) {
@@ -114,16 +111,11 @@ class Contacts extends React.Component {
     } = event;
     const newValues = checked
       ? pipe(uniq, compact)([...this.state.checksContactsPhones, value])
-      : remove((valueSaved) => {
-          const objValueSaved = !isEmpty(valueSaved)
-            ? JSON.parse(valueSaved)
-            : null;
+      : remove(
+          (valueSaved) => valueSaved === value,
+          this.state.checksContactsPhones
+        );
 
-          const objValueClicked = !isEmpty(value) ? JSON.parse(value) : null;
-          if (!objValueSaved && !objValueClicked) return true;
-          return objValueSaved.phone === objValueClicked.phone;
-        }, this.state.checksContactsPhones);
-        
     this.setState({
       checksContactsPhones: newValues,
     });
@@ -135,21 +127,9 @@ class Contacts extends React.Component {
     } = event;
 
     const newValues = checked
-      ? map((item) => JSON.stringify(item), this.state.data)
+      ? map((contact) => contact.phone, this.state.data)
       : [];
     this.setState({ checksContactsPhones: newValues });
-  }
-
-  checkIfThisPhonesWasSelected(phone) {
-    const { checksContactsPhones } = this.state;
-    return Boolean(
-      find((stringObjContact) => {
-        const contact = !isEmpty(stringObjContact)
-          ? JSON.parse(stringObjContact)
-          : null;
-        return contact && contact.phone === phone;
-      }, checksContactsPhones)
-    );
   }
 
   componentDidMount() {
@@ -158,7 +138,12 @@ class Contacts extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { data, pagination, submitting, checksContactsPhones } = this.state;
+    const {
+      data,
+      pagination,
+      submitting,
+      checksContactsPhones,
+    } = this.state;
     const colSpan = "8";
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
@@ -196,7 +181,10 @@ class Contacts extends React.Component {
                   <th>{t("details")}</th>
                   <th>
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
-                    <SendPhones contactsPhones={checksContactsPhones} />
+                    <SendPhones
+                      checksContactsPhones={checksContactsPhones}
+                      contactsData={data}
+                    />
                   </th>
                 </tr>
               </thead>
@@ -208,11 +196,12 @@ class Contacts extends React.Component {
                         <td>
                           <Form.Check
                             type="checkbox"
-                            checked={this.checkIfThisPhonesWasSelected(
-                              contact.phone
+                            checked={contains(
+                              contact.phone,
+                              checksContactsPhones
                             )}
                             name="checksContactsPhones"
-                            value={JSON.stringify(contact)}
+                            value={contact.phone}
                             className="checkBoxPhones"
                             onChange={this.handleOnClick}
                           />

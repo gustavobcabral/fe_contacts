@@ -1,3 +1,3 @@
 export const LENS_SETTINGS = "lens/settings";
-export const COD_COUNTRY = '595';
+export const URL_SEND_MESSAGE = 'https://api.whatsapp.com/send/';
 

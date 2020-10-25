@@ -4,12 +4,7 @@ import { useTranslation } from "react-i18next";
 import SuperSelect from "../../common/SuperSelect/SuperSelect";
 
 const FormSendPhones = (props) => {
-  const { t } = useTranslation([
-    "detailsContacts",
-    "common",
-    "contacts",
-    "sendPhones",
-  ]);
+  const { t } = useTranslation(["sendPhones", "common"]);
   const { validator } = props;
   const {
     form,
@@ -26,16 +21,14 @@ const FormSendPhones = (props) => {
     <Form>
       <Row>
         <Col xs={7} scroll="true">
-          <h6>{t("sendPhones:numbers")}</h6>
-          <div style={{ overflowY: "auto", maxHeight: "150px" }}>
-            {phones}
-          </div>
+          <h6>{t("numbersSelected")}</h6>
+          <div style={{ overflowY: "auto", maxHeight: "150px" }}>{phones}</div>
         </Col>
         <Col>
-          <h6> {t("sendPhones:sendTo")}</h6>
+          <h6> {t("sendTo")}</h6>
           <SuperSelect
             name="idPublisher"
-            label={t("publisher")}
+            label={t("labelPublisher")}
             validator={validator}
             validated={validated}
             value={form.idPublisher}
