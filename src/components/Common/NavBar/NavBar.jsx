@@ -1,7 +1,11 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { get } from "lodash/fp";
-import { getUserData, hasToken, isAtLeastSM } from "../../../utils/loginDataManager";
+import {
+  getUserData,
+  hasToken,
+  isAtLeastSM,
+} from "../../../utils/loginDataManager";
 import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -17,13 +21,20 @@ import {
 const MenuLogged = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
-    <NavDropdown title={t("contacts")}>
-        <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
-        {t("allContacts")}
-        </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_WAITING_FEEDBACK_LIST_PATH}>
-        {t("allContactsWaitingFeedback")}
+      <NavDropdown title={t("contacts")}>
+        {isAtLeastSM() && (
+          <>
+            <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
+              {t("allContacts")}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+          </>
+        )}
+        <NavDropdown.Item
+          as={Link}
+          to={contactsPaths.CONTACTS_WAITING_FEEDBACK_LIST_PATH}
+        >
+          {t("allContactsWaitingFeedback")}
         </NavDropdown.Item>
       </NavDropdown>
       {isAtLeastSM() && (

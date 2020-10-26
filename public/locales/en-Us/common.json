@@ -44,5 +44,7 @@
   "errorTextUndefined": "Error undefined",
   "new": "New",
   "errorWithoutDetails": "Without details",
-  "Network Error": "Error Network"
+  "Network Error": "Error Network",
+  "NO_PERMISSION_ENOUGH": "You don't have enough permissions"
+
 }

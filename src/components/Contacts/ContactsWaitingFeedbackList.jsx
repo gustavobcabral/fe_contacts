@@ -43,6 +43,8 @@ class Contacts extends React.Component {
         filters: JSON.stringify({
           name: "",
           phone: "",
+          responsible:"",
+          creator: "",
           genders: [],
           languages: [],
           status: [],
@@ -144,7 +146,7 @@ class Contacts extends React.Component {
       checksContactsPhones,
       error,
     } = this.state;
-    const colSpan = "7";
+    const colSpan = "9";
     return (
       <ContainerCRUD title={t("titleWaitingFeedback")} {...this.props}>
         <Row>
@@ -161,7 +163,7 @@ class Contacts extends React.Component {
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={["name", "phone"]}
+                  fields={["name", "phone","responsible","creator"]}
                   colspan={colSpan}
                 />
                 <tr>
@@ -179,6 +181,8 @@ class Contacts extends React.Component {
                   <th>{t("gender")}</th>
                   <th>{t("language")}</th>
                   <th>{t("status")}</th>
+                  <th>{t("publisherResponsible")}</th>
+                  <th>{t("publisherCreatedBy")}</th>
                   <th>
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -212,6 +216,9 @@ class Contacts extends React.Component {
                         <td>
                           {t(`status:${detailContact.statusDescription}`)}
                         </td>
+                        <td>{detailContact.publisherName}</td>
+                        <td>{detailContact.publisherNameCreatedBy}</td>
+
                         <td>
                           <EditDetailsContact
                             data={detailContact}

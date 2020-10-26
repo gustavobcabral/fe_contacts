@@ -9,6 +9,7 @@ import { details, publishers } from "../../../services";
 import FormDetails from "./FormDetails";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseErrorMessage } from "../../../utils/generic";
 
 const fields = {
   information: "",
@@ -46,17 +47,27 @@ class EditDetailsContact extends React.Component {
     );
 
   async handleGetOne() {
-    this.setState({ loading: true });
-    const id = getOr(0, "props.id", this);
-    const response = await details.getOne(id);
-    const form = getOr(fields, "data.data", response);
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const { t } = this.props;
 
-    this.setState({
-      form,
-      publishersOptions,
-      loading: false,
-    });
+    try {
+      this.setState({ loading: true });
+      const id = getOr(0, "props.id", this);
+      const response = await details.getOne(id);
+      const form = getOr(fields, "data.data", response);
+      const publishersOptions = this.reducePublishers(await publishers.getAll());
+  
+      this.setState({
+        form,
+        publishersOptions,
+        loading: false,
+      });
+        
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: t(`common:${parseErrorMessage(error)}`),
+      });
+    }
   }
 
   handleInputChange(event) {

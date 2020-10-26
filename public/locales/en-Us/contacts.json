@@ -12,5 +12,7 @@
   "female": "Female",
   "unknown": "Unknown",
   "publisher": "Publisher",
-  "name": "Name"
+  "name": "Name",
+  "publisherResponsible": "Responsible",
+  "publisherCreatedBy": "Created by"
 }
