@@ -2,14 +2,14 @@ import React from "react";
 import { Col, Card, Row, ListGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, map } from "lodash/fp";
+import { get, isEmpty, getOr, map, round } from "lodash/fp";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
 
 const getByPublishers = (t, data) =>
   map(
     (dataPublisher) => ({
-      title: `${getOr(0, "percent", dataPublisher)}% ${getOr(
+      title: `${round(getOr(0, "percent", dataPublisher), 2)}% ${getOr(
         t("noName"),
         "publisherName",
         dataPublisher
@@ -26,7 +26,11 @@ const ByPublishers = (props) => {
   const byPublishers = getByPublishers(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 2, offset: 0 }} className="mt-2">
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 0 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartWaitingFeedbackByPublishers")}

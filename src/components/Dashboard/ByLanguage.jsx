@@ -2,25 +2,22 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, map, getOr } from "lodash/fp";
+import { get, isEmpty, map, getOr, round } from "lodash/fp";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
 
 const getByLanguage = (t, data) =>
   map(
     (dataLanguage) => ({
-      title: `${getOr(0, "percent", dataLanguage)}% ${t("languages:"+getOr(
-        "noName",
-        "languageName",
-        dataLanguage
-      ))}`,
+      title: `${round(getOr(0, "percent", dataLanguage), 2)}% ${t(
+        "languages:" + getOr("noName", "languageName", dataLanguage)
+      )}`,
       value: getOr(0, "percent", dataLanguage),
       label: generateLabel(t, dataLanguage, "languageName"),
       color: getOr(randomColor(), "languageColor", dataLanguage),
     }),
     getOr([], "totalContactsByLanguageContacted", data)
   );
-
 
 const ByLanguage = (props) => {
   const { t } = useTranslation(["dashboard", "common", "languages"]);

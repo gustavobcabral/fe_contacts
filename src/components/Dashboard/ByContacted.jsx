@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, compact } from "lodash/fp";
+import { get, isEmpty, getOr, compact, round } from "lodash/fp";
 
 const getByContacted = (t, data) => {
   if (
@@ -15,7 +15,7 @@ const getByContacted = (t, data) => {
     getOr(0, "totalPercentContacted", data) > 0
       ? {
           label: t("contacted"),
-          title: `${getOr(0, "totalPercentContacted", data)}% ${t(
+          title: `${round(getOr(0, "totalPercentContacted", data), 2)}% ${t(
             "contacted"
           )}`,
           value: getOr(0, "totalPercentContacted", data),
@@ -25,9 +25,10 @@ const getByContacted = (t, data) => {
     getOr(0, "totalPercentWithoutContacted", data) > 0
       ? {
           label: t("withoutContact"),
-          title: `${getOr(0, "totalPercentWithoutContacted", data)}% ${t(
-            "withoutContact"
-          )}`,
+          title: `${round(
+            getOr(0, "totalPercentWithoutContacted", data),
+            2
+          )}% ${t("withoutContact")}`,
           value: getOr(0, "totalPercentWithoutContacted", data),
           color: "#f73939",
         }
