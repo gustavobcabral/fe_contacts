@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { getOr, get, pick } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import OurModal from "../Common/OurModal/OurModal";
+import OurModal from "../common/OurModal/OurModal";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import StatusForm from "./StatusForm.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,7 +58,6 @@ class StatusEdit extends React.Component {
       onHide();
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
-
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({

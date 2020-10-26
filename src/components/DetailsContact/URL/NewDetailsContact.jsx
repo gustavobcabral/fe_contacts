@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import ContainerCRUD from '../../../components/ContainerCRUD/ContainerCRUD'
+import ContainerCRUD from '../../../components/common/ContainerCRUD/ContainerCRUD'
 import SimpleReactValidator from 'simple-react-validator'
 import { getOr, map, pick, get } from 'lodash/fp'
 import FormDetails from './FormDetails'
@@ -30,7 +30,7 @@ class NewDetailsContact extends React.Component {
       phone: getOr(0, 'match.params.phone', props),
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleGetOne = this.handleGetOne.bind(this)
+    this.handleGetOneContact = this.handleGetOneContact.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -45,7 +45,7 @@ class NewDetailsContact extends React.Component {
       getOr([], 'data.data', publishers)
     )
 
-  async handleGetOne() {
+  async handleGetOneContact() {
     const { phone } = this.state
     const contact = await contacts.getOne(phone)
     const form = getOr(fields, 'data.data', contact)
@@ -58,7 +58,7 @@ class NewDetailsContact extends React.Component {
 
   async componentDidMount() {
     this.setState({ loading: true })
-    this.handleGetOne()
+    this.handleGetOneContact()
     const publishersOptions = this.reducePublishers(await publishers.getAll())
 
     this.setState({

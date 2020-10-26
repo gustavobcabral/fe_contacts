@@ -54,7 +54,7 @@ const ByPublishers = (props) => {
                             backgroundColor: get("color", dataPublisher),
                           }}
                         >
-                          {dataPublisher.label}
+                          {dataPublisher.title}
                         </ListGroup.Item>
                       ),
                       byPublishers

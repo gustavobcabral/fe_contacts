@@ -1,6 +1,6 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import OurModal from "../Common/OurModal/OurModal";
+import OurModal from "../common/OurModal/OurModal";
 import Swal from "sweetalert2";
 import { getOr, map, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
@@ -9,13 +9,17 @@ import { contacts, publishers, status } from "../../services";
 import FormContacts from "./FormContacts";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ID_LANGUAGE_DEFAULT } from "../../constants/valuesPredefined";
+import {
+  ID_LANGUAGE_DEFAULT,
+  ID_GENDER_DEFAULT,
+  ID_STATUS_DEFAULT,
+} from "../../constants/valuesPredefined";
 
 const fields = {
   phone: "",
   name: "",
-  gender: "",
-  idStatus: "",
+  gender: ID_GENDER_DEFAULT,
+  idStatus: ID_STATUS_DEFAULT,
   idLanguage: ID_LANGUAGE_DEFAULT,
 };
 

@@ -1,0 +1,9 @@
+{
+  "title": "Enviar número",
+  "messageToSend": "Olá,  *{{name}}*. \nAqui estão os números ao seus cuidados com a última conversa",
+  "sendTo": "Enviar para:",
+  "numbersSelected": "Números selecionados: ",
+  "withoutDetails": "Sem datalhes",
+  "labelPublisher": "Publicador",
+  "ERROR_PUBLISHER_ALREADY_WAITING_FEEDBACK": "O número {{phone}} já está aguardando uma resposta. Favor anotar essa resposta antes de designar para outro publicador"
+}

@@ -27,7 +27,7 @@ const Search = (props) => {
   return (
     <>
       <tr>
-        <th colSpan={colspan || "6"}>
+        <th colSpan={colspan || "7"}>
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
@@ -45,7 +45,7 @@ const Search = (props) => {
         </th>
       </tr>
       <tr>
-        <th colSpan={colspan || "6"} style={{ border: 0 }}></th>
+        <th colSpan={colspan || "7"} style={{ border: 0 }}></th>
       </tr>
     </>
   );

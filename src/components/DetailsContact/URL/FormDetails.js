@@ -1,11 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Form, Row, Col } from "react-bootstrap";
-import GenderSelect from "../../Common/GenderSelect/GenderSelect";
-import SuperSelect from "../../Common/SuperSelect/SuperSelect";
-import SuperFormControl from "../../Common/SuperFormControl/SuperFormControl";
-import StatusSelect from "../../Common/StatusSelect/StatusSelect";
-import LanguageSelect from "../../Common/LanguageSelect/LanguageSelect";
+import GenderSelect from "../../common/GenderSelect/GenderSelect";
+import SuperSelect from "../../common/SuperSelect/SuperSelect";
+import SuperFormControl from "../../common/SuperFormControl/SuperFormControl";
+import StatusSelect from "../../common/StatusSelect/StatusSelect";
+import LanguageSelect from "../../common/LanguageSelect/LanguageSelect";
 
 const FormDetails = (component) => {
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
@@ -90,10 +90,7 @@ const FormDetails = (component) => {
           <Button disabled={submitting} variant="primary" onClick={onSubmit}>
             {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
           </Button>{" "}
-          <Button
-            variant="secondary"
-            onClick={() => history.goBack()}
-          >
+          <Button variant="secondary" onClick={() => history.goBack()}>
             {t("common:back")}
           </Button>
         </Col>

@@ -1,5 +1,5 @@
 {
-   "add": "Adicionar",
+  "add": "Adicionar",
   "back": "Voltar",
   "cancel": "Cancelar",
   "clear": "Limpar",
@@ -36,14 +36,15 @@
   "labelNewValueOption": "Escolha um novo valor",
   "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
   "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro",
-  "ERROR_WHILE_CREATING": "Error while creating a new record",
+  "ERROR_WHILE_CREATING": "Ocorreu um erro ao gentar criar um novo registro",
   "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",
   "ECONNREFUSED": "Sem conexão com o banco de dados",
   "CREATING_SUCCESSFUL": "O registro foi criado com sucesso",
   "noData": "Sem dados",
   "errorTextUndefined": "Erro indefinido",
   "new": "Novo",
-  "errorWithoutDetails": "Sem detalhes"
+  "errorWithoutDetails": "Sem detalhes",
+  "Network Error": "Erro de conexão",
+  "NO_PERMISSION_ENOUGH": "Você não tem as permissões suficientes"
 
 }
-

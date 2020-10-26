@@ -1,5 +1,6 @@
 {
   "title": "Contacts",
+  "titleWaitingFeedback": "Contacts that waiting feedback",
   "titleCrud": "Contact",
   "phone": "Phone",
   "language": "Language",
@@ -9,7 +10,9 @@
   "details": "Details",
   "male": "Male",
   "female": "Female",
-  "undefinedGender": "Undefined",
+  "unknown": "Unknown",
   "publisher": "Publisher",
-  "name": "Name"
+  "name": "Name",
+  "publisherResponsible": "Responsible",
+  "publisherCreatedBy": "Created by"
 }
