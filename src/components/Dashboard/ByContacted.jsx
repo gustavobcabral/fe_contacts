@@ -2,8 +2,8 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, compact, round } from "lodash/fp";
-
+import { get, isEmpty, getOr, compact } from "lodash/fp";
+import { round } from "lodash";
 const getByContacted = (t, data) => {
   if (
     getOr(0, "totalPercentContacted", data) === 0 &&

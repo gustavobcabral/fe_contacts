@@ -10,8 +10,8 @@ import {
   pipe,
   curry,
   filter,
-  round,
 } from "lodash/fp";
+import { round } from "lodash";
 
 const getByGender = (t, data) => {
   const parseObject = (label, color, data) => ({

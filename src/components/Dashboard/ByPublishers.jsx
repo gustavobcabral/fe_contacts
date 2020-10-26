@@ -2,7 +2,8 @@ import React from "react";
 import { Col, Card, Row, ListGroup } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, map, round } from "lodash/fp";
+import { get, isEmpty, getOr, map } from "lodash/fp";
+import { round } from "lodash";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
 
