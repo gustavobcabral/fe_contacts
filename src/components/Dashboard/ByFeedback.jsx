@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr } from "lodash/fp";
+import { get, isEmpty, getOr, compact } from "lodash/fp";
 
 const getByFeedback = (t, data) => {
   if (
@@ -11,7 +11,7 @@ const getByFeedback = (t, data) => {
   )
     return [];
 
-  return [
+  return compact([
     getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) > 0
       ? {
           label: t("totalContactsAssignByMeWaitingFeedback"),
@@ -27,7 +27,7 @@ const getByFeedback = (t, data) => {
           )}% ${t("totalContactsAssignByMeWaitingFeedback")}`,
           color: "#007bff",
         }
-      : {},
+      : null,
     getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data) > 0
       ? {
           label: t("totalContactsWaitingFeedback"),
@@ -43,8 +43,8 @@ const getByFeedback = (t, data) => {
           ),
           color: "#6610f2",
         }
-      : {},
-  ];
+      : null,
+  ]);
 };
 
 const ByFeedback = (props) => {
