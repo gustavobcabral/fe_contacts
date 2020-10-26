@@ -65,14 +65,15 @@ class FilterData extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { loading, error } = this.state;
-    const { refresh } = this.props;
+    const { loading } = this.state;
+    const { refresh, error } = this.props;
     const { prevRefresh } = prevProps;
     if (refresh && !prevRefresh && !loading && !error) this.getAllFilters();
   }
 
   render() {
     const { checksGender, checksLanguages, checksStatus, error } = this.state;
+    const noData = isEmpty(checksGender) && isEmpty(checksLanguages) && isEmpty(checksStatus)
     const { t } = this.props;
     return (
       <>
@@ -81,6 +82,9 @@ class FilterData extends React.Component {
         </Col>
         <Col xs={3} lg={12} className="text-center text-muted">
           {error}
+        </Col>
+        <Col xs={3} lg={12} className="text-center text-muted">
+          {noData && t("common:noData")}
         </Col>
         {!isEmpty(checksGender) && (
           <Col xs={3} lg={12} className="mb-4">

@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Table, Row, Col, Form } from "react-bootstrap";
+import { Table, Row, Col, Form } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
-import { contacts } from "../../services";
+import { details } from "../../services";
 import Swal from "sweetalert2";
 import {
   map,
@@ -15,18 +15,13 @@ import {
   contains,
 } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList } from "@fortawesome/free-solid-svg-icons";
-import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
-import { Link } from "react-router-dom";
 import NoRecords from "../common/NoRecords/NoRecords";
 import Pagination from "../common/Pagination/Pagination";
 import Search from "../common/Search/Search";
 import { parseQuery } from "../../utils/forms";
 import { RECORDS_PER_PAGE } from "../../constants/application";
 import FilterData from "../common/FilterData/FilterData";
-import NewContact from "./NewContact";
-import EditContact from "./EditContact";
+import EditDetailsContact from "../DetailsContact/Modal/EditDetailsContact";
 import SendPhones from "./SendPhones/SendPhones";
 import { parseErrorMessage } from "../../utils/generic";
 
@@ -42,7 +37,7 @@ class Contacts extends React.Component {
       submitting: false,
       pagination: {},
       queryParams: {
-        sort: "name:ASC",
+        sort: `"detailsContacts"."createdAt":ASC`,
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({
@@ -64,7 +59,7 @@ class Contacts extends React.Component {
     const { t } = this.props;
     try {
       const queryParams = parseQuery(objQuery, this.state);
-      const response = await contacts.getAll(queryParams);
+      const response = await details.getAllWaitingFeedback(queryParams);
       this.setState({
         data: getOr([], "data.data.list", response),
         pagination: getOr({}, "data.data.pagination", response),
@@ -86,7 +81,7 @@ class Contacts extends React.Component {
   async handleDelete(id) {
     const { t } = this.props;
     this.setState({ submitting: true });
-    await contacts
+    await details
       .dellOne(id)
       .then(() => {
         this.handleGetAll();
@@ -147,18 +142,18 @@ class Contacts extends React.Component {
       pagination,
       submitting,
       checksContactsPhones,
-      error
+      error,
     } = this.state;
-    const colSpan = "8";
+    const colSpan = "7";
     return (
-      <ContainerCRUD title={t("title")} {...this.props}>
+      <ContainerCRUD title={t("titleWaitingFeedback")} {...this.props}>
         <Row>
           <Col xs={12} lg={2}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}
-              getFilters={contacts.getAllFilters}
+              getFilters={details.getAllWaitingFeedbackFilters}
             />
           </Col>
           <Col xs={12} lg={10}>
@@ -184,9 +179,7 @@ class Contacts extends React.Component {
                   <th>{t("gender")}</th>
                   <th>{t("language")}</th>
                   <th>{t("status")}</th>
-                  <th>{t("details")}</th>
                   <th>
-                    <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
@@ -197,47 +190,37 @@ class Contacts extends React.Component {
               <tbody>
                 {!isEmpty(data) ? (
                   map(
-                    (contact) => (
-                      <tr key={contact.phone}>
+                    (detailContact) => (
+                      <tr key={detailContact.phone}>
                         <td>
                           <Form.Check
                             type="checkbox"
                             checked={contains(
-                              contact.phone,
+                              detailContact.phone,
                               checksContactsPhones
                             )}
                             name="checksContactsPhones"
-                            value={contact.phone}
+                            value={detailContact.phone}
                             className="checkBoxPhones"
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td>{contact.name}</td>
-                        <td>{contact.phone}</td>
-                        <td>{t(`contacts:${contact.gender}`)}</td>
-                        <td>{t(`languages:${contact.languageName}`)}</td>
-                        <td>{t(`status:${contact.statusDescription}`)}</td>
+                        <td>{detailContact.contactName}</td>
+                        <td>{detailContact.phone}</td>
+                        <td>{t(`contacts:${detailContact.gender}`)}</td>
+                        <td>{t(`languages:${detailContact.languageName}`)}</td>
                         <td>
-                          <ListDetailsContact
-                            contact={contact}
-                            id={contact.phone}
-                            afterClose={() => this.handleGetAll()}
-                          />{" "}
-                          <Button
-                            variant="success"
-                            as={Link}
-                            to={`/contacts/${encodeURI(contact.phone)}/details`}
-                          >
-                            <FontAwesomeIcon icon={faList} />
-                          </Button>
+                          {t(`status:${detailContact.statusDescription}`)}
                         </td>
                         <td>
-                          <EditContact
-                            id={contact.phone}
-                            afterClose={() => this.handleGetAll()}
+                          <EditDetailsContact
+                            data={detailContact}
+                            contact={detailContact}
+                            id={detailContact.id}
+                            afterClose={this.handleGetAll}
                           />{" "}
                           <AskDelete
-                            id={contact.phone}
+                            id={detailContact.id}
                             funcToCallAfterConfirmation={this.handleDelete}
                           />
                         </td>

@@ -17,9 +17,15 @@ import {
 const MenuLogged = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
-      <Nav.Link as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
-        {t("contacts")}
-      </Nav.Link>
+    <NavDropdown title={t("contacts")}>
+        <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
+        {t("allContacts")}
+        </NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_WAITING_FEEDBACK_LIST_PATH}>
+        {t("allContactsWaitingFeedback")}
+        </NavDropdown.Item>
+      </NavDropdown>
       {isAtLeastSM() && (
         <NavDropdown title={t("admin")} id="collasible-nav-dropdown">
           <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
