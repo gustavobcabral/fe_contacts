@@ -2,13 +2,22 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, find, getOr, pipe, curry, filter } from "lodash/fp";
+import {
+  get,
+  isEmpty,
+  find,
+  getOr,
+  pipe,
+  curry,
+  filter,
+} from "lodash/fp";
+import { round } from "lodash";
 
 const getByGender = (t, data) => {
   const parseObject = (label, color, data) => ({
     label: `${t(`contacts:${label}`)}`,
     value: getOr(0, "percent", data),
-    title: `${getOr(0, "percent", data)}% ${t(`contacts:${label}`)}`,
+    title: `${round(getOr(0, "percent", data), 2)}% ${t(`contacts:${label}`)}`,
     color,
   });
 

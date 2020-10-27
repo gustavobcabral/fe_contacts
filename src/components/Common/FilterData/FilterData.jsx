@@ -35,7 +35,9 @@ class FilterData extends React.Component {
       [name]: newValues,
     });
     handleFilters({
-      [name]: newValues,
+      filters: {
+        [name]: newValues,
+      },
     });
     return "";
   }
@@ -73,7 +75,10 @@ class FilterData extends React.Component {
 
   render() {
     const { checksGender, checksLanguages, checksStatus, error } = this.state;
-    const noData = isEmpty(checksGender) && isEmpty(checksLanguages) && isEmpty(checksStatus)
+    const noData =
+      isEmpty(checksGender) &&
+      isEmpty(checksLanguages) &&
+      isEmpty(checksStatus);
     const { t } = this.props;
     return (
       <>

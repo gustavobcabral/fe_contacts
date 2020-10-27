@@ -1,4 +1,4 @@
-import { getOr } from "lodash/fp";
+import { getOr, omit } from "lodash/fp";
 
 export const unformatDate = (date) => {
   const split = date.slice(0, 10).split("-");
@@ -29,15 +29,17 @@ export const handleInputChangeGeneric = (event, componentReact) => {
 export const parseQuery = (objQuery, state) => {
   return {
     ...getOr({}, "queryParams", state),
+    ...omit(['filters'], objQuery),
     ...appendFilters(objQuery, state),
   };
 };
 
-export const appendFilters = (newFilters, state) => {
+export const appendFilters = (filters, state) => {
+  const newFilters = getOr({},'filters', filters);
   return {
     filters: JSON.stringify({
       ...JSON.parse(getOr("{}", "queryParams.filters", state)),
-      ...newFilters,
+      ...newFilters
     }),
   };
 };

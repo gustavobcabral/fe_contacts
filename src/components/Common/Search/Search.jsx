@@ -21,7 +21,7 @@ const Search = (props) => {
       {},
       fields
     );
-    onFilter(newValues);
+    onFilter({ filters: newValues });
   };
 
   return (
