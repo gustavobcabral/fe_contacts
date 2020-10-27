@@ -1,5 +1,10 @@
 {
   "title": "Publishers",
+  "titleCrud": "Publisher",
   "responsibility":"Privilege",
+  "privilege":"Privilege",
+  "name": "Name",
+  "email": "Email",
+  "phone": "Phone",
   "NOT_ALLOWED_DELETE_ADMIN": "It is not allowed to delete Admin Publisher"
 }

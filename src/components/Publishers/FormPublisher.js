@@ -1,16 +1,17 @@
 import React from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
 import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
 import SuperSelect from '../common/SuperSelect/SuperSelect'
 // import GenderSelect from '../common/GenderSelect/GenderSelect'
 // import StatusSelect from '../common/StatusSelect/StatusSelect'
 // import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 
-
 const FormPublishers = (props) => {
   const { t } = useTranslation([
     'publishers',
+    'responsibility',
     'detailsContacts',
     'common',
     'contacts',
@@ -25,20 +26,13 @@ const FormPublishers = (props) => {
     validated,
     responsibilityOptions,
   } = props
+
+  const CheckNumber = () => {
+    console.log('TU CLICOU')
+  }
   return (
     <Form>
       <Row>
-        <Col>
-          <SuperFormControl
-            type="text"
-            name="name"
-            label={t('detailsContacts:name')}
-            validator={validator}
-            validated={validated}
-            value={form.name}
-            onChange={handleInputChange}
-          />
-        </Col>
         <Col>
           <SuperFormControl
             type="number"
@@ -51,7 +45,29 @@ const FormPublishers = (props) => {
             rules="required|min:10"
           />
         </Col>
+        <Col>
+          <SuperFormControl
+            type="text"
+            name="name"
+            label={t('detailsContacts:name')}
+            validator={validator}
+            validated={validated}
+            value={form.name}
+            onChange={handleInputChange}
+          />
+        </Col>
       </Row>
+      <Button
+        variant="info"
+        style={{
+          justifyContent: 'end',
+        }}
+        onClick={() => {
+          CheckNumber()
+        }}
+      >
+        Test
+      </Button>
       <Row>
         <Col>
           <SuperFormControl
@@ -66,48 +82,27 @@ const FormPublishers = (props) => {
           />
         </Col>
         <Col>
-          <SuperSelect
-            name="responsibility"
+          {/* <SuperSelect
+            name="idResponsibility"
             label={t('publishers:responsibility')}
             validator={validator}
             validated={validated}
-            value={form.responsibility}
+            value={form.idResponsibility}
             options={responsibilityOptions}
+            onChange={handleInputChange}
+            rules="required"
+          /> */}
+          <ResponsibilitySelect
+            name="idResponsibility"
+            label={t('responsibility')}
+            validator={validator}
+            validated={validated}
+            value={form.idResponsibility}
             onChange={handleInputChange}
             rules="required"
           />
         </Col>
       </Row>
-      {/* <Row>
-        <Col>
-          <GenderSelect
-            validator={validator}
-            validated={validated}
-            value={form.gender}
-            onChange={handleInputChange}
-          />
-        </Col>
-        <Col>
-          <LanguageSelect
-            validator={validator}
-            validated={validated}
-            value={form.idLanguage}
-            onChange={handleInputChange}
-            rules="required"
-          />
-        </Col>
-        <Col>
-          <StatusSelect
-            name="idStatus"
-            label={t('contacts:status')}
-            validator={validator}
-            validated={validated}
-            value={form.idStatus}
-            onChange={handleInputChange}
-            rules="required"
-          />
-        </Col>
-      </Row> */}
       <Button
         disabled={submitting}
         variant="primary"

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
 import { withTranslation } from 'react-i18next'
 import { publishers } from '../../services'
@@ -18,12 +18,8 @@ class Publishers extends React.Component {
   }
 
   async handleGetAll() {
-    const response = await publishers.getAll('')
+    const response = await publishers.getAllWithPagination('')
     this.setState({ data: response.data.data })
-  }
-
-  handleEdit(id) {
-    console.log('i will get contact id ' + id)
   }
 
   async handleDelete(id) {
@@ -56,17 +52,16 @@ class Publishers extends React.Component {
   render() {
     const { t } = this.props
     const { data } = this.state
-     return (
+    return (
       <ContainerCRUD title={t('title')} {...this.props}>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Privilegio</th>
+              <th>{t('name')}</th>
+              <th>{t('email')}</th>
+              <th>{t('phone')}</th>
+              <th>{t('privilege')}</th>
               <th>
-                {/* <Button variant="primary">{t('common:add')}</Button> */}
                 <NewPublisher afterClose={() => this.handleGetAll()} />
               </th>
             </tr>
@@ -77,9 +72,14 @@ class Publishers extends React.Component {
                 <td>{publishers.name}</td>
                 <td>{publishers.email}</td>
                 <td>{publishers.phone}</td>
-                <td>{t(publishers.responsibilityDescription)}</td>
                 <td>
-                  <EditPublisher />{' '}
+                  {t(`responsibility:${publishers.responsibilityDescription}`)}
+                </td>
+                <td>
+                  <EditPublisher
+                    id={publishers.id}
+                    afterClose={() => this.handleGetAll()}
+                  />{' '}
                   <AskDelete
                     id={publishers.id}
                     funcToCallAfterConfirmation={this.handleDelete}
@@ -93,4 +93,6 @@ class Publishers extends React.Component {
     )
   }
 }
-export default withTranslation(['publishers', 'common'])(Publishers)
+export default withTranslation(['publishers', 'common', 'responsibility'])(
+  Publishers
+)

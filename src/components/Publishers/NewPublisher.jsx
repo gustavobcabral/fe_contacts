@@ -9,7 +9,6 @@ import { publishers, responsibility } from '../../services'
 import FormPublisher from './FormPublisher'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ID_LANGUAGE_DEFAULT } from '../../constants/valuesPredefined'
 
 const fields = {
   name: '',
@@ -74,7 +73,6 @@ class NewPublisher extends React.Component {
     this.setState({ submitting: true })
 
     const { form } = this.state
-    console.log(form, 'MEEERDA')
     const { t } = this.props
 
     const data = {
@@ -82,7 +80,7 @@ class NewPublisher extends React.Component {
       phone: get('phone', form),
       password: get('password', form),
       email: get('email', form),
-      idResponsibility: get('responsibility', form),
+      idResponsibility: get('idResponsibility', form),
       active: get('active', form),
     }
 

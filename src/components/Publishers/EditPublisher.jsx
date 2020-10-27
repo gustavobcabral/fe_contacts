@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import { getOr, map, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
-import { contacts, publishers, status } from '../../services'
+import { publishers, responsibility } from '../../services'
 import FormPublisher from './FormPublisher'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,9 +13,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const fields = {
   name: '',
   phone: '',
-  hash: null,
+  password: null,
   email: '',
-  idResponsability: '',
+  idResponsibility: '',
+  active: 1,
 }
 
 class EditContact extends React.Component {
@@ -26,8 +27,7 @@ class EditContact extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
-      // publishersOptions: [],
-      // statusOptions: [],
+      responsibilityOptions: [],
     }
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -39,30 +39,27 @@ class EditContact extends React.Component {
     })
   }
 
-  // reducePublishers = (publishers) =>
-  //   map(
-  //     (publisher) => ({ value: publisher.id, label: publisher.name }),
-  //     getOr([], 'data.data', publishers)
-  //   )
-
-  // reduceStatus = (status) =>
-  //   map(
-  //     (status) => ({ value: status.id, label: status.description }),
-  //     getOr([], 'data.data', status)
-  //   )
+  reduceResponsibility = (responsibility) =>
+    map(
+      (responsibility) => ({
+        value: responsibility.id,
+        label: responsibility.description,
+      }),
+      getOr([], 'data.data', responsibility)
+    )
 
   async handleGetOne() {
     this.setState({ loading: true })
     const id = getOr(0, 'props.id', this)
-    const response = await contacts.getOne(id)
+    const response = await publishers.getOne(id)
     const form = getOr(fields, 'data.data', response)
-    //const publishersOptions = this.reducePublishers(await publishers.getAll())
-    //const statusOptions = this.reduceStatus(await status.getAll())
+    const responsibilityOptions = this.reduceResponsibility(
+      await responsibility.get()
+    )
 
     this.setState({
       form,
-      //publishersOptions,
-      //statusOptions,
+      responsibilityOptions,
       loading: false,
     })
   }
@@ -91,13 +88,14 @@ class EditContact extends React.Component {
     const data = {
       name: get('name', form),
       phone: get('phone', form),
-      hash: get('hash', form),
+      password: get('password', form),
       email: get('email', form),
-      idResponsability: get('idResponsability', form),
+      idResponsibility: get('idResponsibility', form),
+      active: get('active', form),
     }
 
     try {
-      await contacts.updateContact(id, data)
+      await publishers.updatePublishers(id, data)
       this.setState({ submitting: false })
       Swal.fire({
         title: t('common:dataSuccessfullySaved'),
@@ -127,7 +125,7 @@ class EditContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state
+    const { form, validated, responsibilityOptions } = this.state
     const { t, afterClose } = this.props
     return (
       <OurModal
@@ -139,8 +137,7 @@ class EditContact extends React.Component {
         form={form}
         onEnter={this.handleGetOne}
         onExit={afterClose}
-        publishersOptions={publishersOptions}
-        statusOptions={statusOptions}
+        responsibilityOptions={responsibilityOptions}
         title={`${t('common:edit')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"
@@ -149,4 +146,4 @@ class EditContact extends React.Component {
   }
 }
 
-export default withTranslation(['contacts', 'common'])(EditContact)
+export default withTranslation(['publishers', 'common'])(EditContact)
