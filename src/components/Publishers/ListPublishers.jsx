@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button, Table } from 'react-bootstrap'
-import ContainerCRUD from '../../components/ContainerCRUD/ContainerCRUD'
+import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
 import { withTranslation } from 'react-i18next'
 import { publishers } from '../../services'
 import Swal from 'sweetalert2'
 import { getOr } from 'lodash/fp'
-import AskDelete from '../Common/AskDelete/AskDelete'
+import AskDelete from '../common/AskDelete/AskDelete'
 import EditPublisher from './EditPublisher'
 import NewPublisher from './NewPublisher'
 
@@ -56,8 +56,7 @@ class Publishers extends React.Component {
   render() {
     const { t } = this.props
     const { data } = this.state
-    console.log(data, 'MERDA')
-    return (
+     return (
       <ContainerCRUD title={t('title')} {...this.props}>
         <Table striped bordered hover responsive>
           <thead>
@@ -78,7 +77,7 @@ class Publishers extends React.Component {
                 <td>{publishers.name}</td>
                 <td>{publishers.email}</td>
                 <td>{publishers.phone}</td>
-                <td>{publishers.idResponsibility}</td>
+                <td>{t(publishers.responsibilityDescription)}</td>
                 <td>
                   <EditPublisher />{' '}
                   <AskDelete

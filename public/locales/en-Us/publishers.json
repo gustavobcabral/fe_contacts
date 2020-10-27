@@ -1,5 +1,5 @@
 {
   "title": "Publishers",
-  "privilege":"Privilege",
+  "responsibility":"Privilege",
   "NOT_ALLOWED_DELETE_ADMIN": "It is not allowed to delete Admin Publisher"
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import OurModal from '../Common/OurModal/OurModal'
+import OurModal from '../common/OurModal/OurModal'
 import Swal from 'sweetalert2'
 import { getOr, map, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'

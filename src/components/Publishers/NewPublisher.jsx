@@ -1,11 +1,11 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import OurModal from '../Common/OurModal/OurModal'
+import OurModal from '../common/OurModal/OurModal'
 import Swal from 'sweetalert2'
 import { getOr, map, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
-import {  publishers } from '../../services'
+import { publishers, responsibility } from '../../services'
 import FormPublisher from './FormPublisher'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,7 +16,8 @@ const fields = {
   phone: '',
   password: null,
   email: '',
-  idResponsability: '',
+  idResponsibility: '',
+  active: 1,
 }
 
 class NewPublisher extends React.Component {
@@ -27,8 +28,7 @@ class NewPublisher extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
-      //publishersOptions: [],
-      //statusOptions: [],
+      responsibilityOptions: [],
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -39,15 +39,23 @@ class NewPublisher extends React.Component {
       element: (message) => <div className="text-danger">{message}</div>,
     })
   }
+  reduceResponsibility = (responsibility) =>
+    map(
+      (responsibility) => ({
+        value: responsibility.id,
+        label: responsibility.description,
+      }),
+      getOr([], 'data.data', responsibility)
+    )
 
   async componentDidMount() {
     this.setState({ loading: true })
-    // const publishersOptions = this.reducePublishers(await publishers.getAll());
-    // const statusOptions = this.reduceStatus(await status.getAll());
+    const responsibilityOptions = this.reduceResponsibility(
+      await responsibility.get()
+    )
 
     this.setState({
-      //publishersOptions,
-      //statusOptions,
+      responsibilityOptions,
       loading: false,
     })
   }
@@ -66,14 +74,16 @@ class NewPublisher extends React.Component {
     this.setState({ submitting: true })
 
     const { form } = this.state
+    console.log(form, 'MEEERDA')
     const { t } = this.props
 
     const data = {
       name: get('name', form),
       phone: get('phone', form),
-      hash: get('hash', form),
+      password: get('password', form),
       email: get('email', form),
-      idResponsability: get('idResponsability', form),
+      idResponsibility: get('responsibility', form),
+      active: get('active', form),
     }
 
     try {
@@ -107,7 +117,7 @@ class NewPublisher extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state
+    const { form, validated, responsibilityOptions } = this.state
     const { t, afterClose } = this.props
     return (
       <OurModal
@@ -118,8 +128,7 @@ class NewPublisher extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
-        publishersOptions={publishersOptions}
-        statusOptions={statusOptions}
+        responsibilityOptions={responsibilityOptions}
         title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
@@ -127,4 +136,4 @@ class NewPublisher extends React.Component {
   }
 }
 
-export default withTranslation(['Contacts', 'common'])(NewPublisher)
+export default withTranslation(['publishers', 'common'])(NewPublisher)
