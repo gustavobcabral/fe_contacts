@@ -5,8 +5,9 @@ import { toNumber } from "lodash/fp";
 const PaginationComponent = (props) => {
   let items = [];
   const { lastPage, to, from, currentPage } = props.pagination;
+  const maxPages = lastPage > 5 ? 5 : lastPage;
 
-  for (let number = 1; number <= lastPage; number++) {
+  for (let number = 1; number <= maxPages; number++) {
     items.push(
       <Pagination.Item
         key={number}
@@ -17,6 +18,31 @@ const PaginationComponent = (props) => {
       </Pagination.Item>
     );
   }
+  // const twoAhead = maxPages === currentPage ? currentPage + 1 : maxPages + 1;
+  // if (maxPages === currentPage) {
+  //   for (let number = currentPage + 1; number <= currentPage + 3; number++) {
+  //     items.push(
+  //       <Pagination.Item
+  //         key={number}
+  //         active={number === toNumber(currentPage)}
+  //         onClick={() => props.onClick({ currentPage: number })}
+  //       >
+  //         {number}
+  //       </Pagination.Item>
+  //     );
+  //   }
+  // }
+  // for (let number = twoAhead; number <= twoAhead+3; number++) {
+  //   items.push(
+  //     <Pagination.Item
+  //       key={number}
+  //       active={number === toNumber(currentPage)}
+  //       onClick={() => props.onClick({ currentPage: number })}
+  //     >
+  //       {number}
+  //     </Pagination.Item>
+  //   );
+  // }
 
   return (
     <Pagination>
