@@ -28,7 +28,7 @@ const PaginationComponent = (props) => {
       </Pagination.Item>
     );
   }
-  if (currentPage !== 1)
+  if (currentPage !== 1) {
     items.push(
       <Pagination.Item
         key={currentPage}
@@ -38,17 +38,19 @@ const PaginationComponent = (props) => {
         {currentPage}
       </Pagination.Item>
     );
-
-  for (let number = goForwardStart; number <= goForwardEnd; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === toNumber(currentPage)}
-        onClick={() => props.onClick({ currentPage: number })}
-      >
-        {number}
-      </Pagination.Item>
-    );
+  }
+  if (goForwardStart !== 1) {
+    for (let number = goForwardStart; number <= goForwardEnd; number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === toNumber(currentPage)}
+          onClick={() => props.onClick({ currentPage: number })}
+        >
+          {number}
+        </Pagination.Item>
+      );
+    }
   }
   return (
     <Pagination>
