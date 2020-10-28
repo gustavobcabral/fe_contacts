@@ -1,6 +1,7 @@
 import api from '../api'
+import { toQueryString } from '../../utils/forms'
 
-const getAllWithPagination = () => api.get('/publishers/withPagination')
+const getAllWithPagination = (params) => api.get(`/publishers/withPagination${toQueryString(params)}`)
 
 const getAll = () => api.get('/publishers')
 
