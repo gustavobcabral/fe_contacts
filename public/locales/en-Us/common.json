@@ -45,6 +45,6 @@
   "new": "New",
   "errorWithoutDetails": "Without details",
   "Network Error": "Error Network",
-  "NO_PERMISSION_ENOUGH": "You don't have enough permissions"
-
+  "NO_PERMISSION_ENOUGH": "You don't have enough permissions",
+  "loading": "Loading"
 }
