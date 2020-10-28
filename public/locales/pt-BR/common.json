@@ -45,6 +45,6 @@
   "new": "Novo",
   "errorWithoutDetails": "Sem detalhes",
   "Network Error": "Erro de conexão",
-  "NO_PERMISSION_ENOUGH": "Você não tem as permissões suficientes"
-
+  "NO_PERMISSION_ENOUGH": "Você não tem as permissões suficientes",
+  "loading": "Carregando"
 }
