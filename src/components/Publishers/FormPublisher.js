@@ -35,6 +35,17 @@ const FormPublishers = (props) => {
       <Row>
         <Col>
           <SuperFormControl
+            type="text"
+            name="name"
+            label={t('detailsContacts:name')}
+            validator={validator}
+            validated={validated}
+            value={form.name}
+            onChange={handleInputChange}
+          />
+        </Col>
+        <Col>
+          <SuperFormControl
             type="number"
             name="phone"
             label={t('contacts:phone')}
@@ -45,29 +56,18 @@ const FormPublishers = (props) => {
             rules="required|min:10"
           />
         </Col>
-        <Col>
-          <SuperFormControl
-            type="text"
-            name="name"
-            label={t('detailsContacts:name')}
-            validator={validator}
-            validated={validated}
-            value={form.name}
-            onChange={handleInputChange}
-          />
-        </Col>
+        <Button
+          variant="info"
+          style={{
+            justifyContent: 'end',
+          }}
+          onClick={() => {
+            CheckNumber()
+          }}
+        >
+          Test
+        </Button>
       </Row>
-      <Button
-        variant="info"
-        style={{
-          justifyContent: 'end',
-        }}
-        onClick={() => {
-          CheckNumber()
-        }}
-      >
-        Test
-      </Button>
       <Row>
         <Col>
           <SuperFormControl
@@ -82,22 +82,45 @@ const FormPublishers = (props) => {
           />
         </Col>
         <Col>
-          {/* <SuperSelect
-            name="idResponsibility"
-            label={t('publishers:responsibility')}
-            validator={validator}
-            validated={validated}
-            value={form.idResponsibility}
-            options={responsibilityOptions}
-            onChange={handleInputChange}
-            rules="required"
-          /> */}
           <ResponsibilitySelect
             name="idResponsibility"
             label={t('responsibility')}
             validator={validator}
             validated={validated}
             value={form.idResponsibility}
+            onChange={handleInputChange}
+            rules="required"
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <SuperFormControl
+            type="password"
+            name="password"
+            label={t('password')}
+            form={form}
+            validator={validator}
+            validated={validated}
+            //autocomplete="current-password"
+           // placeholder={t('password')}
+            value={form.password}
+            onChange={handleInputChange}
+            rules="required"
+          />
+        </Col>
+        <Col>
+          <SuperFormControl
+            type="password"
+            name="password"
+            label={t('password')}
+            form={form}
+            validator={validator}
+            validated={validated}
+            //autocomplete="current-password"
+           // placeholder={t('password')}
+            value={form.password}
             onChange={handleInputChange}
             rules="required"
           />

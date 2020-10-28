@@ -83,7 +83,7 @@ class NewPublisher extends React.Component {
       idResponsibility: get('idResponsibility', form),
       active: get('active', form),
     }
-
+    console.log(data, "VEIO A SENHA ?")
     try {
       await publishers.create(data)
       this.setState({ submitting: false })
