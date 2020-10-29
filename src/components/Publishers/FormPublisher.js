@@ -37,7 +37,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t('detailsContacts:name')}
+            label={t('name')}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -48,7 +48,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="number"
             name="phone"
-            label={t('contacts:phone')}
+            label={t('phone')}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -73,7 +73,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="email"
             name="email"
-            label={t('publishers:email')}
+            label={t('email')}
             validator={validator}
             validated={validated}
             value={form.email}
@@ -107,7 +107,7 @@ const FormPublishers = (props) => {
            // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
-            rules="required"
+            //rules="required"
           />
         </Col>
         <Col>
@@ -122,7 +122,7 @@ const FormPublishers = (props) => {
            // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
-            rules="required"
+            //rules="required"
           />
         </Col>
       </Row>
