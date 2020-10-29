@@ -1,18 +1,20 @@
-import React from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
-import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import React from "react";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import ResponsibilitySelect from "../common/ResponsibilitySelect/ResponsibilitySelect";
+import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
-    'publishers',
-    'responsibility',
-    'detailsContacts',
-    'common',
-    'contacts',
-  ])
-  const { validator } = props
+    "publishers",
+    "responsibility",
+    "detailsContacts",
+    "common",
+    "contacts",
+  ]);
+  const { validator } = props;
   const {
     form,
     submitting,
@@ -20,11 +22,11 @@ const FormPublishers = (props) => {
     onHide,
     handleInputChange,
     validated,
-  } = props
+  } = props;
 
   const CheckNumber = () => {
-    console.log('TU CLICOU')
-  }
+    console.log("TU CLICOU");
+  };
   return (
     <Form>
       <Row>
@@ -32,7 +34,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t('detailsContacts:name')}
+            label={t("detailsContacts:name")}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -43,7 +45,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="number"
             name="phone"
-            label={t('contacts:phone')}
+            label={t("contacts:phone")}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -51,24 +53,23 @@ const FormPublishers = (props) => {
             rules="required|min:10"
           />
         </Col>
-        <Button
-          variant="info"
-          style={{
-            justifyContent: 'end',
-          }}
-          onClick={() => {
-            CheckNumber()
-          }}
-        >
-          Test
-        </Button>
+        <Col style={{ marginTop: "32px" }}>
+          <Button
+            variant="success"
+            onClick={() => {
+              CheckNumber();
+            }}
+          >
+            Test <FontAwesomeIcon icon={faWhatsapp} />
+          </Button>
+        </Col>
       </Row>
       <Row>
         <Col>
           <SuperFormControl
             type="email"
             name="email"
-            label={t('publishers:email')}
+            label={t("publishers:email")}
             validator={validator}
             validated={validated}
             value={form.email}
@@ -79,7 +80,7 @@ const FormPublishers = (props) => {
         <Col>
           <ResponsibilitySelect
             name="idResponsibility"
-            label={t('responsibility')}
+            label={t("responsibility")}
             validator={validator}
             validated={validated}
             value={form.idResponsibility}
@@ -88,18 +89,17 @@ const FormPublishers = (props) => {
           />
         </Col>
       </Row>
-
       <Row>
         <Col>
           <SuperFormControl
             type="password"
             name="password"
-            label={t('password')}
+            label={t("password")}
             form={form}
             validator={validator}
             validated={validated}
             //autocomplete="current-password"
-           // placeholder={t('password')}
+            // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
             rules="required"
@@ -109,12 +109,12 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="password"
             name="password"
-            label={t('password')}
+            label={t("password")}
             form={form}
             validator={validator}
             validated={validated}
             //autocomplete="current-password"
-           // placeholder={t('password')}
+            // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
             rules="required"
@@ -126,10 +126,10 @@ const FormPublishers = (props) => {
         variant="primary"
         onClick={() => handleSubmit(onHide)}
       >
-        {t(submitting ? 'common:btnSubmitting' : 'common:btnSubmit')}
-      </Button>{' '}
+        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+      </Button>{" "}
     </Form>
-  )
-}
+  );
+};
 
-export default FormPublishers
+export default FormPublishers;

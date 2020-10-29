@@ -229,7 +229,7 @@ class Contacts extends React.Component {
                         <td>{t(`status:${contact.statusDescription}`)}</td>
                         <td>{formatDate(contact.details.createdAt)}</td>
                         <td
-                          className={`bg-${
+                          className={`text-${
                             contact.waitingFeedback ? "danger" : "success"
                           }`}
                         >

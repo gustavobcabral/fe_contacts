@@ -17,7 +17,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { contacts, publishers } from "../../../services";
 import FormSendPhones from "./FormSendPhones";
-import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { URL_SEND_MESSAGE } from "../../../constants/settings";
@@ -203,9 +203,9 @@ class NewContact extends React.Component {
         onExit={afterClose}
         onEnter={this.handleGetPublishers}
         title={`${t("title")}`}
-        buttonText={<FontAwesomeIcon icon={faShareAlt} />}
+        buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
         buttonDisabled={checksContactsPhones.length === 0}
-        buttonVariant="warning"
+        buttonVariant="success"
       />
     );
   }
