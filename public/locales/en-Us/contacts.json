@@ -14,5 +14,7 @@
   "publisher": "Publisher",
   "name": "Name",
   "publisherResponsible": "Responsible",
-  "publisherCreatedBy": "Created by"
+  "publisherCreatedBy": "Created by",
+  "waitingFeedback": "Pending"
+
 }

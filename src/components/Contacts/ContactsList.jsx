@@ -42,7 +42,7 @@ class Contacts extends React.Component {
       submitting: false,
       pagination: {},
       queryParams: {
-        sort: "name:DESC",
+        sort: "name:ASC",
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({
@@ -57,6 +57,7 @@ class Contacts extends React.Component {
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
+    this.afterSentPhones = this.afterSentPhones.bind(this);
   }
 
   async handleGetAll(objQuery) {
@@ -136,6 +137,12 @@ class Contacts extends React.Component {
     this.setState({ checksContactsPhones: newValues });
   }
 
+  afterSentPhones(){
+    this.handleGetAll();
+    this.setState({ checksContactsPhones: [] });
+
+  }
+
   componentDidMount() {
     this.handleGetAll();
   }
@@ -147,7 +154,7 @@ class Contacts extends React.Component {
       pagination,
       submitting,
       checksContactsPhones,
-      error
+      error,
     } = this.state;
     const colSpan = "8";
     return (
@@ -184,12 +191,14 @@ class Contacts extends React.Component {
                   <th>{t("gender")}</th>
                   <th>{t("language")}</th>
                   <th>{t("status")}</th>
+                  <th>{t("waitingFeedback")}</th>
                   <th>{t("details")}</th>
                   <th>
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
+                      afterClose={() => this.afterSentPhones()}
                     />
                   </th>
                 </tr>
@@ -212,11 +221,21 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td>{contact.name}</td>
+                        <td style={{width:"25%"}}>{contact.name}</td>
                         <td>{contact.phone}</td>
                         <td>{t(`contacts:${contact.gender}`)}</td>
                         <td>{t(`languages:${contact.languageName}`)}</td>
                         <td>{t(`status:${contact.statusDescription}`)}</td>
+                        <td
+                          className={`bg-${
+                            contact.waitingFeedback ? "danger" : "success"
+                          }`}
+                        >
+                          {t(
+                            `common:${contact.waitingFeedback ? "yes" : "no"}`
+                          )}
+                        </td>
+
                         <td>
                           <ListDetailsContact
                             contact={contact}

@@ -188,7 +188,7 @@ class NewContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions } = this.state;
-    const { t, checksContactsPhones } = this.props;
+    const { t, checksContactsPhones, afterClose } = this.props;
     return (
       <OurModal
         body={FormSendPhones}
@@ -199,6 +199,7 @@ class NewContact extends React.Component {
         form={form}
         phones={join(", ", checksContactsPhones)}
         publishersOptions={publishersOptions}
+        onExit={afterClose}
         title={`${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faShareAlt} />}
         buttonDisabled={checksContactsPhones.length === 0}

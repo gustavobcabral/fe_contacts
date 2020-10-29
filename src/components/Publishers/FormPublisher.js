@@ -3,10 +3,6 @@ import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
 import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
-import SuperSelect from '../common/SuperSelect/SuperSelect'
-// import GenderSelect from '../common/GenderSelect/GenderSelect'
-// import StatusSelect from '../common/StatusSelect/StatusSelect'
-// import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
@@ -24,7 +20,6 @@ const FormPublishers = (props) => {
     onHide,
     handleInputChange,
     validated,
-    responsibilityOptions,
   } = props
 
   const CheckNumber = () => {
