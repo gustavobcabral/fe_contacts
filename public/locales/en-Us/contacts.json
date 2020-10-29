@@ -15,6 +15,6 @@
   "name": "Name",
   "publisherResponsible": "Responsible",
   "publisherCreatedBy": "Created by",
-  "waitingFeedback": "Pending"
-
+  "waitingFeedback": "Pending",
+  "lastConversasion": "Last conversation"
 }

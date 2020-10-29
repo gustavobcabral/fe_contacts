@@ -39,6 +39,7 @@ class NewContact extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGetPublishers = this.handleGetPublishers.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mappingContactsPhones = this.mappingContactsPhones.bind(this);
     this.getInformation = this.getInformation.bind(this);
@@ -60,7 +61,7 @@ class NewContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
-  async componentDidMount() {
+  async handleGetPublishers() {
     this.setState({ loading: true });
     const publishersOptions = this.reducePublishers(await publishers.getAll());
 
@@ -200,6 +201,7 @@ class NewContact extends React.Component {
         phones={join(", ", checksContactsPhones)}
         publishersOptions={publishersOptions}
         onExit={afterClose}
+        onEnter={this.handleGetPublishers}
         title={`${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faShareAlt} />}
         buttonDisabled={checksContactsPhones.length === 0}

@@ -28,7 +28,7 @@ import FilterData from "../common/FilterData/FilterData";
 import NewContact from "./NewContact";
 import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
-import { parseErrorMessage } from "../../utils/generic";
+import { parseErrorMessage, formatDate } from "../../utils/generic";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -191,6 +191,7 @@ class Contacts extends React.Component {
                   <th>{t("gender")}</th>
                   <th>{t("language")}</th>
                   <th>{t("status")}</th>
+                  <th>{t("lastConversasion")}</th>
                   <th>{t("waitingFeedback")}</th>
                   <th>{t("details")}</th>
                   <th>
@@ -226,6 +227,7 @@ class Contacts extends React.Component {
                         <td>{t(`contacts:${contact.gender}`)}</td>
                         <td>{t(`languages:${contact.languageName}`)}</td>
                         <td>{t(`status:${contact.statusDescription}`)}</td>
+                        <td>{formatDate(contact.details.createdAt)}</td>
                         <td
                           className={`bg-${
                             contact.waitingFeedback ? "danger" : "success"
