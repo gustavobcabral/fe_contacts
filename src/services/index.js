@@ -5,5 +5,6 @@ import details from "./modules/details";
 import status from "./modules/status";
 import languages from "./modules/languages";
 import translations from "./modules/translations";
+import responsibility from "./modules/responsibility";
 
-export { auth, publishers, contacts, details, status, languages, translations };
+export { auth, publishers, contacts, details, status, languages, translations, responsibility };

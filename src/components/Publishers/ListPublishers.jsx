@@ -1,22 +1,31 @@
 import React from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { publishers } from "../../services";
 import Swal from "sweetalert2";
-import { getOr } from "lodash/fp";
+import { getOr, map } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
+import EditPublisher from "./EditPublisher";
+import NewPublisher from "./NewPublisher";
 
 class Publishers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], submitting: false };
+    this.state = {
+      data: [],
+      submitting: false,
+      queryParams: {
+        sort: "name:DESC",
+      },
+    };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
   async handleGetAll() {
-    const response = await publishers.getAll("");
+    const { queryParams } = this.state;
+    const response = await publishers.getAllWithPagination(queryParams);
     this.setState({ data: response.data.data });
   }
 
@@ -55,36 +64,47 @@ class Publishers extends React.Component {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Email</th>
+              <th>{t("name")}</th>
+              <th>{t("email")}</th>
+              <th>{t("phone")}</th>
+              <th>{t("privilege")}</th>
               <th>
-                <Button variant="primary">{t("common:add")}</Button>
+                <NewPublisher afterClose={() => this.handleGetAll()} />
               </th>
             </tr>
           </thead>
           <tbody>
-            {data.map((publishers) => (
-              <tr key={publishers.id}>
-                <td>{publishers.name}</td>
-                <td>{publishers.email}</td>
-                <td>
-                  <Button
-                    variant="success"
-                    onClick={this.handleEdit.bind(this, publishers.id)}
-                  >
-                    {t("common:edit")}
-                  </Button>{" "}
-                  <AskDelete
-                    id={publishers.id}
-                    funcToCallAfterConfirmation={this.handleDelete}
-                  />
-                </td>
-              </tr>
-            ))}
+            {map(
+              (publishers) => (
+                <tr key={publishers.id}>
+                  <td>{publishers.name}</td>
+                  <td>{publishers.email}</td>
+                  <td>{publishers.phone}</td>
+                  <td>
+                    {t(
+                      `responsibility:${publishers.responsibilityDescription}`
+                    )}
+                  </td>
+                  <td>
+                    <EditPublisher
+                      id={publishers.id}
+                      afterClose={() => this.handleGetAll()}
+                    />{" "}
+                    <AskDelete
+                      id={publishers.id}
+                      funcToCallAfterConfirmation={this.handleDelete}
+                    />
+                  </td>
+                </tr>
+              ),
+              data
+            )}
           </tbody>
         </Table>
       </ContainerCRUD>
     );
   }
 }
-export default withTranslation(["publishers", "common"])(Publishers);
+export default withTranslation(["publishers", "common", "responsibility"])(
+  Publishers
+);

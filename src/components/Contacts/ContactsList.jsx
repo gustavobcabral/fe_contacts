@@ -42,7 +42,7 @@ class Contacts extends React.Component {
       submitting: false,
       pagination: {},
       queryParams: {
-        sort: "name:ASC",
+        sort: "name:DESC",
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({

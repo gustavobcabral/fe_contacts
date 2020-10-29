@@ -1,5 +1,12 @@
 {
   "title": "Publicadores",
+  "titleCrud": "Publicador",
+  "responsibility":"Privilégio",
   "privilege":"Privilégio",
+  "name": "Nome",
+  "email": "Email",
+  "phone": "Telefone",
+  "password":"Senha",
   "NOT_ALLOWED_DELETE_ADMIN": "Não é permitido eliminar o publicador Admin"
+
 }
