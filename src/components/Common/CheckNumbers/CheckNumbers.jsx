@@ -1,18 +1,25 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhoneSquare } from '@fortawesome/free-solid-svg-icons'
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { URL_SEND_MESSAGE } from '../../../constants/settings'
 
 const CheckNumber = (props) => {
-  //console.log(props)
+  const { t } = useTranslation([
+    'publishers',
+    'responsibility',
+    'detailsContacts',
+    'common',
+    'contacts',
+  ])
+
   const check = () =>
-    window.open(
-      `'https://api.whatsapp.com/send/'?phone=${props.phone}&text=works`
-    )
+    window.open(` ${URL_SEND_MESSAGE}?phone=${props.phone}&text=${t('works')}`)
 
   return (
     <Button variant="info" onClick={() => check()}>
-      <FontAwesomeIcon icon={faPhoneSquare} />
+      <FontAwesomeIcon icon={faWhatsapp} />
     </Button>
   )
 }
