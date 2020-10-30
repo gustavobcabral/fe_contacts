@@ -2,7 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import { getOr, map, get, isEmpty } from "lodash/fp";
+import { getOr, map, get, isEmpty, pipe, compact } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import { publishers, responsibility } from "../../services";
@@ -10,6 +10,7 @@ import FormPublisher from "./FormPublisher";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../utils/generic";
+import { getUserData } from "../../utils/loginDataManager";
 
 const fields = {
   name: "",
@@ -49,14 +50,25 @@ class NewPublisher extends React.Component {
       },
     });
   }
-  reduceResponsibility = (responsibility) =>
-    map(
-      (responsibility) => ({
-        value: responsibility.id,
-        label: responsibility.description,
-      }),
-      getOr([], "data.data", responsibility)
+
+  reduceResponsibility = (responsibility) => {
+    const idResponsibilityCurrentUser = getOr(
+      0,
+      "idResponsibility",
+      getUserData()
     );
+    pipe(
+      map((responsibility) =>
+        responsibility.id <= idResponsibilityCurrentUser
+          ? {
+              value: responsibility.id,
+              label: responsibility.description,
+            }
+          : null
+      ),
+      compact
+    )(getOr([], "data.data", responsibility));
+  };
 
   async componentDidMount() {
     this.setState({ loading: true });
