@@ -1,7 +1,7 @@
 import api from "../apiTranslations";
 
-export default {
-  get(language, file) {
-    return api.get(`/locales/${language}/${file}.json`);
-  },
-};
+const get = (language, file) => api.get(`/locales/${language}/${file}.json`);
+
+const allExport = { get };
+
+export default allExport;

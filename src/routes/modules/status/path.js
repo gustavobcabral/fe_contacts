@@ -1,5 +1,7 @@
 const STATUS_LIST_PATH = "/status";
 
-export default {
+const allExport = {
   STATUS_LIST_PATH,
 };
+
+export default allExport

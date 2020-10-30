@@ -7,6 +7,11 @@
   "email": "Email",
   "phone": "Telefone",
   "password":"Senha",
-  "NOT_ALLOWED_DELETE_ADMIN": "Não é permitido eliminar o publicador Admin"
+  "NOT_ALLOWED_DELETE_ADMIN": "Não é permitido eliminar o publicador Admin",
+  "mustBeEqualFieldPassword": "Este campo precisa ser igual ao campo senha",
+  "repeatPasswordLabel": "Repita a senha",
+  "repeatPasswordPlaceHolder": "digite novamente a senha",
+  "ERROR_PASSWORD_MINIMUM_LENGTH" : "A senha precisa ter ao menos 8 caracteres"
+
 
 }

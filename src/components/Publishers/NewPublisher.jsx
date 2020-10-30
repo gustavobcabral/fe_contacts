@@ -1,42 +1,53 @@
-import React from 'react'
-import { withTranslation } from 'react-i18next'
-import OurModal from '../common/OurModal/OurModal'
-import Swal from 'sweetalert2'
-import { getOr, map, get } from 'lodash/fp'
-import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
-import { publishers, responsibility } from '../../services'
-import FormPublisher from './FormPublisher'
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react";
+import { withTranslation } from "react-i18next";
+import OurModal from "../common/OurModal/OurModal";
+import Swal from "sweetalert2";
+import { getOr, map, get, isEmpty } from "lodash/fp";
+import SimpleReactValidator from "simple-react-validator";
+import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
+import { publishers, responsibility } from "../../services";
+import FormPublisher from "./FormPublisher";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseErrorMessage } from "../../utils/generic";
 
 const fields = {
-  name: '',
-  phone: '',
+  name: "",
+  phone: "",
   password: null,
-  email: '',
-  idResponsibility: '',
+  repeatPassword: null,
+  email: "",
+  idResponsibility: "",
   active: 1,
-}
+};
 
 class NewPublisher extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       form: fields,
       submitting: false,
       loading: false,
       validated: false,
       responsibilityOptions: [],
-    }
+    };
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
-    })
+      validators: {
+        mustBeEqualFieldPassword: {
+          message: this.props.t("mustBeEqualFieldPassword"),
+          rule: (val) =>
+            val === this.state.form.password ||
+            isEmpty(this.state.form.password),
+          required: true,
+        },
+      },
+    });
   }
   reduceResponsibility = (responsibility) =>
     map(
@@ -44,79 +55,75 @@ class NewPublisher extends React.Component {
         value: responsibility.id,
         label: responsibility.description,
       }),
-      getOr([], 'data.data', responsibility)
-    )
+      getOr([], "data.data", responsibility)
+    );
 
   async componentDidMount() {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     const responsibilityOptions = this.reduceResponsibility(
       await responsibility.get()
-    )
+    );
 
     this.setState({
       responsibilityOptions,
       loading: false,
-    })
+    });
   }
 
   handleInputChange(event) {
-    handleInputChangeGeneric(event, this)
+    handleInputChangeGeneric(event, this);
   }
 
   async handleSubmit(onHide) {
-    this.setState({ validated: true })
+    this.setState({ validated: true });
 
     if (!this.validator.allValid()) {
-      this.validator.showMessages()
-      return true
+      this.validator.showMessages();
+      return true;
     }
-    this.setState({ submitting: true })
+    this.setState({ submitting: true });
 
-    const { form } = this.state
-    const { t } = this.props
+    const { form } = this.state;
+    const { t } = this.props;
 
     const data = {
-      name: get('name', form),
-      phone: get('phone', form),
-      password: get('password', form),
-      email: get('email', form),
-      idResponsibility: get('idResponsibility', form),
-      active: get('active', form),
-    }
-    console.log(data, "VEIO A SENHA ?")
+      name: get("name", form),
+      phone: get("phone", form),
+      password: get("password", form),
+      email: get("email", form),
+      idResponsibility: get("idResponsibility", form),
+      active: get("active", form),
+    };
     try {
-      await publishers.create(data)
-      this.setState({ submitting: false })
+      await publishers.create(data);
+      this.setState({ submitting: false });
       Swal.fire({
-        title: t('common:dataSuccessfullySaved'),
-        icon: 'success',
+        title: t("common:dataSuccessfullySaved"),
+        icon: "success",
         timer: 2000,
         timerProgressBar: true,
-      })
-      onHide()
-      this.setState({ form: fields, submitting: false, validated: false })
-      this.validator.hideMessages()
+      });
+      onHide();
+      this.setState({ form: fields, submitting: false, validated: false });
+      this.validator.hideMessages();
     } catch (error) {
-      this.setState({ submitting: false })
+      this.setState({ submitting: false });
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
         text: t(
-          `common:${getOr(
-            'errorWithoutDetails',
-            'response.data.error.code',
-            error
-          )}`
+          `publishers:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
         ),
-      })
+      });
     }
   }
 
   render() {
-    const { form, validated, responsibilityOptions } = this.state
-    const { t, afterClose } = this.props
+    const { form, validated, responsibilityOptions } = this.state;
+    const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormPublisher}
@@ -127,11 +134,11 @@ class NewPublisher extends React.Component {
         form={form}
         onExit={afterClose}
         responsibilityOptions={responsibilityOptions}
-        title={`${t('common:new')} ${t('titleCrud')}`}
+        title={`${t("common:new")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
-    )
+    );
   }
 }
 
-export default withTranslation(['publishers', 'common'])(NewPublisher)
+export default withTranslation(["publishers", "common"])(NewPublisher);

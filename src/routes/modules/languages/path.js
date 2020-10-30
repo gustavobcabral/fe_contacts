@@ -1,5 +1,7 @@
 const LANGUAGES_LIST_PATH = "/languages";
 
-export default {
+const allExport = {
   LANGUAGES_LIST_PATH,
 };
+
+export default allExport;

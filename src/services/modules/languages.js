@@ -8,4 +8,6 @@ const create = (data) => api.post(`/languages`, data);
 
 const dellOne = (id) => api.delete(`/languages/${id}`);
 
-export default { getAll, dellOne, updateOne, create };
+const allExport = { getAll, dellOne, updateOne, create };
+
+export default allExport;

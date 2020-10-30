@@ -1,5 +1,7 @@
-import api from '../api'
+import api from "../api";
 
-const get = () => api.get('/responsibility')
+const get = () => api.get("/responsibility");
 
-export default { get }
+const allExport = { get };
+
+export default allExport;

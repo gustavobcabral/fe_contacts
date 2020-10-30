@@ -9,13 +9,14 @@ const SuperFormControl = (props) => {
     value,
     validated,
     label,
+    endLabel,
     as,
     rows,
     placeholder,
     onBlur,
     type,
     rules,
-    autocomplete
+    autocomplete,
   } = props;
 
   const [touched, setTouched] = React.useState(false);
@@ -30,7 +31,11 @@ const SuperFormControl = (props) => {
 
   return (
     <Form.Group>
-      <Form.Label>{label}</Form.Label>
+      <Form.Label>
+        {label}
+        {' '}
+        {endLabel ? endLabel : null}
+      </Form.Label>
       <Form.Control
         as={as}
         rows={rows}
@@ -49,7 +54,7 @@ const SuperFormControl = (props) => {
             ? "is-valid"
             : ""
         }
-        />
+      />
       {rules && validator.message(name, value, rules)}
     </Form.Group>
   );

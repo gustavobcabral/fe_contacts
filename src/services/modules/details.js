@@ -18,7 +18,7 @@ const updateOneContactDetail = (id, data) =>
 
 const dellOne = (id) => api.delete(`/detailsContacts/${id}`);
 
-export default {
+const allExport = {
   getOne,
   getAllOneContact,
   getAllWaitingFeedback,
@@ -27,3 +27,5 @@ export default {
   updateOneContactDetail,
   dellOne,
 };
+
+export default allExport

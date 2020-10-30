@@ -1,13 +1,9 @@
-import React from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import CheckNumber from '../common/CheckNumbers/CheckNumbers'
-import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
-import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
-import SuperSelect from '../common/SuperSelect/SuperSelect'
-// import GenderSelect from '../common/GenderSelect/GenderSelect'
-// import StatusSelect from '../common/StatusSelect/StatusSelect'
-// import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
+import React from "react";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import CheckNumber from "../common/CheckNumbers/CheckNumbers";
+import ResponsibilitySelect from "../common/ResponsibilitySelect/ResponsibilitySelect";
+import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
@@ -34,7 +30,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t('name')}
+            label={t("name")}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -45,7 +41,8 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="number"
             name="phone"
-            label={t('phone')}
+            label={t("phone")}
+            endLabel={<CheckNumber phone={form.phone} />}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -53,20 +50,18 @@ const FormPublishers = (props) => {
             rules="required|min:10"
           />
         </Col>
-
-        <CheckNumber phone={form.phone} />
       </Row>
       <Row>
         <Col>
           <SuperFormControl
             type="email"
             name="email"
-            label={t('email')}
+            label={t("email")}
             validator={validator}
             validated={validated}
             value={form.email}
             onChange={handleInputChange}
-            rules="required|min:10"
+            rules="email"
           />
         </Col>
         <Col>
@@ -87,29 +82,25 @@ const FormPublishers = (props) => {
             type="password"
             name="password"
             label={t("password")}
-            form={form}
             validator={validator}
             validated={validated}
-            //autocomplete="current-password"
-            // placeholder={t('password')}
+            placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
-            //rules="required"
           />
         </Col>
         <Col>
           <SuperFormControl
             type="password"
-            name="password"
-            label={t("password")}
-            form={form}
+            name="repeatPassword"
+            label={t("repeatPasswordLabel")}
             validator={validator}
             validated={validated}
-            //autocomplete="current-password"
-            // placeholder={t('password')}
-            value={form.password}
+            placeholder={t('repeatPasswordPlaceHolder')}
+            value={form.repeatPassword}
             onChange={handleInputChange}
-            //rules="required"
+            rules="mustBeEqualFieldPassword"
+            extraRules={form.password}
           />
         </Col>
       </Row>
