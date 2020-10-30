@@ -1,10 +1,13 @@
-import React from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import ResponsibilitySelect from "../common/ResponsibilitySelect/ResponsibilitySelect";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import CheckNumber from '../common/CheckNumbers/CheckNumbers'
+import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import SuperSelect from '../common/SuperSelect/SuperSelect'
+// import GenderSelect from '../common/GenderSelect/GenderSelect'
+// import StatusSelect from '../common/StatusSelect/StatusSelect'
+// import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
@@ -24,9 +27,6 @@ const FormPublishers = (props) => {
     validated,
   } = props;
 
-  const CheckNumber = () => {
-    console.log("TU CLICOU");
-  };
   return (
     <Form>
       <Row>
@@ -34,7 +34,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="text"
             name="name"
-            label={t("detailsContacts:name")}
+            label={t('name')}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -45,7 +45,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="number"
             name="phone"
-            label={t("contacts:phone")}
+            label={t('phone')}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -53,23 +53,15 @@ const FormPublishers = (props) => {
             rules="required|min:10"
           />
         </Col>
-        <Col style={{ marginTop: "32px" }}>
-          <Button
-            variant="success"
-            onClick={() => {
-              CheckNumber();
-            }}
-          >
-            Test <FontAwesomeIcon icon={faWhatsapp} />
-          </Button>
-        </Col>
+
+        <CheckNumber phone={form.phone} />
       </Row>
       <Row>
         <Col>
           <SuperFormControl
             type="email"
             name="email"
-            label={t("publishers:email")}
+            label={t('email')}
             validator={validator}
             validated={validated}
             value={form.email}
@@ -102,7 +94,7 @@ const FormPublishers = (props) => {
             // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
-            rules="required"
+            //rules="required"
           />
         </Col>
         <Col>
@@ -117,7 +109,7 @@ const FormPublishers = (props) => {
             // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
-            rules="required"
+            //rules="required"
           />
         </Col>
       </Row>
