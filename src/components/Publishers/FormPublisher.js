@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+import CheckNumber from '../common/CheckNumbers/CheckNumbers'
 import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
 import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
 import SuperSelect from '../common/SuperSelect/SuperSelect'
@@ -27,9 +28,6 @@ const FormPublishers = (props) => {
     responsibilityOptions,
   } = props
 
-  const CheckNumber = () => {
-    console.log('TU CLICOU')
-  }
   return (
     <Form>
       <Row>
@@ -56,17 +54,8 @@ const FormPublishers = (props) => {
             rules="required|min:10"
           />
         </Col>
-        <Button
-          variant="info"
-          style={{
-            justifyContent: 'end',
-          }}
-          onClick={() => {
-            CheckNumber()
-          }}
-        >
-          Test
-        </Button>
+
+        <CheckNumber phone={form.phone} />
       </Row>
       <Row>
         <Col>
@@ -93,7 +82,6 @@ const FormPublishers = (props) => {
           />
         </Col>
       </Row>
-
       <Row>
         <Col>
           <SuperFormControl
@@ -104,7 +92,7 @@ const FormPublishers = (props) => {
             validator={validator}
             validated={validated}
             //autocomplete="current-password"
-           // placeholder={t('password')}
+            // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
             //rules="required"
@@ -119,7 +107,7 @@ const FormPublishers = (props) => {
             validator={validator}
             validated={validated}
             //autocomplete="current-password"
-           // placeholder={t('password')}
+            // placeholder={t('password')}
             value={form.password}
             onChange={handleInputChange}
             //rules="required"
