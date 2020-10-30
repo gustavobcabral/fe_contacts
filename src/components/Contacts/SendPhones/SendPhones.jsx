@@ -17,7 +17,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { contacts, publishers } from "../../../services";
 import FormSendPhones from "./FormSendPhones";
-import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { URL_SEND_MESSAGE } from "../../../constants/settings";
@@ -39,6 +39,7 @@ class NewContact extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGetPublishers = this.handleGetPublishers.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mappingContactsPhones = this.mappingContactsPhones.bind(this);
     this.getInformation = this.getInformation.bind(this);
@@ -60,7 +61,7 @@ class NewContact extends React.Component {
       getOr([], "data.data", publishers)
     );
 
-  async componentDidMount() {
+  async handleGetPublishers() {
     this.setState({ loading: true });
     const publishersOptions = this.reducePublishers(await publishers.getAll());
 
@@ -188,7 +189,7 @@ class NewContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions } = this.state;
-    const { t, checksContactsPhones } = this.props;
+    const { t, checksContactsPhones, afterClose } = this.props;
     return (
       <OurModal
         body={FormSendPhones}
@@ -199,10 +200,12 @@ class NewContact extends React.Component {
         form={form}
         phones={join(", ", checksContactsPhones)}
         publishersOptions={publishersOptions}
+        onExit={afterClose}
+        onEnter={this.handleGetPublishers}
         title={`${t("title")}`}
-        buttonText={<FontAwesomeIcon icon={faShareAlt} />}
+        buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
         buttonDisabled={checksContactsPhones.length === 0}
-        buttonVariant="warning"
+        buttonVariant="success"
       />
     );
   }

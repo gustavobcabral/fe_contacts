@@ -36,6 +36,7 @@ class NewContact extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onOpen = this.onOpen.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -56,7 +57,7 @@ class NewContact extends React.Component {
       getOr([], "data.data", status)
     );
 
-  async componentDidMount() {
+  async onOpen() {
     this.setState({ loading: true });
     const publishersOptions = this.reducePublishers(await publishers.getAll());
     const statusOptions = this.reduceStatus(await status.getAll());
@@ -134,6 +135,7 @@ class NewContact extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
+        onEnter={this.onOpen}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
         title={`${t("common:new")} ${t("titleCrud")}`}

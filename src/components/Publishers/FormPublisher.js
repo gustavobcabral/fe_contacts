@@ -11,13 +11,13 @@ import SuperSelect from '../common/SuperSelect/SuperSelect'
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
-    'publishers',
-    'responsibility',
-    'detailsContacts',
-    'common',
-    'contacts',
-  ])
-  const { validator } = props
+    "publishers",
+    "responsibility",
+    "detailsContacts",
+    "common",
+    "contacts",
+  ]);
+  const { validator } = props;
   const {
     form,
     submitting,
@@ -25,8 +25,7 @@ const FormPublishers = (props) => {
     onHide,
     handleInputChange,
     validated,
-    responsibilityOptions,
-  } = props
+  } = props;
 
   return (
     <Form>
@@ -73,7 +72,7 @@ const FormPublishers = (props) => {
         <Col>
           <ResponsibilitySelect
             name="idResponsibility"
-            label={t('responsibility')}
+            label={t("responsibility")}
             validator={validator}
             validated={validated}
             value={form.idResponsibility}
@@ -87,7 +86,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="password"
             name="password"
-            label={t('password')}
+            label={t("password")}
             form={form}
             validator={validator}
             validated={validated}
@@ -102,7 +101,7 @@ const FormPublishers = (props) => {
           <SuperFormControl
             type="password"
             name="password"
-            label={t('password')}
+            label={t("password")}
             form={form}
             validator={validator}
             validated={validated}
@@ -119,10 +118,10 @@ const FormPublishers = (props) => {
         variant="primary"
         onClick={() => handleSubmit(onHide)}
       >
-        {t(submitting ? 'common:btnSubmitting' : 'common:btnSubmit')}
-      </Button>{' '}
+        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+      </Button>{" "}
     </Form>
-  )
-}
+  );
+};
 
-export default FormPublishers
+export default FormPublishers;
