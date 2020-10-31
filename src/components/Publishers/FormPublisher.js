@@ -13,9 +13,9 @@ const FormPublishers = (props) => {
     "common",
     "contacts",
   ]);
-  const { validator } = props;
   const {
     form,
+    validator,
     submitting,
     handleSubmit,
     onHide,

@@ -1,4 +1,4 @@
-import { getOr, omit } from "lodash/fp";
+import { getOr, omit, trim } from "lodash/fp";
 
 export const unformatDate = (date) => {
   const split = date.slice(0, 10).split("-");
@@ -21,7 +21,7 @@ export const handleInputChangeGeneric = (event, componentReact) => {
   componentReact.setState({
     form: {
       ...form,
-      [name]: value,
+      [name]: trim(value),
     },
   });
 };

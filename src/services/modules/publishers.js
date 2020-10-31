@@ -23,4 +23,4 @@ const allExport = {
   create,
 };
 
-export default allExport
+export default allExport;
