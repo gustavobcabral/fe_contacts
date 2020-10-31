@@ -16,7 +16,7 @@ class Publishers extends React.Component {
       data: [],
       submitting: false,
       queryParams: {
-        sort: "name:ASC",
+        sort: "publishers.name:ASC",
       },
     };
     this.handleGetAll = this.handleGetAll.bind(this);
