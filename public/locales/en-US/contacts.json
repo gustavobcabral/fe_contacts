@@ -1,0 +1,20 @@
+{
+  "title": "Contacts",
+  "titleWaitingFeedback": "Contacts that waiting feedback",
+  "titleCrud": "Contact",
+  "phone": "Phone",
+  "language": "Language",
+  "date": "Date",
+  "status": "Status",
+  "gender": "Gender",
+  "details": "Details",
+  "male": "Male",
+  "female": "Female",
+  "unknown": "Unknown",
+  "publisher": "Publisher",
+  "name": "Name",
+  "publisherResponsible": "Responsible",
+  "publisherCreatedBy": "Created by",
+  "waitingFeedback": "Pending",
+  "lastConversasion": "Last conversation"
+}
