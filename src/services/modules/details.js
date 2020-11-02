@@ -1,12 +1,31 @@
 import api from "../api";
+import { toQueryString } from "../../utils/forms";
 
-const getAllOneContact = (id) => api.get(`/detailsContacts/oneContact/${id}`);
+const getAllOneContact = (id, limit = 5) =>
+  api.get(`/detailsContacts/oneContact/${id}?limit=${limit}`);
+
+const getOne = (id) => api.get(`/detailsContacts/${id}`);
+
+const getAllWaitingFeedback = (params) =>
+  api.get(`/detailsContacts/waitingFeedback${toQueryString(params)}`);
+
+const getAllWaitingFeedbackFilters = () => api.get(`/detailsContacts/filtersWaitingFeedback`);
+
+const create = (data) => api.post(`/detailsContacts`, data);
 
 const updateOneContactDetail = (id, data) =>
   api.put(`/detailsContacts/${id}`, data);
 
-const getOne = (id) => api.get(`/detailsContacts/${id}`);
-
 const dellOne = (id) => api.delete(`/detailsContacts/${id}`);
 
-export default { getAllOneContact, dellOne, getOne, updateOneContactDetail };
+const allExport = {
+  getOne,
+  getAllOneContact,
+  getAllWaitingFeedback,
+  getAllWaitingFeedbackFilters,
+  create,
+  updateOneContactDetail,
+  dellOne,
+};
+
+export default allExport

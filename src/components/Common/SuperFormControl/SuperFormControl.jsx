@@ -7,23 +7,23 @@ const SuperFormControl = (props) => {
     onChange,
     name,
     value,
-    form,
     validated,
     label,
+    endLabel,
     as,
     rows,
     placeholder,
     onBlur,
     type,
     rules,
-    autocomplete
+    autocomplete,
   } = props;
 
   const [touched, setTouched] = React.useState(false);
 
   const onBlurLocal = (e) => {
     setTouched(true);
-    validator.showMessageFor(name);
+    //validator.showMessageFor(name);
     if (typeof onBlur === "function") {
       onBlur(e);
     }
@@ -31,7 +31,11 @@ const SuperFormControl = (props) => {
 
   return (
     <Form.Group>
-      <Form.Label>{label}</Form.Label>
+      <Form.Label>
+        {label}
+        {' '}
+        {endLabel ? endLabel : null}
+      </Form.Label>
       <Form.Control
         as={as}
         rows={rows}
@@ -41,16 +45,17 @@ const SuperFormControl = (props) => {
         autoComplete={autocomplete}
         onChange={onChange}
         onBlur={onBlurLocal}
-        value={value}
+        defaultValue={value}
         className={
-          (validated || touched) && !validator.fieldValid(name)
+          (validated || touched) && rules && !validator.fieldValid(name)
             ? "is-invalid"
-            : (validated || touched) && validator.fieldValid(name)
+            : (validated || touched) &&
+              ((rules && validator.fieldValid(name)) || !rules)
             ? "is-valid"
             : ""
         }
       />
-      {rules && validator.message(name, form[name], rules)}
+      {rules && validator.message(name, value, rules)}
     </Form.Group>
   );
 };

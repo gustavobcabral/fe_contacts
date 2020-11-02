@@ -1,8 +1,4 @@
 {
-  "information": "Informações",
-  "date": "Data",
-  "publisher": "Publicador",
-  "name": "Nome",
   "add": "Adicionar",
   "back": "Voltar",
   "cancel": "Cancelar",
@@ -25,7 +21,6 @@
   "dataSuccessfullySaved": "Dados salvos com sucesso",
   "typeToSearch": "Digite para buscar...",
   "view": "Visualizar",
-  "viewDetails": "Visualizar Detalhes",
   "warning": "Atenção",
   "yes": "Sim",
   "btnSubmitting": "Enviando...",
@@ -40,12 +35,16 @@
   "deleteSuccessful": "O registro foi apagado com sucesso",
   "labelNewValueOption": "Escolha um novo valor",
   "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
-  "male": "Masculino",
-  "female": "Feminino",
-  "undefinedGender": "Indefinido",
   "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro",
+  "ERROR_WHILE_CREATING": "Ocorreu um erro ao gentar criar um novo registro",
   "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",
+  "ECONNREFUSED": "Sem conexão com o banco de dados",
   "CREATING_SUCCESSFUL": "O registro foi criado com sucesso",
-  "noData": "Sem dados"
+  "noData": "Sem dados",
+  "errorTextUndefined": "Erro indefinido",
+  "new": "Novo",
+  "errorWithoutDetails": "Sem detalhes",
+  "Network Error": "Erro de conexão",
+  "NO_PERMISSION_ENOUGH": "Você não tem as permissões suficientes",
+  "loading": "Carregando"
 }
-

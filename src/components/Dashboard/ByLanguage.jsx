@@ -2,31 +2,34 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, map, getOr } from "lodash/fp";
+import { get, isEmpty, map, getOr} from "lodash/fp";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
+import { round } from "lodash";
 
 const getByLanguage = (t, data) =>
   map(
     (dataLanguage) => ({
-      title: `${getOr(0, "percent", dataLanguage)}% ${getOr(
-        t("noName"),
-        "languageName",
-        dataLanguage
+      title: `${round(getOr(0, "percent", dataLanguage), 2)}% ${t(
+        "languages:" + getOr("noName", "languageName", dataLanguage)
       )}`,
       value: getOr(0, "percent", dataLanguage),
       label: generateLabel(t, dataLanguage, "languageName"),
-      color: randomColor(),
+      color: getOr(randomColor(), "languageColor", dataLanguage),
     }),
     getOr([], "totalContactsByLanguageContacted", data)
   );
 
 const ByLanguage = (props) => {
-  const { t } = useTranslation(["dashboard", "common"]);
+  const { t } = useTranslation(["dashboard", "common", "languages"]);
   const byLanguage = getByLanguage(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 3 }}>
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 0 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartLanguage")}

@@ -1,34 +1,53 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { get } from "lodash/fp";
-import { getUserData, hasToken } from "../../utils/loginDataManager";
-import logo from "../../assets/images/logo.png";
+import {
+  getUserData,
+  hasToken,
+  isAtLeastSM,
+} from "../../../utils/loginDataManager";
+import logo from "../../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import Login from "../Login/Login";
-import Logout from "../Logout/Logout";
-import SystemLanguages from "../SystemLanguages/SystemLanguages";
+import Login from "../../Login/Login";
+import Logout from "../../Logout/Logout";
+import SystemLanguages from "../../SystemLanguages/SystemLanguages";
 import {
   contactsPaths,
   publishersPaths,
   statusPaths,
-} from "../../routes/paths";
+} from "../../../routes/paths";
 
 const MenuLogged = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
-      <Nav.Link as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
-        {t("contacts")}
-      </Nav.Link>
-      <NavDropdown title={t("admin")} id="collasible-nav-dropdown">
-        <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
-          {t("publishers")}
-        </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
-          {t("status")}
+      <NavDropdown title={t("contacts")}>
+        {isAtLeastSM() && (
+          <>
+            <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
+              {t("allContacts")}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+          </>
+        )}
+        <NavDropdown.Item
+          as={Link}
+          to={contactsPaths.CONTACTS_WAITING_FEEDBACK_LIST_PATH}
+        >
+          {t("allContactsWaitingFeedback")}
         </NavDropdown.Item>
       </NavDropdown>
+      {isAtLeastSM() && (
+        <NavDropdown title={t("admin")} id="collasible-nav-dropdown">
+          <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
+            {t("publishers")}
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
+            {t("status")}
+          </NavDropdown.Item>
+        </NavDropdown>
+      )}
     </Nav>
     <Nav>
       <NavDropdown title={get("name", getUserData())}>

@@ -1,11 +1,11 @@
 import React from "react";
 import { Button, Table } from "react-bootstrap";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { publishers } from "../../services";
 import Swal from "sweetalert2";
 import { getOr } from "lodash/fp";
-import AskDelete from "../Common/AskDelete/AskDelete";
+import AskDelete from "../common/AskDelete/AskDelete";
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -18,10 +18,6 @@ class Publishers extends React.Component {
   async handleGetAll() {
     const response = await publishers.getAll("");
     this.setState({ data: response.data.data });
-  }
-
-  handleEdit(id) {
-    console.log("i will get contact id " + id);
   }
 
   async handleDelete(id) {

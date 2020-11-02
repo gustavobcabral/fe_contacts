@@ -1,15 +1,20 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
-import { details, publishers } from "../../services";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import { details, publishers } from "../../../services";
+import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
 import { getOr, map, pick, get } from "lodash/fp";
 import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";
+import Swal from "sweetalert2";
+import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 
 const fields = {
   information: "",
   idPublisher: "",
   idStatus: "",
+  idLanguage: null,
+  gender: "",
+  name: "",
 };
 
 class EditDetailsContact extends React.Component {
@@ -21,16 +26,15 @@ class EditDetailsContact extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
-      publisherSelected: {},
       publishersOptions: [],
+      phone: getOr(0, "match.params.phone", props),
     };
     this.handleGetOne = this.handleGetOne.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
-      locale:
-        this.props.i18n.language === "en-US" ? "en" : this.props.i18n.language,
+      locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
     });
   }
@@ -47,6 +51,7 @@ class EditDetailsContact extends React.Component {
     const response = await details.getOne(id);
     const form = getOr(fields, "data.data", response);
     const publishersOptions = this.reducePublishers(await publishers.getAll());
+
     this.setState({
       form,
       publishersOptions,
@@ -54,44 +59,63 @@ class EditDetailsContact extends React.Component {
     });
   }
 
-  setFormData = (name, value) => {
-    const { form } = this.state;
-    this.setState({
-      form: {
-        ...form,
-        [name]: value,
-      },
-    });
-  };
-
-  handleInputChange(obj) {
-    const {
-      target: { name, value },
-    } = obj;
-    this.setFormData(name, value);
+  handleInputChange(event) {
+    handleInputChangeGeneric(event, this);
   }
 
   async handleSubmit() {
+    this.setState({ validated: true });
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
     }
     this.setState({ submitting: true });
 
-    const { form } = this.state;
-    // const { history } = this.props;
-
+    const { form, phone } = this.state;
+    const { history } = this.props;
+    const { t } = this.props;
     const id = getOr(0, "props.match.params.id", this);
 
     const data = {
-      detailsContact: pick(["idPublisher", "information"], form),
-      contact: { idStatus: get("idStatus", form), phone: get("phoneContact", form) },
+      detailsContact: {
+        ...pick(["idPublisher", "information"], form),
+        phoneContact: phone,
+      },
+      contact: {
+        idStatus: get("idStatus", form),
+        idLanguage: get("idLanguage", form),
+        phone,
+        gender: get("gender", form),
+        name: get("name", form),
+      },
     };
+
     try {
-      const res = await details.updateOneContactDetail(id, data);
-      console.log(res);
-    } catch (error) {}
-    this.setState({ submitting: false });
+      await details.updateOneContactDetail(id, data);
+      this.setState({ submitting: false });
+      history.goBack();
+      Swal.fire({
+        title: t("common:dataSuccessfullySaved"),
+        icon: "success",
+        timer: 2000,
+        timerProgressBar: true,
+      });
+    } catch (error) {
+      this.setState({ submitting: false });
+      Swal.fire({
+        icon: "error",
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `common:${getOr(
+            "errorWithoutDetails",
+            "response.data.error.code",
+            error
+          )}`
+        ),
+      });
+    }
   }
 
   componentDidMount() {
@@ -100,16 +124,12 @@ class EditDetailsContact extends React.Component {
 
   render() {
     const { t } = this.props;
-    const phone = getOr(0, "props.match.params.phone", this);
-    const id = getOr(0, "props.match.params.id", this);
 
     return (
       <>
         <ContainerCRUD title={t("title")} {...this.props}>
-          <h1>EDIT TODOS OS DETALHES</h1>
-          <h4>Phone:{phone}</h4>
-          <h4>Details number:{id}</h4>
-          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
+          <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
+          <FormDetails {...this} onSubmit={this.handleSubmit}  />
         </ContainerCRUD>
       </>
     );

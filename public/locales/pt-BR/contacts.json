@@ -1,8 +1,20 @@
 {
   "title": "Contatos",
+  "titleWaitingFeedback": "Contatos que aguardam resposta",
+  "titleCrud": "Contato",
   "phone": "Telefone",
   "language": "Idioma",
-  "date":"Data",
-  "status":"Status",
-  "details":"Detalhes"
+  "date": "Data",
+  "status": "Estado",
+  "gender": "Gênero",
+  "details": "Detalhes",
+  "male": "Masculino",
+  "female": "Feminino",
+  "unknown": "Desconhecido",
+  "publisher": "Publicador",
+  "name": "Nome",
+  "publisherResponsible": "Responsavél",
+  "publisherCreatedBy": "Criado por",
+  "waitingFeedback": "Pendente",
+  "lastConversasion": "Última conversa"
 }

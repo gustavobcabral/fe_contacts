@@ -1,4 +1,6 @@
 {
+  "title": "Phonebook",
+  "titleCongregation": "Cong. Santa Rita",
   "welcome": "This is your dashboard",
   "contacted": "Contacted",
   "withoutContact": "Without contact",
@@ -7,7 +9,7 @@
   "titleChartContacts": "Contacted vs. not contacted",
   "titleChartWaitingFeedback": "Waiting Feedback by me vs. others",
   "titleChartWaitingFeedbackByPublishers": "Waiting Feedback by each publishers",
-  "titleChartGender": "By gender",
-  "titleChartLanguage": "By language",
+  "titleChartGender": "Contacted By gender",
+  "titleChartLanguage": "Contacted By language",
   "noName": "No Name"
 }

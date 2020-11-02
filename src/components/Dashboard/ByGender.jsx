@@ -2,19 +2,28 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, find, getOr, pipe, curry, filter } from "lodash/fp";
+import {
+  get,
+  isEmpty,
+  find,
+  getOr,
+  pipe,
+  curry,
+  filter,
+} from "lodash/fp";
+import { round } from "lodash";
 
 const getByGender = (t, data) => {
   const parseObject = (label, color, data) => ({
-    title: `${getOr(0, "percent", data)}% ${t(`common:${label}`)}`,
+    label: `${t(`contacts:${label}`)}`,
     value: getOr(0, "percent", data),
-    label: `${getOr(0, "percent", data)}% ${t(`common:${label}`)}`,
+    title: `${round(getOr(0, "percent", data), 2)}% ${t(`contacts:${label}`)}`,
     color,
   });
 
   const objectGenderUndefined = pipe(
-    find((object) => object.gender === null),
-    curry(parseObject)("undefinedGender", "#6c757d")
+    find((object) => object.gender === "unknown"),
+    curry(parseObject)("unknown", "#6c757d")
   )(getOr({}, "totalContactsByGenderContacted", data));
 
   const objectGenderFemale = pipe(
@@ -35,11 +44,15 @@ const getByGender = (t, data) => {
 };
 
 const ByGender = (props) => {
-  const { t } = useTranslation(["dashboard", "common"]);
-  const byGender = getByGender(t, get('data', props));
+  const { t } = useTranslation(["dashboard", "common", "contacts"]);
+  const byGender = getByGender(t, get("data", props));
 
   return (
-    <Col xs={{ span: 8, offset: 2 }} lg={{ span: 3, offset: 0 }}>
+    <Col
+      xs={{ span: 8, offset: 2 }}
+      lg={{ span: 2, offset: 0 }}
+      className="mt-2"
+    >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: "73px" }}>
           {t("titleChartGender")}

@@ -1,14 +1,16 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import ContainerCRUD from "../../components/ContainerCRUD/ContainerCRUD";
+import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
 import Swal from "sweetalert2";
 import { getOr, map, isEmpty } from "lodash/fp";
-import AskDelete from "../Common/AskDelete/AskDelete";
+import AskDelete from "../common/AskDelete/AskDelete";
 import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
-import NoRecords from "../Common/NoRecords/NoRecords";
+import NoRecords from "../common/NoRecords/NoRecords";
+import { parseErrorMessage } from "../../utils/generic";
+
 class StatusList extends React.Component {
   constructor(props) {
     super(props);
@@ -18,8 +20,16 @@ class StatusList extends React.Component {
   }
 
   async handleGetAll() {
-    const response = await status.getAll("");
-    this.setState({ data: response.data.data });
+    try {
+      const response = await status.getAll("");
+      this.setState({ data: response.data.data });
+    } catch (error) {
+      const { t } = this.props;
+      Swal.fire({
+        icon: "error",
+        title: t(`common:${parseErrorMessage(error)}`),
+      });
+    }
   }
 
   async handleDelete(id) {
@@ -58,6 +68,7 @@ class StatusList extends React.Component {
           <thead>
             <tr>
               <th>{t("descriptionLabel")}</th>
+              <th>{t("descriptionTraducedLabel")}</th>
               <th>
                 <StatusNew afterClose={this.handleGetAll} />
               </th>
@@ -68,6 +79,7 @@ class StatusList extends React.Component {
               map(
                 (status) => (
                   <tr key={status.id}>
+                    <td>{status.description}</td>
                     <td>{t(status.description)}</td>
                     <td>
                       <StatusEdit
@@ -84,7 +96,7 @@ class StatusList extends React.Component {
                 data
               )
             ) : (
-              <NoRecords cols={2} />
+              <NoRecords cols={3} />
             )}
           </tbody>
         </Table>

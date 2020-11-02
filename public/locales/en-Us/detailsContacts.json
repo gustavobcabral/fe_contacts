@@ -1,0 +1,11 @@
+{
+  "title": "Details of Contact",
+  "titleCrud": "Detail of Contact",
+  "publisher": "Publisher",
+  "date": "Date",
+  "information": "Information",
+  "informationLabel": "Informations",
+  "informationPlaceHolder": "Write here infornations about the conversation that the public has with this contact",
+  "name": "Name",
+  "phone": "Phone"
+}

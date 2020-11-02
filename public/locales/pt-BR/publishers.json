@@ -1,5 +1,20 @@
 {
   "title": "Publicadores",
-  "privilege":"Privilégio",
-  "NOT_ALLOWED_DELETE_ADMIN": "Não é permitido eliminar o publicador Admin"
+  "titleCrud": "Publicador",
+  "responsibility": "Privilégio",
+  "privilege": "Privilégio",
+  "name": "Nome",
+  "email": "Email",
+  "phone": "Telefone",
+  "password": "Senha",
+  "NOT_ALLOWED_DELETE_ADMIN": "Não é permitido eliminar o publicador Admin",
+  "mustBeEqualFieldPassword": "Este campo precisa ser igual ao campo senha",
+  "repeatPasswordLabel": "Repita a senha",
+  "repeatPasswordPlaceHolder": "digite novamente a senha",
+  "ERROR_PASSWORD_MINIMUM_LENGTH": "A senha precisa ter ao menos 8 caracteres",
+  "ERROR_PASSWORD_LOWERCASE_LETTER": "A senha precisa ter ao menos uma letra em minúscula",
+  "ERROR_PASSWORD_UPPERCASE_LETTER": "A senha precisa ter ao menos uma letra em maiúscula",
+  "ERROR_PASSWORD_NUMBER": "A senha precisa ter ao menos um número",
+  "ERROR_PASSWORD_SPECIAL_CHARACTER": "A senha precisa ter ao menos um caracter especial",
+  "ERROR_PASSWORD_SPACE": "A senha não pode ter espaço no inicio nem no fim"
 }

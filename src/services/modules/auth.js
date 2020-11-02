@@ -1,7 +1,9 @@
-import api from '../api'
+import api from "../api";
 
-export default {
-  authenticate(data) {
-    return api.post('/auth', data)
-  }
-}
+const authenticate = (data) => api.post("/auth", data);
+
+const allExport = {
+  authenticate,
+};
+
+export default allExport;
