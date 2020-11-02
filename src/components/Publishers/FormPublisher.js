@@ -76,7 +76,7 @@ const FormPublishers = (props) => {
           />
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col>
           <SuperFormControl
             type="password"
@@ -103,7 +103,7 @@ const FormPublishers = (props) => {
             extraRules={form.password}
           />
         </Col>
-      </Row>
+      </Row> */}
       <Button
         disabled={submitting}
         variant="primary"
