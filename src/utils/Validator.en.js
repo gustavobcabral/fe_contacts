@@ -1,6 +1,6 @@
 import SimpleReactValidator from "simple-react-validator";
 
-// Brazilian Portuguesse
+// English British
 SimpleReactValidator.addLocale("en-GB", {
   accepted: "This field must be accepted.",
   after: "This field must be after :date.",
