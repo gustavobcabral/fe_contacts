@@ -156,7 +156,7 @@ class Contacts extends React.Component {
       checksContactsPhones,
       error,
     } = this.state;
-    const colSpan = "8";
+    const colSpan = "10";
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
