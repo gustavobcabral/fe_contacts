@@ -1,17 +1,15 @@
 import SimpleReactValidator from "simple-react-validator";
 
-// Brazilian Portuguesse
-SimpleReactValidator.addLocale("en-US", {
+// English British
+SimpleReactValidator.addLocale("en-GB", {
   accepted: "This field must be accepted.",
   after: "This field must be after :date.",
   after_or_equal: "This field must be after or on :date.",
   alpha: "This field may only contain letters.",
   alpha_space: "This field may only contain letters and spaces.",
   alpha_num: "This field may only contain letters and numbers.",
-  alpha_num_space:
-    "This field may only contain letters, numbers, and spaces.",
-  alpha_num_dash:
-    "This field may only contain letters, numbers, and dashes.",
+  alpha_num_space: "This field may only contain letters, numbers, and spaces.",
+  alpha_num_dash: "This field may only contain letters, numbers, and dashes.",
   alpha_num_dash_space:
     "This field may only contain letters, numbers, dashes, and spaces.",
   array: "This field must be an array.",
