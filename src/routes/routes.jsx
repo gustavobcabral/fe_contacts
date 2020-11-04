@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import ContactsRoutes from "./modules/contacts/Contacts";
 import PublishersRoutes from "./modules/publishers/Publishers";
 import StatusRoutes from "./modules/status/Status";
+import LanguageRoutes from "./modules/languages/Languages"
 
 import PrivateRoute from "../utils/privateRoute";
 import PublicRoute from "../utils/publicRoute";
@@ -17,6 +18,7 @@ const Routes = () => (
     <ContactsRoutes />
     <PublishersRoutes />
     <StatusRoutes />
+    <LanguageRoutes />
   </BrowserRouter>
 );
 

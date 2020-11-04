@@ -1,5 +1,6 @@
 {
   "title": "Languages",
+  "titleCrud": "Languages",
   "labelSelect": "Language",
   "noLanguage": "No language",
   "optionsLabel": "Choice a new language above",
@@ -9,5 +10,7 @@
   "spanish": "Spanish",
   "germany": "Germany",
   "portuguese": "Portuguese",
-  "unknown":"Unknown"
+  "unknown":"Unknown",
+  "descriptionTraducedLabel": "Description Traduced",
+  "descriptionPlaceHolder": "Please write a short description"
 }

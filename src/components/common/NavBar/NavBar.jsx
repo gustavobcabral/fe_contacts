@@ -16,6 +16,7 @@ import {
   contactsPaths,
   publishersPaths,
   statusPaths,
+  languagesPaths
 } from "../../../routes/paths";
 
 const MenuLogged = ({ t, ...props }) => (
@@ -45,6 +46,9 @@ const MenuLogged = ({ t, ...props }) => (
           <NavDropdown.Divider />
           <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
             {t("status")}
+          </NavDropdown.Item>
+          <NavDropdown.Item as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
+            {t("languages")}
           </NavDropdown.Item>
         </NavDropdown>
       )}
