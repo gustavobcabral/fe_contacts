@@ -6,8 +6,8 @@ import { languages } from '../../services'
 import Swal from 'sweetalert2'
 import { getOr, map, isEmpty } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
-// import StatusEdit from "./StatusEdit";
-import LanguagesNew from "./LanguagesNew";
+import LanguagesNew from './LanguagesNew'
+import LanguagesEdit from './LanguagesEdit'
 import NoRecords from '../common/NoRecords/NoRecords'
 import { parseErrorMessage } from '../../utils/generic'
 
@@ -70,7 +70,10 @@ class LanguagesList extends React.Component {
             <tr>
               <th>{t('descriptionLabel')}</th>
               <th>{t('descriptionTraducedLabel')}</th>
-              <th><LanguagesNew afterClose={this.handleGetAll} /></th>
+              <th>Cor</th>
+              <th>
+                <LanguagesNew afterClose={this.handleGetAll} />
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -80,11 +83,13 @@ class LanguagesList extends React.Component {
                   <tr key={languages.id}>
                     <td>{languages.name}</td>
                     <td>{t(languages.name)}</td>
+                    {/* <td>{t(languages.color)}</td> */}
+                    <td style={{ backgroundColor:`${languages.color}` }}>Cor</td>
                     <td>
-                      {/* <LanguagesEdit
-                        data={status}
+                      <LanguagesEdit
+                        data={languages}
                         afterClose={this.handleGetAll}
-                      />{" "} */}
+                      />{' '}
                       <AskDelete
                         id={languages.id}
                         funcToCallAfterConfirmation={this.handleDelete}
