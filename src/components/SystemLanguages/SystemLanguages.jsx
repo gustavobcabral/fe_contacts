@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
 
 const languagesOptions = (t) => [
-  { label: t("languageOptionEnglish"), value: "en-US" },
+  { label: t("languageOptionEnglish"), value: "en-GB" },
   { label: t("languageOptionPortuguese"), value: "pt-BR" },
 ];
 
@@ -56,7 +56,11 @@ const SystemLanguages = (props) => {
   );
   return (
     <>
-      <Button variant="primary" onClick={() => setModalShow(true)} style={{width: '50px'}}>
+      <Button
+        variant="primary"
+        onClick={() => setModalShow(true)}
+        style={{ width: "50px" }}
+      >
         <FontAwesomeIcon icon={faLanguage} />
       </Button>
 

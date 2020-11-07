@@ -4,7 +4,7 @@ import Backend from "i18next-http-backend";
 import { getUserSettings } from "./utils/loginDataManager";
 import { getOr } from "lodash/fp";
 
-const lng = getOr('en-US','language',getUserSettings()) ;
+const lng = getOr("en-GB", "language", getUserSettings());
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -12,8 +12,8 @@ i18n
   .init({
     lng,
     debug: false,
-    load: 'currentOnly',
-    fallbackLng: "en-US",
+    load: "currentOnly",
+    fallbackLng: "en-GB",
     defaultNS: "common",
     ns: "common",
     keySeparator: false, // we do not use keys in form messages.welcome
