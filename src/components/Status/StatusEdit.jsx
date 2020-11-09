@@ -96,6 +96,7 @@ class StatusEdit extends React.Component {
         onExit={afterClose}
         title={`Edit ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
+        buttonVariant="success"
       />
     );
   }
