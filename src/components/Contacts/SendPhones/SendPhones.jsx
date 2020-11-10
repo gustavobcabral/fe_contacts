@@ -72,13 +72,23 @@ class NewContact extends React.Component {
   }
 
   handleInputChange(event) {
+    console.log(event)
     handleInputChangeGeneric(event, this);
   }
 
   getDataPublisherSelected(idPublisher) {
+    console.log(idPublisher)
+    
     const { publishersOptions } = this.state;
+    console.log(publishersOptions)
     return pipe(
-      find((publisher) => publisher.value === idPublisher),
+      find((publisher) =>{ 
+        console.log(publisher)
+        return publisher.value === idPublisher}),
+      data =>{
+        console.log(data)
+        return data
+      },
       getOr(0, "data")
     )(publishersOptions);
   }
@@ -115,6 +125,7 @@ class NewContact extends React.Component {
     const { form } = this.state;
     const idPublisher = get("idPublisher", form);
     const publisherData = this.getDataPublisherSelected(idPublisher);
+    console.log(publisherData)
     const textToSend = `${encodeURIComponent(
       t("messageToSend", { name: publisherData.name })
     )}: ${this.parsePhonesToBeEasierToRead()} `;

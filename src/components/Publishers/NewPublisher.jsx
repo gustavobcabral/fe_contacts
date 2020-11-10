@@ -57,15 +57,16 @@ class NewPublisher extends React.Component {
       "idResponsibility",
       getUserData()
     );
+    // console.log(idResponsibilityCurrentUser);
     pipe(
-      map((responsibility) =>
-        responsibility.id <= idResponsibilityCurrentUser
+      map((responsibility) => {
+        return responsibility.id <= idResponsibilityCurrentUser
           ? {
               value: responsibility.id,
               label: responsibility.description,
             }
-          : null
-      ),
+          : null;
+      }),
       compact
     )(getOr([], "data.data", responsibility));
   };

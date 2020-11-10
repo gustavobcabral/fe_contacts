@@ -17,7 +17,7 @@ export const handleInputChangeGeneric = (event, componentReact) => {
     target: { name, value },
   } = event;
   const { form } = componentReact.state;
-
+console.log(value)
   componentReact.setState({
     form: {
       ...form,
