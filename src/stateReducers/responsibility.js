@@ -7,7 +7,6 @@ const reduceResponsibility = (t, justAllowedForMe = false, allResponsibility) =>
     "idResponsibility",
     getUserData()
   );
-  console.log('justAllowedForMe', justAllowedForMe)
   return pipe(
     map((responsibility) => {
       return !justAllowedForMe || responsibility.id <= idResponsibilityCurrentUser

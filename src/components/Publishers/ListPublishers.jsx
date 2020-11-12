@@ -9,6 +9,7 @@ import AskDelete from "../common/AskDelete/AskDelete";
 import EditPublisher from "./EditPublisher";
 import NewPublisher from "./NewPublisher";
 import { parseErrorMessage } from "../../utils/generic";
+import { getUserData } from "../../utils/loginDataManager";
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -22,6 +23,9 @@ class Publishers extends React.Component {
     };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.showErrorNotAllowedDeleteCurrentUser = this.showErrorNotAllowedDeleteCurrentUser.bind(
+      this
+    );
   }
 
   async handleGetAll() {
@@ -46,8 +50,21 @@ class Publishers extends React.Component {
     }
   }
 
+  showErrorNotAllowedDeleteCurrentUser() {
+    const { t } = this.props;
+
+    Swal.fire({
+      icon: "error",
+      title: t("notAllowedDeleteCurrentUser"),
+    });
+  }
+
   async handleDelete(id) {
     const { t } = this.props;
+    if (id === getOr(0, "id", getUserData())) {
+      this.showErrorNotAllowedDeleteCurrentUser();
+      return;
+    }
     this.setState({ submitting: true });
     await publishers
       .dellOne(id)
