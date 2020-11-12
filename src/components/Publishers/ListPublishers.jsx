@@ -8,6 +8,7 @@ import { getOr, map } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import EditPublisher from "./EditPublisher";
 import NewPublisher from "./NewPublisher";
+import { parseErrorMessage } from "../../utils/generic";
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -24,9 +25,25 @@ class Publishers extends React.Component {
   }
 
   async handleGetAll() {
-    const { queryParams } = this.state;
-    const response = await publishers.getAllWithPagination(queryParams);
-    this.setState({ data: response.data.data });
+    const { t } = this.props;
+
+    try {
+      const { queryParams } = this.state;
+      const response = await publishers.getAllWithPagination(queryParams);
+      this.setState({ data: response.data.data });
+    } catch (error) {
+      this.setState({ submitting: false });
+      Swal.fire({
+        icon: "error",
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `publishers:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
+      });
+    }
   }
 
   async handleDelete(id) {

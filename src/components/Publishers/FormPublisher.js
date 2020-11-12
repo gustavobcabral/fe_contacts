@@ -22,7 +22,6 @@ const FormPublishers = (props) => {
     handleInputChange,
     validated,
   } = props;
-
   return (
     <Form>
       <Row>
@@ -75,6 +74,7 @@ const FormPublishers = (props) => {
             validated={validated}
             value={form.idResponsibility}
             onChange={handleInputChange}
+            justAllowedForMe={form.justAllowedForMe}
             rules="required"
             disabled={form.disabled}
           />

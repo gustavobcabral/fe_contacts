@@ -2,15 +2,14 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import { getOr, map, get, isEmpty, pipe, compact } from "lodash/fp";
+import { getOr, isEmpty, omit } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import { publishers, responsibility } from "../../services";
+import { publishers } from "../../services";
 import FormPublisher from "./FormPublisher";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../utils/generic";
-import { getUserData } from "../../utils/loginDataManager";
 
 const fields = {
   name: "",
@@ -20,6 +19,7 @@ const fields = {
   email: "",
   idResponsibility: "",
   active: 1,
+  justAllowedForMe: true,
 };
 
 class NewPublisher extends React.Component {
@@ -30,7 +30,6 @@ class NewPublisher extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
-      responsibilityOptions: [],
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,38 +50,6 @@ class NewPublisher extends React.Component {
     });
   }
 
-  reduceResponsibility = (responsibility) => {
-    const idResponsibilityCurrentUser = getOr(
-      0,
-      "idResponsibility",
-      getUserData()
-    );
-    // console.log(idResponsibilityCurrentUser);
-    pipe(
-      map((responsibility) => {
-        return responsibility.id <= idResponsibilityCurrentUser
-          ? {
-              value: responsibility.id,
-              label: responsibility.description,
-            }
-          : null;
-      }),
-      compact
-    )(getOr([], "data.data", responsibility));
-  };
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-    const responsibilityOptions = this.reduceResponsibility(
-      await responsibility.get()
-    );
-
-    this.setState({
-      responsibilityOptions,
-      loading: false,
-    });
-  }
-
   handleInputChange(event) {
     handleInputChangeGeneric(event, this);
   }
@@ -99,14 +66,8 @@ class NewPublisher extends React.Component {
     const { form } = this.state;
     const { t } = this.props;
 
-    const data = {
-      name: get("name", form),
-      phone: get("phone", form),
-      password: get("password", form),
-      email: get("email", form),
-      idResponsibility: get("idResponsibility", form),
-      active: get("active", form),
-    };
+    const data = omit(["justAllowedForMe", "repeatPassword", "disabled"], form);
+
     try {
       await publishers.create(data);
       this.setState({ submitting: false });
@@ -135,7 +96,7 @@ class NewPublisher extends React.Component {
   }
 
   render() {
-    const { form, validated, responsibilityOptions } = this.state;
+    const { form, validated } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
@@ -146,7 +107,6 @@ class NewPublisher extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
-        responsibilityOptions={responsibilityOptions}
         title={`${t("common:new")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
