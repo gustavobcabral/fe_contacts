@@ -36,6 +36,7 @@ class ResponsibilitySelect extends React.Component {
       t,
       label,
       rules,
+      disabled = false
     } = this.props
     const { responsibilityOptions } = this.state
 
@@ -50,6 +51,7 @@ class ResponsibilitySelect extends React.Component {
         options={responsibilityOptions}
         onChange={onChange}
         rules={rules}
+        disabled={disabled}
       />
     )
   }

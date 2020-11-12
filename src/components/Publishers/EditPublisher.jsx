@@ -19,6 +19,7 @@ const fields = {
   email: "",
   idResponsibility: "",
   active: 1,
+  disabled: false
 };
 
 class EditContact extends React.Component {
