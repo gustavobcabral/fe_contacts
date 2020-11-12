@@ -17,7 +17,7 @@ import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { contacts, publishers } from "../../../services";
 import FormSendPhones from "./FormSendPhones";
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { URL_SEND_MESSAGE } from "../../../constants/settings";
@@ -85,12 +85,16 @@ class NewContact extends React.Component {
 
   getInformation(contact) {
     const { t } = this.props;
-
-    return !isEmpty(contact.details)
+    const contactName = !isEmpty(contact.name) ? `${contact.name} - ` : "";
+    const contactGender = !isEmpty(contact.gender)
+      ? `${t(`contacts:${contact.gender}`)} - `
+      : "";
+    const lastInformation = !isEmpty(contact.details)
       ? `${contact.details.information} - ${moment(
           contact.details.createdAt
         ).format("DD/MM/YYYY HH:mm")}`
       : t("withoutDetails");
+    return contactName + contactGender + lastInformation;
   }
 
   mappingContactsPhones({ checksContactsPhones, contactsData }) {
@@ -211,4 +215,6 @@ class NewContact extends React.Component {
   }
 }
 
-export default withTranslation(["sendPhones", "common"])(NewContact);
+export default withTranslation(["sendPhones", "common", "contacts"])(
+  NewContact
+);
