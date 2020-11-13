@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../common/OurModal/OurModal'
@@ -10,6 +11,20 @@ import FormPublisher from './FormPublisher'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { parseErrorMessage } from '../../utils/generic'
+=======
+import React from "react";
+import { withTranslation } from "react-i18next";
+import OurModal from "../common/OurModal/OurModal";
+import Swal from "sweetalert2";
+import { getOr, isEmpty, omit } from "lodash/fp";
+import SimpleReactValidator from "simple-react-validator";
+import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
+import { publishers } from "../../services";
+import FormPublisher from "./FormPublisher";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseErrorMessage } from "../../utils/generic";
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
 
 const fields = {
   name: '',
@@ -19,7 +34,13 @@ const fields = {
   email: '',
   idResponsibility: '',
   active: 1,
+<<<<<<< HEAD
 }
+=======
+  disabled: false,
+  justAllowedForMe: false,
+};
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
 
 class EditContact extends React.Component {
   constructor(props) {
@@ -29,10 +50,17 @@ class EditContact extends React.Component {
       submitting: false,
       loading: false,
       validated: false,
+<<<<<<< HEAD
     }
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+=======
+    };
+    this.handleGetOne = this.handleGetOne.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
@@ -50,11 +78,18 @@ class EditContact extends React.Component {
   }
 
   async handleGetOne() {
+<<<<<<< HEAD
     this.setState({ loading: true })
     const id = getOr(0, 'props.id', this)
     const response = await publishers.getOne(id)
     const form = getOr(fields, 'data.data', response)
 
+=======
+    this.setState({ loading: true });
+    const id = getOr(0, "props.id", this);
+    const response = await publishers.getOne(id);
+    const form = { ...fields, ...getOr(fields, "data.data", response) };
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
     this.setState({
       form,
       loading: false,
@@ -78,6 +113,7 @@ class EditContact extends React.Component {
     }
     this.setState({ submitting: true })
 
+<<<<<<< HEAD
     const { form } = this.state
     const { t } = this.props
     const id = getOr(0, 'props.id', this)
@@ -90,6 +126,12 @@ class EditContact extends React.Component {
       idResponsibility: get('idResponsibility', form),
       active: get('active', form),
     }
+=======
+    const { form } = this.state;
+    const { t } = this.props;
+    const id = getOr(0, "props.id", this);
+    const data = omit(["justAllowedForMe", "repeatPassword", "disabled"], form);
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
 
     try {
       await publishers.updatePublishers(id, data)
@@ -119,8 +161,13 @@ class EditContact extends React.Component {
   }
 
   render() {
+<<<<<<< HEAD
     const { form, validated } = this.state
     const { t, afterClose } = this.props
+=======
+    const { form, validated } = this.state;
+    const { t, afterClose } = this.props;
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
     return (
       <OurModal
         body={FormPublisher}
@@ -131,7 +178,11 @@ class EditContact extends React.Component {
         form={form}
         onEnter={this.handleGetOne}
         onExit={afterClose}
+<<<<<<< HEAD
         title={`${t('common:edit')} ${t('titleCrud')}`}
+=======
+        title={`${t("common:edit")} ${t("titleCrud")}`}
+>>>>>>> f427e3692fc7b6e4b110124b5a9720427eaa26df
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"
       />

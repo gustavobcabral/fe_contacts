@@ -15,6 +15,7 @@ const SuperSelect = (props) => {
     isClearable,
     label,
     rules,
+    disabled = false,
   } = props;
 
   const [touched, setTouched] = React.useState(false);
@@ -50,6 +51,7 @@ const SuperSelect = (props) => {
           onChange({ target: { name, value: obj ? obj.value : "" } })
         }
         classNamePrefix="react-select"
+        isDisabled={disabled}
       />
       {rules && validator.message(name, value, rules)}
     </Form.Group>
