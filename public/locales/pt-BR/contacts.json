@@ -13,8 +13,12 @@
   "unknown": "Desconhecido",
   "publisher": "Publicador",
   "name": "Nome",
+  "residential": "Residencial",
+  "commercial": "Comercial",
   "publisherResponsible": "Responsavél",
   "publisherCreatedBy": "Criado por",
   "waitingFeedback": "Pendente",
-  "lastConversasion": "Última conversa"
+  "lastConversasion": "Última conversa",
+  "typeCompany": "Tipo Estabelecimento"
+
 }

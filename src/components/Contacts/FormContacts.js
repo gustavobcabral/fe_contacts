@@ -1,14 +1,15 @@
-import React from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
-import GenderSelect from "../common/GenderSelect/GenderSelect";
-import StatusSelect from "../common/StatusSelect/StatusSelect";
-import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
+import React from 'react'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import GenderSelect from '../common/GenderSelect/GenderSelect'
+import StatusSelect from '../common/StatusSelect/StatusSelect'
+import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
+import TypeCompany from '../common/TypeCompany/TypeCompany'
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
-  const { validator } = props;
+  const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
+  const { validator } = props
   const {
     form,
     submitting,
@@ -16,7 +17,7 @@ const FormDetails = (props) => {
     onHide,
     handleInputChange,
     validated,
-  } = props;
+  } = props
   return (
     <Form>
       <Row>
@@ -24,7 +25,7 @@ const FormDetails = (props) => {
           <SuperFormControl
             type="number"
             name="phone"
-            label={t("contacts:phone")}
+            label={t('contacts:phone')}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -34,9 +35,21 @@ const FormDetails = (props) => {
         </Col>
         <Col>
           <SuperFormControl
+            type="number"
+            name="phone"
+            label={t('contacts:phone')}
+            validator={validator}
+            validated={validated}
+            value={form.phone2}
+            onChange={handleInputChange}
+            //rules="required|min:10"
+          />
+        </Col>
+        <Col>
+          <SuperFormControl
             type="text"
             name="name"
-            label={t("detailsContacts:name")}
+            label={t('detailsContacts:name')}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -44,6 +57,40 @@ const FormDetails = (props) => {
           />
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <SuperFormControl
+            type="email"
+            name="email"
+            label={t('email')}
+            validator={validator}
+            validated={validated}
+            value={form.email}
+            onChange={handleInputChange}
+            rules="email"
+            // disabled={form.disabled}
+          />
+        </Col>
+        <Col>
+          <SuperFormControl
+            type="location"
+            name="location"
+            label={t('location')}
+            validator={validator}
+            validated={validated}
+            value={form.location}
+            onChange={handleInputChange}
+            //rules="email"
+            // disabled={form.disabled}
+          />
+        </Col>
+      </Row>
+        <TypeCompany
+          validator={validator}
+          validated={validated}
+          value={form.TypeCompany}
+          onChange={handleInputChange}
+        />
       <Row>
         <Col>
           <GenderSelect
@@ -65,7 +112,7 @@ const FormDetails = (props) => {
         <Col>
           <StatusSelect
             name="idStatus"
-            label={t("contacts:status")}
+            label={t('contacts:status')}
             validator={validator}
             validated={validated}
             value={form.idStatus}
@@ -79,10 +126,10 @@ const FormDetails = (props) => {
         variant="primary"
         onClick={() => handleSubmit(onHide)}
       >
-        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
-      </Button>{" "}
+        {t(submitting ? 'common:btnSubmitting' : 'common:btnSubmit')}
+      </Button>{' '}
     </Form>
-  );
-};
+  )
+}
 
-export default FormDetails;
+export default FormDetails

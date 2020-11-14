@@ -13,8 +13,11 @@
   "unknown": "Unknown",
   "publisher": "Publisher",
   "name": "Name",
+  "residential": "Residential",
+  "commercial": "Commercial",
   "publisherResponsible": "Responsible",
   "publisherCreatedBy": "Created by",
   "waitingFeedback": "Pending",
-  "lastConversasion": "Last conversation"
+  "lastConversasion": "Last conversation",
+  "typeCompany": "Type Company"
 }
