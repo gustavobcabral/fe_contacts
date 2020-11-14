@@ -21,7 +21,7 @@ const fields = {
   name: '',
   location: '',
   email: '',
-  typeCompany: '',
+  typeCompany: false,
   gender: ID_GENDER_DEFAULT,
   idStatus: ID_STATUS_DEFAULT,
   idLanguage: ID_LANGUAGE_DEFAULT,
@@ -98,7 +98,7 @@ class NewContact extends React.Component {
       gender: get('gender', form),
       idStatus: get('idStatus', form),
       idLanguage: get('idLanguage', form),
-      typeCompany: get('TypeCompany', form),
+      typeCompany: get('typeCompany', form),
     }
     console.log(form, "MERDAFORM")
     console.log(data, "MERDADATA")

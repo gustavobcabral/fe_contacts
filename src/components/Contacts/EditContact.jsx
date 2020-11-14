@@ -19,7 +19,7 @@ const fields = {
   location: '',
   idStatus: '',
   idLanguage: null,
-  typeCompany: '',
+  typeCompany: false,
 }
 
 class EditContact extends React.Component {

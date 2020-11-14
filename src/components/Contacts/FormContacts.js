@@ -5,7 +5,6 @@ import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
 import GenderSelect from '../common/GenderSelect/GenderSelect'
 import StatusSelect from '../common/StatusSelect/StatusSelect'
 import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
-import TypeCompany from '../common/TypeCompany/TypeCompany'
 
 const FormDetails = (props) => {
   const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
@@ -85,12 +84,28 @@ const FormDetails = (props) => {
           />
         </Col>
       </Row>
-        <TypeCompany
-          validator={validator}
-          validated={validated}
-          value={form.TypeCompany}
-          onChange={handleInputChange}
-        />
+      <Row>
+        <Col>
+          <Form.Check
+            type="radio"
+            name="typeCompany"
+            label={t('contacts:residential')}
+            validator={validator}
+            value={form.typeCompany}
+            onChange={handleInputChange}
+          />{' '}
+        </Col>
+        <Col>
+          <Form.Check
+            type="radio"
+            name="typeCompany"
+            label={t('contacts:commercial')}
+            validator={validator}
+            value={form.typeCompany}
+            onChange={handleInputChange}
+          />
+        </Col>
+      </Row>
       <Row>
         <Col>
           <GenderSelect
