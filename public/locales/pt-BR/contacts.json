@@ -3,6 +3,7 @@
   "titleWaitingFeedback": "Contatos que aguardam resposta",
   "titleCrud": "Contato",
   "phone": "Telefone",
+  "phone2": "Telefone 2",
   "language": "Idioma",
   "date": "Data",
   "status": "Estado",
@@ -13,8 +14,15 @@
   "unknown": "Desconhecido",
   "publisher": "Publicador",
   "name": "Nome",
+  "residential": "Residencial",
+  "commercial": "Comercial",
   "publisherResponsible": "Responsavél",
   "publisherCreatedBy": "Criado por",
   "waitingFeedback": "Pendente",
-  "lastConversasion": "Última conversa"
+  "lastConversasion": "Última conversa",
+  "typeCompany": "Estabelecimento",
+  "email": "Email",
+  "location": "Localização"
+
+
 }

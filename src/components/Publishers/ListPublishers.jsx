@@ -50,6 +50,7 @@ class Publishers extends React.Component {
     }
   }
 
+
   showErrorNotAllowedDeleteCurrentUser() {
     const { t } = this.props;
 

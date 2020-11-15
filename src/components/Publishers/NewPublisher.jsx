@@ -12,86 +12,86 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../utils/generic";
 
 const fields = {
-  name: "",
-  phone: "",
+  name: '',
+  phone: '',
   password: null,
   repeatPassword: null,
-  email: "",
-  idResponsibility: "",
+  email: '',
+  idResponsibility: '',
   active: 1,
   justAllowedForMe: true,
 };
 
 class NewPublisher extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       form: fields,
       submitting: false,
       loading: false,
       validated: false,
-    };
+    }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
       validators: {
         mustBeEqualFieldPassword: {
-          message: this.props.t("mustBeEqualFieldPassword"),
+          message: this.props.t('mustBeEqualFieldPassword'),
           rule: (val) =>
             val === this.state.form.password ||
             isEmpty(this.state.form.password),
           required: true,
         },
       },
-    });
+    })
   }
 
   handleInputChange(event) {
-    handleInputChangeGeneric(event, this);
+    handleInputChangeGeneric(event, this)
   }
 
   async handleSubmit(onHide) {
-    this.setState({ validated: true });
+    this.setState({ validated: true })
 
     if (!this.validator.allValid()) {
-      this.validator.showMessages();
-      return true;
+      this.validator.showMessages()
+      return true
     }
-    this.setState({ submitting: true });
+    this.setState({ submitting: true })
 
-    const { form } = this.state;
-    const { t } = this.props;
+    const { form } = this.state
+    const { t } = this.props
 
     const data = omit(["justAllowedForMe", "repeatPassword", "disabled"], form);
 
     try {
-      await publishers.create(data);
-      this.setState({ submitting: false });
+      await publishers.create(data)
+      this.setState({ submitting: false })
       Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
+        title: t('common:dataSuccessfullySaved'),
+        icon: 'success',
         timer: 2000,
         timerProgressBar: true,
-      });
-      onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
-      this.validator.hideMessages();
+      })
+      onHide()
+      this.setState({ form: fields, submitting: false, validated: false })
+      this.validator.hideMessages()
     } catch (error) {
-      this.setState({ submitting: false });
+      this.setState({ submitting: false })
       Swal.fire({
-        icon: "error",
+        icon: 'error',
         title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
         ),
         text: t(
           `publishers:${parseErrorMessage(error)}`,
           t(`common:${parseErrorMessage(error)}`)
         ),
-      });
+      })
     }
   }
 
@@ -110,8 +110,8 @@ class NewPublisher extends React.Component {
         title={`${t("common:new")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
-    );
+    )
   }
 }
 
-export default withTranslation(["publishers", "common"])(NewPublisher);
+export default withTranslation(['publishers', 'common'])(NewPublisher)
