@@ -3,6 +3,7 @@
   "titleWaitingFeedback": "Contacts that waiting feedback",
   "titleCrud": "Contact",
   "phone": "Phone",
+  "phone2": "Phone 2",
   "language": "Language",
   "date": "Date",
   "status": "Status",
@@ -14,10 +15,12 @@
   "publisher": "Publisher",
   "name": "Name",
   "residential": "Residential",
-  "commercial": "Commercial",
+  "commercial": "Business",
   "publisherResponsible": "Responsible",
   "publisherCreatedBy": "Created by",
   "waitingFeedback": "Pending",
   "lastConversasion": "Last conversation",
-  "typeCompany": "Type Company"
+  "typeCompany": "Type",
+  "email": "Email",
+  "location": "Location"
 }

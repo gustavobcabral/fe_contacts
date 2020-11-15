@@ -1,14 +1,13 @@
-import React from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
-import GenderSelect from '../common/GenderSelect/GenderSelect'
-import StatusSelect from '../common/StatusSelect/StatusSelect'
-import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
+import React from "react";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
+import GenderSelect from "../common/GenderSelect/GenderSelect";
+import StatusSelect from "../common/StatusSelect/StatusSelect";
+import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
-  const { validator } = props
+  const { t } = useTranslation(["contacts", "common"]);
   const {
     form,
     submitting,
@@ -16,15 +15,40 @@ const FormDetails = (props) => {
     onHide,
     handleInputChange,
     validated,
-  } = props
+    validator,
+  } = props;
   return (
     <Form>
+      <Row className="mb-2">
+        <Col xs={2}>
+          <Form.Check
+            type="radio"
+            name="typeCompany"
+            label={t("residential")}
+            validator={validator}
+            checked={!form.typeCompany || form.typeCompany === "0"}
+            value={0}
+            onChange={handleInputChange}
+          />
+        </Col>
+        <Col>
+          <Form.Check
+            type="radio"
+            name="typeCompany"
+            label={t("commercial")}
+            validator={validator}
+            checked={form.typeCompany || form.typeCompany === "1"}
+            value={1}
+            onChange={handleInputChange}
+          />
+        </Col>
+      </Row>
       <Row>
         <Col>
           <SuperFormControl
             type="number"
             name="phone"
-            label={t('contacts:phone')}
+            label={t("phone")}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -35,20 +59,20 @@ const FormDetails = (props) => {
         <Col>
           <SuperFormControl
             type="number"
-            name="phone"
-            label={t('contacts:phone')}
+            name="phone2"
+            label={t("phone2")}
             validator={validator}
             validated={validated}
             value={form.phone2}
             onChange={handleInputChange}
-            //rules="required|min:10"
+            rules="min:10"
           />
         </Col>
         <Col>
           <SuperFormControl
             type="text"
             name="name"
-            label={t('detailsContacts:name')}
+            label={t("name")}
             validator={validator}
             validated={validated}
             value={form.name}
@@ -61,48 +85,24 @@ const FormDetails = (props) => {
           <SuperFormControl
             type="email"
             name="email"
-            label={t('email')}
+            label={t("email")}
             validator={validator}
             validated={validated}
             value={form.email}
             onChange={handleInputChange}
             rules="email"
-            // disabled={form.disabled}
           />
         </Col>
         <Col>
           <SuperFormControl
             type="location"
             name="location"
-            label={t('location')}
+            label={t("location")}
             validator={validator}
             validated={validated}
             value={form.location}
             onChange={handleInputChange}
-            //rules="email"
-            // disabled={form.disabled}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Check
-            type="radio"
-            name="typeCompany"
-            label={t('contacts:residential')}
-            validator={validator}
-            value={form.typeCompany}
-            onChange={handleInputChange}
-          />{' '}
-        </Col>
-        <Col>
-          <Form.Check
-            type="radio"
-            name="typeCompany"
-            label={t('contacts:commercial')}
-            validator={validator}
-            value={form.typeCompany}
-            onChange={handleInputChange}
+            rules="min:4"
           />
         </Col>
       </Row>
@@ -113,6 +113,7 @@ const FormDetails = (props) => {
             validated={validated}
             value={form.gender}
             onChange={handleInputChange}
+            rules="required"
           />
         </Col>
         <Col>
@@ -127,7 +128,7 @@ const FormDetails = (props) => {
         <Col>
           <StatusSelect
             name="idStatus"
-            label={t('contacts:status')}
+            label={t("status")}
             validator={validator}
             validated={validated}
             value={form.idStatus}
@@ -141,10 +142,10 @@ const FormDetails = (props) => {
         variant="primary"
         onClick={() => handleSubmit(onHide)}
       >
-        {t(submitting ? 'common:btnSubmitting' : 'common:btnSubmit')}
-      </Button>{' '}
+        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+      </Button>{" "}
     </Form>
-  )
-}
+  );
+};
 
-export default FormDetails
+export default FormDetails;

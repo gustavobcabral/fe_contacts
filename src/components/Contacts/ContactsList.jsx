@@ -95,6 +95,7 @@ class Contacts extends React.Component {
         this.handleGetAll()
       })
       .catch((error) => {
+        console.log(error)
         this.setState({ submitting: false })
         Swal.fire({
           icon: 'error',
@@ -157,7 +158,7 @@ class Contacts extends React.Component {
       checksContactsPhones,
       error,
     } = this.state
-    const colSpan = '10'
+    const colSpan = '11'
     return (
       <ContainerCRUD title={t('title')} {...this.props}>
         <Row>

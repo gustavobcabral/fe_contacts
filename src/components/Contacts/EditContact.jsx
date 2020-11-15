@@ -135,7 +135,6 @@ class EditContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions, statusOptions } = this.state
-    console.log(form, 'MERDA edite')
     const { t, afterClose } = this.props
     return (
       <OurModal
