@@ -18,6 +18,8 @@ class FilterData extends React.Component {
       checksLanguages: [],
       status: [],
       checksStatus: [],
+      responsibility: [],
+      checksResponsibility: [],
     };
     this.getAllFilters = this.getAllFilters.bind(this);
   }
@@ -51,6 +53,7 @@ class FilterData extends React.Component {
         checksGender: getOr([], "data.data.genders", response),
         checksLanguages: getOr([], "data.data.languages", response),
         checksStatus: getOr([], "data.data.status", response),
+        checksResponsibility: getOr([], "data.data.responsibility", response),
         loading: false,
       });
     } catch (error) {
@@ -74,10 +77,17 @@ class FilterData extends React.Component {
   }
 
   render() {
-    const { checksGender, checksLanguages, checksStatus, error } = this.state;
+    const {
+      checksGender,
+      checksLanguages,
+      checksResponsibility,
+      checksStatus,
+      error,
+    } = this.state;
     const noData =
       isEmpty(checksGender) &&
       isEmpty(checksLanguages) &&
+      isEmpty(checksResponsibility) &&
       isEmpty(checksStatus);
     const { t } = this.props;
     return (
@@ -152,6 +162,28 @@ class FilterData extends React.Component {
                     />
                   ),
                   checksStatus
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {!isEmpty(checksResponsibility) && (
+          <Col xs={3} lg={12} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{t("responsibilityTitleFilter")}</Card.Title>
+                {map(
+                  (data) => (
+                    <Form.Check
+                      key={data.idResponsibility}
+                      type="checkbox"
+                      name="responsibility"
+                      label={t(`contacts:${data.responsibilityDescription}`)}
+                      value={data.idResponsibility}
+                      onClick={this.handleOnClick}
+                    />
+                  ),
+                  checksResponsibility
                 )}
               </Card.Body>
             </Card>

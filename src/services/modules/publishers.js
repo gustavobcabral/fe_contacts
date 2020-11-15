@@ -4,6 +4,8 @@ import { toQueryString } from "../../utils/forms";
 const getAllWithPagination = (params) =>
   api.get(`/publishers/withPagination${toQueryString(params)}`);
 
+const getAllFilters = () => api.get(`/publishers/filters`);
+
 const getAll = () => api.get("/publishers");
 
 const getOne = (id) => api.get(`/publishers/${id}`);
@@ -17,6 +19,7 @@ const dellOne = (id) => api.delete(`/publishers/${id}`);
 const allExport = {
   getAllWithPagination,
   getAll,
+  getAllFilters,
   getOne,
   updatePublishers,
   dellOne,

@@ -3,6 +3,7 @@
     "path": "."
   }],
   "settings": {
+    "eslint.codeActionOnSave": true,
     "eslint.validate": ["javascript", "typescript"],
     "[javascript]": {
       "editor.formatOnSave": true
@@ -23,9 +24,10 @@
       "source.fixAll.eslint": true
     },
     "cSpell.words": [
-      "Swal",
+      "HAVETOREAUTHENTICATE",
       "camelcase",
-      "sweetalert"
+      "postgres",
+      "postgresql"
     ]
   },
   "extensions": {
