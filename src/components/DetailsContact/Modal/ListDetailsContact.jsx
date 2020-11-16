@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { details } from "../../../services";
-import { getOr, isEmpty } from "lodash/fp";
+import { getOr, isEmpty, first, pipe } from "lodash/fp";
 import Swal from "sweetalert2";
 import OurModal from "../../common/OurModal/OurModal";
 import ListDataDetailsContact from "./ListDataDetailsContact";
@@ -12,9 +12,16 @@ import { parseErrorMessage } from "../../../utils/generic";
 class ListDetailsContact extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], modalShow: false };
+    this.state = { data: [], modalShow: false, waitingFeedback: false };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  isWaitingFeedback(response) {
+    return pipe(
+      first,
+      getOr(false, "waitingFeedback")
+    )(getOr([], "data.data", response));
   }
 
   async handleGetAllOneContact() {
@@ -22,7 +29,11 @@ class ListDetailsContact extends React.Component {
     try {
       const id = getOr(0, "props.id", this);
       const response = await details.getAllOneContact(id);
-      this.setState({ data: response.data.data, submitting: false });
+      this.setState({
+        data: getOr([], "data.data", response),
+        waitingFeedback: this.isWaitingFeedback(response),
+        submitting: false,
+      });
     } catch (error) {
       const { t } = this.props;
       Swal.fire({
@@ -48,9 +59,7 @@ class ListDetailsContact extends React.Component {
           title: t(
             `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
           ),
-          text: t(
-            `${getOr("errorTextUndefined", "response.data.error", error)}`
-          ),
+          text: t(`common:${parseErrorMessage(error)}`),
         });
       });
   }
@@ -64,12 +73,12 @@ class ListDetailsContact extends React.Component {
 
   render() {
     const { t, contact, afterClose } = this.props;
-    const { data } = this.state;
-
+    const { data, waitingFeedback } = this.state;
     return (
       <OurModal
         body={ListDataDetailsContact}
         contact={contact}
+        waitingFeedback={waitingFeedback}
         data={data}
         title={`${t("title")} # ${contact.phone} ${this.getNameForTitle()}`}
         buttonText={<FontAwesomeIcon icon={faEye} />}

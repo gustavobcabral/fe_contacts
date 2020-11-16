@@ -7,5 +7,7 @@
   "informationLabel": "Informations",
   "informationPlaceHolder": "Write here infornations about the conversation that the public has with this contact",
   "name": "Name",
-  "phone": "Phone"
+  "phone": "Phone",
+  "notificationNotAllowedNewDetails": "Before create a new conversation, please, write the feedback of last contact"
+
 }
