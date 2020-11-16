@@ -31,7 +31,7 @@ const SuperFormControl = (props) => {
   };
 
   return (
-    <Form.Group>
+    <Form.Group controlId={name}>
       <Form.Label>
         {label}
         {' '}

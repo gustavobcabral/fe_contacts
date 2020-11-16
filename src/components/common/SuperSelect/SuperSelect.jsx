@@ -26,6 +26,7 @@ const SuperSelect = (props) => {
   };
   return (
     <Form.Group
+      controlId={name}
       className={
         (validated || touched) && rules && !validator.fieldValid(name)
           ? "is-invalid"

@@ -21,26 +21,29 @@ const FormDetails = (props) => {
     <Form>
       <Row className="mb-2">
         <Col xs={2}>
-          <Form.Check
-            type="radio"
-            name="typeCompany"
-            label={t("residential")}
-            validator={validator}
-            checked={!form.typeCompany || form.typeCompany === "0"}
-            value={0}
-            onChange={handleInputChange}
-          />
+          <Form.Group controlId="residential">
+            <Form.Check
+              type="radio"
+              name="typeCompany"
+              label={t("residential")}
+              checked={!form.typeCompany || form.typeCompany === "0"}
+              value={0}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
         </Col>
         <Col>
-          <Form.Check
-            type="radio"
-            name="typeCompany"
-            label={t("commercial")}
-            validator={validator}
-            checked={form.typeCompany || form.typeCompany === "1"}
-            value={1}
-            onChange={handleInputChange}
-          />
+          <Form.Group controlId="commercial">
+            <Form.Check
+              type="radio"
+              name="typeCompany"
+              label={t("commercial")}
+              validator={validator}
+              checked={form.typeCompany || form.typeCompany === "1"}
+              value={1}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
         </Col>
       </Row>
       <Row>
