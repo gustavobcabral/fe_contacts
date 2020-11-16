@@ -22,5 +22,7 @@
   "lastConversasion": "Last conversation",
   "typeCompany": "Type",
   "email": "Email",
-  "location": "Location"
+  "location": "Location",
+  "noteLabel": "Note",
+  "notePlaceHolder": "Write a comment here"
 }

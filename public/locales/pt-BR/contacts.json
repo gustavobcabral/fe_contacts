@@ -22,7 +22,10 @@
   "lastConversasion": "Última conversa",
   "typeCompany": "Estabelecimento",
   "email": "Email",
-  "location": "Localização"
+  "location": "Localização",
+  "noteLabel": "Observação",
+  "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato"
+
 
 
 }

@@ -140,6 +140,22 @@ const FormDetails = (props) => {
           />
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <SuperFormControl
+            as="textarea"
+            name="note"
+            rows={3}
+            label={t("noteLabel")}
+            validator={validator}
+            validated={validated}
+            placeholder={t("notePlaceHolder")}
+            value={form.note}
+            onChange={handleInputChange}
+            rules="max:250"
+          />
+        </Col>
+      </Row>
       <Button
         disabled={submitting}
         variant="primary"
