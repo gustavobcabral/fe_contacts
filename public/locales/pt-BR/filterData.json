@@ -2,5 +2,7 @@
   "title":"Filtros",
   "gendersTitleFilter": "Gêneros",
   "languagesTitleFilter": "Idiomas",
-  "statusTitleFilter": "Estado"
+  "statusTitleFilter": "Estado",
+  "responsibilityTitleFilter": "Privilégios"
+
 }

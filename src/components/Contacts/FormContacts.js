@@ -7,8 +7,7 @@ import StatusSelect from "../common/StatusSelect/StatusSelect";
 import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
-  const { validator } = props;
+  const { t } = useTranslation(["contacts", "common"]);
   const {
     form,
     submitting,
@@ -16,15 +15,43 @@ const FormDetails = (props) => {
     onHide,
     handleInputChange,
     validated,
+    validator,
   } = props;
   return (
     <Form>
+      <Row className="mb-2">
+        <Col xs={2}>
+          <Form.Group controlId="residential">
+            <Form.Check
+              type="radio"
+              name="typeCompany"
+              label={t("residential")}
+              checked={!form.typeCompany || form.typeCompany === "0"}
+              value={0}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="commercial">
+            <Form.Check
+              type="radio"
+              name="typeCompany"
+              label={t("commercial")}
+              validator={validator}
+              checked={form.typeCompany || form.typeCompany === "1"}
+              value={1}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
       <Row>
         <Col>
           <SuperFormControl
             type="number"
             name="phone"
-            label={t("contacts:phone")}
+            label={t("phone")}
             validator={validator}
             validated={validated}
             value={form.phone}
@@ -34,13 +61,51 @@ const FormDetails = (props) => {
         </Col>
         <Col>
           <SuperFormControl
+            type="number"
+            name="phone2"
+            label={t("phone2")}
+            validator={validator}
+            validated={validated}
+            value={form.phone2}
+            onChange={handleInputChange}
+            rules="min:10"
+          />
+        </Col>
+        <Col>
+          <SuperFormControl
             type="text"
             name="name"
-            label={t("detailsContacts:name")}
+            label={t("name")}
             validator={validator}
             validated={validated}
             value={form.name}
             onChange={handleInputChange}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <SuperFormControl
+            type="email"
+            name="email"
+            label={t("email")}
+            validator={validator}
+            validated={validated}
+            value={form.email}
+            onChange={handleInputChange}
+            rules="email"
+          />
+        </Col>
+        <Col>
+          <SuperFormControl
+            type="location"
+            name="location"
+            label={t("location")}
+            validator={validator}
+            validated={validated}
+            value={form.location}
+            onChange={handleInputChange}
+            rules="min:4"
           />
         </Col>
       </Row>
@@ -51,6 +116,7 @@ const FormDetails = (props) => {
             validated={validated}
             value={form.gender}
             onChange={handleInputChange}
+            rules="required"
           />
         </Col>
         <Col>
@@ -65,12 +131,28 @@ const FormDetails = (props) => {
         <Col>
           <StatusSelect
             name="idStatus"
-            label={t("contacts:status")}
+            label={t("status")}
             validator={validator}
             validated={validated}
             value={form.idStatus}
             onChange={handleInputChange}
             rules="required"
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <SuperFormControl
+            as="textarea"
+            name="note"
+            rows={3}
+            label={t("noteLabel")}
+            validator={validator}
+            validated={validated}
+            placeholder={t("notePlaceHolder")}
+            value={form.note}
+            onChange={handleInputChange}
+            rules="max:250"
           />
         </Col>
       </Row>

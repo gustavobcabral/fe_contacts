@@ -1,4 +1,4 @@
-import { getOr, omit, trim } from "lodash/fp";
+import { getOr, omit, trim, isString } from "lodash/fp";
 
 export const unformatDate = (date) => {
   const split = date.slice(0, 10).split("-");
@@ -14,14 +14,16 @@ export const getLocale = (props) => props.i18n.language;
 
 export const handleInputChangeGeneric = (event, componentReact) => {
   const {
-    target: { name, value },
+    target: { name, value, type },
   } = event;
+  console.log(type, value, name, isString(value))
   const { form } = componentReact.state;
-
+  const valueTrim = isString(value) ? trim(value) : value
+  console.log(valueTrim, typeof valueTrim)
   componentReact.setState({
     form: {
       ...form,
-      [name]: trim(value),
+      [name]: valueTrim,
     },
   });
 };

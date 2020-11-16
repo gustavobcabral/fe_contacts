@@ -22,7 +22,6 @@ const FormPublishers = (props) => {
     handleInputChange,
     validated,
   } = props;
-
   return (
     <Form>
       <Row>
@@ -35,6 +34,7 @@ const FormPublishers = (props) => {
             validated={validated}
             value={form.name}
             onChange={handleInputChange}
+            disabled={form.disabled}
           />
         </Col>
         <Col>
@@ -48,6 +48,7 @@ const FormPublishers = (props) => {
             value={form.phone}
             onChange={handleInputChange}
             rules="required|min:10"
+            disabled={form.disabled}
           />
         </Col>
       </Row>
@@ -62,6 +63,7 @@ const FormPublishers = (props) => {
             value={form.email}
             onChange={handleInputChange}
             rules="email"
+            disabled={form.disabled}
           />
         </Col>
         <Col>
@@ -72,7 +74,9 @@ const FormPublishers = (props) => {
             validated={validated}
             value={form.idResponsibility}
             onChange={handleInputChange}
+            justAllowedForMe={form.justAllowedForMe}
             rules="required"
+            disabled={form.disabled}
           />
         </Col>
       </Row>
@@ -84,9 +88,10 @@ const FormPublishers = (props) => {
             label={t("password")}
             validator={validator}
             validated={validated}
-            placeholder={t('password')}
+            placeholder={t("password")}
             value={form.password}
             onChange={handleInputChange}
+            disabled={form.disabled}
           />
         </Col>
         <Col>
@@ -96,16 +101,17 @@ const FormPublishers = (props) => {
             label={t("repeatPasswordLabel")}
             validator={validator}
             validated={validated}
-            placeholder={t('repeatPasswordPlaceHolder')}
+            placeholder={t("repeatPasswordPlaceHolder")}
             value={form.repeatPassword}
             onChange={handleInputChange}
             rules="mustBeEqualFieldPassword"
             extraRules={form.password}
+            disabled={form.disabled}
           />
         </Col>
       </Row>
       <Button
-        disabled={submitting}
+        disabled={form.disabled || submitting}
         variant="primary"
         onClick={() => handleSubmit(onHide)}
       >

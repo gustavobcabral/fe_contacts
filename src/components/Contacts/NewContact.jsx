@@ -2,7 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import { getOr, map, get } from "lodash/fp";
+import { getOr, map } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import { contacts, publishers, status } from "../../services";
@@ -17,7 +17,12 @@ import {
 
 const fields = {
   phone: "",
+  phone2: "",
   name: "",
+  note: "",
+  location: "",
+  email: "",
+  typeCompany: false,
   gender: ID_GENDER_DEFAULT,
   idStatus: ID_STATUS_DEFAULT,
   idLanguage: ID_LANGUAGE_DEFAULT,
@@ -85,16 +90,8 @@ class NewContact extends React.Component {
     const { form } = this.state;
     const { t } = this.props;
 
-    const data = {
-      phone: get("phone", form),
-      name: get("name", form),
-      gender: get("gender", form),
-      idStatus: get("idStatus", form),
-      idLanguage: get("idLanguage", form),
-    };
-
     try {
-      await contacts.create(data);
+      await contacts.create(form);
       this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),

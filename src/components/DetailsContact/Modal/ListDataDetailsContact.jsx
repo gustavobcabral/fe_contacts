@@ -16,6 +16,7 @@ class ListDataDetailsContact extends React.Component {
       data,
       afterClose,
       funcToCallAfterConfirmation,
+      waitingFeedback
     } = this.props;
     return (
       <Table striped bordered hover responsive>
@@ -29,6 +30,7 @@ class ListDataDetailsContact extends React.Component {
                 afterClose={afterClose}
                 contact={contact}
                 phone={contact.phone}
+                waitingFeedback={waitingFeedback}
               />
             </th>
           </tr>

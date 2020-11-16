@@ -9,6 +9,7 @@ import { details, publishers, contacts } from "../../../services";
 import FormDetails from "./FormDetails";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "react-bootstrap";
 
 const fields = {
   information: "",
@@ -32,6 +33,9 @@ class NewDetailsContact extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onOpen = this.onOpen.bind(this);
+    this.notificationNotAllowedNewDetails = this.notificationNotAllowedNewDetails.bind(
+      this
+    );
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -127,10 +131,24 @@ class NewDetailsContact extends React.Component {
     }
   }
 
+  notificationNotAllowedNewDetails() {
+    const { t } = this.props;
+    Swal.fire({
+      icon: "error",
+      title: t("common:ops"),
+      text: t("notificationNotAllowedNewDetails"),
+    });
+  }
+
   render() {
     const { form, validated, publishersOptions } = this.state;
-    const { t, afterClose } = this.props;
-    return (
+    const { t, afterClose, waitingFeedback } = this.props;
+
+    return waitingFeedback ? (
+      <Button variant="primary" onClick={this.notificationNotAllowedNewDetails}>
+        <FontAwesomeIcon icon={faPlusSquare} />
+      </Button>
+    ) : (
       <OurModal
         body={FormDetails}
         validator={this.validator}

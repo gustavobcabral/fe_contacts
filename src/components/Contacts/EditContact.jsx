@@ -2,7 +2,7 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import { getOr, map, get } from "lodash/fp";
+import { getOr, map, omit } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import { contacts, publishers, status } from "../../services";
@@ -12,10 +12,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const fields = {
   phone: "",
+  phone2: "",
   name: "",
+  note: "",
+  email: "",
   gender: "",
+  location: "",
   idStatus: "",
   idLanguage: null,
+  typeCompany: false,
 };
 
 class EditContact extends React.Component {
@@ -88,16 +93,8 @@ class EditContact extends React.Component {
     const { t } = this.props;
     const id = getOr(0, "props.id", this);
 
-    const data = {
-      phone: get("phone", form),
-      name: get("name", form),
-      gender: get("gender", form),
-      idStatus: get("idStatus", form),
-      idLanguage: get("idLanguage", form),
-    };
-
     try {
-      await contacts.updateContact(id, data);
+      await contacts.updateContact(id, omit(["details"], form));
       this.setState({ submitting: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),

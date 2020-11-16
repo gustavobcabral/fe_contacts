@@ -17,6 +17,7 @@ const SuperFormControl = (props) => {
     type,
     rules,
     autocomplete,
+    disabled = false
   } = props;
 
   const [touched, setTouched] = React.useState(false);
@@ -30,7 +31,7 @@ const SuperFormControl = (props) => {
   };
 
   return (
-    <Form.Group>
+    <Form.Group controlId={name}>
       <Form.Label>
         {label}
         {' '}
@@ -46,6 +47,7 @@ const SuperFormControl = (props) => {
         onChange={onChange}
         onBlur={onBlurLocal}
         defaultValue={value}
+        disabled={disabled}
         className={
           (validated || touched) && rules && !validator.fieldValid(name)
             ? "is-invalid"

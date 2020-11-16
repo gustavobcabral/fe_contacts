@@ -9,9 +9,12 @@ const randomColor = () =>
 
 const parseErrorMessage = (error) => {
   const message = get("message", error);
+  const errorConstraint = get("response.data.error.constraint", error);
   const errorCode = get("response.data.error.code", error);
   const errorMessage = get("response.data.error", error);
-  return errorCode
+  return errorConstraint
+    ? errorConstraint
+    : errorCode
     ? errorCode
     : errorMessage
     ? errorMessage

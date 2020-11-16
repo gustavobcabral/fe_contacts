@@ -76,6 +76,7 @@ class Contacts extends React.Component {
     } catch (error) {
       this.setState({
         error,
+        submitting: false,
       });
       Swal.fire({
         icon: "error",
@@ -93,6 +94,7 @@ class Contacts extends React.Component {
         this.handleGetAll();
       })
       .catch((error) => {
+        console.log(error);
         this.setState({ submitting: false });
         Swal.fire({
           icon: "error",
@@ -137,10 +139,9 @@ class Contacts extends React.Component {
     this.setState({ checksContactsPhones: newValues });
   }
 
-  afterSentPhones(){
+  afterSentPhones() {
     this.handleGetAll();
     this.setState({ checksContactsPhones: [] });
-
   }
 
   componentDidMount() {
@@ -156,7 +157,7 @@ class Contacts extends React.Component {
       checksContactsPhones,
       error,
     } = this.state;
-    const colSpan = "8";
+    const colSpan = "11";
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
@@ -188,6 +189,7 @@ class Contacts extends React.Component {
                   </th>
                   <th>{t("name")}</th>
                   <th>{t("phone")}</th>
+                  <th>{t("typeCompany")}</th>
                   <th>{t("gender")}</th>
                   <th>{t("language")}</th>
                   <th>{t("status")}</th>
@@ -222,8 +224,15 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td style={{width:"25%"}}>{contact.name}</td>
+                        <td style={{ width: "25%" }}>{contact.name}</td>
                         <td>{contact.phone}</td>
+                        <td>
+                          {t(
+                            `contacts:${
+                              contact.typeCompany ? "commercial" : "residential"
+                            }`
+                          )}
+                        </td>
                         <td>{t(`contacts:${contact.gender}`)}</td>
                         <td>{t(`languages:${contact.languageName}`)}</td>
                         <td>{t(`status:${contact.statusDescription}`)}</td>
