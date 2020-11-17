@@ -2,7 +2,7 @@ import React from "react";
 import { get } from "lodash/fp";
 import { withTranslation } from "react-i18next";
 import { Row } from "react-bootstrap";
-import { getUserData } from "../../utils/loginDataManager";
+import { getUserData, isAtLeastElder } from "../../utils/loginDataManager";
 import { contacts } from "../../services";
 import ChartByContacted from "./ByContacted";
 import ChartByFeedback from "./ByFeedback";
@@ -48,7 +48,7 @@ class Charts extends React.Component {
         </Row>
         <Row className="mt-4">
           <ChartByFeedback data={data} />
-          <ChartByPublishers data={data} />
+          {isAtLeastElder() && <ChartByPublishers data={data} />}
         </Row>
       </>
     );

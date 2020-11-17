@@ -40,9 +40,12 @@ class ListDetailsContact extends React.Component {
       const { t } = this.props;
       Swal.fire({
         icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(`common:${parseErrorMessage(error)}`),
       });
-    }
+  }
   }
 
   async handleDelete(id) {
