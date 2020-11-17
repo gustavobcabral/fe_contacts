@@ -21,7 +21,7 @@ const fields = {
   name: "",
   note: "",
   location: "",
-  email: "",
+  email: null,
   typeCompany: false,
   gender: ID_GENDER_DEFAULT,
   idStatus: ID_STATUS_DEFAULT,
@@ -121,12 +121,13 @@ class NewContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state;
+    const { form, validated, publishersOptions, statusOptions, submitting } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormContacts}
         validator={this.validator}
+        submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}

@@ -12,12 +12,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../utils/generic";
 
 const fields = {
-  name: '',
-  phone: '',
+  name: "",
+  phone: "",
   password: null,
   repeatPassword: null,
-  email: '',
-  idResponsibility: '',
+  email: "",
+  idResponsibility: "",
   active: 1,
   disabled: false,
   justAllowedForMe: false,
@@ -25,7 +25,7 @@ const fields = {
 
 class EditContact extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       form: fields,
       submitting: false,
@@ -41,14 +41,14 @@ class EditContact extends React.Component {
       element: (message) => <div className="text-danger">{message}</div>,
       validators: {
         mustBeEqualFieldPassword: {
-          message: this.props.t('mustBeEqualFieldPassword'),
+          message: this.props.t("mustBeEqualFieldPassword"),
           rule: (val) =>
             val === this.state.form.password ||
             isEmpty(this.state.form.password),
           required: true,
         },
       },
-    })
+    });
   }
 
   async handleGetOne() {
@@ -59,25 +59,25 @@ class EditContact extends React.Component {
     this.setState({
       form,
       loading: false,
-    })
+    });
   }
 
   onEnter() {
-    this.handleGetOne()
+    this.handleGetOne();
   }
 
   handleInputChange(event) {
-    handleInputChangeGeneric(event, this)
+    handleInputChangeGeneric(event, this);
   }
 
   async handleSubmit(onHide) {
-    this.setState({ validated: true })
+    this.setState({ validated: true });
 
     if (!this.validator.allValid()) {
-      this.validator.showMessages()
-      return true
+      this.validator.showMessages();
+      return true;
     }
-    this.setState({ submitting: true })
+    this.setState({ submitting: true });
 
     const { form } = this.state;
     const { t } = this.props;
@@ -85,38 +85,39 @@ class EditContact extends React.Component {
     const data = omit(["justAllowedForMe", "repeatPassword", "disabled"], form);
 
     try {
-      await publishers.updatePublishers(id, data)
-      this.setState({ submitting: false })
+      await publishers.updatePublishers(id, data);
+      this.setState({ submitting: false });
       Swal.fire({
-        title: t('common:dataSuccessfullySaved'),
-        icon: 'success',
+        title: t("common:dataSuccessfullySaved"),
+        icon: "success",
         timer: 2000,
         timerProgressBar: true,
-      })
-      onHide()
-      this.setState({ form: fields, submitting: false, validated: false })
-      this.validator.hideMessages()
+      });
+      onHide();
+      this.setState({ form: fields, submitting: false, validated: false });
+      this.validator.hideMessages();
     } catch (error) {
-      this.setState({ submitting: false })
+      this.setState({ submitting: false });
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
         text: t(
           `publishers:${parseErrorMessage(error)}`,
           t(`common:${parseErrorMessage(error)}`)
         ),
-      })
+      });
     }
   }
 
   render() {
-    const { form, validated } = this.state;
+    const { form, validated, submitting } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormPublisher}
+        submitting={submitting}
         validator={this.validator}
         validated={validated}
         handleSubmit={this.handleSubmit}
@@ -128,8 +129,8 @@ class EditContact extends React.Component {
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"
       />
-    )
+    );
   }
 }
 
-export default withTranslation(['publishers', 'common'])(EditContact)
+export default withTranslation(["publishers", "common"])(EditContact);
