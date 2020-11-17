@@ -49,7 +49,7 @@ const MenuLogged = ({ t, ...props }) => (
         </NavDropdown>
       )}
     </Nav>
-    <Nav>
+    <Nav style={{marginRight: '34px'}}>
       <NavDropdown title={get("name", getUserData())}>
         <NavDropdown.Item as={Link} to="#me">
           My data

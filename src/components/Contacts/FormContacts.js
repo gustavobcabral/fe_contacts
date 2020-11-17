@@ -20,7 +20,7 @@ const FormDetails = (props) => {
   return (
     <Form>
       <Row className="mb-2">
-        <Col xs={2}>
+        <Col xs={6} lg={2}>
           <Form.Group controlId="residential">
             <Form.Check
               type="radio"
@@ -47,7 +47,7 @@ const FormDetails = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={6} lg={6}>
           <SuperFormControl
             type="number"
             name="phone"
@@ -59,7 +59,7 @@ const FormDetails = (props) => {
             rules="required|min:10"
           />
         </Col>
-        <Col>
+        <Col xs={6} lg={6}>
           <SuperFormControl
             type="number"
             name="phone2"
@@ -71,7 +71,7 @@ const FormDetails = (props) => {
             rules="min:10"
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={12}>
           <SuperFormControl
             type="text"
             name="name"
@@ -84,7 +84,7 @@ const FormDetails = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="email"
             name="email"
@@ -96,7 +96,7 @@ const FormDetails = (props) => {
             rules="email"
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="location"
             name="location"
@@ -110,7 +110,7 @@ const FormDetails = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={6} lg={4}>
           <GenderSelect
             validator={validator}
             validated={validated}
@@ -119,7 +119,7 @@ const FormDetails = (props) => {
             rules="required"
           />
         </Col>
-        <Col>
+        <Col xs={6} lg={4}>
           <LanguageSelect
             validator={validator}
             validated={validated}
@@ -128,7 +128,7 @@ const FormDetails = (props) => {
             rules="required"
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={4}>
           <StatusSelect
             name="idStatus"
             label={t("status")}

@@ -23,7 +23,7 @@ const FormDetails = (props) => {
   return (
     <Form>
       <Row>
-        <Col>
+        <Col xs={12} lg={4}>
           <SuperFormControl
             type="text"
             name="name"
@@ -34,7 +34,7 @@ const FormDetails = (props) => {
             onChange={handleInputChange}
           />
         </Col>
-        <Col>
+        <Col xs={6} lg={4}>
           <GenderSelect
             validator={validator}
             validated={validated}
@@ -42,7 +42,7 @@ const FormDetails = (props) => {
             onChange={handleInputChange}
           />
         </Col>
-        <Col>
+        <Col xs={6} lg={4}>
           <StatusSelect
             name="idStatus"
             label={t("contacts:status")}
@@ -55,7 +55,7 @@ const FormDetails = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={12} lg={6}>
           <LanguageSelect
             validator={validator}
             validated={validated}
@@ -63,7 +63,7 @@ const FormDetails = (props) => {
             onChange={handleInputChange}
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperSelect
             name="idPublisher"
             label={t("publisher")}
