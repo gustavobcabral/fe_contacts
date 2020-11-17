@@ -14,12 +14,10 @@ export const getLocale = (props) => props.i18n.language;
 
 export const handleInputChangeGeneric = (event, componentReact) => {
   const {
-    target: { name, value, type },
+    target: { name, value },
   } = event;
-  console.log(type, value, name, isString(value))
   const { form } = componentReact.state;
   const valueTrim = isString(value) ? trim(value) : value
-  console.log(valueTrim, typeof valueTrim)
   componentReact.setState({
     form: {
       ...form,

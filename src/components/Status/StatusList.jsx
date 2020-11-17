@@ -48,9 +48,7 @@ class StatusList extends React.Component {
           title: t(
             `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
           ),
-          text: t(
-            `${getOr("errorTextUndefined", "response.data.error", error)}`
-          ),
+          text: t(`common:${parseErrorMessage(error)}`),
         });
       });
   }

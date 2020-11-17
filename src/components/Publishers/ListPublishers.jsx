@@ -103,7 +103,8 @@ class Publishers extends React.Component {
             `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
           ),
           text: t(
-            `${getOr("errorTextUndefined", "response.data.error", error)}`
+            `publishers:${parseErrorMessage(error)}`,
+            t(`common:${parseErrorMessage(error)}`)
           ),
         });
       });
@@ -158,7 +159,7 @@ class Publishers extends React.Component {
                           `responsibility:${publishers.responsibilityDescription}`
                         )}
                       </td>
-                      <td style={{ width: "100px" }}>
+                      <td style={{ width: "114px" }}>
                         <EditPublisher
                           id={publishers.id}
                           afterClose={() => this.handleGetAll()}

@@ -94,20 +94,13 @@ class Contacts extends React.Component {
         this.handleGetAll();
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ submitting: false });
         Swal.fire({
           icon: "error",
           title: t(
             `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
           ),
-          text: t(
-            `common:${getOr(
-              "errorWithoutDetails",
-              "response.data.error.code",
-              error
-            )}`
-          ),
+          text: t(`common:${parseErrorMessage(error)}`),
         });
       });
   }
@@ -196,7 +189,8 @@ class Contacts extends React.Component {
                   <th>{t("lastConversasion")}</th>
                   <th>{t("waitingFeedback")}</th>
                   <th>{t("details")}</th>
-                  <th>
+                  <th style={{ width: "116px" }}>
+
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -247,7 +241,7 @@ class Contacts extends React.Component {
                           )}
                         </td>
 
-                        <td>
+                        <td style={{ width: "116px" }}>
                           <ListDetailsContact
                             contact={contact}
                             id={contact.phone}
@@ -261,7 +255,7 @@ class Contacts extends React.Component {
                             <FontAwesomeIcon icon={faList} />
                           </Button>
                         </td>
-                        <td>
+                        <td style={{ width: "116px" }}>
                           <EditContact
                             id={contact.phone}
                             afterClose={() => this.handleGetAll()}
