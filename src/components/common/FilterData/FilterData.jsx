@@ -92,17 +92,15 @@ class FilterData extends React.Component {
     const { t } = this.props;
     return (
       <>
-        <Col xs={3} lg={12} className="text-center">
+        <Col className="text-center">
           <h3>{t("title")}</h3>
         </Col>
-        <Col xs={3} lg={12} className="text-center text-muted">
-          {error}
-        </Col>
-        <Col xs={3} lg={12} className="text-center text-muted">
+        <Col className="text-center text-muted">{error}</Col>
+        <Col className="text-center text-muted">
           {noData && t("common:noData")}
         </Col>
         {!isEmpty(checksGender) && (
-          <Col xs={3} lg={12} className="mb-4">
+          <Col className="mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{t("gendersTitleFilter")}</Card.Title>
@@ -124,7 +122,7 @@ class FilterData extends React.Component {
           </Col>
         )}
         {!isEmpty(checksLanguages) && (
-          <Col xs={3} lg={12} className="mb-4">
+          <Col className="mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{t("languagesTitleFilter")}</Card.Title>
@@ -146,7 +144,7 @@ class FilterData extends React.Component {
           </Col>
         )}
         {!isEmpty(checksStatus) && (
-          <Col xs={3} lg={12} className="mb-4">
+          <Col className="mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{t("statusTitleFilter")}</Card.Title>
@@ -168,7 +166,7 @@ class FilterData extends React.Component {
           </Col>
         )}
         {!isEmpty(checksResponsibility) && (
-          <Col xs={3} lg={12} className="mb-4">
+          <Col className="mb-4">
             <Card>
               <Card.Body>
                 <Card.Title>{t("responsibilityTitleFilter")}</Card.Title>

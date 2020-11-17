@@ -96,12 +96,13 @@ class NewPublisher extends React.Component {
   }
 
   render() {
-    const { form, validated } = this.state;
+    const { form, validated, submitting } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormPublisher}
         validator={this.validator}
+        submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}

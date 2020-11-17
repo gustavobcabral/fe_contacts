@@ -158,7 +158,7 @@ class Publishers extends React.Component {
                           `responsibility:${publishers.responsibilityDescription}`
                         )}
                       </td>
-                      <td>
+                      <td style={{ width: "100px" }}>
                         <EditPublisher
                           id={publishers.id}
                           afterClose={() => this.handleGetAll()}

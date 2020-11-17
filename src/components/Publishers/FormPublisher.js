@@ -35,6 +35,8 @@ const FormPublishers = (props) => {
             value={form.name}
             onChange={handleInputChange}
             disabled={form.disabled}
+            rules="required"
+
           />
         </Col>
         <Col>

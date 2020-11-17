@@ -127,12 +127,13 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions } = this.state;
+    const { form, validated, publishersOptions, submitting } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormDetails}
         validator={this.validator}
+        submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
