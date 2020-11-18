@@ -10,6 +10,7 @@ import FormDetails from "./FormDetails";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
+import { parseErrorMessage } from "../../../utils/generic"
 
 const fields = {
   information: "",
@@ -117,16 +118,7 @@ class NewDetailsContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        title: t(`common:${parseErrorMessage(error)}`),
       });
     }
   }
