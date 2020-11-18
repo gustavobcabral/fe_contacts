@@ -25,7 +25,7 @@ const FormPublishers = (props) => {
   return (
     <Form>
       <Row>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="text"
             name="name"
@@ -36,10 +36,9 @@ const FormPublishers = (props) => {
             onChange={handleInputChange}
             disabled={form.disabled}
             rules="required"
-
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="number"
             name="phone"
@@ -55,7 +54,7 @@ const FormPublishers = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="email"
             name="email"
@@ -68,7 +67,7 @@ const FormPublishers = (props) => {
             disabled={form.disabled}
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={6}>
           <ResponsibilitySelect
             name="idResponsibility"
             label={t("responsibility")}
@@ -83,7 +82,7 @@ const FormPublishers = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="password"
             name="password"
@@ -96,7 +95,7 @@ const FormPublishers = (props) => {
             disabled={form.disabled}
           />
         </Col>
-        <Col>
+        <Col xs={12} lg={6}>
           <SuperFormControl
             type="password"
             name="repeatPassword"
