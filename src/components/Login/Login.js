@@ -17,6 +17,7 @@ const fields = {
 class LoginPopup extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props, "PROPS LOGIN")
     this.state = {
       form: fields,
       modalShow: false,

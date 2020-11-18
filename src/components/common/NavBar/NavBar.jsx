@@ -55,7 +55,7 @@ const MenuLogged = ({ t, ...props }) => (
           My data
         </NavDropdown.Item>
         <NavDropdown.Divider />
-        <Logout {...props} />
+        <Logout {...props} t={t} />
       </NavDropdown>
     </Nav>
     <Nav>
@@ -67,7 +67,7 @@ const MenuLogged = ({ t, ...props }) => (
 const MenuLogout = ({ t, ...props }) => (
   <>
     <Nav className="mr-auto">
-      <Login {...props} />
+      <Login {...props} t={t}/>
     </Nav>
     <Nav>
       <SystemLanguages {...props} />
