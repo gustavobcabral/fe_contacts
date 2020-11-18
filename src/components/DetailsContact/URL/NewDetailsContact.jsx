@@ -7,6 +7,7 @@ import FormDetails from './FormDetails'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { details, publishers, contacts } from '../../../services'
 import Swal from 'sweetalert2'
+import { parseErrorMessage } from '../../../utils/generic'
 
 const fields = {
   information: '',
@@ -109,18 +110,9 @@ class NewDetailsContact extends React.Component {
     } catch (error) {
       this.setState({ submitting: false })
       Swal.fire({
-        icon: 'error',
-        title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            'errorWithoutDetails',
-            'response.data.error.code',
-            error
-          )}`
-        ),
-      })
+        icon: "error",
+        title: t(`common:${parseErrorMessage(error)}`),
+      });
     }
   }
 

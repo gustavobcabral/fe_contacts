@@ -2,13 +2,14 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
 import Swal from "sweetalert2";
-import { getOr, get, pick } from "lodash/fp";
+import { get, pick } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import OurModal from "../common/OurModal/OurModal";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import StatusForm from "./StatusForm.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseErrorMessage } from "../../utils/generic"
 
 const fields = {
   description: "",
@@ -62,16 +63,7 @@ class StatusEdit extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        title: t(`common:${parseErrorMessage(error)}`),
       });
     }
   }
