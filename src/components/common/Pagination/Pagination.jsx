@@ -39,7 +39,7 @@ const PaginationComponent = (props) => {
       </Pagination.Item>
     );
   }
-  if (goForwardStart !== 1) {
+  if (goForwardStart > 1) {
     for (let number = goForwardStart; number <= goForwardEnd; number++) {
       items.push(
         <Pagination.Item
