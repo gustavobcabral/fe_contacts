@@ -20,11 +20,11 @@ const FormSendPhones = (props) => {
   return (
     <Form>
       <Row>
-        <Col xs={7} scroll="true">
+        <Col lg={7} xs={12} scroll="true">
           <h6>{t("numbersSelected")}</h6>
           <div style={{ overflowY: "auto", maxHeight: "150px" }}>{phones}</div>
         </Col>
-        <Col>
+        <Col lg={5} xs={12}>
           <h6> {t("sendTo")}</h6>
           <SuperSelect
             name="idPublisher"
