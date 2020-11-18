@@ -176,7 +176,7 @@ class FilterData extends React.Component {
                       key={data.idResponsibility}
                       type="checkbox"
                       name="responsibility"
-                      label={t(`contacts:${data.responsibilityDescription}`)}
+                      label={t(`responsibility:${data.responsibilityDescription}`)}
                       value={data.idResponsibility}
                       onClick={this.handleOnClick}
                     />
