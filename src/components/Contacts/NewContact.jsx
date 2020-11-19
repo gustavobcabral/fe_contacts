@@ -135,4 +135,4 @@ class NewContact extends React.Component {
   }
 }
 
-export default withTranslation(["Contacts", "common"])(NewContact);
+export default withTranslation(["contacts", "common"])(NewContact);

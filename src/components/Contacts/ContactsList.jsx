@@ -182,16 +182,19 @@ class Contacts extends React.Component {
                     />
                   </th>
                   <th>{t("name")}</th>
-                  <th>{t("phone")}</th>
-                  <th>{t("typeCompany")}</th>
-                  <th>{t("gender")}</th>
-                  <th>{t("language")}</th>
-                  <th>{t("status")}</th>
-                  <th>{t("lastConversasion")}</th>
-                  <th>{t("waitingFeedback")}</th>
+                  <th className="d-none d-sm-table-cell">{t("phone")}</th>
+                  <th className="d-none d-sm-table-cell">{t("typeCompany")}</th>
+                  <th className="d-none d-sm-table-cell">{t("gender")}</th>
+                  <th className="d-none d-sm-table-cell">{t("language")}</th>
+                  <th className="d-none d-sm-table-cell">{t("status")}</th>
+                  <th className="d-none d-sm-table-cell">
+                    {t("lastConversasion")}
+                  </th>
+                  <th className="d-none d-sm-table-cell">
+                    {t("waitingFeedback")}
+                  </th>
                   <th>{t("details")}</th>
-                  <th style={{ width: "116px" }}>
-
+                  <th>
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -219,21 +222,31 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td style={{ width: "25%" }}>{contact.name}</td>
-                        <td>{contact.phone}</td>
-                        <td>
+                        <td>{contact.name}</td>
+                        <td className="d-none d-sm-table-cell">
+                          {contact.phone}
+                        </td>
+                        <td className="d-none d-sm-table-cell">
                           {t(
                             `contacts:${
                               contact.typeCompany ? "commercial" : "residential"
                             }`
                           )}
                         </td>
-                        <td>{t(`contacts:${contact.gender}`)}</td>
-                        <td>{t(`languages:${contact.languageName}`)}</td>
-                        <td>{t(`status:${contact.statusDescription}`)}</td>
-                        <td>{formatDate(contact.details.createdAt)}</td>
+                        <td className="d-none d-sm-table-cell">
+                          {t(`contacts:${contact.gender}`)}
+                        </td>
+                        <td className="d-none d-sm-table-cell">
+                          {t(`languages:${contact.languageName}`)}
+                        </td>
+                        <td className="d-none d-sm-table-cell">
+                          {t(`status:${contact.statusDescription}`)}
+                        </td>
+                        <td className="d-none d-sm-table-cell">
+                          {formatDate(contact.details.createdAt)}
+                        </td>
                         <td
-                          className={`text-${
+                          className={`d-none d-sm-table-cell text-${
                             contact.waitingFeedback ? "danger" : "success"
                           }`}
                         >
@@ -242,7 +255,7 @@ class Contacts extends React.Component {
                           )}
                         </td>
 
-                        <td style={{ width: "116px" }}>
+                        <td>
                           <ListDetailsContact
                             contact={contact}
                             id={contact.phone}
@@ -256,7 +269,7 @@ class Contacts extends React.Component {
                             <FontAwesomeIcon icon={faList} />
                           </Button>
                         </td>
-                        <td style={{ width: "116px" }}>
+                        <td>
                           <EditContact
                             id={contact.phone}
                             afterClose={() => this.handleGetAll()}

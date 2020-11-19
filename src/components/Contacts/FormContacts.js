@@ -110,7 +110,7 @@ const FormDetails = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col xs={6} lg={4}>
+        <Col xs={12} lg={4}>
           <GenderSelect
             validator={validator}
             validated={validated}
@@ -119,7 +119,7 @@ const FormDetails = (props) => {
             rules="required"
           />
         </Col>
-        <Col xs={6} lg={4}>
+        <Col xs={12} lg={4}>
           <LanguageSelect
             validator={validator}
             validated={validated}

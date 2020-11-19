@@ -1,3 +1,4 @@
 {
-  "YouWasLogoutSuccessfully" : "You was logout successfully"
+  "YouWasLogoutSuccessfully" : "You was logout successfully",
+  "btnLogout": "Logout"
 }
