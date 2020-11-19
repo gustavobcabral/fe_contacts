@@ -7,6 +7,7 @@ import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
+import { parseErrorMessage } from "../../../utils/generic"
 
 const fields = {
   information: "",
@@ -104,16 +105,7 @@ class EditDetailsContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        title: t(`common:${parseErrorMessage(error)}`),
       });
     }
   }

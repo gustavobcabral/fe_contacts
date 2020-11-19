@@ -14,6 +14,7 @@ import {
   ID_GENDER_DEFAULT,
   ID_STATUS_DEFAULT,
 } from "../../constants/valuesPredefined";
+import { parseErrorMessage } from "../../utils/generic"
 
 const fields = {
   phone: "",
@@ -106,16 +107,7 @@ class NewContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        title: t(`common:${parseErrorMessage(error)}`),
       });
     }
   }

@@ -9,6 +9,7 @@ import { contacts, publishers, status } from "../../services";
 import FormContacts from "./FormContacts";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseErrorMessage } from "../../utils/generic";
 
 const fields = {
   phone: "",
@@ -109,16 +110,7 @@ class EditContact extends React.Component {
       this.setState({ submitting: false });
       Swal.fire({
         icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        title: t(`common:${parseErrorMessage(error)}`),
       });
     }
   }
