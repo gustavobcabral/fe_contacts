@@ -15,8 +15,15 @@ class OurModal extends Component {
     this.setState({ modalShow: visibility });
   };
 
-  onHide = () => this.setModalShow(false);
+  onHide = () => {
+    this.setModalShow(false)
+    const { onClose } = this.props;
+    if (onClose) onClose();
+
+  };
+  
   onShow = () => this.setModalShow(true);
+
 
   defaultOnExit = () => {
     const { onExit } = this.props;
