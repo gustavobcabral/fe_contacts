@@ -48,6 +48,7 @@ class Contacts extends React.Component {
         filters: JSON.stringify({
           name: "",
           phone: "",
+          note: "",
           genders: [],
           languages: [],
           status: [],
@@ -167,7 +168,7 @@ class Contacts extends React.Component {
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={["name", "phone"]}
+                  fields={["name", "phone", "note"]}
                   colspan={colSpan}
                 />
                 <tr>
