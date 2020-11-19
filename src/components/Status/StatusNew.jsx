@@ -9,7 +9,7 @@ import OurModal from "../common/OurModal/OurModal";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import StatusForm from "./StatusForm.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../utils/generic"
+import { parseErrorMessage } from "../../utils/generic";
 
 const fields = {
   description: "",
@@ -25,6 +25,8 @@ class StatusNew extends React.Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
@@ -58,8 +60,7 @@ class StatusNew extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
-      this.validator.hideMessages();
+      this.resetForm();
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
@@ -67,6 +68,11 @@ class StatusNew extends React.Component {
         title: t(`common:${parseErrorMessage(error)}`),
       });
     }
+  }
+
+  resetForm() {
+    this.setState({ form: fields, submitting: false, validated: false });
+    this.validator.hideMessages();
   }
 
   render() {
@@ -83,6 +89,7 @@ class StatusNew extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
+        onClose={this.resetForm}
         title={`New ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
