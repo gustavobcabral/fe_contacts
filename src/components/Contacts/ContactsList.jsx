@@ -183,14 +183,14 @@ class Contacts extends React.Component {
                   </th>
                   <th>{t("name")}</th>
                   <th className="d-none d-sm-table-cell">{t("phone")}</th>
-                  <th className="d-none d-sm-table-cell">{t("typeCompany")}</th>
-                  <th className="d-none d-sm-table-cell">{t("gender")}</th>
-                  <th className="d-none d-sm-table-cell">{t("language")}</th>
-                  <th className="d-none d-sm-table-cell">{t("status")}</th>
-                  <th className="d-none d-sm-table-cell">
+                  <th className="d-none d-lg-table-cell">{t("typeCompany")}</th>
+                  <th className="d-none d-lg-table-cell">{t("gender")}</th>
+                  <th className="d-none d-lg-table-cell">{t("language")}</th>
+                  <th className="d-none d-lg-table-cell">{t("status")}</th>
+                  <th className="d-none d-lg-table-cell">
                     {t("lastConversasion")}
                   </th>
-                  <th className="d-none d-sm-table-cell">
+                  <th className="d-none d-lg-table-cell">
                     {t("waitingFeedback")}
                   </th>
                   <th>{t("details")}</th>
@@ -226,27 +226,27 @@ class Contacts extends React.Component {
                         <td className="d-none d-sm-table-cell">
                           {contact.phone}
                         </td>
-                        <td className="d-none d-sm-table-cell">
+                        <td className="d-none d-lg-table-cell">
                           {t(
                             `contacts:${
                               contact.typeCompany ? "commercial" : "residential"
                             }`
                           )}
                         </td>
-                        <td className="d-none d-sm-table-cell">
+                        <td className="d-none d-lg-table-cell">
                           {t(`contacts:${contact.gender}`)}
                         </td>
-                        <td className="d-none d-sm-table-cell">
+                        <td className="d-none d-lg-table-cell">
                           {t(`languages:${contact.languageName}`)}
                         </td>
-                        <td className="d-none d-sm-table-cell">
+                        <td className="d-none d-lg-table-cell">
                           {t(`status:${contact.statusDescription}`)}
                         </td>
-                        <td className="d-none d-sm-table-cell">
+                        <td className="d-none d-lg-table-cell">
                           {formatDate(contact.details.createdAt)}
                         </td>
                         <td
-                          className={`d-none d-sm-table-cell text-${
+                          className={`d-none d-lg-table-cell text-${
                             contact.waitingFeedback ? "danger" : "success"
                           }`}
                         >
