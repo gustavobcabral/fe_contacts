@@ -5,9 +5,8 @@ import Swal from 'sweetalert2'
 import { withTranslation } from 'react-i18next'
 
 const handleLogout = (props) => {
-  console.log(props, "PROPS LOGOUT")
   const { history, t } = props
-   dropToken()
+  dropToken()
   history.push('/')
   Swal.fire({
     title: t('logout:YouWasLogoutSuccessfully'),
@@ -23,4 +22,4 @@ const Logout = (props) => (
   </NavDropdown.Item>
 )
 
-export default withTranslation(["logout"])(Logout)
+export default withTranslation(['logout'])(Logout)
