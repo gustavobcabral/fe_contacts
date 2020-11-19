@@ -1,3 +1,5 @@
 {
-  "YouWasLogoutSuccessfully" : "Você deslogou com sucesso."
+  "YouWasLogoutSuccessfully" : "Você deslogou com sucesso.",
+  "btnLogout": "Deslogar"
+
 }
