@@ -29,7 +29,6 @@ class EditContact extends React.Component {
     super(props);
     this.state = {
       form: fields,
-      submitting: false,
       loading: false,
       validated: false,
       publishersOptions: [],
@@ -88,7 +87,7 @@ class EditContact extends React.Component {
       this.validator.showMessages();
       return true;
     }
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
 
     const { form } = this.state;
     const { t } = this.props;
@@ -96,7 +95,7 @@ class EditContact extends React.Component {
 
     try {
       await contacts.updateContact(id, omit(["details"], form));
-      this.setState({ submitting: false });
+      this.setState({ loading: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
@@ -104,10 +103,10 @@ class EditContact extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
+      this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
-      this.setState({ submitting: false });
+      this.setState({ loading: false });
       Swal.fire({
         icon: "error",
         title: t(`common:${parseErrorMessage(error)}`),
@@ -116,13 +115,19 @@ class EditContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, statusOptions, submitting } = this.state;
+    const {
+      form,
+      validated,
+      publishersOptions,
+      statusOptions,
+      loading,
+    } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormContacts}
         validator={this.validator}
-        submitting={submitting}
+        loading={loading}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}

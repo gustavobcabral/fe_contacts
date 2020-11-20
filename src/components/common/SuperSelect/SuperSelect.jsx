@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import Select from "react-select";
 import { find } from "lodash/fp";
 import "./style-super-select.css";
+import ReactPlaceholder from "react-placeholder";
 
 const SuperSelect = (props) => {
   const {
@@ -16,6 +17,8 @@ const SuperSelect = (props) => {
     label,
     rules,
     disabled = false,
+    loading = false,
+    rows = 2
   } = props;
 
   const [touched, setTouched] = React.useState(false);
@@ -25,37 +28,44 @@ const SuperSelect = (props) => {
     //validator.showMessageFor(name);
   };
   return (
-    <Form.Group
-      controlId={name}
-      className={
-        (validated || touched) && rules && !validator.fieldValid(name)
-          ? "is-invalid"
-          : (validated || touched) &&
-            ((rules && validator.fieldValid(name)) || !rules)
-          ? "is-valid"
-          : ""
-      }
+    <ReactPlaceholder
+      showLoadingAnimation={true}
+      type="text"
+      ready={!loading}
+      rows={rows}
     >
-      <Form.Label>{label}</Form.Label>
-      <Select
-        name={name}
-        value={
-          value &&
-          value !== "" &&
-          options &&
-          find((option) => option.value === value, options)
+      <Form.Group
+        controlId={name}
+        className={
+          (validated || touched) && rules && !validator.fieldValid(name)
+            ? "is-invalid"
+            : (validated || touched) &&
+              ((rules && validator.fieldValid(name)) || !rules)
+            ? "is-valid"
+            : ""
         }
-        options={options}
-        isClearable={isClearable || false}
-        onBlur={onBlurLocal}
-        onChange={(obj) =>
-          onChange({ target: { name, value: obj ? obj.value : "" } })
-        }
-        classNamePrefix="react-select"
-        isDisabled={disabled}
-      />
-      {rules && validator.message(name, value, rules)}
-    </Form.Group>
+      >
+        <Form.Label>{label}</Form.Label>
+        <Select
+          name={name}
+          value={
+            value &&
+            value !== "" &&
+            options &&
+            find((option) => option.value === value, options)
+          }
+          options={options}
+          isClearable={isClearable || false}
+          onBlur={onBlurLocal}
+          onChange={(obj) =>
+            onChange({ target: { name, value: obj ? obj.value : "" } })
+          }
+          classNamePrefix="react-select"
+          isDisabled={disabled}
+        />
+        {rules && validator.message(name, value, rules)}
+      </Form.Group>
+    </ReactPlaceholder>
   );
 };
 

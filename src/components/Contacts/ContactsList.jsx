@@ -29,6 +29,7 @@ import NewContact from "./NewContact";
 import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
 import { parseErrorMessage, formatDate } from "../../utils/generic";
+import ReactPlaceholder from "react-placeholder";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -205,7 +206,18 @@ class Contacts extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {!isEmpty(data) ? (
+                {submitting ? (
+                  <tr>
+                    <td colSpan={colSpan}>
+                      <ReactPlaceholder
+                        showLoadingAnimation={true}
+                        type="text"
+                        ready={!submitting}
+                        rows={RECORDS_PER_PAGE}
+                      />
+                    </td>
+                  </tr>
+                ) : !isEmpty(data) ? (
                   map(
                     (contact) => (
                       <tr key={contact.phone}>
@@ -293,6 +305,7 @@ class Contacts extends React.Component {
                     <Pagination
                       pagination={pagination}
                       onClick={this.handleGetAll}
+                      submitting={submitting}
                     />
                   </td>
                 </tr>

@@ -5,12 +5,13 @@ import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
 import GenderSelect from "../common/GenderSelect/GenderSelect";
 import StatusSelect from "../common/StatusSelect/StatusSelect";
 import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
+import ReactPlaceholder from "react-placeholder";
 
 const FormDetails = (props) => {
   const { t } = useTranslation(["contacts", "common"]);
   const {
     form,
-    submitting,
+    loading,
     handleSubmit,
     onHide,
     handleInputChange,
@@ -18,152 +19,159 @@ const FormDetails = (props) => {
     validator,
   } = props;
   return (
-    <Form>
-      <Row className="mb-2">
-        <Col xs={6} lg={2}>
-          <Form.Group controlId="residential">
-            <Form.Check
-              type="radio"
-              name="typeCompany"
-              label={t("residential")}
-              checked={!form.typeCompany || form.typeCompany === "0"}
-              value={0}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group controlId="commercial">
-            <Form.Check
-              type="radio"
-              name="typeCompany"
-              label={t("commercial")}
+    <ReactPlaceholder
+      showLoadingAnimation={true}
+      type="text"
+      ready={!loading}
+      rows={12}
+    >
+      <Form>
+        <Row className="mb-2">
+          <Col xs={6} lg={2}>
+            <Form.Group controlId="residential">
+              <Form.Check
+                type="radio"
+                name="typeCompany"
+                label={t("residential")}
+                checked={!form.typeCompany || form.typeCompany === "0"}
+                value={0}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="commercial">
+              <Form.Check
+                type="radio"
+                name="typeCompany"
+                label={t("commercial")}
+                validator={validator}
+                checked={form.typeCompany || form.typeCompany === "1"}
+                value={1}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6} lg={6}>
+            <SuperFormControl
+              type="number"
+              name="phone"
+              label={t("phone")}
               validator={validator}
-              checked={form.typeCompany || form.typeCompany === "1"}
-              value={1}
+              validated={validated}
+              value={form.phone}
+              onChange={handleInputChange}
+              rules="required|min:10"
+            />
+          </Col>
+          <Col xs={6} lg={6}>
+            <SuperFormControl
+              type="number"
+              name="phone2"
+              label={t("phone2")}
+              validator={validator}
+              validated={validated}
+              value={form.phone2}
+              onChange={handleInputChange}
+              rules="min:10"
+            />
+          </Col>
+          <Col xs={12} lg={12}>
+            <SuperFormControl
+              type="text"
+              name="name"
+              label={t("name")}
+              validator={validator}
+              validated={validated}
+              value={form.name}
               onChange={handleInputChange}
             />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={6} lg={6}>
-          <SuperFormControl
-            type="number"
-            name="phone"
-            label={t("phone")}
-            validator={validator}
-            validated={validated}
-            value={form.phone}
-            onChange={handleInputChange}
-            rules="required|min:10"
-          />
-        </Col>
-        <Col xs={6} lg={6}>
-          <SuperFormControl
-            type="number"
-            name="phone2"
-            label={t("phone2")}
-            validator={validator}
-            validated={validated}
-            value={form.phone2}
-            onChange={handleInputChange}
-            rules="min:10"
-          />
-        </Col>
-        <Col xs={12} lg={12}>
-          <SuperFormControl
-            type="text"
-            name="name"
-            label={t("name")}
-            validator={validator}
-            validated={validated}
-            value={form.name}
-            onChange={handleInputChange}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} lg={6}>
-          <SuperFormControl
-            type="email"
-            name="email"
-            label={t("email")}
-            validator={validator}
-            validated={validated}
-            value={form.email}
-            onChange={handleInputChange}
-            rules="email"
-          />
-        </Col>
-        <Col xs={12} lg={6}>
-          <SuperFormControl
-            type="location"
-            name="location"
-            label={t("location")}
-            validator={validator}
-            validated={validated}
-            value={form.location}
-            onChange={handleInputChange}
-            rules="min:4"
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} lg={4}>
-          <GenderSelect
-            validator={validator}
-            validated={validated}
-            value={form.gender}
-            onChange={handleInputChange}
-            rules="required"
-          />
-        </Col>
-        <Col xs={12} lg={4}>
-          <LanguageSelect
-            validator={validator}
-            validated={validated}
-            value={form.idLanguage}
-            onChange={handleInputChange}
-            rules="required"
-          />
-        </Col>
-        <Col xs={12} lg={4}>
-          <StatusSelect
-            name="idStatus"
-            label={t("status")}
-            validator={validator}
-            validated={validated}
-            value={form.idStatus}
-            onChange={handleInputChange}
-            rules="required"
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <SuperFormControl
-            as="textarea"
-            name="note"
-            rows={3}
-            label={t("noteLabel")}
-            validator={validator}
-            validated={validated}
-            placeholder={t("notePlaceHolder")}
-            value={form.note}
-            onChange={handleInputChange}
-            rules="max:250"
-          />
-        </Col>
-      </Row>
-      <Button
-        disabled={submitting}
-        variant="primary"
-        onClick={() => handleSubmit(onHide)}
-      >
-        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
-      </Button>{" "}
-    </Form>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} lg={6}>
+            <SuperFormControl
+              type="email"
+              name="email"
+              label={t("email")}
+              validator={validator}
+              validated={validated}
+              value={form.email}
+              onChange={handleInputChange}
+              rules="email"
+            />
+          </Col>
+          <Col xs={12} lg={6}>
+            <SuperFormControl
+              type="location"
+              name="location"
+              label={t("location")}
+              validator={validator}
+              validated={validated}
+              value={form.location}
+              onChange={handleInputChange}
+              rules="min:4"
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} lg={4}>
+            <GenderSelect
+              validator={validator}
+              validated={validated}
+              value={form.gender}
+              onChange={handleInputChange}
+              rules="required"
+            />
+          </Col>
+          <Col xs={12} lg={4}>
+            <LanguageSelect
+              validator={validator}
+              validated={validated}
+              value={form.idLanguage}
+              onChange={handleInputChange}
+              rules="required"
+            />
+          </Col>
+          <Col xs={12} lg={4}>
+            <StatusSelect
+              name="idStatus"
+              label={t("status")}
+              validator={validator}
+              validated={validated}
+              value={form.idStatus}
+              onChange={handleInputChange}
+              rules="required"
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <SuperFormControl
+              as="textarea"
+              name="note"
+              rows={3}
+              label={t("noteLabel")}
+              validator={validator}
+              validated={validated}
+              placeholder={t("notePlaceHolder")}
+              value={form.note}
+              onChange={handleInputChange}
+              rules="max:250"
+            />
+          </Col>
+        </Row>
+        <Button
+          disabled={loading}
+          variant="primary"
+          onClick={() => handleSubmit(onHide)}
+        >
+          {t(loading ? "common:btnSubmitting" : "common:btnSubmit")}
+        </Button>{" "}
+      </Form>
+    </ReactPlaceholder>
   );
 };
 

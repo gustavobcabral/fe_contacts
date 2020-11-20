@@ -7,19 +7,19 @@ import { reduceResponsibility } from "../../../stateReducers/responsibility";
 class ResponsibilitySelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { responsibilityOptions: [], submitting: false };
+    this.state = { responsibilityOptions: [], loading: false };
     this.handleGetAll = this.handleGetAll.bind(this);
   }
 
   async handleGetAll() {
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
     const { t, justAllowedForMe } = this.props;
     const responsibilityOptions = reduceResponsibility(
       t,
       justAllowedForMe,
       await responsibility.get()
     );
-    this.setState({ responsibilityOptions, submitting: false });
+    this.setState({ responsibilityOptions, loading: false });
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ class ResponsibilitySelect extends React.Component {
       rules,
       disabled = false,
     } = this.props;
-    const { responsibilityOptions } = this.state;
+    const { responsibilityOptions, loading } = this.state;
 
     return (
       <SuperSelect
@@ -47,6 +47,7 @@ class ResponsibilitySelect extends React.Component {
         isClearable={true}
         validator={validator}
         validated={validated}
+        loading={loading}
         value={value}
         options={responsibilityOptions}
         onChange={onChange}
