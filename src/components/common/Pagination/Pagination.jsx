@@ -3,10 +3,11 @@ import { Pagination } from "react-bootstrap";
 import { toNumber, isNil } from "lodash/fp";
 import { withTranslation } from "react-i18next";
 import { ITEMS_PAGINATION } from "../../../constants/application";
+import ReactPlaceholder from "react-placeholder";
 
 const PaginationComponent = (props) => {
   const { lastPage, to, from, currentPage } = props.pagination;
-  const { t } = props;
+  const { t, submitting } = props;
 
   if (isNil(currentPage)) return <span>{t("loading")}...</span>;
   let items = [];
@@ -53,35 +54,42 @@ const PaginationComponent = (props) => {
     }
   }
   return (
-    <Pagination>
-      <Pagination.First
-        onClick={() =>
-          currentPage !== 1 ? props.onClick({ currentPage: 1 }) : null
-        }
-      />
-      <Pagination.Prev
-        onClick={() =>
-          currentPage !== from && from > 0
-            ? props.onClick({ currentPage: from })
-            : null
-        }
-      />
-      <Pagination>{items}</Pagination>
-      <Pagination.Next
-        onClick={() =>
-          currentPage !== to && to <= lastPage
-            ? props.onClick({ currentPage: to })
-            : null
-        }
-      />
-      <Pagination.Last
-        onClick={() =>
-          currentPage !== lastPage
-            ? props.onClick({ currentPage: lastPage })
-            : null
-        }
-      />
-    </Pagination>
+    <ReactPlaceholder
+      showLoadingAnimation={true}
+      type="text"
+      ready={!submitting}
+      rows={1}
+    >
+      <Pagination>
+        <Pagination.First
+          onClick={() =>
+            currentPage !== 1 ? props.onClick({ currentPage: 1 }) : null
+          }
+        />
+        <Pagination.Prev
+          onClick={() =>
+            currentPage !== from && from > 0
+              ? props.onClick({ currentPage: from })
+              : null
+          }
+        />
+        <Pagination>{items}</Pagination>
+        <Pagination.Next
+          onClick={() =>
+            currentPage !== to && to <= lastPage
+              ? props.onClick({ currentPage: to })
+              : null
+          }
+        />
+        <Pagination.Last
+          onClick={() =>
+            currentPage !== lastPage
+              ? props.onClick({ currentPage: lastPage })
+              : null
+          }
+        />
+      </Pagination>
+    </ReactPlaceholder>
   );
 };
 export default withTranslation(["common"])(PaginationComponent);
