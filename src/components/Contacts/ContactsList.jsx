@@ -135,6 +135,7 @@ class Contacts extends React.Component {
   }
 
   afterSentPhones() {
+    document.getElementById("checkall").checked = false
     this.handleGetAll();
     this.setState({ checksContactsPhones: [] });
   }
@@ -176,6 +177,7 @@ class Contacts extends React.Component {
                   <th>
                     <Form.Check
                       type="checkbox"
+                      id="checkall"
                       name=""
                       label=""
                       value="all"
