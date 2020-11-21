@@ -9,6 +9,7 @@ import ChartByFeedback from "./ByFeedback";
 import ChartByGender from "./ByGender";
 import ChartByLanguage from "./ByLanguage";
 import ChartByPublishers from "./ByPublishers";
+
 class Charts extends React.Component {
   constructor(props) {
     super(props);
@@ -38,11 +39,12 @@ class Charts extends React.Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { data, loading } = this.state;
     return (
       <>
         <Row className="mt-4">
-          <ChartByContacted data={data} />
+          <ChartByContacted data={data} loading={loading} />
+
           <ChartByGender data={data} />
           <ChartByLanguage data={data} />
         </Row>

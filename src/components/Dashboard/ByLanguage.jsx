@@ -2,10 +2,11 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, map, getOr} from "lodash/fp";
+import { get, isEmpty, map, getOr } from "lodash/fp";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
 import { round } from "lodash";
+import ReactPlaceholder from "react-placeholder";
 
 const getByLanguage = (t, data) =>
   map(
@@ -35,19 +36,29 @@ const ByLanguage = (props) => {
           {t("titleChartLanguage")}
         </Card.Header>
         <Card.Body>
-          {!isEmpty(byLanguage) ? (
-            <PieChart
-              animate={true}
-              data={byLanguage}
-              totalValue={100}
-              label={({ dataEntry }) => get("label", dataEntry)}
-              labelStyle={{
-                fontSize: "5px",
-              }}
-            />
-          ) : (
-            <Card.Text className="text-center">{t("common:noData")}</Card.Text>
-          )}
+          <ReactPlaceholder
+            showLoadingAnimation={true}
+            type="round"
+            style={{ width: 230, height: 230 }}
+            ready={!props.loading}
+            rows={1}
+          >
+            {!isEmpty(byLanguage) ? (
+              <PieChart
+                animate={true}
+                data={byLanguage}
+                totalValue={100}
+                label={({ dataEntry }) => get("label", dataEntry)}
+                labelStyle={{
+                  fontSize: "5px",
+                }}
+              />
+            ) : (
+              <Card.Text className="text-center">
+                {t("common:noData")}
+              </Card.Text>
+            )}
+          </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>
