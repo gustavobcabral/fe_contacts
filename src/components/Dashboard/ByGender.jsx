@@ -2,16 +2,9 @@ import React from "react";
 import { Col, Card } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import {
-  get,
-  isEmpty,
-  find,
-  getOr,
-  pipe,
-  curry,
-  filter,
-} from "lodash/fp";
+import { get, isEmpty, find, getOr, pipe, curry, filter } from "lodash/fp";
 import { round } from "lodash";
+import ReactPlaceholder from "react-placeholder";
 
 const getByGender = (t, data) => {
   const parseObject = (label, color, data) => ({
@@ -58,19 +51,29 @@ const ByGender = (props) => {
           {t("titleChartGender")}
         </Card.Header>
         <Card.Body>
-          {!isEmpty(byGender) ? (
-            <PieChart
-              animate={true}
-              data={byGender}
-              totalValue={100}
-              label={({ dataEntry }) => get("label", dataEntry)}
-              labelStyle={{
-                fontSize: "5px",
-              }}
-            />
-          ) : (
-            <Card.Text className="text-center">{t("common:noData")}</Card.Text>
-          )}
+          <ReactPlaceholder
+            showLoadingAnimation={true}
+            type="round"
+            style={{ width: 230, height: 230 }}
+            ready={!props.loading}
+            rows={1}
+          >
+            {!isEmpty(byGender) ? (
+              <PieChart
+                animate={true}
+                data={byGender}
+                totalValue={100}
+                label={({ dataEntry }) => get("label", dataEntry)}
+                labelStyle={{
+                  fontSize: "5px",
+                }}
+              />
+            ) : (
+              <Card.Text className="text-center">
+                {t("common:noData")}
+              </Card.Text>
+            )}
+          </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>

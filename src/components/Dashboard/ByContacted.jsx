@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
 import { get, isEmpty, getOr, compact } from "lodash/fp";
 import { round } from "lodash";
+import ReactPlaceholder from "react-placeholder";
+
 const getByContacted = (t, data) => {
   if (
     getOr(0, "totalPercentContacted", data) === 0 &&
@@ -51,19 +53,29 @@ const ByContacted = (props) => {
           {t("titleChartContacts")}
         </Card.Header>
         <Card.Body>
-          {!isEmpty(byContacted) ? (
-            <PieChart
-              animate={true}
-              data={byContacted}
-              totalValue={100}
-              label={({ dataEntry }) => get("label", dataEntry)}
-              labelStyle={{
-                fontSize: "5px",
-              }}
-            />
-          ) : (
-            <Card.Text className="text-center">{t("common:noData")}</Card.Text>
-          )}
+          <ReactPlaceholder
+            showLoadingAnimation={true}
+            type="round"
+            style={{ width: 230, height: 230 }}
+            ready={!props.loading}
+            rows={1}
+          >
+            {!isEmpty(byContacted) ? (
+              <PieChart
+                animate={true}
+                data={byContacted}
+                totalValue={100}
+                label={({ dataEntry }) => get("label", dataEntry)}
+                labelStyle={{
+                  fontSize: "5px",
+                }}
+              />
+            ) : (
+              <Card.Text className="text-center">
+                {t("common:noData")}
+              </Card.Text>
+            )}
+          </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>

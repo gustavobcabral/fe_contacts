@@ -1,4 +1,4 @@
-import { get, map, getOr, pipe, compact } from "lodash/fp";
+import { get, map, getOr, pipe, compact, orderBy } from "lodash/fp";
 import { getUserData } from "../utils/loginDataManager";
 
 const reduceResponsibility = (t, justAllowedForMe = false, allResponsibility) => {
@@ -16,7 +16,8 @@ const reduceResponsibility = (t, justAllowedForMe = false, allResponsibility) =>
           }
         : null;
     }),
-    compact
+    compact,
+    orderBy(['label'], ['asc']),
   )(getOr([], "data.data", allResponsibility));
 };
 

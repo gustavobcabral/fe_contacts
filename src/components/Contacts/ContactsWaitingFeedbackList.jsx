@@ -24,6 +24,7 @@ import FilterData from "../common/FilterData/FilterData";
 import EditDetailsContact from "../DetailsContact/Modal/EditDetailsContact";
 import SendPhones from "./SendPhones/SendPhones";
 import { parseErrorMessage } from "../../utils/generic";
+import ReactPlaceholder from "react-placeholder";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -186,7 +187,18 @@ class Contacts extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {!isEmpty(data) ? (
+              {submitting ? (
+                  <tr>
+                    <td colSpan={colSpan}>
+                      <ReactPlaceholder
+                        showLoadingAnimation={true}
+                        type="text"
+                        ready={!submitting}
+                        rows={RECORDS_PER_PAGE}
+                      />
+                    </td>
+                  </tr>
+                ) : !isEmpty(data) ? (
                   map(
                     (detailContact) => (
                       <tr key={detailContact.phone}>
@@ -238,6 +250,7 @@ class Contacts extends React.Component {
                   <td colSpan={colSpan} style={{ border: 0 }}>
                     <Pagination
                       pagination={pagination}
+                      submitting={submitting}
                       onClick={this.handleGetAll}
                     />
                   </td>

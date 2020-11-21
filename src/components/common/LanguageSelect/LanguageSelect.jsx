@@ -2,7 +2,7 @@ import React from "react";
 import SuperSelect from "../SuperSelect/SuperSelect";
 import { withTranslation } from "react-i18next";
 import { languages } from "../../../services";
-import { getOr, pipe, curry } from "lodash/fp";
+import { getOr, pipe, curry, orderBy } from "lodash/fp";
 import { reduceLanguages } from "../../../stateReducers/languages";
 import { parseErrorMessage } from "../../../utils/generic";
 import ShowError from "../ShowError/ShowError";
@@ -21,7 +21,10 @@ class LanguageSelect extends React.Component {
     try {
       const languagesOptions = pipe(
         getOr([], "data.data"),
-        curry(reduceLanguages)(t)
+        curry(reduceLanguages)(t),
+        orderBy(['label'], ['asc']),
+
+
       )(await languages.getAll());
       this.setState({ languagesOptions, loading: false });
     } catch (error) {
