@@ -132,6 +132,13 @@ class Contacts extends React.Component {
     this.handleGetAll();
   }
 
+  afterSentPhones() {
+    document.getElementById("checkall").checked = false
+    this.handleGetAll();
+    this.setState({ checksContactsPhones: [] });
+  }
+
+
   render() {
     const { t } = this.props;
     const {
@@ -165,6 +172,7 @@ class Contacts extends React.Component {
                   <th>
                     <Form.Check
                       type="checkbox"
+                      id="checkall"
                       name=""
                       label=""
                       value="all"
@@ -182,6 +190,7 @@ class Contacts extends React.Component {
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
+                      afterClose={() => this.afterSentPhones()}
                     />
                   </th>
                 </tr>
