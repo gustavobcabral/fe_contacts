@@ -1,15 +1,15 @@
-import React from "react";
-import { withTranslation } from "react-i18next";
-import OurModal from "../common/OurModal/OurModal";
-import Swal from "sweetalert2";
-import { getOr, isEmpty, omit } from "lodash/fp";
-import SimpleReactValidator from "simple-react-validator";
-import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import { publishers } from "../../services";
-import FormPublisher from "./FormPublisher";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../utils/generic";
+import React from 'react'
+import { withTranslation } from 'react-i18next'
+import OurModal from '../common/OurModal/OurModal'
+import Swal from 'sweetalert2'
+import { getOr, isEmpty, omit } from 'lodash/fp'
+import SimpleReactValidator from 'simple-react-validator'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import { publishers } from '../../services'
+import FormPublisher from './FormPublisher'
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { parseErrorMessage } from '../../utils/generic'
 
 const fields = {
   name: '',
@@ -20,7 +20,7 @@ const fields = {
   idResponsibility: '',
   active: 1,
   justAllowedForMe: true,
-};
+}
 
 class NewPublisher extends React.Component {
   constructor(props) {
@@ -34,6 +34,8 @@ class NewPublisher extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.resetForm = this.resetForm.bind(this)
+
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
@@ -66,7 +68,7 @@ class NewPublisher extends React.Component {
     const { form } = this.state
     const { t } = this.props
 
-    const data = omit(["justAllowedForMe", "repeatPassword", "disabled"], form);
+    const data = omit(['justAllowedForMe', 'repeatPassword', 'disabled'], form)
 
     try {
       await publishers.create(data)
@@ -78,8 +80,7 @@ class NewPublisher extends React.Component {
         timerProgressBar: true,
       })
       onHide()
-      this.setState({ form: fields, submitting: false, validated: false })
-      this.validator.hideMessages()
+      this.resetForm()
     } catch (error) {
       this.setState({ submitting: false })
       Swal.fire({
@@ -95,9 +96,14 @@ class NewPublisher extends React.Component {
     }
   }
 
+  resetForm() {
+    this.setState({ form: fields, submitting: false, validated: false })
+    this.validator.hideMessages()
+  }
+
   render() {
-    const { form, validated, submitting } = this.state;
-    const { t, afterClose } = this.props;
+    const { form, validated, submitting } = this.state
+    const { t, afterClose } = this.props
     return (
       <OurModal
         body={FormPublisher}
@@ -108,7 +114,8 @@ class NewPublisher extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
-        title={`${t("common:new")} ${t("titleCrud")}`}
+        onClose={this.resetForm}
+        title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
     )
