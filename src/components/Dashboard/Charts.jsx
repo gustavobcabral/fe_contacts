@@ -45,12 +45,14 @@ class Charts extends React.Component {
         <Row className="mt-4">
           <ChartByContacted data={data} loading={loading} />
 
-          <ChartByGender data={data} />
-          <ChartByLanguage data={data} />
+          <ChartByGender data={data} loading={loading} />
+          <ChartByLanguage data={data} loading={loading} />
         </Row>
         <Row className="mt-4">
-          <ChartByFeedback data={data} />
-          {isAtLeastElder() && <ChartByPublishers data={data} />}
+          <ChartByFeedback data={data} loading={loading} />
+          {isAtLeastElder() && (
+            <ChartByPublishers data={data} loading={loading} />
+          )}
         </Row>
       </>
     );
