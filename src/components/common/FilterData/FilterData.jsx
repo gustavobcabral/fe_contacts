@@ -1,7 +1,16 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { Form, Card, Col } from "react-bootstrap";
-import { pipe, uniq, compact, remove, getOr, map, isEmpty } from "lodash/fp";
+import {
+  pipe,
+  uniq,
+  compact,
+  remove,
+  getOr,
+  map,
+  isEmpty,
+  contains,
+} from "lodash/fp";
 import { parseErrorMessage } from "../../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
 
@@ -33,7 +42,6 @@ class FilterData extends React.Component {
     const newValues = checked
       ? pipe(uniq, compact)([...this.state[name], value])
       : remove((arrayValue) => arrayValue === value, this.state[name]);
-
     this.setState({
       [name]: newValues,
     });
@@ -80,11 +88,15 @@ class FilterData extends React.Component {
   render() {
     const {
       checksGender,
+      genders,
       checksLanguages,
+      languages,
       checksResponsibility,
+      responsibility,
       checksStatus,
+      status,
       error,
-      loading
+      loading,
     } = this.state;
 
     const noData =
@@ -118,9 +130,10 @@ class FilterData extends React.Component {
                       key={data.gender}
                       type="checkbox"
                       name="genders"
+                      checked={contains(data.gender, genders)}
                       label={t(`contacts:${data.gender}`)}
                       value={data.gender}
-                      onClick={this.handleOnClick}
+                      onChange={this.handleOnClick}
                     />
                   ),
                   checksGender
@@ -140,9 +153,10 @@ class FilterData extends React.Component {
                       key={data.idLanguage}
                       type="checkbox"
                       name="languages"
+                      checked={contains(String(data.idLanguage), languages)}
                       label={t(`languages:${data.languageName}`)}
                       value={data.idLanguage}
-                      onClick={this.handleOnClick}
+                      onChange={this.handleOnClick}
                     />
                   ),
                   checksLanguages
@@ -162,9 +176,10 @@ class FilterData extends React.Component {
                       key={data.idStatus}
                       type="checkbox"
                       name="status"
+                      checked={contains(String(data.idStatus), status)}
                       label={t(`status:${data.statusDescription}`)}
                       value={data.idStatus}
-                      onClick={this.handleOnClick}
+                      onChange={this.handleOnClick}
                     />
                   ),
                   checksStatus
@@ -184,11 +199,12 @@ class FilterData extends React.Component {
                       key={data.idResponsibility}
                       type="checkbox"
                       name="responsibility"
+                      checked={contains(String(data.idResponsibility), responsibility)}
                       label={t(
                         `responsibility:${data.responsibilityDescription}`
                       )}
                       value={data.idResponsibility}
-                      onClick={this.handleOnClick}
+                      onChange={this.handleOnClick}
                     />
                   ),
                   checksResponsibility
