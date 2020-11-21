@@ -4,7 +4,7 @@ import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { publishers } from "../../services";
 import Swal from "sweetalert2";
-import { getOr, map } from "lodash/fp";
+import { getOr, map, isEmpty } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import EditPublisher from "./EditPublisher";
 import NewPublisher from "./NewPublisher";
@@ -15,6 +15,8 @@ import Search from "../common/Search/Search";
 import { parseQuery } from "../../utils/forms";
 import { RECORDS_PER_PAGE } from "../../constants/application";
 import FilterData from "../common/FilterData/FilterData";
+import ReactPlaceholder from "react-placeholder";
+import NoRecords from "../common/NoRecords/NoRecords";
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -44,7 +46,9 @@ class Publishers extends React.Component {
 
   async handleGetAll(objQuery) {
     const { t } = this.props;
-
+    this.setState({
+      submitting: true,
+    });
     try {
       const queryParams = parseQuery(objQuery, this.state);
       const response = await publishers.getAllWithPagination(queryParams);
@@ -148,30 +152,45 @@ class Publishers extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {map(
-                  (publishers) => (
-                    <tr key={publishers.id}>
-                      <td>{publishers.name}</td>
-                      <td>{publishers.email}</td>
-                      <td>{publishers.phone}</td>
-                      <td>
-                        {t(
-                          `responsibility:${publishers.responsibilityDescription}`
-                        )}
-                      </td>
-                      <td style={{ width: "114px" }}>
-                        <EditPublisher
-                          id={publishers.id}
-                          afterClose={() => this.handleGetAll()}
-                        />{" "}
-                        <AskDelete
-                          id={publishers.id}
-                          funcToCallAfterConfirmation={this.handleDelete}
-                        />
-                      </td>
-                    </tr>
-                  ),
-                  data
+                {submitting ? (
+                  <tr>
+                    <td colSpan={colSpan}>
+                      <ReactPlaceholder
+                        showLoadingAnimation={true}
+                        type="text"
+                        ready={!submitting}
+                        rows={RECORDS_PER_PAGE}
+                      />
+                    </td>
+                  </tr>
+                ) : !isEmpty(data) ? (
+                  map(
+                    (publishers) => (
+                      <tr key={publishers.id}>
+                        <td>{publishers.name}</td>
+                        <td>{publishers.email}</td>
+                        <td>{publishers.phone}</td>
+                        <td>
+                          {t(
+                            `responsibility:${publishers.responsibilityDescription}`
+                          )}
+                        </td>
+                        <td style={{ width: "114px" }}>
+                          <EditPublisher
+                            id={publishers.id}
+                            afterClose={() => this.handleGetAll()}
+                          />{" "}
+                          <AskDelete
+                            id={publishers.id}
+                            funcToCallAfterConfirmation={this.handleDelete}
+                          />
+                        </td>
+                      </tr>
+                    ),
+                    data
+                  )
+                ) : (
+                  <NoRecords cols={colSpan} />
                 )}
               </tbody>
               <tfoot>
@@ -179,6 +198,7 @@ class Publishers extends React.Component {
                   <td colSpan={colSpan} style={{ border: 0 }}>
                     <Pagination
                       pagination={pagination}
+                      submitting={submitting}
                       onClick={this.handleGetAll}
                     />
                   </td>

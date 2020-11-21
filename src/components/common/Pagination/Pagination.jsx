@@ -7,41 +7,18 @@ import ReactPlaceholder from "react-placeholder";
 
 const PaginationComponent = (props) => {
   const { lastPage, to, from, currentPage } = props.pagination;
-  const { t, submitting } = props;
-
-  if (isNil(currentPage)) return <span>{t("loading")}...</span>;
+  const { submitting } = props;
   let items = [];
-  const maxItems = ITEMS_PAGINATION;
-  const goBackStart = currentPage - 1 > 0 ? currentPage - 1 : 1;
-  const goBackEnd = currentPage - maxItems > 0 ? currentPage - maxItems : 1;
-  const goForwardStart =
-    currentPage + 1 > lastPage ? lastPage : currentPage + 1;
-  const goForwardEnd =
-    currentPage + maxItems > lastPage ? lastPage : currentPage + maxItems;
-  for (let number = goBackEnd; number <= goBackStart; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === toNumber(currentPage)}
-        onClick={() => props.onClick({ currentPage: number })}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-  if (currentPage !== 1) {
-    items.push(
-      <Pagination.Item
-        key={currentPage}
-        active={currentPage === toNumber(currentPage)}
-        onClick={() => props.onClick({ currentPage: currentPage })}
-      >
-        {currentPage}
-      </Pagination.Item>
-    );
-  }
-  if (goForwardStart > 1) {
-    for (let number = goForwardStart; number <= goForwardEnd; number++) {
+
+  if (!isNil(currentPage)) {
+    const maxItems = ITEMS_PAGINATION;
+    const goBackStart = currentPage - 1 > 0 ? currentPage - 1 : 1;
+    const goBackEnd = currentPage - maxItems > 0 ? currentPage - maxItems : 1;
+    const goForwardStart =
+      currentPage + 1 > lastPage ? lastPage : currentPage + 1;
+    const goForwardEnd =
+      currentPage + maxItems > lastPage ? lastPage : currentPage + maxItems;
+    for (let number = goBackEnd; number <= goBackStart; number++) {
       items.push(
         <Pagination.Item
           key={number}
@@ -51,6 +28,30 @@ const PaginationComponent = (props) => {
           {number}
         </Pagination.Item>
       );
+    }
+    if (currentPage !== 1) {
+      items.push(
+        <Pagination.Item
+          key={currentPage}
+          active={currentPage === toNumber(currentPage)}
+          onClick={() => props.onClick({ currentPage: currentPage })}
+        >
+          {currentPage}
+        </Pagination.Item>
+      );
+    }
+    if (goForwardStart > 1) {
+      for (let number = goForwardStart; number <= goForwardEnd; number++) {
+        items.push(
+          <Pagination.Item
+            key={number}
+            active={number === toNumber(currentPage)}
+            onClick={() => props.onClick({ currentPage: number })}
+          >
+            {number}
+          </Pagination.Item>
+        );
+      }
     }
   }
   return (
