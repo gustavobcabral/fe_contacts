@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { PieChart } from "react-minimal-pie-chart";
 import { get, isEmpty, getOr, compact } from "lodash/fp";
 import { round } from "lodash";
+import ReactPlaceholder from "react-placeholder";
 
 const getByFeedback = (t, data) => {
   if (
@@ -60,19 +61,29 @@ const ByFeedback = (props) => {
           {t("titleChartWaitingFeedback")}
         </Card.Header>
         <Card.Body>
-          {!isEmpty(byFeedback) ? (
-            <PieChart
-              animate={true}
-              data={byFeedback}
-              totalValue={100}
-              label={({ dataEntry }) => get("label", dataEntry)}
-              labelStyle={{
-                fontSize: "5px",
-              }}
-            />
-          ) : (
-            <Card.Text className="text-center">{t("common:noData")}</Card.Text>
-          )}
+          <ReactPlaceholder
+            showLoadingAnimation={true}
+            type="round"
+            style={{ width: 230, height: 230 }}
+            ready={!props.loading}
+            rows={1}
+          >
+            {!isEmpty(byFeedback) ? (
+              <PieChart
+                animate={true}
+                data={byFeedback}
+                totalValue={100}
+                label={({ dataEntry }) => get("label", dataEntry)}
+                labelStyle={{
+                  fontSize: "5px",
+                }}
+              />
+            ) : (
+              <Card.Text className="text-center">
+                {t("common:noData")}
+              </Card.Text>
+            )}
+          </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>
