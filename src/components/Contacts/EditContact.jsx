@@ -108,9 +108,15 @@ class EditContact extends React.Component {
     } catch (error) {
       this.setState({ loading: false });
       Swal.fire({
-        icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
-      });
+        icon: 'error',
+        title: t(
+          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+        ),
+        text: t(
+          `contacts:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
+      })
     }
   }
 
