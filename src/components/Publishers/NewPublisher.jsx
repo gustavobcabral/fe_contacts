@@ -27,7 +27,6 @@ class NewPublisher extends React.Component {
     super(props)
     this.state = {
       form: fields,
-      submitting: false,
       loading: false,
       validated: false,
     }
@@ -61,7 +60,7 @@ class NewPublisher extends React.Component {
       this.validator.showMessages()
       return true
     }
-    this.setState({ submitting: true })
+    this.setState({ loading: true })
 
     const { form } = this.state
     const { t } = this.props
@@ -70,7 +69,7 @@ class NewPublisher extends React.Component {
 
     try {
       await publishers.create(data)
-      this.setState({ submitting: false })
+      this.setState({ loading: false })
       Swal.fire({
         title: t('common:dataSuccessfullySaved'),
         icon: 'success',
@@ -78,10 +77,10 @@ class NewPublisher extends React.Component {
         timerProgressBar: true,
       })
       onHide()
-      this.setState({ form: fields, submitting: false, validated: false })
+      this.setState({ form: fields, loading: false, validated: false })
       this.validator.hideMessages()
     } catch (error) {
-      this.setState({ submitting: false })
+      this.setState({ loading: false })
       Swal.fire({
         icon: 'error',
         title: t(
@@ -96,13 +95,13 @@ class NewPublisher extends React.Component {
   }
 
   render() {
-    const { form, validated, submitting } = this.state;
+    const { form, validated, loading } = this.state;
     const { t, afterClose } = this.props;
     return (
       <OurModal
         body={FormPublisher}
         validator={this.validator}
-        submitting={submitting}
+        loading={loading}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}

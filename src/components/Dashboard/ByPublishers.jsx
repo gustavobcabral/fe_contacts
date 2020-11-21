@@ -6,6 +6,7 @@ import { get, isEmpty, getOr, map } from "lodash/fp";
 import { round } from "lodash";
 import { randomColor } from "../../utils/generic";
 import { generateLabel } from "../../stateReducers/dashboard";
+import ReactPlaceholder from "react-placeholder";
 
 const getByPublishers = (t, data) =>
   map(
@@ -37,40 +38,50 @@ const ByPublishers = (props) => {
           {t("titleChartWaitingFeedbackByPublishers")}
         </Card.Header>
         <Card.Body>
-          {!isEmpty(byPublishers) ? (
-            <>
-              <Row>
-                <Col>
-                  <PieChart
-                    animate={true}
-                    data={byPublishers}
-                    totalValue={100}
-                  />
-                </Col>
-              </Row>
-              <Row className="mt-2">
-                <Col>
-                  <ListGroup>
-                    {map(
-                      (dataPublisher) => (
-                        <ListGroup.Item
-                          key={get("color", dataPublisher)}
-                          style={{
-                            backgroundColor: get("color", dataPublisher),
-                          }}
-                        >
-                          {dataPublisher.title}
-                        </ListGroup.Item>
-                      ),
-                      byPublishers
-                    )}
-                  </ListGroup>
-                </Col>
-              </Row>
-            </>
-          ) : (
-            <Card.Text className="text-center">{t("common:noData")}</Card.Text>
-          )}
+          <ReactPlaceholder
+            showLoadingAnimation={true}
+            type="round"
+            style={{ width: 230, height: 230 }}
+            ready={!props.loading}
+            rows={1}
+          >
+            {!isEmpty(byPublishers) ? (
+              <>
+                <Row>
+                  <Col>
+                    <PieChart
+                      animate={true}
+                      data={byPublishers}
+                      totalValue={100}
+                    />
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col>
+                    <ListGroup>
+                      {map(
+                        (dataPublisher) => (
+                          <ListGroup.Item
+                            key={get("color", dataPublisher)}
+                            style={{
+                              backgroundColor: get("color", dataPublisher),
+                            }}
+                          >
+                            {dataPublisher.title}
+                          </ListGroup.Item>
+                        ),
+                        byPublishers
+                      )}
+                    </ListGroup>
+                  </Col>
+                </Row>
+              </>
+            ) : (
+              <Card.Text className="text-center">
+                {t("common:noData")}
+              </Card.Text>
+            )}
+          </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>

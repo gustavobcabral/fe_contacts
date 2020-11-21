@@ -2,7 +2,7 @@ import React from "react";
 import SuperSelect from "../SuperSelect/SuperSelect";
 import { withTranslation } from "react-i18next";
 import { status } from "../../../services";
-import { getOr, pipe, curry } from "lodash/fp";
+import { getOr, pipe, curry, orderBy } from "lodash/fp";
 import { reduceStatus } from "../../../stateReducers/status";
 
 class StatusSelect extends React.Component {
@@ -17,7 +17,8 @@ class StatusSelect extends React.Component {
     const { t } = this.props;
     const statusOptions = pipe(
       getOr([], "data.data"),
-      curry(reduceStatus)(t)
+      curry(reduceStatus)(t),
+      orderBy(['label'], ['asc']),
     )(await status.getAll());
     this.setState({ statusOptions, loading: false });
   }
