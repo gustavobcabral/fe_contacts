@@ -8,22 +8,29 @@ import { reduceStatus } from "../../../stateReducers/status";
 class StatusSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { statusOptions: [], submitting: false };
+    this.state = { statusOptions: [], loading: false };
     this.handleGetAll = this.handleGetAll.bind(this);
   }
 
   async handleGetAll() {
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
     const { t } = this.props;
     const statusOptions = pipe(
       getOr([], "data.data"),
       curry(reduceStatus)(t)
     )(await status.getAll());
-    this.setState({ statusOptions, submitting: false });
+    this.setState({ statusOptions, loading: false });
   }
 
   componentDidMount() {
     this.handleGetAll();
+  }
+
+  componentWillUnmount() {
+    // fix Warning: Can't perform a React state update on an unmounted component
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   render() {
@@ -37,7 +44,7 @@ class StatusSelect extends React.Component {
       label,
       rules,
     } = this.props;
-    const { statusOptions } = this.state;
+    const { statusOptions, loading } = this.state;
 
     return (
       <SuperSelect
@@ -46,6 +53,7 @@ class StatusSelect extends React.Component {
         isClearable={true}
         validator={validator}
         validated={validated}
+        loading={loading}
         value={value}
         options={statusOptions}
         onChange={onChange}

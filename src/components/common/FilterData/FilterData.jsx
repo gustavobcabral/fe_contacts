@@ -3,6 +3,7 @@ import { withTranslation } from "react-i18next";
 import { Form, Card, Col } from "react-bootstrap";
 import { pipe, uniq, compact, remove, getOr, map, isEmpty } from "lodash/fp";
 import { parseErrorMessage } from "../../../utils/generic";
+import ReactPlaceholder from "react-placeholder";
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -83,7 +84,9 @@ class FilterData extends React.Component {
       checksResponsibility,
       checksStatus,
       error,
+      loading
     } = this.state;
+
     const noData =
       isEmpty(checksGender) &&
       isEmpty(checksLanguages) &&
@@ -91,7 +94,12 @@ class FilterData extends React.Component {
       isEmpty(checksStatus);
     const { t } = this.props;
     return (
-      <>
+      <ReactPlaceholder
+        showLoadingAnimation={true}
+        type="text"
+        ready={!loading}
+        rows={18}
+      >
         <Col className="text-center">
           <h3>{t("title")}</h3>
         </Col>
@@ -176,7 +184,9 @@ class FilterData extends React.Component {
                       key={data.idResponsibility}
                       type="checkbox"
                       name="responsibility"
-                      label={t(`responsibility:${data.responsibilityDescription}`)}
+                      label={t(
+                        `responsibility:${data.responsibilityDescription}`
+                      )}
                       value={data.idResponsibility}
                       onClick={this.handleOnClick}
                     />
@@ -187,7 +197,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-      </>
+      </ReactPlaceholder>
     );
   }
 }
