@@ -252,7 +252,7 @@ class Contacts extends React.Component {
                         </td>
 
                         <td>
-                          {/* <EditDetailsContact
+                          <EditDetailsContact
                             data={detailContact}
                             contact={detailContact}
                             id={detailContact.id}
@@ -261,7 +261,7 @@ class Contacts extends React.Component {
                           <AskDelete
                             id={detailContact.id}
                             funcToCallAfterConfirmation={this.handleDelete}
-                          /> */}
+                          />
                         </td>
                       </tr>
                     ),
