@@ -35,7 +35,6 @@ class Contacts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       data: [],
       error: false,
@@ -50,6 +49,7 @@ class Contacts extends React.Component {
           name: "",
           phone: "",
           note: "",
+          typeCompany: "-1",
           genders: [],
           languages: [],
           status: [],
@@ -60,6 +60,8 @@ class Contacts extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.afterSentPhones = this.afterSentPhones.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+
   }
 
   async handleGetAll(objQuery) {
@@ -135,7 +137,7 @@ class Contacts extends React.Component {
   }
 
   afterSentPhones() {
-    document.getElementById("checkall").checked = false
+    document.getElementById("checkall").checked = false;
     this.handleGetAll();
     this.setState({ checksContactsPhones: [] });
   }
@@ -162,6 +164,7 @@ class Contacts extends React.Component {
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}
+              showTypeCompany={true}
               getFilters={contacts.getAllFilters}
             />
           </Col>
@@ -184,8 +187,8 @@ class Contacts extends React.Component {
                       onClick={this.handleCheckAll}
                     />
                   </th>
-                  <th>{t("name")}</th>
-                  <th className="d-none d-sm-table-cell">{t("phone")}</th>
+                  <th>{t("phone")}</th>
+                  <th className="d-none d-sm-table-cell">{t("name")}</th>
                   <th className="d-none d-lg-table-cell">{t("typeCompany")}</th>
                   <th className="d-none d-lg-table-cell">{t("gender")}</th>
                   <th className="d-none d-lg-table-cell">{t("language")}</th>
@@ -196,8 +199,8 @@ class Contacts extends React.Component {
                   <th className="d-none d-lg-table-cell">
                     {t("waitingFeedback")}
                   </th>
-                  <th>{t("details")}</th>
-                  <th>
+                  <th style={{ minWidth: "116px" }}>{t("details")}</th>
+                  <th style={{ minWidth: "116px" }}>
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -236,9 +239,9 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td>{contact.name}</td>
+                        <td>{contact.phone}</td>
                         <td className="d-none d-sm-table-cell">
-                          {contact.phone}
+                          {contact.name}
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {t(

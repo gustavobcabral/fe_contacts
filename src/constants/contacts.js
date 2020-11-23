@@ -1,0 +1,2 @@
+export const WAITING_FEEDBACK = "[WAITING_FEEDBACK]";
+

@@ -18,7 +18,6 @@ class FilterData extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       loading: false,
       error: false,
@@ -30,18 +29,35 @@ class FilterData extends React.Component {
       checksStatus: [],
       responsibility: [],
       checksResponsibility: [],
+      typeCompany: "-1",
     };
     this.getAllFilters = this.getAllFilters.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleBooleanValues = this.handleBooleanValues.bind(this);
+    this.updateValues = this.updateValues.bind(this);
   }
 
   handleOnClick(event) {
-    const { handleFilters } = this.props;
     const {
       target: { name, value, checked },
     } = event;
     const newValues = checked
       ? pipe(uniq, compact)([...this.state[name], value])
       : remove((arrayValue) => arrayValue === value, this.state[name]);
+    this.updateValues(name, newValues);
+  }
+
+  handleBooleanValues(event) {
+    const {
+      target: { name, value },
+    } = event;
+
+    this.updateValues(name, value);
+  }
+
+  updateValues(name, newValues) {
+    const { handleFilters } = this.props;
+
     this.setState({
       [name]: newValues,
     });
@@ -50,7 +66,6 @@ class FilterData extends React.Component {
         [name]: newValues,
       },
     });
-    return "";
   }
 
   async getAllFilters() {
@@ -97,6 +112,7 @@ class FilterData extends React.Component {
       status,
       error,
       loading,
+      typeCompany,
     } = this.state;
 
     const noData =
@@ -104,7 +120,7 @@ class FilterData extends React.Component {
       isEmpty(checksLanguages) &&
       isEmpty(checksResponsibility) &&
       isEmpty(checksStatus);
-    const { t } = this.props;
+    const { t, showTypeCompany = false } = this.props;
     return (
       <ReactPlaceholder
         showLoadingAnimation={true}
@@ -126,15 +142,19 @@ class FilterData extends React.Component {
                 <Card.Title>{t("gendersTitleFilter")}</Card.Title>
                 {map(
                   (data) => (
-                    <Form.Check
+                    <Form.Group
+                      controlId={`genders${data.gender}`}
                       key={data.gender}
-                      type="checkbox"
-                      name="genders"
-                      checked={contains(data.gender, genders)}
-                      label={t(`contacts:${data.gender}`)}
-                      value={data.gender}
-                      onChange={this.handleOnClick}
-                    />
+                    >
+                      <Form.Check
+                        type="checkbox"
+                        name="genders"
+                        checked={contains(data.gender, genders)}
+                        label={t(`contacts:${data.gender}`)}
+                        value={data.gender}
+                        onChange={this.handleOnClick}
+                      />
+                    </Form.Group>
                   ),
                   checksGender
                 )}
@@ -149,15 +169,19 @@ class FilterData extends React.Component {
                 <Card.Title>{t("languagesTitleFilter")}</Card.Title>
                 {map(
                   (data) => (
-                    <Form.Check
+                    <Form.Group
+                      controlId={`languages${data.idLanguage}`}
                       key={data.idLanguage}
-                      type="checkbox"
-                      name="languages"
-                      checked={contains(String(data.idLanguage), languages)}
-                      label={t(`languages:${data.languageName}`)}
-                      value={data.idLanguage}
-                      onChange={this.handleOnClick}
-                    />
+                    >
+                      <Form.Check
+                        type="checkbox"
+                        name="languages"
+                        checked={contains(String(data.idLanguage), languages)}
+                        label={t(`languages:${data.languageName}`)}
+                        value={data.idLanguage}
+                        onChange={this.handleOnClick}
+                      />
+                    </Form.Group>
                   ),
                   checksLanguages
                 )}
@@ -172,15 +196,19 @@ class FilterData extends React.Component {
                 <Card.Title>{t("statusTitleFilter")}</Card.Title>
                 {map(
                   (data) => (
-                    <Form.Check
+                    <Form.Group
+                      controlId={`status${data.idStatus}`}
                       key={data.idStatus}
-                      type="checkbox"
-                      name="status"
-                      checked={contains(String(data.idStatus), status)}
-                      label={t(`status:${data.statusDescription}`)}
-                      value={data.idStatus}
-                      onChange={this.handleOnClick}
-                    />
+                    >
+                      <Form.Check
+                        type="checkbox"
+                        name="status"
+                        checked={contains(String(data.idStatus), status)}
+                        label={t(`status:${data.statusDescription}`)}
+                        value={data.idStatus}
+                        onChange={this.handleOnClick}
+                      />
+                    </Form.Group>
                   ),
                   checksStatus
                 )}
@@ -195,20 +223,75 @@ class FilterData extends React.Component {
                 <Card.Title>{t("responsibilityTitleFilter")}</Card.Title>
                 {map(
                   (data) => (
-                    <Form.Check
-                      key={data.idResponsibility}
-                      type="checkbox"
-                      name="responsibility"
-                      checked={contains(String(data.idResponsibility), responsibility)}
-                      label={t(
-                        `responsibility:${data.responsibilityDescription}`
-                      )}
-                      value={data.idResponsibility}
-                      onChange={this.handleOnClick}
-                    />
+                    <Form.Group
+                      controlId={`responsibility${data.idResponsibility}`}
+                    >
+                      <Form.Check
+                        key={data.idResponsibility}
+                        type="checkbox"
+                        name="responsibility"
+                        checked={contains(
+                          String(data.idResponsibility),
+                          responsibility
+                        )}
+                        label={t(
+                          `responsibility:${data.responsibilityDescription}`
+                        )}
+                        value={data.idResponsibility}
+                        onChange={this.handleOnClick}
+                      />
+                    </Form.Group>
                   ),
                   checksResponsibility
                 )}
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {showTypeCompany && (
+          <Col className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{t("typeCompanyTitleFilter")}</Card.Title>
+                <Col xs={6} lg={2}>
+                  <Form.Group controlId="both">
+                    <Form.Check
+                      key="typeCompanyBoth"
+                      type="radio"
+                      name="typeCompany"
+                      label={t("typeCompanyBoth")}
+                      checked={typeCompany === "-1"}
+                      value={"-1"}
+                      onChange={this.handleBooleanValues}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xs={6} lg={2}>
+                  <Form.Group controlId="residential">
+                    <Form.Check
+                      key="typeCompanyResidential0"
+                      type="radio"
+                      name="typeCompany"
+                      label={t("contacts:residential")}
+                      checked={typeCompany === "0"}
+                      value={"0"}
+                      onChange={this.handleBooleanValues}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="commercial">
+                    <Form.Check
+                      key="typeCompanyCommercial1"
+                      type="radio"
+                      name="typeCompany"
+                      label={t("contacts:commercial")}
+                      checked={typeCompany === "1"}
+                      value={"1"}
+                      onChange={this.handleBooleanValues}
+                    />
+                  </Form.Group>
+                </Col>
               </Card.Body>
             </Card>
           </Col>

@@ -10,6 +10,7 @@ import FormDetails from "./FormDetails";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../../utils/generic";
+import { WAITING_FEEDBACK } from "../../../constants/contacts";
 
 const fields = {
   information: "",
@@ -18,6 +19,7 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  typeCompany: "0",
 };
 
 class EditDetailsContact extends React.Component {
@@ -53,15 +55,23 @@ class EditDetailsContact extends React.Component {
       this.setState({ loading: true });
       const id = getOr(0, "props.id", this);
       const response = await details.getOne(id);
-      const form = getOr(fields, "data.data", response);
-      const publishersOptions = this.reducePublishers(await publishers.getAll());
-  
+      const data = getOr(fields, "data.data", response);
+      const form = {
+        ...data,
+        information:
+          getOr("", "information", data) === WAITING_FEEDBACK
+            ? ""
+            : getOr("", "information", data),
+      };
+      const publishersOptions = this.reducePublishers(
+        await publishers.getAll()
+      );
+
       this.setState({
         form,
         publishersOptions,
         loading: false,
       });
-        
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -95,6 +105,7 @@ class EditDetailsContact extends React.Component {
         gender: get("gender", form),
         phone: get("phone", contact),
         name: get("name", form),
+        typeCompany: get("typeCompany", form),
       },
     };
     try {
@@ -111,21 +122,21 @@ class EditDetailsContact extends React.Component {
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
         text: t(
           `detailsContacts:${parseErrorMessage(error)}`,
           t(`common:${parseErrorMessage(error)}`)
         ),
-      })
+      });
     }
   }
 
   render() {
     const { form, validated, publishersOptions, submitting } = this.state;
-    const { t, afterClose } = this.props;
+    const { t, afterClose, contact } = this.props;
     return (
       <OurModal
         body={FormDetails}
@@ -138,7 +149,10 @@ class EditDetailsContact extends React.Component {
         onEnter={this.handleGetOne}
         onExit={afterClose}
         publishersOptions={publishersOptions}
-        title={`${t("common:edit")} ${t("titleCrud")}`}
+        title={`${t("common:edit")} ${t("titleCrud")} #${get(
+          "phone",
+          contact
+        )}`}
         buttonText={<FontAwesomeIcon variant="success" icon={faEdit} />}
         buttonVariant="success"
       />

@@ -8,6 +8,7 @@ import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { parseErrorMessage } from "../../../utils/generic"
+import { WAITING_FEEDBACK } from "../../../constants/contacts";
 
 const fields = {
   information: "",
@@ -50,8 +51,15 @@ class EditDetailsContact extends React.Component {
     const id = getOr(0, "props.match.params.id", this);
     this.setState({ loading: true });
     const response = await details.getOne(id);
-    const form = getOr(fields, "data.data", response);
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const data = getOr(fields, "data.data", response);
+    const form = {
+      ...data,
+      information:
+        getOr("", "information", data) === WAITING_FEEDBACK
+          ? ""
+          : getOr("", "information", data),
+    };
+  const publishersOptions = this.reducePublishers(await publishers.getAll());
 
     this.setState({
       form,

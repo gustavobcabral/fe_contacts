@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
 import moment from "moment";
 import { details } from "../../../services";
-import { getOr, map, first, isEmpty } from "lodash/fp";
+import { getOr, map, first, isEmpty, truncate } from "lodash/fp";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -45,7 +45,7 @@ class ListDetailsContact extends React.Component {
         ),
         text: t(`common:${parseErrorMessage(error)}`),
       });
-  }
+    }
   }
 
   async handleDelete(id) {
@@ -85,9 +85,7 @@ class ListDetailsContact extends React.Component {
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`${t(
-          "detailsContacts:title"
-        )} #${phone} ${this.getNameForTitle()}`}</h1>
+        <h1>{`${t("title")} #${phone} ${this.getNameForTitle()}`}</h1>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
@@ -117,7 +115,12 @@ class ListDetailsContact extends React.Component {
                     <td>
                       {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
                     </td>
-                    <td>{detail.information}</td>
+                    <td>
+                      {t(
+                        detail.information,
+                        truncate({ length: 45 }, detail.information)
+                      )}
+                    </td>
                     <td>
                       <Button
                         variant="success"
@@ -147,4 +150,6 @@ class ListDetailsContact extends React.Component {
   }
 }
 
-export default withTranslation(["contacts", "common"])(ListDetailsContact);
+export default withTranslation(["detailsContacts", "common"])(
+  ListDetailsContact
+);
