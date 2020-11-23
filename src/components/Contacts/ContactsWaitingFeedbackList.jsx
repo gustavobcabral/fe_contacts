@@ -30,7 +30,6 @@ class Contacts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       data: [],
       error: false,
@@ -44,8 +43,10 @@ class Contacts extends React.Component {
         filters: JSON.stringify({
           name: "",
           phone: "",
-          responsible:"",
+          responsible: "",
           creator: "",
+          note: "",
+          typeCompany: "0",
           genders: [],
           languages: [],
           status: [],
@@ -55,6 +56,8 @@ class Contacts extends React.Component {
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+
   }
 
   async handleGetAll(objQuery) {
@@ -133,11 +136,10 @@ class Contacts extends React.Component {
   }
 
   afterSentPhones() {
-    document.getElementById("checkall").checked = false
+    document.getElementById("checkall").checked = false;
     this.handleGetAll();
     this.setState({ checksContactsPhones: [] });
   }
-
 
   render() {
     const { t } = this.props;
@@ -157,6 +159,7 @@ class Contacts extends React.Component {
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}
+              showTypeCompany={true}
               getFilters={details.getAllWaitingFeedbackFilters}
             />
           </Col>
@@ -165,7 +168,7 @@ class Contacts extends React.Component {
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={["name", "phone","responsible","creator"]}
+                  fields={["name", "phone", "responsible", "creator", "note"]}
                   colspan={colSpan}
                 />
                 <tr>
@@ -179,14 +182,18 @@ class Contacts extends React.Component {
                       onClick={this.handleCheckAll}
                     />
                   </th>
-                  <th>{t("name")}</th>
                   <th>{t("phone")}</th>
-                  <th>{t("gender")}</th>
-                  <th>{t("language")}</th>
-                  <th>{t("status")}</th>
-                  <th>{t("publisherResponsible")}</th>
-                  <th>{t("publisherCreatedBy")}</th>
-                  <th>
+                  <th className="d-none d-sm-table-cell">{t("name")}</th>
+                  <th className="d-none d-lg-table-cell">{t("gender")}</th>
+                  <th className="d-none d-lg-table-cell">{t("language")}</th>
+                  <th className="d-none d-lg-table-cell">{t("status")}</th>
+                  <th className="d-none d-lg-table-cell">
+                    {t("publisherResponsible")}
+                  </th>
+                  <th className="d-none d-lg-table-cell">
+                    {t("publisherCreatedBy")}
+                  </th>
+                  <th style={{ minWidth: "116px" }}>
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
@@ -196,7 +203,7 @@ class Contacts extends React.Component {
                 </tr>
               </thead>
               <tbody>
-              {submitting ? (
+                {submitting ? (
                   <tr>
                     <td colSpan={colSpan}>
                       <ReactPlaceholder
@@ -224,18 +231,28 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td>{detailContact.contactName}</td>
                         <td>{detailContact.phone}</td>
-                        <td>{t(`contacts:${detailContact.gender}`)}</td>
-                        <td>{t(`languages:${detailContact.languageName}`)}</td>
-                        <td>
+                        <td className="d-none d-sm-table-cell">
+                          {detailContact.contactName}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(`contacts:${detailContact.gender}`)}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(`languages:${detailContact.languageName}`)}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
                           {t(`status:${detailContact.statusDescription}`)}
                         </td>
-                        <td>{detailContact.publisherName}</td>
-                        <td>{detailContact.publisherNameCreatedBy}</td>
+                        <td className="d-none d-lg-table-cell">
+                          {detailContact.publisherName}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {detailContact.publisherNameCreatedBy}
+                        </td>
 
                         <td>
-                          <EditDetailsContact
+                          {/* <EditDetailsContact
                             data={detailContact}
                             contact={detailContact}
                             id={detailContact.id}
@@ -244,7 +261,7 @@ class Contacts extends React.Component {
                           <AskDelete
                             id={detailContact.id}
                             funcToCallAfterConfirmation={this.handleDelete}
-                          />
+                          /> */}
                         </td>
                       </tr>
                     ),

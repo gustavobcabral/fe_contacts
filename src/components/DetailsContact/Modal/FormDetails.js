@@ -22,6 +22,33 @@ const FormDetails = (props) => {
 
   return (
     <Form>
+      <Row className="mb-2">
+        <Col xs={6} lg={2}>
+          <Form.Group controlId="residential">
+            <Form.Check
+              type="radio"
+              name="typeCompany"
+              label={t("contacts:residential")}
+              checked={!form.typeCompany || form.typeCompany === "0"}
+              value={0}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="commercial">
+            <Form.Check
+              type="radio"
+              name="typeCompany"
+              label={t("contacts:commercial")}
+              validator={validator}
+              checked={form.typeCompany || form.typeCompany === "1"}
+              value={1}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
       <Row>
         <Col xs={12} lg={4}>
           <SuperFormControl

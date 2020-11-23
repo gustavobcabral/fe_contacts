@@ -16,7 +16,7 @@ class ListDataDetailsContact extends React.Component {
       data,
       afterClose,
       funcToCallAfterConfirmation,
-      waitingFeedback
+      waitingFeedback,
     } = this.props;
     return (
       <Table striped bordered hover responsive>
@@ -42,7 +42,12 @@ class ListDataDetailsContact extends React.Component {
                 <tr key={detail.id}>
                   <td>{detail.publisherName}</td>
                   <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
-                  <td>{truncate({ length: 45 }, detail.information)}</td>
+                  <td>
+                    {t(
+                      detail.information,
+                      truncate({ length: 45 }, detail.information)
+                    )}
+                  </td>
                   <td style={{ width: "114px" }}>
                     <EditDetailsContact
                       data={detail}

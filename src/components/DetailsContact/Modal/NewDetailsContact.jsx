@@ -10,7 +10,7 @@ import FormDetails from "./FormDetails";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
-import { parseErrorMessage } from "../../../utils/generic"
+import { parseErrorMessage } from "../../../utils/generic";
 
 const fields = {
   information: "",
@@ -19,6 +19,7 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  typeCompany: "0",
 };
 
 class NewDetailsContact extends React.Component {
@@ -99,6 +100,7 @@ class NewDetailsContact extends React.Component {
         gender: get("gender", form),
         phone: get("phone", contact),
         name: get("name", form),
+        typeCompany: get("typeCompany", form),
       },
     };
 
@@ -117,15 +119,15 @@ class NewDetailsContact extends React.Component {
     } catch (error) {
       this.setState({ submitting: false });
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
         text: t(
           `detailsContacts:${parseErrorMessage(error)}`,
           t(`common:${parseErrorMessage(error)}`)
         ),
-      })
+      });
     }
   }
 
@@ -140,7 +142,7 @@ class NewDetailsContact extends React.Component {
 
   render() {
     const { form, validated, publishersOptions, submitting } = this.state;
-    const { t, afterClose, waitingFeedback } = this.props;
+    const { t, afterClose, waitingFeedback, contact } = this.props;
 
     return waitingFeedback ? (
       <Button variant="primary" onClick={this.notificationNotAllowedNewDetails}>
@@ -158,7 +160,10 @@ class NewDetailsContact extends React.Component {
         onExit={afterClose}
         onEnter={this.onOpen}
         publishersOptions={publishersOptions}
-        title={`${t("common:new")} ${t("titleCrud")}`}
+        title={`${t("common:new")} ${t("titleCrud")} #${get(
+          "phone",
+          contact
+        )}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     );

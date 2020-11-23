@@ -3,5 +3,8 @@
   "gendersTitleFilter": "Genders",
   "languagesTitleFilter": "Languages",
   "statusTitleFilter": "Status",
-  "responsibilityTitleFilter": "Responsibility"
+  "responsibilityTitleFilter": "Responsibility",
+  "typeCompanyTitleFilter": "Type",
+  "typeCompanyBoth": "Both"
+
 }

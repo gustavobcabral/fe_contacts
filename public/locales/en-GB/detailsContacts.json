@@ -8,6 +8,6 @@
   "informationPlaceHolder": "Write here infornations about the conversation that the public has with this contact",
   "name": "Name",
   "phone": "Phone",
-  "notificationNotAllowedNewDetails": "Before create a new conversation, please, write the feedback of last contact"
-
+  "notificationNotAllowedNewDetails": "Before create a new conversation, please, write the feedback of last contact",
+  "[WAITING_FEEDBACK]": "Waiting for feedback"
 }

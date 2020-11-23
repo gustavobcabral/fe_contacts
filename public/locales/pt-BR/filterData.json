@@ -3,6 +3,8 @@
   "gendersTitleFilter": "Gêneros",
   "languagesTitleFilter": "Idiomas",
   "statusTitleFilter": "Estado",
-  "responsibilityTitleFilter": "Privilégios"
+  "responsibilityTitleFilter": "Privilégios",
+  "typeCompanyTitleFilter": "Tipo",
+  "typeCompanyBoth": "Ambos"
 
 }
