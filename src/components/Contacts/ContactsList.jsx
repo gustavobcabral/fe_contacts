@@ -49,7 +49,7 @@ class Contacts extends React.Component {
           name: "",
           phone: "",
           note: "",
-          typeCompany: "0",
+          typeCompany: "-1",
           genders: [],
           languages: [],
           status: [],

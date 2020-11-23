@@ -46,7 +46,7 @@ class Contacts extends React.Component {
           responsible: "",
           creator: "",
           note: "",
-          typeCompany: "0",
+          typeCompany: "-1",
           genders: [],
           languages: [],
           status: [],
