@@ -114,6 +114,7 @@ class NewPublisher extends React.Component {
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}
+        buttonTitle={t("common:new")}
         title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />

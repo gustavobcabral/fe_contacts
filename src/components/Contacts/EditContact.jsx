@@ -142,6 +142,7 @@ class EditContact extends React.Component {
         onExit={afterClose}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
+        buttonTitle={t("common:edit")}
         title={`${t("common:edit")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"

@@ -51,6 +51,9 @@
   "NO_PERMISSION_ENOUGH": "You don't have enough permissions",
   "loading": "Loading",
   "ops": "Ops!!",
-  "contacts_pkey": "This number already exists"
+  "contacts_pkey": "This number already exists",
+  "sendOverWhatsApp": "Send over WhatsApp",
+  "total": "Total",
+  "list": "List"
 
 }

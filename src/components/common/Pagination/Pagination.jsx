@@ -6,8 +6,8 @@ import { ITEMS_PAGINATION } from "../../../constants/application";
 import ReactPlaceholder from "react-placeholder";
 
 const PaginationComponent = (props) => {
-  const { lastPage, to, from, currentPage } = props.pagination;
-  const { submitting } = props;
+  const { lastPage, to, from, currentPage, totalRows } = props.pagination;
+  const { submitting, t } = props;
   let items = [];
 
   if (!submitting && !isNil(currentPage)) {
@@ -89,6 +89,7 @@ const PaginationComponent = (props) => {
               : null
           }
         />
+        <span className="ml-2 mt-2 text-primary"> - {t("total")}: {totalRows}</span>
       </Pagination>
     </ReactPlaceholder>
   );

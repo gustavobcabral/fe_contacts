@@ -23,7 +23,7 @@ const AskDelete = (props) => {
   };
 
   return (
-    <Button variant="danger" onClick={() => askForSureWantDelete()}>
+    <Button variant="danger" title={t("delete")} onClick={() => askForSureWantDelete()}>
        <FontAwesomeIcon icon={faTrash} />
     </Button>
   );

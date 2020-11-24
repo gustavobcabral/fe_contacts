@@ -8,7 +8,6 @@ class OurModal extends Component {
     this.state = { modalShow: false };
     this.defaultOnExit = this.defaultOnExit.bind(this);
     this.defaultOnEnter = this.defaultOnEnter.bind(this);
-    
   }
 
   setModalShow = (visibility) => {
@@ -16,14 +15,12 @@ class OurModal extends Component {
   };
 
   onHide = () => {
-    this.setModalShow(false)
+    this.setModalShow(false);
     const { onClose } = this.props;
     if (onClose) onClose();
-
   };
-  
-  onShow = () => this.setModalShow(true);
 
+  onShow = () => this.setModalShow(true);
 
   defaultOnExit = () => {
     const { onExit } = this.props;
@@ -38,6 +35,7 @@ class OurModal extends Component {
   render() {
     const {
       buttonText,
+      buttonTitle,
       buttonVariant,
       title,
       size,
@@ -50,6 +48,7 @@ class OurModal extends Component {
     return (
       <>
         <Button
+          title={buttonTitle || ""}
           variant={buttonVariant || "primary"}
           disabled={buttonDisabled}
           onClick={this.onShow}
