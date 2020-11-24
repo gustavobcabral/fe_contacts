@@ -93,6 +93,7 @@ class ListDetailsContact extends React.Component {
         waitingFeedback={waitingFeedback}
         data={data}
         title={`${t("title")} # ${contact.phone} ${this.getNameForTitle()}`}
+        buttonTitle={t("common:list")}
         buttonText={<FontAwesomeIcon icon={faEye} />}
         afterClose={this.handleGetAllOneContact}
         onExit={afterClose}

@@ -163,6 +163,7 @@ class NewDetailsContact extends React.Component {
           "phone",
           contact
         )}`}
+        buttonTitle={t("common:new")}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     );

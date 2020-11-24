@@ -159,6 +159,7 @@ class EditDetailsContact extends React.Component {
           "phone",
           contact
         )}`}
+        buttonTitle={t("common:edit")}
         buttonText={<FontAwesomeIcon variant="success" icon={faEdit} />}
         buttonVariant="success"
       />

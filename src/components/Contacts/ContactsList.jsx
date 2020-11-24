@@ -61,7 +61,6 @@ class Contacts extends React.Component {
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.afterSentPhones = this.afterSentPhones.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
-
   }
 
   async handleGetAll(objQuery) {
@@ -285,6 +284,7 @@ class Contacts extends React.Component {
                             afterClose={() => this.handleGetAll()}
                           />{" "}
                           <Button
+                            title={t("common:list")}
                             variant="success"
                             as={Link}
                             to={`/contacts/${encodeURI(contact.phone)}/details`}

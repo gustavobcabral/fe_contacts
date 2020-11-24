@@ -147,6 +147,7 @@ class NewContact extends React.Component {
         onClose={this.resetForm}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
+        buttonTitle={t("common:new")}
         title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />

@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
 import moment from "moment";
 import { details } from "../../../services";
-import { getOr, map, first, isEmpty, truncate } from "lodash/fp";
+import { getOr, map, first, isEmpty } from "lodash/fp";
 import { Button, Table, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -13,7 +13,11 @@ import Pagination from "../../common/Pagination/Pagination";
 import Search from "../../common/Search/Search";
 import { parseQuery } from "../../../utils/forms";
 import { RECORDS_PER_PAGE } from "../../../constants/application";
-import { faPlusSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlusSquare,
+  faEdit,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
@@ -137,8 +141,9 @@ class ListDetailsContact extends React.Component {
                     <th>{t("publisher")}</th>
                     <th>{t("date")}</th>
                     <th>{t("details")}</th>
-                    <th>
+                    <th style={{ minWidth: "116px" }}>
                       <Button
+                        title={t("common:new")}
                         variant="primary"
                         as={Link}
                         to={`/contacts/${encodeURI(phone)}/details/new`}
@@ -146,10 +151,11 @@ class ListDetailsContact extends React.Component {
                         <FontAwesomeIcon icon={faPlusSquare} />
                       </Button>{" "}
                       <Button
+                        title={t("common:back")}
                         variant="secondary"
                         onClick={() => history.goBack()}
                       >
-                        {t("common:back")}
+                        <FontAwesomeIcon icon={faArrowLeft} />
                       </Button>
                     </th>
                   </tr>
@@ -176,14 +182,10 @@ class ListDetailsContact extends React.Component {
                               "DD/MM/YYYY HH:mm"
                             )}
                           </td>
-                          <td>
-                            {t(
-                              detail.information,
-                              truncate({ length: 45 }, detail.information)
-                            )}
-                          </td>
+                          <td>{t(detail.information)}</td>
                           <td>
                             <Button
+                              title={t("common:edit")}
                               variant="success"
                               as={Link}
                               to={`/contacts/${encodeURI(phone)}/details/edit/${

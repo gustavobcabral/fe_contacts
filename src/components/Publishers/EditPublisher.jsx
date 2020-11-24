@@ -124,6 +124,7 @@ class EditContact extends React.Component {
         form={form}
         onEnter={this.handleGetOne}
         onExit={afterClose}
+        buttonTitle={t("common:edit")}
         title={`${t("common:edit")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"

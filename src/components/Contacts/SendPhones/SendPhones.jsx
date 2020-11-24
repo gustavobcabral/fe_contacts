@@ -207,6 +207,7 @@ class NewContact extends React.Component {
         onExit={afterClose}
         onEnter={this.handleGetPublishers}
         title={`${t("title")}`}
+        buttonTitle={t("common:sendOverWhatsApp")}
         buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
         buttonDisabled={checksContactsPhones.length === 0}
         buttonVariant="success"
