@@ -27,7 +27,13 @@ class StatusList extends React.Component {
       const { t } = this.props;
       Swal.fire({
         icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `status:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
       });
     }
   }

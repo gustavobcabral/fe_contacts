@@ -27,7 +27,6 @@ class EditDetailsContact extends React.Component {
     super(props);
     this.state = {
       form: fields,
-      submitting: false,
       loading: false,
       validated: false,
       publishersOptions: [],
@@ -73,9 +72,16 @@ class EditDetailsContact extends React.Component {
         loading: false,
       });
     } catch (error) {
+      this.setState({ loading: false });
       Swal.fire({
         icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `detailsContacts:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
       });
     }
   }
@@ -91,7 +97,7 @@ class EditDetailsContact extends React.Component {
       this.validator.showMessages();
       return true;
     }
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
 
     const { form } = this.state;
     const { t, contact } = this.props;
@@ -117,10 +123,10 @@ class EditDetailsContact extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
+      this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
-      this.setState({ submitting: false });
+      this.setState({ loading: false });
       Swal.fire({
         icon: "error",
         title: t(
@@ -135,13 +141,13 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, submitting } = this.state;
+    const { form, validated, publishersOptions, loading } = this.state;
     const { t, afterClose, contact } = this.props;
     return (
       <OurModal
         body={FormDetails}
         validator={this.validator}
-        submitting={submitting}
+        loading={loading}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}

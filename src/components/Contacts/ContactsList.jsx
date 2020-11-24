@@ -84,7 +84,13 @@ class Contacts extends React.Component {
       });
       Swal.fire({
         icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `contacts:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
       });
     }
   }
@@ -159,7 +165,7 @@ class Contacts extends React.Component {
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Row>
-          <Col xs={12} lg={2}>
+          <Col xs={12} lg={3} xl={2}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -168,7 +174,7 @@ class Contacts extends React.Component {
               getFilters={contacts.getAllFilters}
             />
           </Col>
-          <Col xs={12} lg={10}>
+          <Col xs={12} lg={9} xl={10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search

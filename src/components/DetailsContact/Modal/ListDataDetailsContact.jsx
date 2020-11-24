@@ -7,6 +7,7 @@ import NewDetailsContact from "./NewDetailsContact";
 import EditDetailsContact from "./EditDetailsContact";
 import AskDelete from "../../common/AskDelete/AskDelete";
 import NoRecords from "../../common/NoRecords/NoRecords";
+import ReactPlaceholder from "react-placeholder";
 
 class ListDataDetailsContact extends React.Component {
   render() {
@@ -17,7 +18,10 @@ class ListDataDetailsContact extends React.Component {
       afterClose,
       funcToCallAfterConfirmation,
       waitingFeedback,
+      submitting
     } = this.props;
+    const colSpan = 4
+
     return (
       <Table striped bordered hover responsive>
         <thead>
@@ -36,7 +40,18 @@ class ListDataDetailsContact extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {!isEmpty(data) ? (
+          {submitting ? (
+            <tr>
+              <td colSpan={colSpan}>
+                <ReactPlaceholder
+                  showLoadingAnimation={true}
+                  type="text"
+                  ready={!submitting}
+                  rows={5}
+                />
+              </td>
+            </tr>
+          ) : !isEmpty(data) ? (
             map(
               (detail) => (
                 <tr key={detail.id}>
@@ -65,7 +80,7 @@ class ListDataDetailsContact extends React.Component {
               data
             )
           ) : (
-            <NoRecords cols="6" />
+            <NoRecords cols={colSpan} />
           )}
         </tbody>
       </Table>

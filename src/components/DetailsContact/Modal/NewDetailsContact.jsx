@@ -27,7 +27,6 @@ class NewDetailsContact extends React.Component {
     super(props);
     this.state = {
       form: fields,
-      submitting: false,
       loading: false,
       validated: false,
       publishersOptions: [],
@@ -85,7 +84,7 @@ class NewDetailsContact extends React.Component {
       this.validator.showMessages();
       return true;
     }
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
 
     const { form } = this.state;
     const { contact, t } = this.props;
@@ -106,7 +105,7 @@ class NewDetailsContact extends React.Component {
 
     try {
       await details.create(data);
-      this.setState({ submitting: false });
+      this.setState({ loading: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
         icon: "success",
@@ -114,10 +113,10 @@ class NewDetailsContact extends React.Component {
         timerProgressBar: true,
       });
       onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
+      this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
-      this.setState({ submitting: false });
+      this.setState({ loading: false });
       Swal.fire({
         icon: "error",
         title: t(
@@ -141,7 +140,7 @@ class NewDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, submitting } = this.state;
+    const { form, validated, publishersOptions, loading } = this.state;
     const { t, afterClose, waitingFeedback, contact } = this.props;
 
     return waitingFeedback ? (
@@ -152,7 +151,7 @@ class NewDetailsContact extends React.Component {
       <OurModal
         body={FormDetails}
         validator={this.validator}
-        submitting={submitting}
+        loading={loading}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}

@@ -36,7 +36,7 @@
   "labelNewValueOption": "Choice a new value",
   "askDeleteMessage": "Are you sure you want to delete this record?",
   "ERROR_WHILE_DELETING": "Error while deleting this record",
-  "ERROR_WHILE_GET": "Error while get this record",
+  "ERROR_WHILE_GET": "Error while get the data",
   "ERROR_WHILE_CREATING": "Error while creating a new record",
   "ERROR_ON_PERMISSIONS": "Error while verifying permissions",
   "UPDATE_SUCCESSFUL": "The record was updated successfully",

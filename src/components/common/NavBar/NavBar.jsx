@@ -51,10 +51,10 @@ const MenuLogged = ({ t, ...props }) => (
     </Nav>
     <Nav style={{marginRight: '34px'}}>
       <NavDropdown title={get("name", getUserData())}>
-        <NavDropdown.Item as={Link} to="#me">
+        {/* <NavDropdown.Item as={Link} to="#me">
           My data
         </NavDropdown.Item>
-        <NavDropdown.Divider />
+        <NavDropdown.Divider /> */}
         <Logout {...props} t={t} />
       </NavDropdown>
     </Nav>
