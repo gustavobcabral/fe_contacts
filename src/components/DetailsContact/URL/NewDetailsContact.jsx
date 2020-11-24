@@ -23,7 +23,6 @@ class NewDetailsContact extends React.Component {
     super(props)
     this.state = {
       form: fields,
-      submitting: false,
       loading: false,
       validated: false,
       publishersOptions: [],
@@ -78,7 +77,7 @@ class NewDetailsContact extends React.Component {
       this.validator.showMessages()
       return true
     }
-    this.setState({ submitting: true })
+    this.setState({ loading: true })
 
     const { form, phone } = this.state
     const { history } = this.props
@@ -95,11 +94,13 @@ class NewDetailsContact extends React.Component {
         phone,
         gender: get('gender', form),
         name: get('name', form),
+        typeCompany: get("typeCompany", form),
+
       },
     }
     try {
       await details.create(data)
-      this.setState({ submitting: false })
+      this.setState({ loading: false })
       history.goBack()
       Swal.fire({
         title: t('common:dataSuccessfullySaved'),
@@ -108,7 +109,7 @@ class NewDetailsContact extends React.Component {
         timerProgressBar: true,
       })
     } catch (error) {
-      this.setState({ submitting: false })
+      this.setState({ loading: false })
       Swal.fire({
         icon: 'error',
         title: t(

@@ -4,14 +4,19 @@ import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRU
 import moment from "moment";
 import { details } from "../../../services";
 import { getOr, map, first, isEmpty, truncate } from "lodash/fp";
-import { Button, Table } from "react-bootstrap";
+import { Button, Table, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import AskDelete from "../../common/AskDelete/AskDelete";
 import NoRecords from "../../common/NoRecords/NoRecords";
+import Pagination from "../../common/Pagination/Pagination";
+import Search from "../../common/Search/Search";
+import { parseQuery } from "../../../utils/forms";
+import { RECORDS_PER_PAGE } from "../../../constants/application";
 import { faPlusSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../../utils/generic";
+import ReactPlaceholder from "react-placeholder";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -19,46 +24,73 @@ class ListDetailsContact extends React.Component {
     this.state = {
       data: [],
       name: "",
+      loading: false,
       phone: getOr(0, "match.params.phone", props),
+      pagination: {},
+      queryParams: {
+        sort: '"detailsContacts"."createdAt":DESC',
+        perPage: RECORDS_PER_PAGE,
+        currentPage: 1,
+        filters: JSON.stringify({
+          publisher: "",
+          details: "",
+        }),
+      },
     };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  async handleGetAllOneContact() {
-    this.setState({ submitting: true });
+  async handleGetAllOneContact(objQuery) {
+    this.setState({ loading: true });
     try {
       const phone = getOr(0, "props.match.params.phone", this);
-      const data = getOr(
-        [],
-        "data.data",
-        await details.getAllOneContact(phone, null)
-      );
+      const queryParams = parseQuery(objQuery, this.state);
+      const response = await details.getAllOneContact(phone, queryParams);
+      const data = getOr([], "data.data.list", response);
       const { name } = first(data) || { name: "" };
-      this.setState({ data, name, submitting: false });
+
+      this.setState({
+        data,
+        pagination: getOr({}, "data.data.pagination", response),
+        error: false,
+        queryParams,
+        name,
+        loading: false,
+      });
     } catch (error) {
       const { t } = this.props;
+
+      this.setState({
+        error,
+        loading: false,
+      });
+
       Swal.fire({
         icon: "error",
         title: t(
           `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
-        text: t(`common:${parseErrorMessage(error)}`),
+        text: t(
+          `detailsContacts:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
       });
     }
   }
 
   async handleDelete(id) {
     const t = this.props;
-    this.setState({ submitting: true });
+    this.setState({ loading: true });
+
     await details
       .dellOne(id)
       .then(() => {
         this.handleGetAllOneContact();
-        this.setState({ submitting: false });
+        this.setState({ loading: false });
       })
       .catch((error) => {
-        this.setState({ submitting: false });
+        this.setState({ loading: false });
         Swal.fire({
           icon: "error",
           title: t(
@@ -81,70 +113,109 @@ class ListDetailsContact extends React.Component {
 
   render() {
     const { t, history } = this.props;
-    const { data, phone } = this.state;
+    const { data, phone, loading, pagination } = this.state;
+    const colSpan = 4;
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <h1>{`${t("title")} #${phone} ${this.getNameForTitle()}`}</h1>
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>{t("publisher")}</th>
-              <th>{t("date")}</th>
-              <th>{t("details")}</th>
-              <th>
-                <Button
-                  variant="primary"
-                  as={Link}
-                  to={`/contacts/${encodeURI(phone)}/details/new`}
-                >
-                  <FontAwesomeIcon icon={faPlusSquare} />
-                </Button>{" "}
-                <Button variant="secondary" onClick={() => history.goBack()}>
-                  {t("common:back")}
-                </Button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {!isEmpty(data) ? (
-              map(
-                (detail) => (
-                  <tr key={detail.id}>
-                    <td>{detail.publisherName}</td>
-                    <td>
-                      {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
-                    </td>
-                    <td>
-                      {t(
-                        detail.information,
-                        truncate({ length: 45 }, detail.information)
-                      )}
-                    </td>
-                    <td>
-                      <Button
-                        variant="success"
-                        as={Link}
-                        to={`/contacts/${encodeURI(phone)}/details/edit/${
-                          detail.id
-                        }`}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </Button>{" "}
-                      <AskDelete
-                        id={detail.id}
-                        funcToCallAfterConfirmation={this.handleDelete}
+        <Row>
+          <Col>
+            <h2>{`${t("title")} #${phone} ${this.getNameForTitle()}`}</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Table striped bordered hover responsive>
+              <thead>
+                <Search
+                  onFilter={this.handleGetAllOneContact}
+                  fields={["publisher", "details"]}
+                  colspan={colSpan}
+                />
+                <tr>
+                  <th>{t("publisher")}</th>
+                  <th>{t("date")}</th>
+                  <th>{t("details")}</th>
+                  <th>
+                    <Button
+                      variant="primary"
+                      as={Link}
+                      to={`/contacts/${encodeURI(phone)}/details/new`}
+                    >
+                      <FontAwesomeIcon icon={faPlusSquare} />
+                    </Button>{" "}
+                    <Button
+                      variant="secondary"
+                      onClick={() => history.goBack()}
+                    >
+                      {t("common:back")}
+                    </Button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan={colSpan}>
+                      <ReactPlaceholder
+                        showLoadingAnimation={true}
+                        type="text"
+                        ready={!loading}
+                        rows={5}
                       />
                     </td>
                   </tr>
-                ),
-                data
-              )
-            ) : (
-              <NoRecords cols="6" />
-            )}
-          </tbody>
-        </Table>
+                ) : !isEmpty(data) ? (
+                  map(
+                    (detail) => (
+                      <tr key={detail.id}>
+                        <td>{detail.publisherName}</td>
+                        <td>
+                          {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
+                        </td>
+                        <td>
+                          {t(
+                            detail.information,
+                            truncate({ length: 45 }, detail.information)
+                          )}
+                        </td>
+                        <td>
+                          <Button
+                            variant="success"
+                            as={Link}
+                            to={`/contacts/${encodeURI(phone)}/details/edit/${
+                              detail.id
+                            }`}
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                          </Button>{" "}
+                          <AskDelete
+                            id={detail.id}
+                            funcToCallAfterConfirmation={this.handleDelete}
+                          />
+                        </td>
+                      </tr>
+                    ),
+                    data
+                  )
+                ) : (
+                  <NoRecords cols={colSpan} />
+                )}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={colSpan} style={{ border: 0 }}>
+                    <Pagination
+                      pagination={pagination}
+                      onClick={this.handleGetAllOneContact}
+                      loading={loading}
+                    />
+                  </td>
+                </tr>
+              </tfoot>
+            </Table>
+          </Col>
+        </Row>
       </ContainerCRUD>
     );
   }

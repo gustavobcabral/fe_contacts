@@ -1,8 +1,8 @@
 import api from "../api";
 import { toQueryString } from "../../utils/forms";
 
-const getAllOneContact = (id, limit = 5) =>
-  api.get(`/detailsContacts/oneContact/${id}?limit=${limit}`);
+const getAllOneContact = (id, params) =>
+  api.get(`/detailsContacts/oneContact/${id}/${toQueryString(params)}`);
 
 const getOne = (id) => api.get(`/detailsContacts/${id}`);
 

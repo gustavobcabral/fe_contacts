@@ -79,7 +79,13 @@ class Contacts extends React.Component {
       });
       Swal.fire({
         icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
+        title: t(
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+        ),
+        text: t(
+          `contacts:${parseErrorMessage(error)}`,
+          t(`common:${parseErrorMessage(error)}`)
+        ),
       });
     }
   }
