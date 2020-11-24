@@ -163,7 +163,7 @@ class Contacts extends React.Component {
     } = this.state;
     const colSpan = "11";
     return (
-      <ContainerCRUD title={t("title")} {...this.props}>
+      <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2}>
             <FilterData

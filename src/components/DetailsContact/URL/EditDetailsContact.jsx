@@ -7,8 +7,9 @@ import FormDetails from "./FormDetails";
 import SimpleReactValidator from "simple-react-validator";
 import Swal from "sweetalert2";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { parseErrorMessage } from "../../../utils/generic"
+import { parseErrorMessage } from "../../../utils/generic";
 import { WAITING_FEEDBACK } from "../../../constants/contacts";
+import { Container } from "react-bootstrap";
 
 const fields = {
   information: "",
@@ -58,7 +59,7 @@ class EditDetailsContact extends React.Component {
           ? ""
           : getOr("", "information", data),
     };
-  const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publishersOptions = this.reducePublishers(await publishers.getAll());
 
     this.setState({
       form,
@@ -96,7 +97,6 @@ class EditDetailsContact extends React.Component {
         gender: get("gender", form),
         name: get("name", form),
         typeCompany: get("typeCompany", form),
-
       },
     };
 
@@ -113,15 +113,15 @@ class EditDetailsContact extends React.Component {
     } catch (error) {
       this.setState({ loading: false });
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
         text: t(
           `detailsContacts:${parseErrorMessage(error)}`,
           t(`common:${parseErrorMessage(error)}`)
         ),
-      })
+      });
     }
   }
 
@@ -135,8 +135,10 @@ class EditDetailsContact extends React.Component {
     return (
       <>
         <ContainerCRUD title={t("title")} {...this.props}>
-          <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
-          <FormDetails {...this} onSubmit={this.handleSubmit}  />
+          <Container className="border p-4">
+            <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
+            <FormDetails {...this} onSubmit={this.handleSubmit} />
+          </Container>
         </ContainerCRUD>
       </>
     );

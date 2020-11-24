@@ -96,7 +96,7 @@ class StatusNew extends React.Component {
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}
-        title={`New ${t("title")}`}
+        title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     );
