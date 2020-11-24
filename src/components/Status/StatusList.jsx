@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Container } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
@@ -67,43 +67,45 @@ class StatusList extends React.Component {
     const { t } = this.props;
     const { data } = this.state;
     return (
-      <ContainerCRUD title={t("title")} {...this.props}>
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>{t("descriptionLabel")}</th>
-              <th>{t("descriptionTraducedLabel")}</th>
-              <th>
-                <StatusNew afterClose={this.handleGetAll} />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {!isEmpty(data) ? (
-              map(
-                (status) => (
-                  <tr key={status.id}>
-                    <td>{status.description}</td>
-                    <td>{t(status.description)}</td>
-                    <td>
-                      <StatusEdit
-                        data={status}
-                        afterClose={this.handleGetAll}
-                      />{" "}
-                      <AskDelete
-                        id={status.id}
-                        funcToCallAfterConfirmation={this.handleDelete}
-                      />
-                    </td>
-                  </tr>
-                ),
-                data
-              )
-            ) : (
-              <NoRecords cols={3} />
-            )}
-          </tbody>
-        </Table>
+      <ContainerCRUD title={t("titleList")} {...this.props}>
+        <Container>
+          <Table striped bordered hover responsive>
+            <thead>
+              <tr>
+                <th>{t("descriptionLabel")}</th>
+                <th>{t("descriptionTraducedLabel")}</th>
+                <th>
+                  <StatusNew afterClose={this.handleGetAll} />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {!isEmpty(data) ? (
+                map(
+                  (status) => (
+                    <tr key={status.id}>
+                      <td>{status.description}</td>
+                      <td>{t(status.description)}</td>
+                      <td>
+                        <StatusEdit
+                          data={status}
+                          afterClose={this.handleGetAll}
+                        />{" "}
+                        <AskDelete
+                          id={status.id}
+                          funcToCallAfterConfirmation={this.handleDelete}
+                        />
+                      </td>
+                    </tr>
+                  ),
+                  data
+                )
+              ) : (
+                <NoRecords cols={3} />
+              )}
+            </tbody>
+          </Table>
+        </Container>
       </ContainerCRUD>
     );
   }

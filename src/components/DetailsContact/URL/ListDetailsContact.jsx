@@ -4,7 +4,7 @@ import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRU
 import moment from "moment";
 import { details } from "../../../services";
 import { getOr, map, first, isEmpty, truncate } from "lodash/fp";
-import { Button, Table, Row, Col } from "react-bootstrap";
+import { Button, Table, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import AskDelete from "../../common/AskDelete/AskDelete";
@@ -118,104 +118,108 @@ class ListDetailsContact extends React.Component {
 
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
-        <Row>
-          <Col>
-            <h2>{`${t("title")} #${phone} ${this.getNameForTitle()}`}</h2>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Table striped bordered hover responsive>
-              <thead>
-                <Search
-                  onFilter={this.handleGetAllOneContact}
-                  fields={["publisher", "details"]}
-                  colspan={colSpan}
-                />
-                <tr>
-                  <th>{t("publisher")}</th>
-                  <th>{t("date")}</th>
-                  <th>{t("details")}</th>
-                  <th>
-                    <Button
-                      variant="primary"
-                      as={Link}
-                      to={`/contacts/${encodeURI(phone)}/details/new`}
-                    >
-                      <FontAwesomeIcon icon={faPlusSquare} />
-                    </Button>{" "}
-                    <Button
-                      variant="secondary"
-                      onClick={() => history.goBack()}
-                    >
-                      {t("common:back")}
-                    </Button>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
+        <Container className="border p-4">
+          <Row>
+            <Col>
+              <h2>{`${t("title")} #${phone} ${this.getNameForTitle()}`}</h2>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <Search
+                    onFilter={this.handleGetAllOneContact}
+                    fields={["publisher", "details"]}
+                    colspan={colSpan}
+                  />
                   <tr>
-                    <td colSpan={colSpan}>
-                      <ReactPlaceholder
-                        showLoadingAnimation={true}
-                        type="text"
-                        ready={!loading}
-                        rows={5}
+                    <th>{t("publisher")}</th>
+                    <th>{t("date")}</th>
+                    <th>{t("details")}</th>
+                    <th>
+                      <Button
+                        variant="primary"
+                        as={Link}
+                        to={`/contacts/${encodeURI(phone)}/details/new`}
+                      >
+                        <FontAwesomeIcon icon={faPlusSquare} />
+                      </Button>{" "}
+                      <Button
+                        variant="secondary"
+                        onClick={() => history.goBack()}
+                      >
+                        {t("common:back")}
+                      </Button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={colSpan}>
+                        <ReactPlaceholder
+                          showLoadingAnimation={true}
+                          type="text"
+                          ready={!loading}
+                          rows={5}
+                        />
+                      </td>
+                    </tr>
+                  ) : !isEmpty(data) ? (
+                    map(
+                      (detail) => (
+                        <tr key={detail.id}>
+                          <td>{detail.publisherName}</td>
+                          <td>
+                            {moment(detail.createdAt).format(
+                              "DD/MM/YYYY HH:mm"
+                            )}
+                          </td>
+                          <td>
+                            {t(
+                              detail.information,
+                              truncate({ length: 45 }, detail.information)
+                            )}
+                          </td>
+                          <td>
+                            <Button
+                              variant="success"
+                              as={Link}
+                              to={`/contacts/${encodeURI(phone)}/details/edit/${
+                                detail.id
+                              }`}
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
+                            </Button>{" "}
+                            <AskDelete
+                              id={detail.id}
+                              funcToCallAfterConfirmation={this.handleDelete}
+                            />
+                          </td>
+                        </tr>
+                      ),
+                      data
+                    )
+                  ) : (
+                    <NoRecords cols={colSpan} />
+                  )}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={colSpan} style={{ border: 0 }}>
+                      <Pagination
+                        pagination={pagination}
+                        onClick={this.handleGetAllOneContact}
+                        loading={loading}
                       />
                     </td>
                   </tr>
-                ) : !isEmpty(data) ? (
-                  map(
-                    (detail) => (
-                      <tr key={detail.id}>
-                        <td>{detail.publisherName}</td>
-                        <td>
-                          {moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}
-                        </td>
-                        <td>
-                          {t(
-                            detail.information,
-                            truncate({ length: 45 }, detail.information)
-                          )}
-                        </td>
-                        <td>
-                          <Button
-                            variant="success"
-                            as={Link}
-                            to={`/contacts/${encodeURI(phone)}/details/edit/${
-                              detail.id
-                            }`}
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                          </Button>{" "}
-                          <AskDelete
-                            id={detail.id}
-                            funcToCallAfterConfirmation={this.handleDelete}
-                          />
-                        </td>
-                      </tr>
-                    ),
-                    data
-                  )
-                ) : (
-                  <NoRecords cols={colSpan} />
-                )}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={colSpan} style={{ border: 0 }}>
-                    <Pagination
-                      pagination={pagination}
-                      onClick={this.handleGetAllOneContact}
-                      loading={loading}
-                    />
-                  </td>
-                </tr>
-              </tfoot>
-            </Table>
-          </Col>
-        </Row>
+                </tfoot>
+              </Table>
+            </Col>
+          </Row>
+        </Container>
       </ContainerCRUD>
     );
   }
