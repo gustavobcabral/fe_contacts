@@ -57,7 +57,6 @@ class Contacts extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
-
   }
 
   async handleGetAll(objQuery) {
@@ -160,7 +159,7 @@ class Contacts extends React.Component {
     return (
       <ContainerCRUD title={t("titleWaitingFeedback")} {...this.props}>
         <Row>
-          <Col xs={12} lg={2}>
+          <Col xs={12} lg={3} xl={2}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -169,7 +168,7 @@ class Contacts extends React.Component {
               getFilters={details.getAllWaitingFeedbackFilters}
             />
           </Col>
-          <Col xs={12} lg={10}>
+          <Col xs={12} lg={9} xl={10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
