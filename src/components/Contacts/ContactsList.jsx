@@ -3,7 +3,6 @@ import { Button, Table, Row, Col, Form } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
-import Swal from "sweetalert2";
 import {
   map,
   getOr,
@@ -28,7 +27,7 @@ import FilterData from "../common/FilterData/FilterData";
 import NewContact from "./NewContact";
 import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
-import { parseErrorMessage, formatDate } from "../../utils/generic";
+import { showError, formatDate } from "../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
 
 class Contacts extends React.Component {
@@ -83,16 +82,7 @@ class Contacts extends React.Component {
         error,
         submitting: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `contacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, 'contacts')
     }
   }
 
@@ -106,13 +96,7 @@ class Contacts extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(`common:${parseErrorMessage(error)}`),
-        });
+        showError(error, t, 'contacts')
       });
   }
 

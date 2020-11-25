@@ -8,7 +8,7 @@ import { getOr, map, isEmpty } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import EditPublisher from "./EditPublisher";
 import NewPublisher from "./NewPublisher";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError } from "../../utils/generic";
 import { getUserData } from "../../utils/loginDataManager";
 import Pagination from "../common/Pagination/Pagination";
 import Search from "../common/Search/Search";
@@ -66,16 +66,7 @@ class Publishers extends React.Component {
         error,
         submitting: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `publishers:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "publishers");
     }
   }
 
@@ -103,16 +94,7 @@ class Publishers extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(
-            `publishers:${parseErrorMessage(error)}`,
-            t(`common:${parseErrorMessage(error)}`)
-          ),
-        });
+        showError(error, t, "publishers");
       });
   }
 

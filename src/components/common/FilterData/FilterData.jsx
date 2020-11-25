@@ -130,7 +130,7 @@ class FilterData extends React.Component {
         <Col className="text-center text-muted">
           {!loading && noData && t("common:noData")}
         </Col>
-        {(loading || !isEmpty(checksGender)) && (
+        {(loading || !isEmpty(checksGender)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
@@ -164,7 +164,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-        {(loading || !isEmpty(checksLanguages)) && (
+        {(loading || !isEmpty(checksLanguages)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
@@ -198,7 +198,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-        {(loading || !isEmpty(checksStatus)) && (
+        {(loading || !isEmpty(checksStatus)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
@@ -232,7 +232,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-        {(loading || !isEmpty(checksResponsibility)) && (
+        {(loading || !isEmpty(checksResponsibility)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
@@ -271,7 +271,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-        {showTypeCompany && (loading || !noData) && (
+        {showTypeCompany && (loading || !noData) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>

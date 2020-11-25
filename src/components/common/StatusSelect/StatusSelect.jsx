@@ -4,23 +4,32 @@ import { withTranslation } from "react-i18next";
 import { status } from "../../../services";
 import { getOr, pipe, curry, orderBy } from "lodash/fp";
 import { reduceStatus } from "../../../stateReducers/status";
+import { parseErrorMessage } from "../../../utils/generic";
+import ShowError from "../ShowError/ShowError";
 
 class StatusSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { statusOptions: [], loading: false };
+    this.state = { statusOptions: [], loading: false, error: false };
     this.handleGetAll = this.handleGetAll.bind(this);
   }
 
   async handleGetAll() {
     this.setState({ loading: true });
     const { t } = this.props;
-    const statusOptions = pipe(
-      getOr([], "data.data"),
-      curry(reduceStatus)(t),
-      orderBy(['label'], ['asc']),
-    )(await status.getAll());
-    this.setState({ statusOptions, loading: false });
+    try {
+      const statusOptions = pipe(
+        getOr([], "data.data"),
+        curry(reduceStatus)(t),
+        orderBy(["label"], ["asc"])
+      )(await status.getAll());
+      this.setState({ statusOptions, loading: false });
+    } catch (error) {
+      this.setState({
+        error: t(`common:${parseErrorMessage(error)}`),
+        loading: false,
+      });
+    }
   }
 
   componentDidMount() {
@@ -45,9 +54,9 @@ class StatusSelect extends React.Component {
       label,
       rules,
     } = this.props;
-    const { statusOptions, loading } = this.state;
+    const { statusOptions, loading, error } = this.state;
 
-    return (
+    return !error ? (
       <SuperSelect
         name={name || "idStatus"}
         label={label || t("status")}
@@ -60,6 +69,8 @@ class StatusSelect extends React.Component {
         onChange={onChange}
         rules={rules}
       />
+    ) : (
+      <ShowError error={error} />
     );
   }
 }

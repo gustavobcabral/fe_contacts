@@ -1,11 +1,9 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
-import Swal from "sweetalert2";
-import { getOr, map } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import { contacts, publishers, status } from "../../services";
+import { contacts, publishers } from "../../services";
 import FormContacts from "./FormContacts";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +12,9 @@ import {
   ID_GENDER_DEFAULT,
   ID_STATUS_DEFAULT,
 } from "../../constants/valuesPredefined";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError, showSuccessful } from "../../utils/generic";
 import { GENDER_UNKNOWN } from "../../constants/contacts";
+import { reducePublishers } from "../../stateReducers/publishers";
 
 const fields = {
   phone: "",
@@ -54,28 +53,24 @@ class NewContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
-
   async onOpen() {
     this.setState({ loading: true });
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
+    try {
+      const publishersOptions = reducePublishers(await publishers.getAll());
 
-    this.setState({
-      publishersOptions,
-      statusOptions,
-      loading: false,
-    });
+      this.setState({
+        publishersOptions,
+        loading: false,
+      });
+    } catch (error) {
+      const { t } = this.props;
+
+      this.setState({
+        loading: false,
+      });
+
+      showError(error, t, "contacts");
+    }
   }
 
   handleInputChange(event) {
@@ -106,26 +101,13 @@ class NewContact extends React.Component {
     try {
       await contacts.create(data);
       this.setState({ submitting: false });
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      showSuccessful(t);
+
       onHide();
       this.resetForm();
     } catch (error) {
       this.setState({ submitting: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `contacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "contacts");
     }
   }
 
