@@ -38,6 +38,7 @@ class Contacts extends React.Component {
     this.state = {
       data: [],
       error: false,
+      showFilter: false,
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
@@ -61,6 +62,7 @@ class Contacts extends React.Component {
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.afterSentPhones = this.afterSentPhones.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   async handleGetAll(objQuery) {
@@ -151,6 +153,10 @@ class Contacts extends React.Component {
     this.handleGetAll();
   }
 
+  toggleFilter() {
+    this.setState({ showFilter: !getOr(false, "showFilter", this.state) });
+  }
+
   render() {
     const { t } = this.props;
     const {
@@ -159,12 +165,13 @@ class Contacts extends React.Component {
       submitting,
       checksContactsPhones,
       error,
+      showFilter,
     } = this.state;
     const colSpan = "11";
     return (
       <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
-          <Col xs={12} lg={3} xl={2}>
+          <Col xs={12} lg={3} xl={2} className={showFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -173,13 +180,14 @@ class Contacts extends React.Component {
               getFilters={contacts.getAllFilters}
             />
           </Col>
-          <Col xs={12} lg={9} xl={10}>
+          <Col xs={12} lg={showFilter ? 12 : 9} xl={showFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
                   fields={["name", "phone", "note"]}
                   colspan={colSpan}
+                  toggleFilter={this.toggleFilter}
                 />
                 <tr>
                   <th>
