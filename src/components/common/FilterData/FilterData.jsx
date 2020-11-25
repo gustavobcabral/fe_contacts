@@ -296,7 +296,7 @@ class FilterData extends React.Component {
                     </Form.Group>
                   </Col>
                   <Col xs={6} lg={2}>
-                    <Form.Group controlId="residential">
+                    <Form.Group controlId="typeCompanyResidencial0Filter">
                       <Form.Check
                         key="typeCompanyResidential0"
                         type="radio"
@@ -309,7 +309,7 @@ class FilterData extends React.Component {
                     </Form.Group>
                   </Col>
                   <Col>
-                    <Form.Group controlId="commercial">
+                    <Form.Group controlId="typeCompanyCommercial1Filter">
                       <Form.Check
                         key="typeCompanyCommercial1"
                         type="radio"

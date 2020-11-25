@@ -10,6 +10,7 @@ import FormContacts from "./FormContacts";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { parseErrorMessage } from "../../utils/generic";
+import { GENDER_UNKNOWN } from "../../constants/contacts";
 
 const fields = {
   phone: "",
@@ -92,9 +93,18 @@ class EditContact extends React.Component {
     const { form } = this.state;
     const { t } = this.props;
     const id = getOr(0, "props.id", this);
+    const gender =
+      form.typeCompany === true || form.typeCompany === "1"
+        ? GENDER_UNKNOWN
+        : form.gender;
+
+    const data = {
+      ...omit(["details"], form),
+      gender,
+    };
 
     try {
-      await contacts.updateContact(id, omit(["details"], form));
+      await contacts.updateContact(id, data);
       this.setState({ loading: false });
       Swal.fire({
         title: t("common:dataSuccessfullySaved"),
@@ -108,15 +118,15 @@ class EditContact extends React.Component {
     } catch (error) {
       this.setState({ loading: false });
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
+          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
         ),
         text: t(
           `contacts:${parseErrorMessage(error)}`,
           t(`common:${parseErrorMessage(error)}`)
         ),
-      })
+      });
     }
   }
 
