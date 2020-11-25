@@ -18,35 +18,36 @@ const FormDetails = (props) => {
     validated,
     validator,
   } = props;
+
   return (
     <ReactPlaceholder
       showLoadingAnimation={true}
       type="text"
       ready={!loading}
-      rows={12}
+      rows={18}
     >
       <Form>
         <Row className="mb-2">
           <Col xs={6} lg={2}>
-            <Form.Group controlId="residential">
+            <Form.Group controlId="typeCompanyResidential">
               <Form.Check
                 type="radio"
                 name="typeCompany"
                 label={t("residential")}
-                checked={!form.typeCompany || form.typeCompany === "0"}
+                checked={form.typeCompany === false || form.typeCompany === "0"}
                 value={0}
                 onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="commercial">
+            <Form.Group controlId="typeCompanyCommercial">
               <Form.Check
                 type="radio"
                 name="typeCompany"
                 label={t("commercial")}
                 validator={validator}
-                checked={form.typeCompany || form.typeCompany === "1"}
+                checked={form.typeCompany === true || form.typeCompany === "1"}
                 value={1}
                 onChange={handleInputChange}
               />
@@ -117,7 +118,15 @@ const FormDetails = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} lg={4}>
+          <Col
+            xs={12}
+            lg={4}
+            className={
+              form.typeCompany === true || form.typeCompany === "1"
+                ? "d-none"
+                : ""
+            }
+          >
             <GenderSelect
               validator={validator}
               validated={validated}
@@ -126,7 +135,10 @@ const FormDetails = (props) => {
               rules="required"
             />
           </Col>
-          <Col xs={12} lg={4}>
+          <Col
+            xs={12}
+            lg={form.typeCompany === true || form.typeCompany === "1" ? 6 : 4}
+          >
             <LanguageSelect
               validator={validator}
               validated={validated}
@@ -135,7 +147,10 @@ const FormDetails = (props) => {
               rules="required"
             />
           </Col>
-          <Col xs={12} lg={4}>
+          <Col
+            xs={12}
+            lg={form.typeCompany === true || form.typeCompany === "1" ? 6 : 4}
+          >
             <StatusSelect
               name="idStatus"
               label={t("status")}

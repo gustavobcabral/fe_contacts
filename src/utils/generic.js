@@ -1,5 +1,6 @@
-import { get } from "lodash/fp";
+import { get, getOr, isEmpty } from "lodash/fp";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const formatDate = (date) =>
   date ? moment(date).format("DD/MM/YYYY HH:mm") : null;
@@ -23,4 +24,35 @@ const parseErrorMessage = (error) => {
     : "errorTextUndefined";
 };
 
-export { randomColor, parseErrorMessage, formatDate };
+const showError = (error, t, fileTranslationName) => {
+  Swal.fire({
+    icon: "error",
+    title: t(
+      `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+    ),
+    text: t(
+      `${fileTranslationName}:${parseErrorMessage(error)}`,
+      t(`common:${parseErrorMessage(error)}`)
+    ),
+  });
+};
+
+const showSuccessful = (t) => {
+  Swal.fire({
+    title: t("common:dataSuccessfullySaved"),
+    icon: "success",
+    timer: 2000,
+    timerProgressBar: true,
+  });
+};
+
+const ifEmptySetNull = (value) => (isEmpty(value) ? null : value);
+
+export {
+  randomColor,
+  parseErrorMessage,
+  formatDate,
+  showError,
+  showSuccessful,
+  ifEmptySetNull
+};

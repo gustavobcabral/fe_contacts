@@ -24,12 +24,20 @@ class OurModal extends Component {
 
   defaultOnExit = () => {
     const { onExit } = this.props;
-    if (onExit) onExit();
+    if (onExit) {
+      setTimeout(() => {
+        onExit();
+      }, 100);
+    }
   };
 
   defaultOnEnter = () => {
     const { onEnter } = this.props;
-    if (onEnter) onEnter();
+    if (onEnter) {
+      setTimeout(() => {
+        onEnter();
+      }, 100);
+    }
   };
 
   render() {

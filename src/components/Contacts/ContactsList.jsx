@@ -3,7 +3,6 @@ import { Button, Table, Row, Col, Form } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
-import Swal from "sweetalert2";
 import {
   map,
   getOr,
@@ -28,7 +27,7 @@ import FilterData from "../common/FilterData/FilterData";
 import NewContact from "./NewContact";
 import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
-import { parseErrorMessage, formatDate } from "../../utils/generic";
+import { showError, formatDate } from "../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
 
 class Contacts extends React.Component {
@@ -38,7 +37,7 @@ class Contacts extends React.Component {
     this.state = {
       data: [],
       error: false,
-      showFilter: false,
+      hiddenFilter: false,
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
@@ -83,16 +82,7 @@ class Contacts extends React.Component {
         error,
         submitting: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `contacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, 'contacts')
     }
   }
 
@@ -106,13 +96,7 @@ class Contacts extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(`common:${parseErrorMessage(error)}`),
-        });
+        showError(error, t, 'contacts')
       });
   }
 
@@ -154,7 +138,7 @@ class Contacts extends React.Component {
   }
 
   toggleFilter() {
-    this.setState({ showFilter: !getOr(false, "showFilter", this.state) });
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
   }
 
   render() {
@@ -165,13 +149,13 @@ class Contacts extends React.Component {
       submitting,
       checksContactsPhones,
       error,
-      showFilter,
+      hiddenFilter,
     } = this.state;
     const colSpan = "11";
     return (
       <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
-          <Col xs={12} lg={3} xl={2} className={showFilter ? "d-none" : ""}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -180,7 +164,7 @@ class Contacts extends React.Component {
               getFilters={contacts.getAllFilters}
             />
           </Col>
-          <Col xs={12} lg={showFilter ? 12 : 9} xl={showFilter ? 12 : 10}>
+          <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
