@@ -24,7 +24,7 @@ class Publishers extends React.Component {
     this.state = {
       data: [],
       submitting: false,
-      showFilter: false,
+      hiddenFilter: false,
       pagination: {},
       queryParams: {
         sort: "publishers.name:ASC",
@@ -44,7 +44,6 @@ class Publishers extends React.Component {
       this
     );
     this.toggleFilter = this.toggleFilter.bind(this);
-
   }
 
   async handleGetAll(objQuery) {
@@ -122,19 +121,17 @@ class Publishers extends React.Component {
   }
 
   toggleFilter() {
-    this.setState({ showFilter: !getOr(false, "showFilter", this.state) });
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
   }
-
-
 
   render() {
     const { t } = this.props;
-    const { data, pagination, submitting, error, showFilter } = this.state;
+    const { data, pagination, submitting, error, hiddenFilter } = this.state;
     const colSpan = "11";
     return (
       <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
-          <Col xs={12} lg={3} xl={2} className={showFilter ? "d-none" : ""}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -142,7 +139,7 @@ class Publishers extends React.Component {
               getFilters={publishers.getAllFilters}
             />
           </Col>
-          <Col xs={12} lg={showFilter ? 12 : 9} xl={showFilter ? 12 : 10}>
+          <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search

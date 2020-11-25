@@ -33,7 +33,7 @@ class Contacts extends React.Component {
     this.state = {
       data: [],
       error: false,
-      showFilter: false,
+      hiddenFilter: false,
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
@@ -59,7 +59,6 @@ class Contacts extends React.Component {
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
-
   }
 
   async handleGetAll(objQuery) {
@@ -150,9 +149,8 @@ class Contacts extends React.Component {
   }
 
   toggleFilter() {
-    this.setState({ showFilter: !getOr(false, "showFilter", this.state) });
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
   }
-
 
   render() {
     const { t } = this.props;
@@ -162,13 +160,13 @@ class Contacts extends React.Component {
       submitting,
       checksContactsPhones,
       error,
-      showFilter
+      hiddenFilter,
     } = this.state;
     const colSpan = "9";
     return (
       <ContainerCRUD title={t("titleWaitingFeedback")} {...this.props}>
         <Row>
-          <Col xs={12} lg={3} xl={2} className={showFilter ? "d-none" : ""}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -177,7 +175,7 @@ class Contacts extends React.Component {
               getFilters={details.getAllWaitingFeedbackFilters}
             />
           </Col>
-          <Col xs={12} lg={showFilter ? 12 : 9} xl={showFilter ? 12 : 10}>
+          <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
@@ -185,7 +183,6 @@ class Contacts extends React.Component {
                   fields={["name", "phone", "responsible", "creator", "note"]}
                   colspan={colSpan}
                   toggleFilter={this.toggleFilter}
-
                 />
                 <tr>
                   <th>
