@@ -9,6 +9,7 @@ import { details, publishers, contacts } from "../../../services";
 import { reducePublishers } from "../../../stateReducers/publishers";
 import { showError, showSuccessful } from "../../../utils/generic";
 import { Container } from "react-bootstrap";
+import { GENDER_UNKNOWN } from "../../../constants/contacts";
 
 const fields = {
   information: "",
@@ -17,6 +18,8 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  owner: "",
+  typeCompany: "0",
 };
 
 class NewDetailsContact extends React.Component {
@@ -77,7 +80,13 @@ class NewDetailsContact extends React.Component {
     const { form, phone } = this.state;
     const { history } = this.props;
     const { t } = this.props;
-
+    const gender =
+      form.typeCompany === true || form.typeCompany === "1"
+        ? GENDER_UNKNOWN
+        : form.gender;
+    const owner =
+      form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
+      
     const data = {
       detailsContact: {
         ...pick(["idPublisher", "information"], form),
@@ -87,7 +96,8 @@ class NewDetailsContact extends React.Component {
         idStatus: get("idStatus", form),
         idLanguage: get("idLanguage", form),
         phone,
-        gender: get("gender", form),
+        gender,
+        owner,
         name: get("name", form),
         typeCompany: get("typeCompany", form),
       },

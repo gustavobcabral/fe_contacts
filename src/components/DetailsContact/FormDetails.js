@@ -23,7 +23,6 @@ const FormDetails = (props) => {
     validated,
     history,
   } = props;
-
   return (
     <ReactPlaceholder
       showLoadingAnimation={true}
@@ -34,63 +33,59 @@ const FormDetails = (props) => {
       <Form>
         <Row className="mb-2">
           <Col xs={6} lg={2}>
-            <Form.Group controlId="residential">
+            <Form.Group controlId="typeCompanyResidential0">
               <Form.Check
                 type="radio"
                 name="typeCompany"
                 label={t("contacts:residential")}
-                checked={!form.typeCompany || form.typeCompany === "0"}
-                value={0}
+                checked={form.typeCompany === false || form.typeCompany === "0"}
+                value={"0"}
                 onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="commercial">
+            <Form.Group controlId="typeCompanyCommercial1">
               <Form.Check
                 type="radio"
                 name="typeCompany"
                 label={t("contacts:commercial")}
                 validator={validator}
-                checked={form.typeCompany || form.typeCompany === "1"}
-                value={1}
+                checked={form.typeCompany === true || form.typeCompany === "1"}
+                value={"1"}
                 onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
         </Row>
         <Row>
-          <Col xs={12} lg={4}>
+          <Col xs={12}>
             <SuperFormControl
               type="text"
               name="name"
-              label={t("detailsContacts:name")}
+              label={t("contacts:name")}
               validator={validator}
               validated={validated}
               value={form.name}
               onChange={handleInputChange}
             />
           </Col>
-          <Col xs={12} lg={4}>
-            <GenderSelect
-              validator={validator}
-              validated={validated}
-              value={form.gender}
-              onChange={handleInputChange}
-            />
-          </Col>
-          <Col xs={12} lg={4}>
-            <StatusSelect
-              name="idStatus"
-              label={t("contacts:status")}
-              validator={validator}
-              validated={validated}
-              value={form.idStatus}
-              onChange={handleInputChange}
-              rules="required"
-            />
-          </Col>
         </Row>
+        {(form.typeCompany === true || form.typeCompany === "1") && (
+          <Row>
+            <Col xs={12}>
+              <SuperFormControl
+                type="text"
+                name="owner"
+                label={t("contacts:owner")}
+                validator={validator}
+                validated={validated}
+                value={form.owner}
+                onChange={handleInputChange}
+              />
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col xs={12} lg={6}>
             <LanguageSelect
@@ -108,6 +103,30 @@ const FormDetails = (props) => {
               validated={validated}
               value={form.idPublisher}
               options={publishersOptions}
+              onChange={handleInputChange}
+              rules="required"
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          {(form.typeCompany === false || form.typeCompany === "0") && (
+            <Col xs={12} lg={6}>
+              <GenderSelect
+                validator={validator}
+                validated={validated}
+                value={form.gender}
+                onChange={handleInputChange}
+              />
+            </Col>
+          )}
+          <Col xs={12} lg={6}>
+            <StatusSelect
+              name="idStatus"
+              label={t("contacts:status")}
+              validator={validator}
+              validated={validated}
+              value={form.idStatus}
               onChange={handleInputChange}
               rules="required"
             />

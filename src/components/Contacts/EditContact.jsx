@@ -16,11 +16,12 @@ const fields = {
   phone: "",
   phone2: "",
   name: "",
+  owner: "",
   note: "",
   email: "",
   gender: "",
   location: "",
-  idStatus: "",
+  idStatus: null,
   idLanguage: null,
   typeCompany: false,
 };
@@ -91,17 +92,20 @@ class EditContact extends React.Component {
       form.typeCompany === true || form.typeCompany === "1"
         ? GENDER_UNKNOWN
         : form.gender;
+    const owner =
+      form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
 
     const data = {
       ...omit(["details"], form),
       name: ifEmptySetNull(getOr("", "name", form)),
       gender,
+      owner
     };
 
     try {
       await contacts.updateContact(id, data);
       this.setState({ loading: false });
-      showSuccessful(t)
+      showSuccessful(t);
       onHide();
       this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();

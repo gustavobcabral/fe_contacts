@@ -10,6 +10,7 @@ import {
   join,
   compact,
   isEmpty,
+  isNil,
 } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
@@ -20,6 +21,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { URL_SEND_MESSAGE } from "../../../constants/settings";
 import { showError, showSuccessful } from "../../../utils/generic";
+import { reducePublishers } from "../../../stateReducers/publishers";
+import Swal from "sweetalert2";
 
 const fields = {
   idPublisher: "",
@@ -41,6 +44,7 @@ class NewContact extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mappingContactsPhones = this.mappingContactsPhones.bind(this);
     this.getInformation = this.getInformation.bind(this);
+    this.verifyIfThisUserHasPhone = this.verifyIfThisUserHasPhone.bind(this);
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -49,19 +53,9 @@ class NewContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({
-        value: publisher.id,
-        label: publisher.name,
-        data: publisher,
-      }),
-      getOr([], "data.data", publishers)
-    );
-
   async handleGetPublishers() {
     this.setState({ loading: true });
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publishersOptions = reducePublishers(await publishers.getAll());
 
     this.setState({
       publishersOptions,
@@ -112,6 +106,24 @@ class NewContact extends React.Component {
     )({ checksContactsPhones, contactsData });
   }
 
+  verifyIfThisUserHasPhone() {
+    const { form } = this.state;
+    const { t } = this.props;
+    const idPublisher = get("idPublisher", form);
+    const publisherData = this.getDataPublisherSelected(idPublisher);
+    if (
+      isEmpty(get("phone", publisherData)) ||
+      isNil(get("phone", publisherData))
+    ) {
+      Swal.fire({
+        title: t("noPhone"),
+        icon: "error",
+      });
+      return false;
+    }
+    return true;
+  }
+
   sendMessage() {
     const { t } = this.props;
     const { form } = this.state;
@@ -155,6 +167,8 @@ class NewContact extends React.Component {
       phones: this.getJustPhonesAllowed(checksContactsPhones, contactsData),
       idPublisher,
     };
+
+    if (!this.verifyIfThisUserHasPhone()) return;
 
     try {
       if (getOr([], "phones", dataAssign).length > 0)

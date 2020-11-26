@@ -42,6 +42,7 @@ class Contacts extends React.Component {
         currentPage: 1,
         filters: JSON.stringify({
           name: "",
+          owner: "",
           phone: "",
           responsible: "",
           creator: "",
@@ -164,7 +165,7 @@ class Contacts extends React.Component {
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={["name", "phone", "responsible", "creator", "note"]}
+                  fields={["name", "phone", "responsible", "creator", "note", "owner"]}
                   colspan={colSpan}
                   toggleFilter={this.toggleFilter}
                 />

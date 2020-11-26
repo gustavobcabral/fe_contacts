@@ -33,7 +33,11 @@ const showError = (
   Swal.fire({
     icon: "error",
     title: t(
-      `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+      `${fileTranslationName ? fileTranslationName : "common"}:${getOr(
+        "errorTextUndefined",
+        "response.data.cod",
+        error
+      )}`
     ),
     text: t(
       `${fileTranslationName}:${parseErrorMessage(error)}`,
