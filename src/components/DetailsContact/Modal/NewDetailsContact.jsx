@@ -2,15 +2,16 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../../common/OurModal/OurModal";
 import Swal from "sweetalert2";
-import { getOr, map, pick, get } from "lodash/fp";
+import { getOr, pick, get } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { details, publishers, contacts } from "../../../services";
-import FormDetails from "./FormDetails";
+import FormDetails from "../FormDetails";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
-import { parseErrorMessage } from "../../../utils/generic";
+import { reducePublishers } from "../../../stateReducers/publishers";
+import { showError, showSuccessful } from "../../../utils/generic";
 
 const fields = {
   information: "",
@@ -45,12 +46,6 @@ class NewDetailsContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
   async onOpen() {
     const { phone } = this.props;
     const contact = await contacts.getOne(phone);
@@ -65,7 +60,7 @@ class NewDetailsContact extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true });
     this.onOpen();
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publishersOptions = reducePublishers(await publishers.getAll());
 
     this.setState({
       publishersOptions,
@@ -106,27 +101,13 @@ class NewDetailsContact extends React.Component {
     try {
       await details.create(data);
       this.setState({ loading: false });
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      showSuccessful(t);
       onHide();
       this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
       this.setState({ loading: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `detailsContacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "detailsContacts");
     }
   }
 
@@ -159,10 +140,7 @@ class NewDetailsContact extends React.Component {
         onExit={afterClose}
         onEnter={this.onOpen}
         publishersOptions={publishersOptions}
-        title={`${t("common:new")} ${t("titleCrud")} #${get(
-          "phone",
-          contact
-        )}`}
+        title={`${t("common:new")} ${t("titleCrud")} #${get("phone", contact)}`}
         buttonTitle={t("common:new")}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />

@@ -3,13 +3,12 @@ import { Table, Container } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
-import Swal from "sweetalert2";
-import { getOr, map, isEmpty } from "lodash/fp";
+import { map, isEmpty } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
 import NoRecords from "../common/NoRecords/NoRecords";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError } from "../../utils/generic";
 
 class StatusList extends React.Component {
   constructor(props) {
@@ -25,16 +24,7 @@ class StatusList extends React.Component {
       this.setState({ data: response.data.data });
     } catch (error) {
       const { t } = this.props;
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `status:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "status");
     }
   }
 
@@ -49,13 +39,7 @@ class StatusList extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(`common:${parseErrorMessage(error)}`),
-        });
+        showError(error, t, "status");
       });
   }
 
@@ -86,7 +70,7 @@ class StatusList extends React.Component {
                     <tr key={status.id}>
                       <td>{status.description}</td>
                       <td>{t(status.description)}</td>
-                      <td>
+                      <td style={{ minWidth: "114px" }}>
                         <StatusEdit
                           data={status}
                           afterClose={this.handleGetAll}

@@ -1,15 +1,14 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
-import Swal from "sweetalert2";
-import { get, getOr, pick } from "lodash/fp";
+import { get, pick } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import OurModal from "../common/OurModal/OurModal";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import StatusForm from "./StatusForm.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../utils/generic"
+import { showError, showSuccessful } from "../../utils/generic";
 
 const fields = {
   description: "",
@@ -37,6 +36,8 @@ class StatusEdit extends React.Component {
   }
 
   async handleSubmit(onHide) {
+    this.setState({ validated: true });
+
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -49,28 +50,15 @@ class StatusEdit extends React.Component {
 
     try {
       const data = pick(["description"], form);
-      const res = await status.updateOne(get("id", form), data);
-      Swal.fire({
-        title: t(`common:${get("data.cod", res)}`),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      await status.updateOne(get("id", form), data);
+      showSuccessful(t);
       onHide();
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
       this.setState({ submitting: false });
-      Swal.fire({
-        icon: 'error',
-        title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
-        ),
-        text: t(
-          `status:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      })
+      showError(error, t, "status");
+
     }
   }
 

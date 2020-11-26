@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { details } from "../../../services";
 import { getOr, isEmpty, first, pipe } from "lodash/fp";
-import Swal from "sweetalert2";
 import OurModal from "../../common/OurModal/OurModal";
 import ListDataDetailsContact from "./ListDataDetailsContact";
-import { parseErrorMessage } from "../../../utils/generic";
+import { showError } from "../../../utils/generic";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -41,16 +40,7 @@ class ListDetailsContact extends React.Component {
       });
     } catch (error) {
       const { t } = this.props;
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `detailsContacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "detailsContacts");
     }
   }
 
@@ -65,13 +55,7 @@ class ListDetailsContact extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(`common:${parseErrorMessage(error)}`),
-        });
+        showError(error, t, "detailsContacts");
       });
   }
 

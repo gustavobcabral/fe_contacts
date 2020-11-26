@@ -49,7 +49,7 @@ const Search = (props) => {
               type="text"
               placeholder={t("placeHolder")}
               onKeyPress={sendSearch}
-              onBlur={toSearch}
+              // {onBlur={toSearch}}
             />
           </InputGroup>
         </th>
