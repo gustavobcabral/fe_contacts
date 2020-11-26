@@ -24,7 +24,12 @@ const parseErrorMessage = (error) => {
     : "errorTextUndefined";
 };
 
-const showError = (error, t, fileTranslationName) => {
+const showError = (
+  error,
+  t,
+  fileTranslationName,
+  paramsExtraForTranslation
+) => {
   Swal.fire({
     icon: "error",
     title: t(
@@ -32,14 +37,20 @@ const showError = (error, t, fileTranslationName) => {
     ),
     text: t(
       `${fileTranslationName}:${parseErrorMessage(error)}`,
-      t(`common:${parseErrorMessage(error)}`)
+      paramsExtraForTranslation
+        ? paramsExtraForTranslation
+        : t(`common:${parseErrorMessage(error)}`)
     ),
   });
 };
 
-const showSuccessful = (t) => {
+const showSuccessful = (t, keyTranslation, fileTranslationName) => {
   Swal.fire({
-    title: t("common:dataSuccessfullySaved"),
+    title: t(
+      `${fileTranslationName ? fileTranslationName : "common"}:${
+        keyTranslation ? keyTranslation : "dataSuccessfullySaved"
+      }`
+    ),
     icon: "success",
     timer: 2000,
     timerProgressBar: true,
@@ -54,5 +65,5 @@ export {
   formatDate,
   showError,
   showSuccessful,
-  ifEmptySetNull
+  ifEmptySetNull,
 };

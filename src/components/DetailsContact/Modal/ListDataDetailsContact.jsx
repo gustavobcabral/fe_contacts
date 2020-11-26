@@ -63,7 +63,7 @@ class ListDataDetailsContact extends React.Component {
                       truncate({ length: 45 }, detail.information)
                     )}
                   </td>
-                  <td style={{ width: "114px" }}>
+                  <td style={{ minWidth: "114px" }}>
                     <EditDetailsContact
                       data={detail}
                       contact={contact}

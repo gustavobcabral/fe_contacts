@@ -6,7 +6,6 @@ import { details } from "../../../services";
 import { getOr, map, first, isEmpty } from "lodash/fp";
 import { Button, Table, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import AskDelete from "../../common/AskDelete/AskDelete";
 import NoRecords from "../../common/NoRecords/NoRecords";
 import Pagination from "../../common/Pagination/Pagination";
@@ -19,7 +18,7 @@ import {
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../../utils/generic";
+import { showError } from "../../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
 
 class ListDetailsContact extends React.Component {
@@ -70,16 +69,7 @@ class ListDetailsContact extends React.Component {
         loading: false,
       });
 
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `detailsContacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "detailsContacts");
     }
   }
 
@@ -95,15 +85,7 @@ class ListDetailsContact extends React.Component {
       })
       .catch((error) => {
         this.setState({ loading: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(
-            `${getOr("errorTextUndefined", "response.data.error", error)}`
-          ),
-        });
+        showError(error, t, "detailsContacts");
       });
   }
   componentDidMount() {
@@ -183,7 +165,7 @@ class ListDetailsContact extends React.Component {
                             )}
                           </td>
                           <td>{t(detail.information)}</td>
-                          <td>
+                          <td style={{ minWidth: "114px" }}>
                             <Button
                               title={t("common:edit")}
                               variant="success"

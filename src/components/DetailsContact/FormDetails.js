@@ -1,12 +1,14 @@
 import React from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import SuperFormControl from "../../common/SuperFormControl/SuperFormControl";
-import SuperSelect from "../../common/SuperSelect/SuperSelect";
-import GenderSelect from "../../common/GenderSelect/GenderSelect";
-import StatusSelect from "../../common/StatusSelect/StatusSelect";
-import LanguageSelect from "../../common/LanguageSelect/LanguageSelect";
+import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
+import SuperSelect from "../common/SuperSelect/SuperSelect";
+import GenderSelect from "../common/GenderSelect/GenderSelect";
+import StatusSelect from "../common/StatusSelect/StatusSelect";
+import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
 import ReactPlaceholder from "react-placeholder";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const FormDetails = (props) => {
   const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
@@ -19,6 +21,7 @@ const FormDetails = (props) => {
     onHide,
     handleInputChange,
     validated,
+    history,
   } = props;
 
   return (
@@ -68,7 +71,7 @@ const FormDetails = (props) => {
               onChange={handleInputChange}
             />
           </Col>
-          <Col xs={6} lg={4}>
+          <Col xs={12} lg={4}>
             <GenderSelect
               validator={validator}
               validated={validated}
@@ -76,7 +79,7 @@ const FormDetails = (props) => {
               onChange={handleInputChange}
             />
           </Col>
-          <Col xs={6} lg={4}>
+          <Col xs={12} lg={4}>
             <StatusSelect
               name="idStatus"
               label={t("contacts:status")}
@@ -135,6 +138,15 @@ const FormDetails = (props) => {
             >
               {t(loading ? "common:btnSubmitting" : "common:btnSubmit")}
             </Button>{" "}
+            {history && (
+              <Button
+                title={t("common:back")}
+                variant="secondary"
+                onClick={() => history.goBack()}
+              >
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </Button>
+            )}
           </Col>
         </Row>
       </Form>

@@ -89,7 +89,10 @@ const PaginationComponent = (props) => {
               : null
           }
         />
-        <span className="ml-2 mt-2 text-primary"> - {t("total")}: {totalRows}</span>
+        <span className="ml-2 mt-2 text-primary">
+          {" "}
+          - {t("total")}: {totalRows || 0}
+        </span>
       </Pagination>
     </ReactPlaceholder>
   );

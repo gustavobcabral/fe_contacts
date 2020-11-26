@@ -2,12 +2,12 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
 import SimpleReactValidator from "simple-react-validator";
-import { getOr, map, pick, get } from "lodash/fp";
-import FormDetails from "./FormDetails";
+import { getOr, pick, get } from "lodash/fp";
+import FormDetails from "../FormDetails";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
 import { details, publishers, contacts } from "../../../services";
-import Swal from "sweetalert2";
-import { parseErrorMessage } from "../../../utils/generic";
+import { reducePublishers } from "../../../stateReducers/publishers";
+import { showError, showSuccessful } from "../../../utils/generic";
 import { Container } from "react-bootstrap";
 
 const fields = {
@@ -40,12 +40,6 @@ class NewDetailsContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
   async handleGetOneContact() {
     const { phone } = this.state;
     const contact = await contacts.getOne(phone);
@@ -60,7 +54,7 @@ class NewDetailsContact extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true });
     this.handleGetOneContact();
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publishersOptions = reducePublishers(await publishers.getAll());
 
     this.setState({
       publishersOptions,
@@ -102,24 +96,10 @@ class NewDetailsContact extends React.Component {
       await details.create(data);
       this.setState({ loading: false });
       history.goBack();
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      showSuccessful(t);
     } catch (error) {
       this.setState({ loading: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `detailsContacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "detailsContacts");
     }
   }
 

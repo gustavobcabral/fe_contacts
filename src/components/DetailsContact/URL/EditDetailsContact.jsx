@@ -2,14 +2,14 @@ import React from "react";
 import { withTranslation } from "react-i18next";
 import { details, publishers } from "../../../services";
 import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
-import { getOr, map, pick, get } from "lodash/fp";
-import FormDetails from "./FormDetails";
+import { getOr, pick, get } from "lodash/fp";
+import FormDetails from "../FormDetails";
 import SimpleReactValidator from "simple-react-validator";
-import Swal from "sweetalert2";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
-import { parseErrorMessage } from "../../../utils/generic";
+import { showError, showSuccessful } from "../../../utils/generic";
 import { WAITING_FEEDBACK } from "../../../constants/contacts";
 import { Container } from "react-bootstrap";
+import { reducePublishers } from "../../../stateReducers/publishers";
 
 const fields = {
   information: "",
@@ -18,6 +18,7 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  typeCompany: "0",
 };
 
 class EditDetailsContact extends React.Component {
@@ -41,12 +42,6 @@ class EditDetailsContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
   async handleGetOne() {
     const id = getOr(0, "props.match.params.id", this);
     this.setState({ loading: true });
@@ -59,7 +54,7 @@ class EditDetailsContact extends React.Component {
           ? ""
           : getOr("", "information", data),
     };
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publishersOptions = reducePublishers(await publishers.getAll());
 
     this.setState({
       form,
@@ -104,24 +99,10 @@ class EditDetailsContact extends React.Component {
       await details.updateOneContactDetail(id, data);
       this.setState({ loading: false });
       history.goBack();
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      showSuccessful(t);
     } catch (error) {
       this.setState({ loading: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `detailsContacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "detailsContacts");
     }
   }
 
@@ -130,14 +111,29 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { form, validated, publishersOptions, loading } = this.state;
+    const { t, contact, history } = this.props;
 
     return (
       <>
         <ContainerCRUD title={t("title")} {...this.props}>
           <Container className="border p-4">
             <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
-            <FormDetails {...this} onSubmit={this.handleSubmit} />
+            <FormDetails
+              validator={this.validator}
+              loading={loading}
+              validated={validated}
+              handleSubmit={this.handleSubmit}
+              handleInputChange={this.handleInputChange}
+              form={form}
+              publishersOptions={publishersOptions}
+              title={`${t("common:edit")} ${t("titleCrud")} #${get(
+                "phone",
+                contact
+              )}`}      
+              onSubmit={this.handleSubmit}
+              history={history}
+            />
           </Container>
         </ContainerCRUD>
       </>

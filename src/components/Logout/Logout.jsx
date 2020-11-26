@@ -9,7 +9,7 @@ const handleLogout = (props) => {
   dropToken()
   history.push('/')
   Swal.fire({
-    title: t('logout:YouWasLogoutSuccessfully'),
+    title: t('YouWasLogoutSuccessfully'),
     icon: 'success',
     timer: 2000,
     timerProgressBar: true,
