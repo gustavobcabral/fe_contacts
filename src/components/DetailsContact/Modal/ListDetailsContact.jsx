@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { details } from "../../../services";
-import { getOr, isEmpty, first, pipe } from "lodash/fp";
+import { getOr, isEmpty, some } from "lodash/fp";
 import OurModal from "../../common/OurModal/OurModal";
 import ListDataDetailsContact from "./ListDataDetailsContact";
 import { showError } from "../../../utils/generic";
@@ -21,18 +21,17 @@ class ListDetailsContact extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  isWaitingFeedback(response) {
-    return pipe(
-      first,
-      getOr(false, "waitingFeedback")
-    )(getOr([], "data.data", response));
-  }
+  isWaitingFeedback = (response) =>
+    some({ waitingFeedback: true }, getOr([], "data.data", response));
 
   async handleGetAllOneContact() {
     this.setState({ submitting: true });
     try {
       const id = getOr(0, "props.id", this);
-      const response = await details.getAllOneContact(id, { limit: 5 });
+      const response = await details.getAllOneContact(id, {
+        limit: 5,
+        sort: '"detailsContacts"."createdAt":DESC',
+      });
       this.setState({
         data: getOr([], "data.data", response),
         waitingFeedback: this.isWaitingFeedback(response),

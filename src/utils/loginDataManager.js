@@ -46,6 +46,8 @@ export const getUserData = () =>
     : "";
 
 export const isAdmin = () => getOr(1, "idResponsibility", getUserData()) === 4;
+export const isPublisher = () =>
+  getOr(1, "idResponsibility", getUserData()) === 1;
 export const isAtLeastElder = () =>
   getOr(1, "idResponsibility", getUserData()) >= 3;
 export const isAtLeastSM = () =>

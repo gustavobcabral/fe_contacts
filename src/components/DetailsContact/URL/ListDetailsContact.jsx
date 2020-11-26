@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
 import moment from "moment";
 import { details } from "../../../services";
-import { getOr, map, first, isEmpty } from "lodash/fp";
+import { getOr, map, first, isEmpty, some } from "lodash/fp";
 import { Button, Table, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AskDelete from "../../common/AskDelete/AskDelete";
@@ -20,6 +20,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showError } from "../../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
+import Swal from "sweetalert2";
 
 class ListDetailsContact extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class ListDetailsContact extends React.Component {
       data: [],
       name: "",
       loading: false,
+      waitingFeedback: false,
       phone: getOr(0, "match.params.phone", props),
       pagination: {},
       queryParams: {
@@ -42,7 +44,13 @@ class ListDetailsContact extends React.Component {
     };
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.notificationNotAllowedNewDetails = this.notificationNotAllowedNewDetails.bind(
+      this
+    );
   }
+
+  isWaitingFeedback = (response) =>
+    some({ waitingFeedback: true }, getOr([], "data.data.list", response));
 
   async handleGetAllOneContact(objQuery) {
     this.setState({ loading: true });
@@ -55,6 +63,7 @@ class ListDetailsContact extends React.Component {
 
       this.setState({
         data,
+        waitingFeedback: this.isWaitingFeedback(response),
         pagination: getOr({}, "data.data.pagination", response),
         error: false,
         queryParams,
@@ -74,7 +83,7 @@ class ListDetailsContact extends React.Component {
   }
 
   async handleDelete(id) {
-    const t = this.props;
+    const { t } = this.props;
     this.setState({ loading: true });
 
     await details
@@ -97,9 +106,18 @@ class ListDetailsContact extends React.Component {
     return !isEmpty(name) ? `- ${name}` : "";
   }
 
+  notificationNotAllowedNewDetails() {
+    const { t } = this.props;
+    Swal.fire({
+      icon: "error",
+      title: t("common:ops"),
+      text: t("notificationNotAllowedNewDetails"),
+    });
+  }
+
   render() {
     const { t, history } = this.props;
-    const { data, phone, loading, pagination } = this.state;
+    const { data, phone, loading, pagination, waitingFeedback } = this.state;
     const colSpan = 4;
 
     return (
@@ -124,14 +142,23 @@ class ListDetailsContact extends React.Component {
                     <th>{t("date")}</th>
                     <th>{t("details")}</th>
                     <th style={{ minWidth: "116px" }}>
-                      <Button
-                        title={t("common:new")}
-                        variant="primary"
-                        as={Link}
-                        to={`/contacts/${encodeURI(phone)}/details/new`}
-                      >
-                        <FontAwesomeIcon icon={faPlusSquare} />
-                      </Button>{" "}
+                      {waitingFeedback ? (
+                        <Button
+                          variant="primary"
+                          onClick={this.notificationNotAllowedNewDetails}
+                        >
+                          <FontAwesomeIcon icon={faPlusSquare} />
+                        </Button>
+                      ) : (
+                        <Button
+                          title={t("common:new")}
+                          variant="primary"
+                          as={Link}
+                          to={`/contacts/${encodeURI(phone)}/details/new`}
+                        >
+                          <FontAwesomeIcon icon={faPlusSquare} />
+                        </Button>
+                      )}{" "}
                       <Button
                         title={t("common:back")}
                         variant="secondary"

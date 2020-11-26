@@ -9,7 +9,7 @@ import FormContacts from "./FormContacts";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GENDER_UNKNOWN } from "../../constants/contacts";
-import { showError, showSuccessful } from "../../utils/generic";
+import { showError, showSuccessful, ifEmptySetNull } from "../../utils/generic";
 import { reducePublishers } from "../../stateReducers/publishers";
 
 const fields = {
@@ -94,6 +94,7 @@ class EditContact extends React.Component {
 
     const data = {
       ...omit(["details"], form),
+      name: ifEmptySetNull(getOr("", "name", form)),
       gender,
     };
 

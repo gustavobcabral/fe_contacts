@@ -7,14 +7,15 @@ import { contacts, publishers } from "../../services";
 import FormContacts from "./FormContacts";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { showError, showSuccessful, ifEmptySetNull } from "../../utils/generic";
+import { getOr } from "lodash/fp";
+import { GENDER_UNKNOWN } from "../../constants/contacts";
+import { reducePublishers } from "../../stateReducers/publishers";
 import {
   ID_LANGUAGE_DEFAULT,
   ID_GENDER_DEFAULT,
   ID_STATUS_DEFAULT,
 } from "../../constants/valuesPredefined";
-import { showError, showSuccessful } from "../../utils/generic";
-import { GENDER_UNKNOWN } from "../../constants/contacts";
-import { reducePublishers } from "../../stateReducers/publishers";
 
 const fields = {
   phone: "",
@@ -95,6 +96,7 @@ class NewContact extends React.Component {
 
     const data = {
       ...form,
+      name: ifEmptySetNull(getOr("", "name", form)),
       gender,
     };
 
