@@ -5,6 +5,7 @@ import { PieChart } from "react-minimal-pie-chart";
 import { get, isEmpty, getOr, compact } from "lodash/fp";
 import { round } from "lodash";
 import ReactPlaceholder from "react-placeholder";
+import { isAtLeastElder } from "../../utils/loginDataManager";
 
 const getByFeedback = (t, data) => {
   if (
@@ -50,10 +51,11 @@ const getByFeedback = (t, data) => {
 const ByFeedback = (props) => {
   const { t } = useTranslation(["dashboard", "common"]);
   const byFeedback = getByFeedback(t, get("data", props));
+  const offsetLG = isAtLeastElder() ? 3 : 4;
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
-      lg={{ span: 2, offset: 4 }}
+      lg={{ span: 2, offset: offsetLG }}
       className="mt-2"
     >
       <Card>
