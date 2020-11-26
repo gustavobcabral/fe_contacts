@@ -156,7 +156,7 @@ class Contacts extends React.Component {
       error,
       hiddenFilter,
     } = this.state;
-    const colSpan = "11";
+    const colSpan = "10";
     return (
       <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
@@ -192,7 +192,6 @@ class Contacts extends React.Component {
                   <th>{t("phone")}</th>
                   <th className="d-none d-sm-table-cell">{t("name")}</th>
                   <th className="d-none d-lg-table-cell">{t("typeCompany")}</th>
-                  <th className="d-none d-lg-table-cell">{t("gender")}</th>
                   <th className="d-none d-lg-table-cell">{t("language")}</th>
                   <th className="d-none d-lg-table-cell">{t("status")}</th>
                   <th className="d-none d-lg-table-cell">
@@ -251,9 +250,6 @@ class Contacts extends React.Component {
                               contact.typeCompany ? "commercial" : "residential"
                             }`
                           )}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
-                          {t(`contacts:${contact.gender}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {t(`languages:${contact.languageName}`)}
