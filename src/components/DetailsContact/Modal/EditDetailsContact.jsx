@@ -9,7 +9,7 @@ import FormDetails from "../FormDetails";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showError, showSuccessful } from "../../../utils/generic";
-import { WAITING_FEEDBACK } from "../../../constants/contacts";
+import { WAITING_FEEDBACK, GENDER_UNKNOWN } from "../../../constants/contacts";
 import { reducePublishers } from "../../../stateReducers/publishers";
 
 const fields = {
@@ -19,6 +19,7 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  owner: "",
   typeCompany: "0",
 };
 
@@ -86,12 +87,20 @@ class EditDetailsContact extends React.Component {
     const { t, contact } = this.props;
     const id = getOr(0, "props.id", this);
 
+    const gender =
+      form.typeCompany === true || form.typeCompany === "1"
+        ? GENDER_UNKNOWN
+        : form.gender;
+    const owner =
+      form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
+
     const data = {
       detailsContact: pick(["idPublisher", "information"], form),
       contact: {
         idStatus: get("idStatus", form),
         idLanguage: get("idLanguage", form),
-        gender: get("gender", form),
+        gender,
+        owner,
         phone: get("phone", contact),
         name: get("name", form),
         typeCompany: get("typeCompany", form),
@@ -123,7 +132,6 @@ class EditDetailsContact extends React.Component {
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
-
         publishersOptions={publishersOptions}
         title={`${t("common:edit")} ${t("titleCrud")} #${get(
           "phone",

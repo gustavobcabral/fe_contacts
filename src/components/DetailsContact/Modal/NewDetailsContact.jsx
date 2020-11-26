@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
 import { reducePublishers } from "../../../stateReducers/publishers";
 import { showError, showSuccessful } from "../../../utils/generic";
+import { GENDER_UNKNOWN } from "../../../constants/contacts";
 
 const fields = {
   information: "",
@@ -20,6 +21,7 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  owner: "",
   typeCompany: "0",
 };
 
@@ -83,6 +85,13 @@ class NewDetailsContact extends React.Component {
 
     const { form } = this.state;
     const { contact, t } = this.props;
+    const gender =
+      form.typeCompany === true || form.typeCompany === "1"
+        ? GENDER_UNKNOWN
+        : form.gender;
+    const owner =
+      form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
+
     const data = {
       detailsContact: {
         ...pick(["idPublisher", "information"], form),
@@ -91,7 +100,8 @@ class NewDetailsContact extends React.Component {
       contact: {
         idStatus: get("idStatus", form),
         idLanguage: get("idLanguage", form),
-        gender: get("gender", form),
+        gender,
+        owner,
         phone: get("phone", contact),
         name: get("name", form),
         typeCompany: get("typeCompany", form),
