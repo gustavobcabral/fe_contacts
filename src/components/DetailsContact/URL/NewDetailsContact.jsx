@@ -104,12 +104,27 @@ class NewDetailsContact extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { form, validated, publishersOptions, loading } = this.state;
+    const { t, contact, history } = this.props;
     return (
       <ContainerCRUD title={t("title")} {...this.props}>
         <Container className="border p-4">
           <h1>{`${t("common:new")} ${t("detailsContacts:title")}`}</h1>
-          <FormDetails onSubmit={(e) => this.handleSubmit(e)} {...this} />
+          <FormDetails
+            validator={this.validator}
+            loading={loading}
+            validated={validated}
+            handleSubmit={this.handleSubmit}
+            handleInputChange={this.handleInputChange}
+            form={form}
+            publishersOptions={publishersOptions}
+            title={`${t("common:new")} ${t("titleCrud")} #${get(
+              "phone",
+              contact
+            )}`}
+            onSubmit={this.handleSubmit}
+            history={history}
+          />
         </Container>
       </ContainerCRUD>
     );

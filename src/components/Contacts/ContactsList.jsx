@@ -29,6 +29,7 @@ import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
 import { showError, formatDate } from "../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
+import { isPublisher } from "../../utils/loginDataManager";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -82,7 +83,7 @@ class Contacts extends React.Component {
         error,
         submitting: false,
       });
-      showError(error, t, 'contacts')
+      showError(error, t, "contacts");
     }
   }
 
@@ -96,7 +97,7 @@ class Contacts extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        showError(error, t, 'contacts')
+        showError(error, t, "contacts");
       });
   }
 
@@ -134,7 +135,10 @@ class Contacts extends React.Component {
   }
 
   componentDidMount() {
-    this.handleGetAll();
+    if (isPublisher()) {
+      const { history } = this.props;
+      history.push('/');
+    } else this.handleGetAll();
   }
 
   toggleFilter() {
