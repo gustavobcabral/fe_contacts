@@ -7,9 +7,10 @@
   "totalContactsAssignByMeWaitingFeedback": "Me",
   "totalContactsWaitingFeedback": "Others",
   "titleChartContacts": "Contacted vs. not contacted",
-  "titleChartWaitingFeedback": "Waiting Feedback by me vs. others",
-  "titleChartWaitingFeedbackByPublishers": "Waiting Feedback by each publishers",
-  "titleChartGender": "Contacted By gender",
-  "titleChartLanguage": "Contacted By language",
-  "noName": "No Name"
+  "titleChartWaitingFeedback": "Waiting feedback by me vs. others",
+  "titleChartWaitingFeedbackByPublishers": "Waiting feedback by each publishers",
+  "titleChartGender": "Contacted by gender",
+  "titleChartLanguage": "Contacted by language",
+  "noName": "No Name",
+  "titleChartType": "Contacts by type"
 }
