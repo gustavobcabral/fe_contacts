@@ -77,6 +77,7 @@ class Contacts extends React.Component {
     } catch (error) {
       this.setState({
         error,
+        submitting: false,
       });
       showError(error, t, "contacts");
     }
