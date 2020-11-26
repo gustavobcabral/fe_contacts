@@ -5,6 +5,7 @@
   "numbersSelected": "Numbers selected: ",
   "withoutDetails": "No Details",
   "labelPublisher": "Publisher",
-  "ERROR_PUBLISHER_ALREADY_WAITING_FEEDBACK": "The number {{phone}} is already waiting a feedback. Please, take a note of this feedback before assign to other publisher"
+  "ERROR_PUBLISHER_ALREADY_WAITING_FEEDBACK": "The number {{phone}} is already waiting a feedback. Please, take a note of this feedback before assign to other publisher",
+  "noPhone": "This publisher does not have a phone number"
 
 }

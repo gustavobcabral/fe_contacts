@@ -17,6 +17,8 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  owner: "",
+  typeCompany: "0",
 };
 
 class NewDetailsContact extends React.Component {

@@ -21,6 +21,7 @@ const fields = {
   phone: "",
   phone2: "",
   name: "",
+  owner: "",
   note: "",
   location: "",
   email: null,
@@ -89,15 +90,19 @@ class NewContact extends React.Component {
 
     const { form } = this.state;
     const { t } = this.props;
+
     const gender =
       form.typeCompany === true || form.typeCompany === "1"
         ? GENDER_UNKNOWN
         : form.gender;
+    const owner =
+      form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
 
     const data = {
       ...form,
       name: ifEmptySetNull(getOr("", "name", form)),
       gender,
+      owner,
     };
 
     try {

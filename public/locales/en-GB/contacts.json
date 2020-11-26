@@ -25,5 +25,6 @@
   "email": "Email",
   "location": "Location",
   "noteLabel": "Note",
-  "notePlaceHolder": "Write a comment here"
+  "notePlaceHolder": "Write a comment here",
+  "owner": "Owner"
 }

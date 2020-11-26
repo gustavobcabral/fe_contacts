@@ -79,6 +79,8 @@ const FormDetails = (props) => {
               rules="min:10"
             />
           </Col>
+        </Row>
+        <Row>
           <Col xs={12} lg={12}>
             <SuperFormControl
               type="text"
@@ -91,6 +93,21 @@ const FormDetails = (props) => {
             />
           </Col>
         </Row>
+        {(form.typeCompany === true || form.typeCompany === "1") && (
+          <Row>
+            <Col xs={12} lg={12}>
+              <SuperFormControl
+                type="text"
+                name="owner"
+                label={t("owner")}
+                validator={validator}
+                validated={validated}
+                value={form.owner}
+                onChange={handleInputChange}
+              />
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col xs={12} lg={6}>
             <SuperFormControl

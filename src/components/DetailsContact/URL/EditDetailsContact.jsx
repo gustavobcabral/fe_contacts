@@ -18,6 +18,7 @@ const fields = {
   idLanguage: null,
   gender: "",
   name: "",
+  owner: "",
   typeCompany: "0",
 };
 
