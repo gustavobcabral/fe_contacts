@@ -9,6 +9,6 @@
   "name": "Nome",
   "phone": "Telefone",
   "notificationNotAllowedNewDetails": "Antes de registrar uma nova conversa favor informar os detalhes da que está pendente",
-  "[WAITING_FEEDBACK]": "Aguardando resposta"
-
+  "[WAITING_FEEDBACK]": "Aguardando resposta",
+  "ERROR_PUBLISHER_ALREADY_WAITING_FEEDBACK": "Este contato já está aguardando uma resposta. Favor anotar essa resposta antes de designar para outro publicador"
 }

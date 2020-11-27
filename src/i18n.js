@@ -15,7 +15,7 @@ i18n
     load: "currentOnly",
     fallbackLng: "en-GB",
     defaultNS: "common",
-    ns: "common",
+    ns: ["common",'logout'],
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false, // react already safes from xss
