@@ -1,8 +1,8 @@
 {
-  "title": "Languages",
+  "title": "System language",
   "labelSelect": "Language",
   "noLanguage": "No language",
-  "optionsLabel": "Choice a new language above",
+  "optionsLabel": "Languages",
   "languageOptionEnglish": "English",
   "languageOptionPortuguese": "Portuguese",
   "english": "English",
