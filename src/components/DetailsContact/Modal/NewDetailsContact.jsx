@@ -49,25 +49,17 @@ class NewDetailsContact extends React.Component {
   }
 
   async onOpen() {
+    this.setState({ loading: true });
     const { phone } = this.props;
     const contact = await contacts.getOne(phone);
+    const publishersOptions = reducePublishers(await publishers.getAll());
+
     const form = getOr(fields, "data.data", contact);
     const newForm = {
       ...fields,
       ...form,
     };
-    this.setState({ form: newForm });
-  }
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-    this.onOpen();
-    const publishersOptions = reducePublishers(await publishers.getAll());
-
-    this.setState({
-      publishersOptions,
-      loading: false,
-    });
+    this.setState({ form: newForm, loading: false, publishersOptions });
   }
 
   handleInputChange(event) {
@@ -110,7 +102,6 @@ class NewDetailsContact extends React.Component {
 
     try {
       await details.create(data);
-      this.setState({ loading: false });
       showSuccessful(t);
       onHide();
       this.setState({ form: fields, loading: false, validated: false });

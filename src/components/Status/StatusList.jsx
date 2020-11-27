@@ -9,38 +9,38 @@ import StatusEdit from "./StatusEdit";
 import StatusNew from "./StatusNew";
 import NoRecords from "../common/NoRecords/NoRecords";
 import { showError } from "../../utils/generic";
+import ReactPlaceholder from "react-placeholder";
 
 class StatusList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], submitting: false };
+    this.state = { data: [], loading: false };
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
   async handleGetAll() {
     try {
+      this.setState({ loading: true });
       const response = await status.getAll("");
-      this.setState({ data: response.data.data });
+      this.setState({ data: response.data.data, loading: false });
     } catch (error) {
       const { t } = this.props;
+      this.setState({ loading: false });
       showError(error, t, "status");
     }
   }
 
   async handleDelete(id) {
     const { t } = this.props;
-    this.setState({ submitting: true });
-    await status
-      .dellOne(id)
-      .then(() => {
-        this.handleGetAll();
-        this.setState({ submitting: false });
-      })
-      .catch((error) => {
-        this.setState({ submitting: false });
-        showError(error, t, "status");
-      });
+    try {
+      this.setState({ loading: true });
+      await status.dellOne(id);
+      this.handleGetAll();
+    } catch (error) {
+      this.setState({ loading: false });
+      showError(error, t, "status");
+    }
   }
 
   async componentDidMount() {
@@ -49,7 +49,9 @@ class StatusList extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { data } = this.state;
+    const { data, loading } = this.state;
+    const colSpan = 3;
+
     return (
       <ContainerCRUD title={t("titleList")} {...this.props}>
         <Container>
@@ -64,7 +66,18 @@ class StatusList extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {!isEmpty(data) ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={colSpan}>
+                    <ReactPlaceholder
+                      showLoadingAnimation={true}
+                      type="text"
+                      ready={!loading}
+                      rows={5}
+                    />
+                  </td>
+                </tr>
+              ) : !isEmpty(data) ? (
                 map(
                   (status) => (
                     <tr key={status.id}>
@@ -85,7 +98,7 @@ class StatusList extends React.Component {
                   data
                 )
               ) : (
-                <NoRecords cols={3} />
+                <NoRecords cols={colSpan} />
               )}
             </tbody>
           </Table>

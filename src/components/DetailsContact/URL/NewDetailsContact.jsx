@@ -45,24 +45,22 @@ class NewDetailsContact extends React.Component {
 
   async handleGetOneContact() {
     const { phone } = this.state;
+    this.setState({ loading: true });
+
     const contact = await contacts.getOne(phone);
+    const publishersOptions = reducePublishers(await publishers.getAll());
+
     const form = getOr(fields, "data.data", contact);
     const newForm = {
       ...fields,
       ...form,
     };
-    this.setState({ form: newForm });
+    this.setState({ form: newForm, publishersOptions, loading: false });
   }
 
   async componentDidMount() {
-    this.setState({ loading: true });
     this.handleGetOneContact();
-    const publishersOptions = reducePublishers(await publishers.getAll());
 
-    this.setState({
-      publishersOptions,
-      loading: false,
-    });
   }
 
   handleInputChange(event) {
@@ -86,7 +84,7 @@ class NewDetailsContact extends React.Component {
         : form.gender;
     const owner =
       form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
-      
+
     const data = {
       detailsContact: {
         ...pick(["idPublisher", "information"], form),

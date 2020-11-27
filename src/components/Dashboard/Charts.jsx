@@ -39,7 +39,7 @@ class Charts extends React.Component {
 
       this.setState({
         error: t(`common:${parseErrorMessage(error)}`),
-        submitting: false,
+        loading: false,
       });
       showError(error, t, "dashboard");
     }

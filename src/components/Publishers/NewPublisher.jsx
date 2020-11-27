@@ -73,7 +73,6 @@ class NewPublisher extends React.Component {
 
     try {
       await publishers.create(data);
-      this.setState({ loading: false });
       showSuccessful(t);
       onHide();
       this.resetForm();
