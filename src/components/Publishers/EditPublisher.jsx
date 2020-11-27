@@ -97,7 +97,6 @@ class EditContact extends React.Component {
 
     try {
       await publishers.updatePublishers(id, data);
-      this.setState({ loading: false });
       showSuccessful(t);
       onHide();
       this.setState({ form: fields, loading: false, validated: false });

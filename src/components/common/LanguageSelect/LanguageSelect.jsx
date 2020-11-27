@@ -23,9 +23,8 @@ class LanguageSelect extends React.Component {
         getOr([], "data.data"),
         curry(reduceLanguages)(t),
         orderBy(['label'], ['asc']),
-
-
       )(await languages.getAll());
+      
       this.setState({ languagesOptions, loading: false });
     } catch (error) {
       this.setState({
