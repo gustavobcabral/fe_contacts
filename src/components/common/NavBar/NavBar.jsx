@@ -49,7 +49,7 @@ const MenuLogged = ({ t, ...props }) => (
         </NavDropdown>
       )}
     </Nav>
-    <Nav style={{marginRight: '34px'}}>
+    <Nav style={{ marginRight: "34px" }}>
       <NavDropdown title={get("name", getUserData())}>
         {/* <NavDropdown.Item as={Link} to="#me">
           My data
@@ -58,7 +58,7 @@ const MenuLogged = ({ t, ...props }) => (
         <Logout {...props} t={t} />
       </NavDropdown>
     </Nav>
-    <Nav>
+    <Nav style={{ maxWidth: "60px" }}>
       <SystemLanguages {...props} />
     </Nav>
   </>
@@ -66,10 +66,10 @@ const MenuLogged = ({ t, ...props }) => (
 
 const MenuLogout = ({ t, ...props }) => (
   <>
-    <Nav className="mr-auto">
-      <Login {...props} t={t}/>
+    <Nav className="mr-auto" style={{ width: "70px" }}>
+      <Login {...props} t={t} />
     </Nav>
-    <Nav>
+    <Nav style={{ maxWidth: "70px" }} className="mt-1">
       <SystemLanguages {...props} />
     </Nav>
   </>
