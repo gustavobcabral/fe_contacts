@@ -1,14 +1,13 @@
 import React from "react";
-import { get, getOr } from "lodash/fp";
+import { get } from "lodash/fp";
 import FormLogin from "./FormLogin";
 import { auth } from "../../services";
 import { setLoginData } from "../../utils/loginDataManager";
-import Swal from "sweetalert2";
 import { withTranslation } from "react-i18next";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import OurModal from "../common/OurModal/OurModal";
-import { showSuccessful, parseErrorMessage } from "../../utils/generic";
+import { showSuccessful, showError } from "../../utils/generic";
 
 const fields = {
   email: "",
@@ -57,10 +56,8 @@ class LoginPopup extends React.Component {
       showSuccessful(t, get("data.cod", authRes), "login");
     } catch (error) {
       this.setState({ submitting: false });
-      Swal.fire({
-        icon: "error",
-        title: t(`${getOr("errorTryLogIn", "response.data.cod", error)}`),
-        text: t(`login:${parseErrorMessage(error)}`,`common:${parseErrorMessage(error)}`),
+      showError(error, t, "login", {
+        keyOfTranslationWhenNotFoundForTitleAlert: "errorTryLogIn",
       });
     }
   }

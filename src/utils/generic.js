@@ -27,13 +27,20 @@ const parseErrorMessage = (error) => {
 const showError = (
   error,
   t,
-  fileTranslationName,
-  paramsExtraForTranslation
+  fileTranslationName = "common",
+  {
+    paramsExtraForTranslation,
+    keyOfTranslationWhenNotFoundForTitleAlert = "errorTextUndefined",
+  }
 ) => {
   Swal.fire({
     icon: "error",
     title: t(
-      `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
+      `common:${getOr(
+        keyOfTranslationWhenNotFoundForTitleAlert,
+        "response.data.cod",
+        error
+      )}`
     ),
     text: t(
       `${fileTranslationName}:${parseErrorMessage(error)}`,
