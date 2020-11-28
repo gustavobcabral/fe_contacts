@@ -24,38 +24,71 @@ const parseErrorMessage = (error) => {
     : "errorTextUndefined";
 };
 
-const showError = (error, t, fileTranslationName = "common", extra) => {
+const parseErrorMessageTranslated = (error, t, fileTranslationName, extra) => {
   const keyOfTranslationWhenNotFoundForTitleAlert = getOr(
-    "errorTextUndefined",
+    get("response.data.cod", error),
     "keyOfTranslationWhenNotFoundForTitleAlert",
     extra
   );
   const paramsExtraForTranslation = get("paramsExtraForTranslation", extra);
+
+  const title = t(
+    `${fileTranslationName}:${keyOfTranslationWhenNotFoundForTitleAlert}`,
+    t(
+      `common:${keyOfTranslationWhenNotFoundForTitleAlert}`,
+      t(`common:errorTextUndefined`)
+    )
+  );
+
+  const preText = t(
+    `${fileTranslationName}:${parseErrorMessage(error)}`,
+    paramsExtraForTranslation
+      ? paramsExtraForTranslation
+      : t(`common:${parseErrorMessage(error)}`)
+  );
+
+  const text = title !== preText ? preText : null;
+
+  return { title, text };
+};
+
+const showError = (error, t, fileTranslationName = "common", extra) => {
+  const { title, text } = parseErrorMessageTranslated(
+    error,
+    t,
+    fileTranslationName,
+    extra
+  );
+
   Swal.fire({
     icon: "error",
-    title: t(
-      `common:${getOr(
-        keyOfTranslationWhenNotFoundForTitleAlert,
-        "response.data.cod",
-        error
-      )}`
-    ),
-    text: t(
-      `${fileTranslationName}:${parseErrorMessage(error)}`,
-      paramsExtraForTranslation
-        ? paramsExtraForTranslation
-        : t(`common:${parseErrorMessage(error)}`)
-    ),
+    title,
+    text,
   });
 };
 
+const parseSuccessfulMessageTranslated = (
+  t,
+  keyTranslation,
+  fileTranslationName
+) => {
+  const title = t(
+    `${fileTranslationName ? fileTranslationName : "common"}:${
+      keyTranslation ? keyTranslation : "dataSuccessfullySaved"
+    }`
+  );
+
+  return { title };
+};
+
 const showSuccessful = (t, keyTranslation, fileTranslationName) => {
+  const { title } = parseSuccessfulMessageTranslated(
+    t,
+    keyTranslation,
+    fileTranslationName
+  );
   Swal.fire({
-    title: t(
-      `${fileTranslationName ? fileTranslationName : "common"}:${
-        keyTranslation ? keyTranslation : "dataSuccessfullySaved"
-      }`
-    ),
+    title,
     icon: "success",
     timer: 2000,
     timerProgressBar: true,

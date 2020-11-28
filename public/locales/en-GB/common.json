@@ -55,7 +55,8 @@
   "sendOverWhatsApp": "Send over WhatsApp",
   "total": "Total",
   "list": "List",
-  "timeout of 10000ms exceeded": "Timeout exceeded while waiting for the server to respond"
+  "timeout of 10000ms exceeded": "Timeout exceeded while waiting for the server to respond",
+  "NO_TOKEN": "No token found"
 
 
 }

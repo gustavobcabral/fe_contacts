@@ -55,7 +55,9 @@
   "sendOverWhatsApp": "Enviar via WhatsApp",
   "total": "Total",
   "list": "Listagem",
-  "timeout of 10000ms exceeded": "Esgotou o tempo máximo para esperar uma resposta do servidor"
+  "timeout of 10000ms exceeded": "Esgotou o tempo máximo para esperar uma resposta do servidor",
+  "NO_TOKEN": "O token não foi encontrado"
+
 
 
 
