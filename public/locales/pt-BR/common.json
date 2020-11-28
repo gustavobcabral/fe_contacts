@@ -54,7 +54,8 @@
   "contacts_pkey": "Este número já existe",
   "sendOverWhatsApp": "Enviar via WhatsApp",
   "total": "Total",
-  "list": "Listagem"
+  "list": "Listagem",
+  "timeout of 10000ms exceeded": "Esgotou o tempo máximo para esperar uma resposta do servidor"
 
 
 
