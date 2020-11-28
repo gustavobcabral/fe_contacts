@@ -8,7 +8,7 @@ import { withTranslation } from "react-i18next";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import OurModal from "../common/OurModal/OurModal";
-import { showSuccessful } from "../../utils/generic";
+import { showSuccessful, parseErrorMessage } from "../../utils/generic";
 
 const fields = {
   email: "",
@@ -60,13 +60,7 @@ class LoginPopup extends React.Component {
       Swal.fire({
         icon: "error",
         title: t(`${getOr("errorTryLogIn", "response.data.cod", error)}`),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
+        text: t(`login:${parseErrorMessage(error)}`,`common:${parseErrorMessage(error)}`),
       });
     }
   }
