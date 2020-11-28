@@ -40,7 +40,7 @@
   "ERROR_WHILE_CREATING": "Error while creating a new record",
   "ERROR_ON_PERMISSIONS": "Error while verifying permissions",
   "UPDATE_SUCCESSFUL": "The record was updated successfully",
-  "ECONNREFUSED": "No connection to the database",
+  "ECONNREFUSED": "No connection with the database",
   "CREATING_SUCCESSFUL": "The record was created successfully",
   "ERROR_WHILE_UPDATE": "Error while updating this record",
   "noData": "No data",

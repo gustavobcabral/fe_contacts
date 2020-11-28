@@ -182,7 +182,9 @@ class NewContact extends React.Component {
     } catch (error) {
       const phone = getOr(0, "response.data.extra.phone", error);
       this.setState({ submitting: false });
-      showError(error, t, "sendPhones", { phone });
+      showError(error, t, "sendPhones", {
+        paramsExtraForTranslation: { phone },
+      });
     }
   }
 
