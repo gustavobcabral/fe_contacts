@@ -24,15 +24,13 @@ const parseErrorMessage = (error) => {
     : "errorTextUndefined";
 };
 
-const showError = (
-  error,
-  t,
-  fileTranslationName = "common",
-  {
-    paramsExtraForTranslation,
-    keyOfTranslationWhenNotFoundForTitleAlert = "errorTextUndefined",
-  }
-) => {
+const showError = (error, t, fileTranslationName = "common", extra) => {
+  const keyOfTranslationWhenNotFoundForTitleAlert = getOr(
+    "errorTextUndefined",
+    "keyOfTranslationWhenNotFoundForTitleAlert",
+    extra
+  );
+  const paramsExtraForTranslation = get("paramsExtraForTranslation", extra);
   Swal.fire({
     icon: "error",
     title: t(
