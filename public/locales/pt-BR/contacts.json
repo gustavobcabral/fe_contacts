@@ -1,6 +1,7 @@
 {
   "title": "Contatos",
-  "titleWaitingFeedback": "Contatos que aguardam resposta",
+  "listTitle": "Lista de contatos",
+  "titleWaitingFeedback": "Lista de contatos que aguardam resposta",
   "titleCrud": "Contato",
   "phone": "Telefone",
   "phone2": "Telefone 2",
@@ -24,8 +25,6 @@
   "email": "Email",
   "location": "Localização",
   "noteLabel": "Observação",
-  "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato"
-
-
-
+  "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato",
+  "owner": "Proprietário"
 }

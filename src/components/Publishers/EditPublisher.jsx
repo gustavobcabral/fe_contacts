@@ -1,7 +1,6 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
-import Swal from "sweetalert2";
 import { getOr, isEmpty, omit } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
@@ -9,7 +8,7 @@ import { publishers } from "../../services";
 import FormPublisher from "./FormPublisher";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError, showSuccessful, ifEmptySetNull } from "../../utils/generic";
 
 const fields = {
   name: "",
@@ -52,13 +51,22 @@ class EditContact extends React.Component {
 
   async handleGetOne() {
     this.setState({ loading: true });
-    const id = getOr(0, "props.id", this);
-    const response = await publishers.getOne(id);
-    const form = { ...fields, ...getOr(fields, "data.data", response) };
-    this.setState({
-      form,
-      loading: false,
-    });
+    try {
+      const id = getOr(0, "props.id", this);
+      const response = await publishers.getOne(id);
+      const form = { ...fields, ...getOr(fields, "data.data", response) };
+      this.setState({
+        form,
+        loading: false,
+      });
+    } catch (error) {
+      const { t } = this.props;
+      this.setState({
+        loading: false,
+      });
+
+      showError(error, t, "publishers");
+    }
   }
 
   onEnter() {
@@ -81,32 +89,21 @@ class EditContact extends React.Component {
     const { form } = this.state;
     const { t } = this.props;
     const id = getOr(0, "props.id", this);
-    const data = omit(["justAllowedForMe", "repeatPassword", "disabled"], form);
+    const data = {
+      ...omit(["justAllowedForMe", "repeatPassword", "disabled"], form),
+      password: ifEmptySetNull(getOr("", "password", form)),
+      email: ifEmptySetNull(getOr("", "email", form)),
+    };
 
     try {
       await publishers.updatePublishers(id, data);
-      this.setState({ loading: false });
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      showSuccessful(t);
       onHide();
       this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
       this.setState({ loading: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `publishers:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "publishers");
     }
   }
 
@@ -124,6 +121,7 @@ class EditContact extends React.Component {
         form={form}
         onEnter={this.handleGetOne}
         onExit={afterClose}
+        buttonTitle={t("common:edit")}
         title={`${t("common:edit")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"

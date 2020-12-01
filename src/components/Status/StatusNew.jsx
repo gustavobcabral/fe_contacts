@@ -1,15 +1,13 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { status } from "../../services";
-import Swal from "sweetalert2";
-import { get, getOr } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import OurModal from "../common/OurModal/OurModal";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import StatusForm from "./StatusForm.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError, showSuccessful } from "../../utils/generic";
 
 const fields = {
   description: "",
@@ -52,27 +50,13 @@ class StatusNew extends React.Component {
     const { t } = this.props;
 
     try {
-      const res = await status.create(form);
-      Swal.fire({
-        title: t(`common:${get("data.cod", res)}`),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      await status.create(form);
+      showSuccessful(t);
       onHide();
       this.resetForm();
     } catch (error) {
       this.setState({ submitting: false });
-      Swal.fire({
-        icon: 'error',
-        title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
-        ),
-        text: t(
-          `status:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      })
+      showError(error, t, "status");
     }
   }
 
@@ -96,7 +80,7 @@ class StatusNew extends React.Component {
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}
-        title={`New ${t("title")}`}
+        title={`${t("common:new")} ${t("title")}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     );

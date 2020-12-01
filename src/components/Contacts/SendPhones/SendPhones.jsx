@@ -1,7 +1,6 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../../common/OurModal/OurModal";
-import Swal from "sweetalert2";
 import {
   getOr,
   map,
@@ -11,7 +10,7 @@ import {
   join,
   compact,
   isEmpty,
-  includes,
+  isNil,
 } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
@@ -21,7 +20,9 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import { URL_SEND_MESSAGE } from "../../../constants/settings";
-import { parseErrorMessage } from "../../../utils/generic";
+import { showError, showSuccessful } from "../../../utils/generic";
+import { reducePublishers } from "../../../stateReducers/publishers";
+import Swal from "sweetalert2";
 
 const fields = {
   idPublisher: "",
@@ -43,6 +44,7 @@ class NewContact extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.mappingContactsPhones = this.mappingContactsPhones.bind(this);
     this.getInformation = this.getInformation.bind(this);
+    this.verifyIfThisUserHasPhone = this.verifyIfThisUserHasPhone.bind(this);
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -51,19 +53,9 @@ class NewContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({
-        value: publisher.id,
-        label: publisher.name,
-        data: publisher,
-      }),
-      getOr([], "data.data", publishers)
-    );
-
   async handleGetPublishers() {
     this.setState({ loading: true });
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const publishersOptions = reducePublishers(await publishers.getAll());
 
     this.setState({
       publishersOptions,
@@ -114,6 +106,24 @@ class NewContact extends React.Component {
     )({ checksContactsPhones, contactsData });
   }
 
+  verifyIfThisUserHasPhone() {
+    const { form } = this.state;
+    const { t } = this.props;
+    const idPublisher = get("idPublisher", form);
+    const publisherData = this.getDataPublisherSelected(idPublisher);
+    if (
+      isEmpty(get("phone", publisherData)) ||
+      isNil(get("phone", publisherData))
+    ) {
+      Swal.fire({
+        title: t("noPhone"),
+        icon: "error",
+      });
+      return false;
+    }
+    return true;
+  }
+
   sendMessage() {
     const { t } = this.props;
     const { form } = this.state;
@@ -158,35 +168,22 @@ class NewContact extends React.Component {
       idPublisher,
     };
 
+    if (!this.verifyIfThisUserHasPhone()) return;
+
     try {
       if (getOr([], "phones", dataAssign).length > 0)
         await contacts.assign(dataAssign);
       this.sendMessage();
       this.setState({ submitting: false });
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      showSuccessful(t);
       onHide();
       this.setState({ form: fields, submitting: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
-      const textError = parseErrorMessage(error);
-      let text = textError;
-      if (includes("ERROR_PUBLISHER_ALREADY_WAITING_FEEDBACK", textError)) {
-        const phone = getOr(0, "response.data.extra.phone", error);
-        text = t(`ERROR_PUBLISHER_ALREADY_WAITING_FEEDBACK`, { phone });
-      }
-
+      const phone = getOr(0, "response.data.extra.phone", error);
       this.setState({ submitting: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text,
+      showError(error, t, "sendPhones", {
+        paramsExtraForTranslation: { phone },
       });
     }
   }
@@ -207,6 +204,7 @@ class NewContact extends React.Component {
         onExit={afterClose}
         onEnter={this.handleGetPublishers}
         title={`${t("title")}`}
+        buttonTitle={t("common:sendOverWhatsApp")}
         buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
         buttonDisabled={checksContactsPhones.length === 0}
         buttonVariant="success"

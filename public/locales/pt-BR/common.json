@@ -37,7 +37,7 @@
   "askDeleteMessage": "Você tem certeza que deseja apagar este registro?",
   "ERROR_WHILE_DELETING": "Ocorreu um erro ao tentar eliminar este registro",
   "ERROR_WHILE_CREATING": "Ocorreu um erro ao tentar criar um novo registro",
-  "ERROR_WHILE_GET": "Ocorreu um erro ao tentar pegar um novo registro",
+  "ERROR_WHILE_GET": "Ocorreu um erro ao tentar trazer os dados",
   "ERROR_ON_PERMISSIONS": "Ocorreu um erro ao verificar as permissões",
   "UPDATE_SUCCESSFUL": "O registro foi atualizado com sucesso",
   "ECONNREFUSED": "Sem conexão com o banco de dados",
@@ -51,6 +51,14 @@
   "NO_PERMISSION_ENOUGH": "Você não tem as permissões suficientes",
   "loading": "Carregando",
   "ops": "Ops!!",
-  "contacts_pkey": "Este número já existe"
+  "contacts_pkey": "Este número já existe",
+  "sendOverWhatsApp": "Enviar via WhatsApp",
+  "total": "Total",
+  "list": "Listagem",
+  "timeout of 10000ms exceeded": "Esgotou o tempo máximo para esperar uma resposta do servidor",
+  "NO_TOKEN": "O token não foi encontrado"
+
+
+
 
 }

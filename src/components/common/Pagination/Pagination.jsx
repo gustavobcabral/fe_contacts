@@ -6,11 +6,11 @@ import { ITEMS_PAGINATION } from "../../../constants/application";
 import ReactPlaceholder from "react-placeholder";
 
 const PaginationComponent = (props) => {
-  const { lastPage, to, from, currentPage } = props.pagination;
-  const { submitting } = props;
+  const { lastPage, to, from, currentPage, totalRows } = props.pagination;
+  const { submitting, t } = props;
   let items = [];
 
-  if (!isNil(currentPage)) {
+  if (!submitting && !isNil(currentPage)) {
     const maxItems = ITEMS_PAGINATION;
     const goBackStart = currentPage - 1 > 0 ? currentPage - 1 : 1;
     const goBackEnd = currentPage - maxItems > 0 ? currentPage - maxItems : 1;
@@ -40,7 +40,7 @@ const PaginationComponent = (props) => {
         </Pagination.Item>
       );
     }
-    if (goForwardStart > 1) {
+    if (goForwardStart > 1 && goForwardStart !== toNumber(currentPage)) {
       for (let number = goForwardStart; number <= goForwardEnd; number++) {
         items.push(
           <Pagination.Item
@@ -89,6 +89,10 @@ const PaginationComponent = (props) => {
               : null
           }
         />
+        <span className="ml-2 mt-2 text-primary">
+          {" "}
+          - {t("total")}: {totalRows || 0}
+        </span>
       </Pagination>
     </ReactPlaceholder>
   );

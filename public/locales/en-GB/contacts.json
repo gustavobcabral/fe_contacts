@@ -1,6 +1,7 @@
 {
   "title": "Contacts",
-  "titleWaitingFeedback": "Contacts that waiting feedback",
+  "listTitle": "List of Contacts",
+  "titleWaitingFeedback": "List of contacts that waiting feedback",
   "titleCrud": "Contact",
   "phone": "Phone",
   "phone2": "Phone 2",
@@ -24,5 +25,6 @@
   "email": "Email",
   "location": "Location",
   "noteLabel": "Note",
-  "notePlaceHolder": "Write a comment here"
+  "notePlaceHolder": "Write a comment here",
+  "owner": "Owner"
 }

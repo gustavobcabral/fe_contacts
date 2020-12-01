@@ -36,11 +36,11 @@
   "labelNewValueOption": "Choice a new value",
   "askDeleteMessage": "Are you sure you want to delete this record?",
   "ERROR_WHILE_DELETING": "Error while deleting this record",
-  "ERROR_WHILE_GET": "Error while get this record",
+  "ERROR_WHILE_GET": "Error while get the data",
   "ERROR_WHILE_CREATING": "Error while creating a new record",
   "ERROR_ON_PERMISSIONS": "Error while verifying permissions",
   "UPDATE_SUCCESSFUL": "The record was updated successfully",
-  "ECONNREFUSED": "No connection to the database",
+  "ECONNREFUSED": "No connection with the database",
   "CREATING_SUCCESSFUL": "The record was created successfully",
   "ERROR_WHILE_UPDATE": "Error while updating this record",
   "noData": "No data",
@@ -51,6 +51,12 @@
   "NO_PERMISSION_ENOUGH": "You don't have enough permissions",
   "loading": "Loading",
   "ops": "Ops!!",
-  "contacts_pkey": "This number already exists"
+  "contacts_pkey": "This number already exists",
+  "sendOverWhatsApp": "Send over WhatsApp",
+  "total": "Total",
+  "list": "List",
+  "timeout of 10000ms exceeded": "Timeout exceeded while waiting for the server to respond",
+  "NO_TOKEN": "No token found"
+
 
 }

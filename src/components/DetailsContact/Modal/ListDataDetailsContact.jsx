@@ -7,6 +7,7 @@ import NewDetailsContact from "./NewDetailsContact";
 import EditDetailsContact from "./EditDetailsContact";
 import AskDelete from "../../common/AskDelete/AskDelete";
 import NoRecords from "../../common/NoRecords/NoRecords";
+import ReactPlaceholder from "react-placeholder";
 
 class ListDataDetailsContact extends React.Component {
   render() {
@@ -16,8 +17,11 @@ class ListDataDetailsContact extends React.Component {
       data,
       afterClose,
       funcToCallAfterConfirmation,
-      waitingFeedback
+      waitingFeedback,
+      submitting
     } = this.props;
+    const colSpan = 4
+
     return (
       <Table striped bordered hover responsive>
         <thead>
@@ -36,14 +40,30 @@ class ListDataDetailsContact extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {!isEmpty(data) ? (
+          {submitting ? (
+            <tr>
+              <td colSpan={colSpan}>
+                <ReactPlaceholder
+                  showLoadingAnimation={true}
+                  type="text"
+                  ready={!submitting}
+                  rows={5}
+                />
+              </td>
+            </tr>
+          ) : !isEmpty(data) ? (
             map(
               (detail) => (
                 <tr key={detail.id}>
                   <td>{detail.publisherName}</td>
                   <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
-                  <td>{truncate({ length: 45 }, detail.information)}</td>
-                  <td style={{ width: "114px" }}>
+                  <td>
+                    {t(
+                      detail.information,
+                      truncate({ length: 45 }, detail.information)
+                    )}
+                  </td>
+                  <td style={{ minWidth: "114px" }}>
                     <EditDetailsContact
                       data={detail}
                       contact={contact}
@@ -60,7 +80,7 @@ class ListDataDetailsContact extends React.Component {
               data
             )
           ) : (
-            <NoRecords cols="6" />
+            <NoRecords cols={colSpan} />
           )}
         </tbody>
       </Table>

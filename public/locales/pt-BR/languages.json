@@ -1,8 +1,8 @@
 {
-  "title": "Escolha um idioma abaixo",
+  "title": "Idioma do sistema",
   "labelSelect": "Idioma",
   "noLanguage": "Sem idioma",
-  "optionsLabel": "Opções",
+  "optionsLabel": "Idiomas",
   "languageOptionEnglish": "Inglês",
   "languageOptionPortuguese": "Português",
   "english": "Inglês",

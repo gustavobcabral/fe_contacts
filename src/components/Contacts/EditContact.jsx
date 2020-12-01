@@ -1,25 +1,27 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import OurModal from "../common/OurModal/OurModal";
-import Swal from "sweetalert2";
-import { getOr, map, omit } from "lodash/fp";
+import { getOr, omit } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import { contacts, publishers, status } from "../../services";
+import { contacts, publishers } from "../../services";
 import FormContacts from "./FormContacts";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseErrorMessage } from "../../utils/generic";
+import { GENDER_UNKNOWN } from "../../constants/contacts";
+import { showError, showSuccessful, ifEmptySetNull } from "../../utils/generic";
+import { reducePublishers } from "../../stateReducers/publishers";
 
 const fields = {
   phone: "",
   phone2: "",
   name: "",
+  owner: "",
   note: "",
   email: "",
   gender: "",
   location: "",
-  idStatus: "",
+  idStatus: null,
   idLanguage: null,
   typeCompany: false,
 };
@@ -44,32 +46,26 @@ class EditContact extends React.Component {
     });
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
-
   async handleGetOne() {
     this.setState({ loading: true });
-    const id = getOr(0, "props.id", this);
-    const response = await contacts.getOne(id);
-    const form = getOr(fields, "data.data", response);
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
+    try {
+      const id = getOr(0, "props.id", this);
+      const response = await contacts.getOne(id);
+      const form = getOr(fields, "data.data", response);
+      const publishersOptions = reducePublishers(await publishers.getAll());
 
-    this.setState({
-      form,
-      publishersOptions,
-      statusOptions,
-      loading: false,
-    });
+      this.setState({
+        form,
+        publishersOptions,
+        loading: false,
+      });
+    } catch (error) {
+      const { t } = this.props;
+      this.setState({
+        loading: false,
+      });
+      showError(error, t, "contacts");
+    }
   }
 
   onEnter() {
@@ -92,31 +88,29 @@ class EditContact extends React.Component {
     const { form } = this.state;
     const { t } = this.props;
     const id = getOr(0, "props.id", this);
+    const gender =
+      form.typeCompany === true || form.typeCompany === "1"
+        ? GENDER_UNKNOWN
+        : form.gender;
+    const owner =
+      form.typeCompany === true || form.typeCompany === "1" ? form.owner : null;
+
+    const data = {
+      ...omit(["details"], form),
+      name: ifEmptySetNull(getOr("", "name", form)),
+      gender,
+      owner
+    };
 
     try {
-      await contacts.updateContact(id, omit(["details"], form));
-      this.setState({ loading: false });
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      await contacts.updateContact(id, data);
+      showSuccessful(t);
       onHide();
       this.setState({ form: fields, loading: false, validated: false });
       this.validator.hideMessages();
     } catch (error) {
       this.setState({ loading: false });
-      Swal.fire({
-        icon: 'error',
-        title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
-        ),
-        text: t(
-          `contacts:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      })
+      showError(error, t, "contacts");
     }
   }
 
@@ -142,6 +136,7 @@ class EditContact extends React.Component {
         onExit={afterClose}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
+        buttonTitle={t("common:edit")}
         title={`${t("common:edit")} ${t("titleCrud")}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"

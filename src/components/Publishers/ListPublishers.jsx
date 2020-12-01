@@ -8,7 +8,7 @@ import { getOr, map, isEmpty } from "lodash/fp";
 import AskDelete from "../common/AskDelete/AskDelete";
 import EditPublisher from "./EditPublisher";
 import NewPublisher from "./NewPublisher";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError } from "../../utils/generic";
 import { getUserData } from "../../utils/loginDataManager";
 import Pagination from "../common/Pagination/Pagination";
 import Search from "../common/Search/Search";
@@ -24,6 +24,7 @@ class Publishers extends React.Component {
     this.state = {
       data: [],
       submitting: false,
+      hiddenFilter: false,
       pagination: {},
       queryParams: {
         sort: "publishers.name:ASC",
@@ -42,6 +43,7 @@ class Publishers extends React.Component {
     this.showErrorNotAllowedDeleteCurrentUser = this.showErrorNotAllowedDeleteCurrentUser.bind(
       this
     );
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   async handleGetAll(objQuery) {
@@ -64,16 +66,7 @@ class Publishers extends React.Component {
         error,
         submitting: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `publishers:${parseErrorMessage(error)}`,
-          t(`common:${parseErrorMessage(error)}`)
-        ),
-      });
+      showError(error, t, "publishers");
     }
   }
 
@@ -101,16 +94,7 @@ class Publishers extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(
-            `publishers:${parseErrorMessage(error)}`,
-            t(`common:${parseErrorMessage(error)}`)
-          ),
-        });
+        showError(error, t, "publishers");
       });
   }
 
@@ -118,14 +102,18 @@ class Publishers extends React.Component {
     this.handleGetAll();
   }
 
+  toggleFilter() {
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
+  }
+
   render() {
     const { t } = this.props;
-    const { data, pagination, submitting, error } = this.state;
+    const { data, pagination, submitting, error, hiddenFilter } = this.state;
     const colSpan = "11";
     return (
-      <ContainerCRUD title={t("title")} {...this.props}>
+      <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
-          <Col xs={12} lg={2}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -133,13 +121,14 @@ class Publishers extends React.Component {
               getFilters={publishers.getAllFilters}
             />
           </Col>
-          <Col xs={12} lg={10}>
+          <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
                   fields={["name", "phone", "email"]}
                   colspan={colSpan}
+                  toggleFilter={this.toggleFilter}
                 />
                 <tr>
                   <th>{t("name")}</th>
@@ -175,7 +164,7 @@ class Publishers extends React.Component {
                             `responsibility:${publishers.responsibilityDescription}`
                           )}
                         </td>
-                        <td style={{ width: "114px" }}>
+                        <td style={{ minWidth: "114px" }}>
                           <EditPublisher
                             id={publishers.id}
                             afterClose={() => this.handleGetAll()}

@@ -1,12 +1,12 @@
 import React from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Form, InputGroup, Button } from "react-bootstrap";
 import { getOr, reduce } from "lodash/fp";
 import { withTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const Search = (props) => {
-  const { onFilter, t, name, colspan, fields } = props;
+  const { onFilter, t, name, colspan, fields, toggleFilter } = props;
 
   const sendSearch = (event) => {
     if (event.key === "Enter") {
@@ -30,6 +30,16 @@ const Search = (props) => {
         <th colSpan={colspan || "7"}>
           <InputGroup>
             <InputGroup.Prepend>
+              {toggleFilter && (
+                <Button
+                  className=""
+                  variant="outlined"
+                  title={t("filter")}
+                  onClick={toggleFilter}
+                >
+                  <FontAwesomeIcon icon={faFilter} />
+                </Button>
+              )}
               <InputGroup.Text>
                 <FontAwesomeIcon icon={faSearch} />
               </InputGroup.Text>
@@ -39,7 +49,7 @@ const Search = (props) => {
               type="text"
               placeholder={t("placeHolder")}
               onKeyPress={sendSearch}
-              onBlur={toSearch}
+              // {onBlur={toSearch}}
             />
           </InputGroup>
         </th>

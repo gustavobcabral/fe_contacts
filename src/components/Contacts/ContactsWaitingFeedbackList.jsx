@@ -3,7 +3,6 @@ import { Table, Row, Col, Form } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { details } from "../../services";
-import Swal from "sweetalert2";
 import {
   map,
   getOr,
@@ -23,17 +22,17 @@ import { RECORDS_PER_PAGE } from "../../constants/application";
 import FilterData from "../common/FilterData/FilterData";
 import EditDetailsContact from "../DetailsContact/Modal/EditDetailsContact";
 import SendPhones from "./SendPhones/SendPhones";
-import { parseErrorMessage } from "../../utils/generic";
+import { showError } from "../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
 
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       data: [],
       error: false,
+      hiddenFilter: false,
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
@@ -43,9 +42,12 @@ class Contacts extends React.Component {
         currentPage: 1,
         filters: JSON.stringify({
           name: "",
+          owner: "",
           phone: "",
-          responsible:"",
+          responsible: "",
           creator: "",
+          note: "",
+          typeCompany: "-1",
           genders: [],
           languages: [],
           status: [],
@@ -55,6 +57,8 @@ class Contacts extends React.Component {
     this.handleGetAll = this.handleGetAll.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   async handleGetAll(objQuery) {
@@ -73,11 +77,9 @@ class Contacts extends React.Component {
     } catch (error) {
       this.setState({
         error,
+        submitting: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
-      });
+      showError(error, t, "contacts");
     }
   }
 
@@ -91,13 +93,7 @@ class Contacts extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(`common:${parseErrorMessage(error)}`),
-        });
+        showError(error, t, "contacts");
       });
   }
 
@@ -132,6 +128,16 @@ class Contacts extends React.Component {
     this.handleGetAll();
   }
 
+  afterSentPhones() {
+    document.getElementById("checkall").checked = false;
+    this.handleGetAll();
+    this.setState({ checksContactsPhones: [] });
+  }
+
+  toggleFilter() {
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
+  }
+
   render() {
     const { t } = this.props;
     const {
@@ -140,54 +146,63 @@ class Contacts extends React.Component {
       submitting,
       checksContactsPhones,
       error,
+      hiddenFilter,
     } = this.state;
     const colSpan = "9";
     return (
       <ContainerCRUD title={t("titleWaitingFeedback")} {...this.props}>
         <Row>
-          <Col xs={12} lg={2}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}
+              showTypeCompany={true}
               getFilters={details.getAllWaitingFeedbackFilters}
             />
           </Col>
-          <Col xs={12} lg={10}>
+          <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={["name", "phone","responsible","creator"]}
+                  fields={["name", "phone", "responsible", "creator", "note", "owner"]}
                   colspan={colSpan}
+                  toggleFilter={this.toggleFilter}
                 />
                 <tr>
                   <th>
                     <Form.Check
                       type="checkbox"
+                      id="checkall"
                       name=""
                       label=""
                       value="all"
                       onClick={this.handleCheckAll}
                     />
                   </th>
-                  <th>{t("name")}</th>
                   <th>{t("phone")}</th>
-                  <th>{t("gender")}</th>
-                  <th>{t("language")}</th>
-                  <th>{t("status")}</th>
-                  <th>{t("publisherResponsible")}</th>
-                  <th>{t("publisherCreatedBy")}</th>
-                  <th>
+                  <th className="d-none d-sm-table-cell">{t("name")}</th>
+                  <th className="d-none d-lg-table-cell">{t("gender")}</th>
+                  <th className="d-none d-lg-table-cell">{t("language")}</th>
+                  <th className="d-none d-lg-table-cell">{t("status")}</th>
+                  <th className="d-none d-lg-table-cell">
+                    {t("publisherResponsible")}
+                  </th>
+                  <th className="d-none d-lg-table-cell">
+                    {t("publisherCreatedBy")}
+                  </th>
+                  <th style={{ minWidth: "116px" }}>
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
+                      afterClose={() => this.afterSentPhones()}
                     />
                   </th>
                 </tr>
               </thead>
               <tbody>
-              {submitting ? (
+                {submitting ? (
                   <tr>
                     <td colSpan={colSpan}>
                       <ReactPlaceholder
@@ -215,15 +230,25 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td>{detailContact.contactName}</td>
                         <td>{detailContact.phone}</td>
-                        <td>{t(`contacts:${detailContact.gender}`)}</td>
-                        <td>{t(`languages:${detailContact.languageName}`)}</td>
-                        <td>
+                        <td className="d-none d-sm-table-cell">
+                          {detailContact.contactName}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(`contacts:${detailContact.gender}`)}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(`languages:${detailContact.languageName}`)}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
                           {t(`status:${detailContact.statusDescription}`)}
                         </td>
-                        <td>{detailContact.publisherName}</td>
-                        <td>{detailContact.publisherNameCreatedBy}</td>
+                        <td className="d-none d-lg-table-cell">
+                          {detailContact.publisherName}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {detailContact.publisherNameCreatedBy}
+                        </td>
 
                         <td>
                           <EditDetailsContact

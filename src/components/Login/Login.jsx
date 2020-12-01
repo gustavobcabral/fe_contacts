@@ -1,24 +1,25 @@
 import React from "react";
+import { get } from "lodash/fp";
+import FormLogin from "./FormLogin";
+import { auth } from "../../services";
+import { setLoginData } from "../../utils/loginDataManager";
 import { withTranslation } from "react-i18next";
-import { status } from "../../services";
-import { get, pick } from "lodash/fp";
 import SimpleReactValidator from "simple-react-validator";
 import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
 import OurModal from "../common/OurModal/OurModal";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import StatusForm from "./StatusForm.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { showError, showSuccessful } from "../../utils/generic";
+import { showSuccessful, showError } from "../../utils/generic";
 
 const fields = {
-  description: "",
+  email: "",
+  password: "",
 };
 
-class StatusEdit extends React.Component {
+class LoginPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       form: fields,
+      modalShow: false,
       submitting: false,
       validated: false,
     };
@@ -35,9 +36,8 @@ class StatusEdit extends React.Component {
     handleInputChangeGeneric(event, this);
   }
 
-  async handleSubmit(onHide) {
+  async handleSubmit() {
     this.setState({ validated: true });
-
     if (!this.validator.allValid()) {
       this.validator.showMessages();
       return true;
@@ -46,46 +46,41 @@ class StatusEdit extends React.Component {
     this.setState({ submitting: true });
 
     const { form } = this.state;
-    const { t } = this.props;
+    const { history, t } = this.props;
 
     try {
-      const data = pick(["description"], form);
-      await status.updateOne(get("id", form), data);
-      showSuccessful(t);
-      onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
-      this.validator.hideMessages();
+      const authRes = await auth.authenticate(form);
+      setLoginData(get("data.data", authRes));
+      this.setState({ submitting: false });
+      history.push("/dashboard");
+      showSuccessful(t, get("data.cod", authRes), "login");
     } catch (error) {
       this.setState({ submitting: false });
-      showError(error, t, "status");
-
+      showError(error, t, "login", {
+        keyOfTranslationWhenNotFoundForTitleAlert: "errorTryLogIn",
+      });
     }
   }
 
-  componentDidMount() {
-    const { data } = this.props;
-    this.setState({ form: data });
-  }
-
   render() {
-    const { form, validated, submitting } = this.state;
-    const { t, afterClose } = this.props;
-
+    const { t } = this.props;
+    const { submitting, validated, form } = this.state;
     return (
       <OurModal
-        body={StatusForm}
+        body={FormLogin}
+        size="sm"
+        title={t("titleModal")}
+        form={form}
         validator={this.validator}
         submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
-        form={form}
-        onExit={afterClose}
-        title={`${t("common:edit")} ${t("title")}`}
-        buttonText={<FontAwesomeIcon icon={faEdit} />}
-        buttonVariant="success"
+        buttonText={t("btnOpenModal")}
+        buttonVariant="primary"
       />
     );
   }
 }
-export default withTranslation(["status", "common"])(StatusEdit);
+
+export default withTranslation(["login", "common"])(LoginPopup);

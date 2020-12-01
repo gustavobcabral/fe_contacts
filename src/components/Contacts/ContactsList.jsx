@@ -3,7 +3,6 @@ import { Button, Table, Row, Col, Form } from "react-bootstrap";
 import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
 import { withTranslation } from "react-i18next";
 import { contacts } from "../../services";
-import Swal from "sweetalert2";
 import {
   map,
   getOr,
@@ -28,17 +27,18 @@ import FilterData from "../common/FilterData/FilterData";
 import NewContact from "./NewContact";
 import EditContact from "./EditContact";
 import SendPhones from "./SendPhones/SendPhones";
-import { parseErrorMessage, formatDate } from "../../utils/generic";
+import { showError, formatDate } from "../../utils/generic";
 import ReactPlaceholder from "react-placeholder";
+import { isPublisher } from "../../utils/loginDataManager";
 
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       data: [],
       error: false,
+      hiddenFilter: false,
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
@@ -48,8 +48,10 @@ class Contacts extends React.Component {
         currentPage: 1,
         filters: JSON.stringify({
           name: "",
+          owner: "",
           phone: "",
           note: "",
+          typeCompany: "-1",
           genders: [],
           languages: [],
           status: [],
@@ -60,6 +62,8 @@ class Contacts extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
     this.afterSentPhones = this.afterSentPhones.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   async handleGetAll(objQuery) {
@@ -80,10 +84,7 @@ class Contacts extends React.Component {
         error,
         submitting: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: t(`common:${parseErrorMessage(error)}`),
-      });
+      showError(error, t, "contacts");
     }
   }
 
@@ -97,13 +98,7 @@ class Contacts extends React.Component {
       })
       .catch((error) => {
         this.setState({ submitting: false });
-        Swal.fire({
-          icon: "error",
-          title: t(
-            `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-          ),
-          text: t(`common:${parseErrorMessage(error)}`),
-        });
+        showError(error, t, "contacts");
       });
   }
 
@@ -135,12 +130,20 @@ class Contacts extends React.Component {
   }
 
   afterSentPhones() {
+    document.getElementById("checkall").checked = false;
     this.handleGetAll();
     this.setState({ checksContactsPhones: [] });
   }
 
   componentDidMount() {
-    this.handleGetAll();
+    if (isPublisher()) {
+      const { history } = this.props;
+      history.push("/");
+    } else this.handleGetAll();
+  }
+
+  toggleFilter() {
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
   }
 
   render() {
@@ -151,41 +154,44 @@ class Contacts extends React.Component {
       submitting,
       checksContactsPhones,
       error,
+      hiddenFilter,
     } = this.state;
-    const colSpan = "11";
+    const colSpan = "10";
     return (
-      <ContainerCRUD title={t("title")} {...this.props}>
+      <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
-          <Col xs={12} lg={2}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}
+              showTypeCompany={true}
               getFilters={contacts.getAllFilters}
             />
           </Col>
-          <Col xs={12} lg={10}>
+          <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
             <Table striped bordered hover responsive>
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={["name", "phone", "note"]}
+                  fields={["name", "phone", "note", "owner"]}
                   colspan={colSpan}
+                  toggleFilter={this.toggleFilter}
                 />
                 <tr>
                   <th>
                     <Form.Check
                       type="checkbox"
+                      id="checkall"
                       name=""
                       label=""
                       value="all"
                       onClick={this.handleCheckAll}
                     />
                   </th>
-                  <th>{t("name")}</th>
-                  <th className="d-none d-sm-table-cell">{t("phone")}</th>
+                  <th>{t("phone")}</th>
+                  <th className="d-none d-sm-table-cell">{t("name")}</th>
                   <th className="d-none d-lg-table-cell">{t("typeCompany")}</th>
-                  <th className="d-none d-lg-table-cell">{t("gender")}</th>
                   <th className="d-none d-lg-table-cell">{t("language")}</th>
                   <th className="d-none d-lg-table-cell">{t("status")}</th>
                   <th className="d-none d-lg-table-cell">
@@ -194,8 +200,8 @@ class Contacts extends React.Component {
                   <th className="d-none d-lg-table-cell">
                     {t("waitingFeedback")}
                   </th>
-                  <th>{t("details")}</th>
-                  <th>
+                  <th style={{ minWidth: "116px" }}>{t("details")}</th>
+                  <th style={{ minWidth: "116px" }}>
                     <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -234,9 +240,9 @@ class Contacts extends React.Component {
                             onChange={this.handleOnClick}
                           />
                         </td>
-                        <td>{contact.name}</td>
+                        <td>{contact.phone}</td>
                         <td className="d-none d-sm-table-cell">
-                          {contact.phone}
+                          {contact.name}
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {t(
@@ -244,9 +250,6 @@ class Contacts extends React.Component {
                               contact.typeCompany ? "commercial" : "residential"
                             }`
                           )}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
-                          {t(`contacts:${contact.gender}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {t(`languages:${contact.languageName}`)}
@@ -274,6 +277,7 @@ class Contacts extends React.Component {
                             afterClose={() => this.handleGetAll()}
                           />{" "}
                           <Button
+                            title={t("common:list")}
                             variant="success"
                             as={Link}
                             to={`/contacts/${encodeURI(contact.phone)}/details`}
