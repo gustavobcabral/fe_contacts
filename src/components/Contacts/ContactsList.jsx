@@ -1,8 +1,8 @@
-import React from 'react'
-import { Button, Table, Row, Col, Form } from 'react-bootstrap'
-import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
-import { withTranslation } from 'react-i18next'
-import { contacts } from '../../services'
+import React from "react";
+import { Button, Table, Row, Col, Form } from "react-bootstrap";
+import ContainerCRUD from "../../components/common/ContainerCRUD/ContainerCRUD";
+import { withTranslation } from "react-i18next";
+import { contacts } from "../../services";
 import {
   map,
   getOr,
@@ -12,28 +12,28 @@ import {
   compact,
   remove,
   contains,
-} from 'lodash/fp'
-import AskDelete from '../common/AskDelete/AskDelete'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList } from '@fortawesome/free-solid-svg-icons'
-import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
-import { Link } from 'react-router-dom'
-import NoRecords from '../common/NoRecords/NoRecords'
-import Pagination from '../common/Pagination/Pagination'
-import Search from '../common/Search/Search'
-import { parseQuery } from '../../utils/forms'
-import { RECORDS_PER_PAGE } from '../../constants/application'
-import FilterData from '../common/FilterData/FilterData'
-import NewContact from './NewContact'
-import EditContact from './EditContact'
-import SendPhones from './SendPhones/SendPhones'
-import { showError, formatDate } from '../../utils/generic'
-import ReactPlaceholder from 'react-placeholder'
-import { isPublisher } from '../../utils/loginDataManager'
+} from "lodash/fp";
+import AskDelete from "../common/AskDelete/AskDelete";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faList } from "@fortawesome/free-solid-svg-icons";
+import ListDetailsContact from "../DetailsContact/Modal/ListDetailsContact";
+import { Link } from "react-router-dom";
+import NoRecords from "../common/NoRecords/NoRecords";
+import Pagination from "../common/Pagination/Pagination";
+import Search from "../common/Search/Search";
+import { parseQuery } from "../../utils/forms";
+import { RECORDS_PER_PAGE } from "../../constants/application";
+import FilterData from "../common/FilterData/FilterData";
+import NewContact from "./NewContact";
+import EditContact from "./EditContact";
+import SendPhones from "./SendPhones/SendPhones";
+import { showError } from "../../utils/generic";
+import ReactPlaceholder from "react-placeholder";
+import { isPublisher } from "../../utils/loginDataManager";
 
 class Contacts extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       data: [],
@@ -43,112 +43,111 @@ class Contacts extends React.Component {
       submitting: false,
       pagination: {},
       queryParams: {
-        sort: 'contacts.name:ASC',
-        //sort: "contacts.details.createdAt:ASC",
+        sort: '"lastConversationInDays":DESC',
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({
-          name: '',
-          owner: '',
-          phone: '',
-          note: '',
-          typeCompany: '-1',
+          name: "",
+          owner: "",
+          phone: "",
+          note: "",
+          typeCompany: "-1",
           genders: [],
           languages: [],
           status: [],
         }),
       },
-    }
-    this.handleGetAll = this.handleGetAll.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleCheckAll = this.handleCheckAll.bind(this)
-    this.afterSentPhones = this.afterSentPhones.bind(this)
-    this.handleOnClick = this.handleOnClick.bind(this)
-    this.toggleFilter = this.toggleFilter.bind(this)
+    };
+    this.handleGetAll = this.handleGetAll.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleCheckAll = this.handleCheckAll.bind(this);
+    this.afterSentPhones = this.afterSentPhones.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   async handleGetAll(objQuery) {
-    this.setState({ submitting: true })
-    const { t } = this.props
+    this.setState({ submitting: true });
+    const { t } = this.props;
     try {
-      const queryParams = parseQuery(objQuery, this.state)
-      const response = await contacts.getAll(queryParams)
+      const queryParams = parseQuery(objQuery, this.state);
+      const response = await contacts.getAll(queryParams);
       this.setState({
-        data: getOr([], 'data.data.list', response),
-        pagination: getOr({}, 'data.data.pagination', response),
+        data: getOr([], "data.data.list", response),
+        pagination: getOr({}, "data.data.pagination", response),
         submitting: false,
         error: false,
         queryParams,
-      })
+      });
     } catch (error) {
       this.setState({
         error,
         submitting: false,
-      })
-      showError(error, t, 'contacts')
+      });
+      showError(error, t, "contacts");
     }
   }
 
   async handleDelete(id) {
-    const { t } = this.props
-    this.setState({ submitting: true })
+    const { t } = this.props;
+    this.setState({ submitting: true });
     await contacts
       .dellOne(id)
       .then(() => {
-        this.handleGetAll()
+        this.handleGetAll();
       })
       .catch((error) => {
-        this.setState({ submitting: false })
-        showError(error, t, 'contacts')
-      })
+        this.setState({ submitting: false });
+        showError(error, t, "contacts");
+      });
   }
 
   handleOnClick(event) {
     const {
       target: { value, checked },
-    } = event
+    } = event;
     const newValues = checked
       ? pipe(uniq, compact)([...this.state.checksContactsPhones, value])
       : remove(
           (valueSaved) => valueSaved === value,
           this.state.checksContactsPhones
-        )
+        );
 
     this.setState({
       checksContactsPhones: newValues,
-    })
+    });
   }
 
   handleCheckAll(event) {
     const {
       target: { checked },
-    } = event
+    } = event;
 
     const newValues = checked
       ? map((contact) => contact.phone, this.state.data)
-      : []
-    this.setState({ checksContactsPhones: newValues })
+      : [];
+    this.setState({ checksContactsPhones: newValues });
   }
 
   afterSentPhones() {
-    document.getElementById('checkall').checked = false
-    this.handleGetAll()
-    this.setState({ checksContactsPhones: [] })
+    document.getElementById("checkall").checked = false;
+    this.handleGetAll();
+    this.setState({ checksContactsPhones: [] });
   }
 
   componentDidMount() {
     if (isPublisher()) {
-      const { history } = this.props
-      history.push('/')
-    } else this.handleGetAll()
+      const { history } = this.props;
+      history.push("/");
+    } else this.handleGetAll();
   }
 
   toggleFilter() {
-    this.setState({ hiddenFilter: !getOr(false, 'hiddenFilter', this.state) })
+    this.setState({ hiddenFilter: !getOr(false, "hiddenFilter", this.state) });
   }
 
   render() {
-    const { t } = this.props
+    const { t } = this.props;
     const {
       data,
       pagination,
@@ -156,12 +155,12 @@ class Contacts extends React.Component {
       checksContactsPhones,
       error,
       hiddenFilter,
-    } = this.state
-    const colSpan = '10'
+    } = this.state;
+    const colSpan = "10";
     return (
-      <ContainerCRUD title={t('listTitle')} {...this.props}>
+      <ContainerCRUD title={t("listTitle")} {...this.props}>
         <Row>
-          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
+          <Col xs={12} lg={3} xl={2} className={hiddenFilter ? "d-none" : ""}>
             <FilterData
               handleFilters={this.handleGetAll}
               refresh={submitting}
@@ -175,7 +174,7 @@ class Contacts extends React.Component {
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
-                  fields={['name', 'phone', 'note', 'owner']}
+                  fields={["name", "phone", "note", "owner"]}
                   colspan={colSpan}
                   toggleFilter={this.toggleFilter}
                 />
@@ -190,20 +189,20 @@ class Contacts extends React.Component {
                       onClick={this.handleCheckAll}
                     />
                   </th>
-                  <th>{t('phone')}</th>
-                  <th className="d-none d-sm-table-cell">{t('name')}</th>
-                  <th className="d-none d-lg-table-cell">{t('typeCompany')}</th>
-                  <th className="d-none d-lg-table-cell">{t('language')}</th>
-                  <th className="d-none d-lg-table-cell">{t('status')}</th>
+                  <th>{t("phone")}</th>
+                  <th className="d-none d-sm-table-cell">{t("name")}</th>
+                  <th className="d-none d-lg-table-cell">{t("typeCompany")}</th>
+                  <th className="d-none d-lg-table-cell">{t("language")}</th>
+                  <th className="d-none d-lg-table-cell">{t("status")}</th>
                   <th className="d-none d-lg-table-cell">
-                    {t('lastConversasion')}
+                    {t("lastConversationsInDays")}
                   </th>
                   <th className="d-none d-lg-table-cell">
-                    {t('waitingFeedback')}
+                    {t("waitingFeedback")}
                   </th>
-                  <th style={{ minWidth: '116px' }}>{t('details')}</th>
-                  <th style={{ minWidth: '116px' }}>
-                    <NewContact afterClose={() => this.handleGetAll()} />{' '}
+                  <th style={{ minWidth: "116px" }}>{t("details")}</th>
+                  <th style={{ minWidth: "116px" }}>
+                    <NewContact afterClose={() => this.handleGetAll()} />{" "}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
@@ -248,7 +247,7 @@ class Contacts extends React.Component {
                         <td className="d-none d-lg-table-cell">
                           {t(
                             `contacts:${
-                              contact.typeCompany ? 'commercial' : 'residential'
+                              contact.typeCompany ? "commercial" : "residential"
                             }`
                           )}
                         </td>
@@ -259,15 +258,15 @@ class Contacts extends React.Component {
                           {t(`status:${contact.statusDescription}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
-                          {formatDate(contact.details.createdAt)}
+                          {contact.lastConversationInDays}
                         </td>
                         <td
                           className={`d-none d-lg-table-cell text-${
-                            contact.waitingFeedback ? 'danger' : 'success'
+                            contact.waitingFeedback ? "danger" : "success"
                           }`}
                         >
                           {t(
-                            `common:${contact.waitingFeedback ? 'yes' : 'no'}`
+                            `common:${contact.waitingFeedback ? "yes" : "no"}`
                           )}
                         </td>
 
@@ -276,9 +275,9 @@ class Contacts extends React.Component {
                             contact={contact}
                             id={contact.phone}
                             afterClose={() => this.handleGetAll()}
-                          />{' '}
+                          />{" "}
                           <Button
-                            title={t('common:list')}
+                            title={t("common:list")}
                             variant="success"
                             as={Link}
                             to={`/contacts/${encodeURI(contact.phone)}/details`}
@@ -290,7 +289,7 @@ class Contacts extends React.Component {
                           <EditContact
                             id={contact.phone}
                             afterClose={() => this.handleGetAll()}
-                          />{' '}
+                          />{" "}
                           <AskDelete
                             id={contact.phone}
                             funcToCallAfterConfirmation={this.handleDelete}
@@ -319,14 +318,14 @@ class Contacts extends React.Component {
           </Col>
         </Row>
       </ContainerCRUD>
-    )
+    );
   }
 }
 
 export default withTranslation([
-  'contacts',
-  'common',
-  'detailsContacts',
-  'languages',
-  'status',
-])(Contacts)
+  "contacts",
+  "common",
+  "detailsContacts",
+  "languages",
+  "status",
+])(Contacts);
