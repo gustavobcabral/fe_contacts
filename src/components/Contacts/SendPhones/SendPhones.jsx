@@ -77,16 +77,17 @@ class NewContact extends React.Component {
 
   getInformation(contact) {
     const { t } = this.props;
-    const contactName = !isEmpty(contact.name) ? `${contact.name} - ` : "";
+    const contactName = !isEmpty(contact.name) ? ` ${t("contacts:name") + ":"} ${contact.name} - ` : "";
+    const contactLanguage = !isEmpty(contact.languageName) ?` ${t("languages:labelSelect") + ":"}  ${t(`languages:${contact.languageName}`)} - ` : "";
     const contactGender = !isEmpty(contact.gender)
-      ? `${t(`contacts:${contact.gender}`)} - `
+      ? ` ${t("contacts:gender") + ":"} ${t(`contacts:${contact.gender}`)} - `
       : "";
     const lastInformation = !isEmpty(contact.details)
       ? `${contact.details.information} - ${moment(
           contact.details.createdAt
         ).format("DD/MM/YYYY HH:mm")}`
       : t("withoutDetails");
-    return contactName + contactGender + lastInformation;
+    return contactName + contactGender + contactLanguage +lastInformation;
   }
 
   mappingContactsPhones({ checksContactsPhones, contactsData }) {
@@ -213,6 +214,6 @@ class NewContact extends React.Component {
   }
 }
 
-export default withTranslation(["sendPhones", "common", "contacts"])(
+export default withTranslation(["sendPhones", "common", "contacts", "languages"])(
   NewContact
 );
