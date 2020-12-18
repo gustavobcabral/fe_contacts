@@ -17,6 +17,7 @@ const FormDetails = (props) => {
     handleInputChange,
     validated,
     validator,
+    disablePhone
   } = props;
 
   return (
@@ -65,6 +66,7 @@ const FormDetails = (props) => {
               value={form.phone}
               onChange={handleInputChange}
               rules="required|min:10"
+              disabled={disablePhone}
             />
           </Col>
           <Col xs={6} lg={6}>
