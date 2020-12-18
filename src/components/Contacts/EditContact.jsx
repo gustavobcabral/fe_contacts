@@ -132,6 +132,7 @@ class EditContact extends React.Component {
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
+        disablePhone={true}
         onEnter={this.handleGetOne}
         onExit={afterClose}
         publishersOptions={publishersOptions}
