@@ -142,6 +142,7 @@ class NewContact extends React.Component {
         handleInputChange={this.handleInputChange}
         disablePhone={false}
         form={form}
+        disablePhone={false}
         onExit={afterClose}
         onEnter={this.onOpen}
         onClose={this.resetForm}

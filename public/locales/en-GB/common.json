@@ -56,7 +56,8 @@
   "total": "Total",
   "list": "List",
   "timeout of 10000ms exceeded": "Timeout exceeded while waiting for the server to respond",
-  "NO_TOKEN": "No token found"
+  "NO_TOKEN": "No token found",
+  "HAVE_TO_REAUTHENTICATE": "It is necessary to authenticate again"
 
 
 }

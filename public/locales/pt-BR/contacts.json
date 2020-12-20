@@ -27,5 +27,6 @@
   "location": "Localização",
   "noteLabel": "Observação",
   "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato",
-  "owner": "Proprietário"
+  "owner": "Proprietário",
+  "99999999999": "Sem conversa"
 }

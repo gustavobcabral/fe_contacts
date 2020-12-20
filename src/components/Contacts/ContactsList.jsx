@@ -42,8 +42,9 @@ class Contacts extends React.Component {
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
+      statusForbidden: [4, 5],
       queryParams: {
-        sort: '"lastConversationInDays":DESC',
+        sort: '"lastConversationInDays":DESC,name:IS NULL DESC,name:ASC',
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({
@@ -153,6 +154,7 @@ class Contacts extends React.Component {
       pagination,
       submitting,
       checksContactsPhones,
+      statusForbidden,
       error,
       hiddenFilter,
     } = this.state;
@@ -226,7 +228,14 @@ class Contacts extends React.Component {
                 ) : !isEmpty(data) ? (
                   map(
                     (contact) => (
-                      <tr key={contact.phone}>
+                      <tr
+                        key={contact.phone}
+                        className={
+                          contains(contact.idStatus, statusForbidden)
+                            ? "bg-danger"
+                            : ""
+                        }
+                      >
                         <td>
                           <Form.Check
                             type="checkbox"
@@ -246,7 +255,7 @@ class Contacts extends React.Component {
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {t(
-                            `contacts:${
+                            `${
                               contact.typeCompany ? "commercial" : "residential"
                             }`
                           )}
@@ -258,7 +267,7 @@ class Contacts extends React.Component {
                           {t(`status:${contact.statusDescription}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
-                          {contact.lastConversationInDays}
+                          {t(`${contact.lastConversationInDays}`)}
                         </td>
                         <td
                           className={`d-none d-lg-table-cell text-${
