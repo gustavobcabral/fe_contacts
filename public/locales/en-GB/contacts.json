@@ -27,5 +27,6 @@
   "location": "Location",
   "noteLabel": "Note",
   "notePlaceHolder": "Write a comment here",
-  "owner": "Owner"
+  "owner": "Owner",
+  "99999999999": "No contact"
 }
