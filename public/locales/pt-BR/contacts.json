@@ -17,7 +17,7 @@
   "name": "Nome",
   "residential": "Residencial",
   "commercial": "Comercial",
-  "publisherResponsible": "Responsavél",
+  "publisherResponsible": "Responsável",
   "publisherCreatedBy": "Criado por",
   "waitingFeedback": "Pendente",
   "lastConversation": "Última conversa",
@@ -28,5 +28,6 @@
   "noteLabel": "Observação",
   "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato",
   "owner": "Proprietário",
-  "99999999999": "Sem conversa"
+  "99999999999": "Sem conversa",
+  "createdAt":"Gerado em"
 }

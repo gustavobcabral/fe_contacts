@@ -17,7 +17,7 @@ import AskDelete from "../common/AskDelete/AskDelete";
 import NoRecords from "../common/NoRecords/NoRecords";
 import Pagination from "../common/Pagination/Pagination";
 import Search from "../common/Search/Search";
-import { parseQuery } from "../../utils/forms";
+import { parseQuery, unformatDate } from "../../utils/forms";
 import { RECORDS_PER_PAGE } from "../../constants/application";
 import FilterData from "../common/FilterData/FilterData";
 import EditDetailsContact from "../DetailsContact/Modal/EditDetailsContact";
@@ -183,7 +183,6 @@ class Contacts extends React.Component {
                   </th>
                   <th>{t("phone")}</th>
                   <th className="d-none d-sm-table-cell">{t("name")}</th>
-                  <th className="d-none d-lg-table-cell">{t("gender")}</th>
                   <th className="d-none d-lg-table-cell">{t("language")}</th>
                   <th className="d-none d-lg-table-cell">{t("status")}</th>
                   <th className="d-none d-lg-table-cell">
@@ -192,6 +191,7 @@ class Contacts extends React.Component {
                   <th className="d-none d-lg-table-cell">
                     {t("publisherCreatedBy")}
                   </th>
+                  <th className="d-none d-lg-table-cell">{t("createdAt")}</th>
                   <th style={{ minWidth: "116px" }}>
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -235,9 +235,6 @@ class Contacts extends React.Component {
                           {detailContact.contactName}
                         </td>
                         <td className="d-none d-lg-table-cell">
-                          {t(`contacts:${detailContact.gender}`)}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
                           {t(`languages:${detailContact.languageName}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
@@ -249,7 +246,9 @@ class Contacts extends React.Component {
                         <td className="d-none d-lg-table-cell">
                           {detailContact.publisherNameCreatedBy}
                         </td>
-
+                        <td className="d-none d-lg-table-cell">
+                          {unformatDate(detailContact.createdAt)}
+                        </td>
                         <td>
                           <EditDetailsContact
                             data={detailContact}

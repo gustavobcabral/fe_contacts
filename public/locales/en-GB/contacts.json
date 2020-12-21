@@ -28,5 +28,6 @@
   "noteLabel": "Note",
   "notePlaceHolder": "Write a comment here",
   "owner": "Owner",
-  "99999999999": "No contact"
+  "99999999999": "No contact",
+  "createdAt":"Generate at"
 }
