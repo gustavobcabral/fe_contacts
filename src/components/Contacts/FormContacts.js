@@ -1,14 +1,14 @@
-import React from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
-import GenderSelect from "../common/GenderSelect/GenderSelect";
-import StatusSelect from "../common/StatusSelect/StatusSelect";
-import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
-import ReactPlaceholder from "react-placeholder";
+import React from 'react'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import GenderSelect from '../common/GenderSelect/GenderSelect'
+import StatusSelect from '../common/StatusSelect/StatusSelect'
+import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
+import ReactPlaceholder from 'react-placeholder'
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["contacts", "common"]);
+  const { t } = useTranslation(['contacts', 'common'])
   const {
     form,
     loading,
@@ -17,8 +17,8 @@ const FormDetails = (props) => {
     handleInputChange,
     validated,
     validator,
-    disablePhone
-  } = props;
+    disablePhone,
+  } = props
 
   return (
     <ReactPlaceholder
@@ -34,8 +34,8 @@ const FormDetails = (props) => {
               <Form.Check
                 type="radio"
                 name="typeCompany"
-                label={t("residential")}
-                checked={form.typeCompany === false || form.typeCompany === "0"}
+                label={t('residential')}
+                checked={form.typeCompany === false || form.typeCompany === '0'}
                 value={0}
                 onChange={handleInputChange}
               />
@@ -46,9 +46,9 @@ const FormDetails = (props) => {
               <Form.Check
                 type="radio"
                 name="typeCompany"
-                label={t("commercial")}
+                label={t('commercial')}
                 validator={validator}
-                checked={form.typeCompany === true || form.typeCompany === "1"}
+                checked={form.typeCompany === true || form.typeCompany === '1'}
                 value={1}
                 onChange={handleInputChange}
               />
@@ -60,21 +60,20 @@ const FormDetails = (props) => {
             <SuperFormControl
               type="number"
               name="phone"
-              label={t("phone")}
+              label={t('phone')}
               validator={validator}
               validated={validated}
               value={form.phone}
               disabled={disablePhone}
               onChange={handleInputChange}
               rules="required|min:10"
-              disabled={disablePhone}
             />
           </Col>
           <Col xs={6} lg={6}>
             <SuperFormControl
               type="number"
               name="phone2"
-              label={t("phone2")}
+              label={t('phone2')}
               validator={validator}
               validated={validated}
               value={form.phone2}
@@ -88,7 +87,7 @@ const FormDetails = (props) => {
             <SuperFormControl
               type="text"
               name="name"
-              label={t("name")}
+              label={t('name')}
               validator={validator}
               validated={validated}
               value={form.name}
@@ -96,13 +95,13 @@ const FormDetails = (props) => {
             />
           </Col>
         </Row>
-        {(form.typeCompany === true || form.typeCompany === "1") && (
+        {(form.typeCompany === true || form.typeCompany === '1') && (
           <Row>
             <Col xs={12} lg={12}>
               <SuperFormControl
                 type="text"
                 name="owner"
-                label={t("owner")}
+                label={t('owner')}
                 validator={validator}
                 validated={validated}
                 value={form.owner}
@@ -116,7 +115,7 @@ const FormDetails = (props) => {
             <SuperFormControl
               type="email"
               name="email"
-              label={t("email")}
+              label={t('email')}
               validator={validator}
               validated={validated}
               value={form.email}
@@ -128,7 +127,7 @@ const FormDetails = (props) => {
             <SuperFormControl
               type="location"
               name="location"
-              label={t("location")}
+              label={t('location')}
               validator={validator}
               validated={validated}
               value={form.location}
@@ -142,9 +141,9 @@ const FormDetails = (props) => {
             xs={12}
             lg={4}
             className={
-              form.typeCompany === true || form.typeCompany === "1"
-                ? "d-none"
-                : ""
+              form.typeCompany === true || form.typeCompany === '1'
+                ? 'd-none'
+                : ''
             }
           >
             <GenderSelect
@@ -157,7 +156,7 @@ const FormDetails = (props) => {
           </Col>
           <Col
             xs={12}
-            lg={form.typeCompany === true || form.typeCompany === "1" ? 6 : 4}
+            lg={form.typeCompany === true || form.typeCompany === '1' ? 6 : 4}
           >
             <LanguageSelect
               validator={validator}
@@ -169,11 +168,11 @@ const FormDetails = (props) => {
           </Col>
           <Col
             xs={12}
-            lg={form.typeCompany === true || form.typeCompany === "1" ? 6 : 4}
+            lg={form.typeCompany === true || form.typeCompany === '1' ? 6 : 4}
           >
             <StatusSelect
               name="idStatus"
-              label={t("status")}
+              label={t('status')}
               validator={validator}
               validated={validated}
               value={form.idStatus}
@@ -188,10 +187,10 @@ const FormDetails = (props) => {
               as="textarea"
               name="note"
               rows={3}
-              label={t("noteLabel")}
+              label={t('noteLabel')}
               validator={validator}
               validated={validated}
-              placeholder={t("notePlaceHolder")}
+              placeholder={t('notePlaceHolder')}
               value={form.note}
               onChange={handleInputChange}
               rules="max:250"
@@ -203,11 +202,11 @@ const FormDetails = (props) => {
           variant="primary"
           onClick={() => handleSubmit(onHide)}
         >
-          {t(loading ? "common:btnSubmitting" : "common:btnSubmit")}
-        </Button>{" "}
+          {t(loading ? 'common:btnSubmitting' : 'common:btnSubmit')}
+        </Button>{' '}
       </Form>
     </ReactPlaceholder>
-  );
-};
+  )
+}
 
-export default FormDetails;
+export default FormDetails
