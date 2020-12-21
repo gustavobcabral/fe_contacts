@@ -1,6 +1,6 @@
 export const API_VERSION = "/v1";
 export const API_TIMEOUT_MILLISECONDS = 10000;
-export const RECORDS_PER_PAGE = 25;
+export const RECORDS_PER_PAGE = 30;
 export const ITEMS_PAGINATION = 3;
 export const USER_SESSION_EXPIRED_STATUS_CODE = 401;
 export const SERVER_AUTHENTICATION_EXPIRED_STATUS_CODE = 428;

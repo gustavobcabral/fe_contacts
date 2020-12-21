@@ -1,6 +1,6 @@
 {
   "title": "Enviar número",
-  "messageToSend": "Olá,  *{{name}}*. \nAqui estão os números ao seus cuidados com a última conversa",
+  "messageToSend": "Olá,  *{{name}}*. \nAqui estão os números que estarão aos seus cuidados juntamente com a última conversa",
   "sendTo": "Enviar para:",
   "numbersSelected": "Números selecionados: ",
   "withoutDetails": "Sem datalhes",
