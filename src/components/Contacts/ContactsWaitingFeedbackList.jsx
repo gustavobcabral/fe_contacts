@@ -37,7 +37,7 @@ class Contacts extends React.Component {
       submitting: false,
       pagination: {},
       queryParams: {
-        sort: `"publisherCreatedBy".name:ASC,"detailsContacts"."createdAt":ASC,publishers.name:ASC`,
+        sort: `"publisherNameCreatedBy":ASC,"createdAt":ASC,"publisherName":ASC`,
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({
