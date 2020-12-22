@@ -193,12 +193,12 @@ class Contacts extends React.Component {
                   <th className="d-none d-lg-table-cell">{t('language')}</th>
                   <th className="d-none d-lg-table-cell">{t('status')}</th>
                   <th className="d-none d-lg-table-cell">
-                    {t('publisherResponsible')}
-                  </th>
-                  <th className="d-none d-lg-table-cell">
                     {t('publisherCreatedBy')}
                   </th>
                   <th className="d-none d-lg-table-cell">{t('createdAt')}</th>
+                  <th className="d-none d-lg-table-cell">
+                    {t('publisherResponsible')}
+                  </th>
                   <th style={{ minWidth: '116px' }}>
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
@@ -248,13 +248,13 @@ class Contacts extends React.Component {
                           {t(`status:${detailContact.statusDescription}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
-                          {detailContact.publisherName}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
                           {detailContact.publisherNameCreatedBy}
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {unformatDate(detailContact.createdAt)}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {detailContact.publisherName}
                         </td>
                         <td>
                           <EditDetailsContact

@@ -20,7 +20,7 @@
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^16.14.0",
-    "react-i18next": "^11.7.3",
+    "react-i18next": "^11.8.4",
     "react-minimal-pie-chart": "^8.1.0",
     "react-placeholder": "^4.0.3",
     "react-router-dom": "^5.2.0",
@@ -28,7 +28,7 @@
     "react-select": "^3.1.1",
     "serve": "^11.3.2",
     "simple-react-validator": "^1.6.0",
-    "sweetalert2": "^10.10.4",
+    "sweetalert2": "^10.12.5",
     "url-join": "^4.0.1"
   },
   "scripts": {
