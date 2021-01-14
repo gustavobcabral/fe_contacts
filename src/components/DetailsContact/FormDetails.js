@@ -1,18 +1,18 @@
-import React from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
-import SuperSelect from "../common/SuperSelect/SuperSelect";
-import GenderSelect from "../common/GenderSelect/GenderSelect";
-import StatusSelect from "../common/StatusSelect/StatusSelect";
-import LanguageSelect from "../common/LanguageSelect/LanguageSelect";
-import ReactPlaceholder from "react-placeholder";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import SuperSelect from '../common/SuperSelect/SuperSelect'
+import GenderSelect from '../common/GenderSelect/GenderSelect'
+import StatusSelect from '../common/StatusSelect/StatusSelect'
+import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
+import ReactPlaceholder from 'react-placeholder'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const FormDetails = (props) => {
-  const { t } = useTranslation(["detailsContacts", "common", "contacts"]);
-  const { validator } = props;
+  const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
+  const { validator } = props
   const {
     form,
     loading,
@@ -22,7 +22,7 @@ const FormDetails = (props) => {
     handleInputChange,
     validated,
     history,
-  } = props;
+  } = props
   return (
     <ReactPlaceholder
       showLoadingAnimation={true}
@@ -37,9 +37,9 @@ const FormDetails = (props) => {
               <Form.Check
                 type="radio"
                 name="typeCompany"
-                label={t("contacts:residential")}
-                checked={form.typeCompany === false || form.typeCompany === "0"}
-                value={"0"}
+                label={t('contacts:residential')}
+                checked={form.typeCompany === false || form.typeCompany === '0'}
+                value={'0'}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -49,10 +49,10 @@ const FormDetails = (props) => {
               <Form.Check
                 type="radio"
                 name="typeCompany"
-                label={t("contacts:commercial")}
+                label={t('contacts:commercial')}
                 validator={validator}
-                checked={form.typeCompany === true || form.typeCompany === "1"}
-                value={"1"}
+                checked={form.typeCompany === true || form.typeCompany === '1'}
+                value={'1'}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -63,7 +63,7 @@ const FormDetails = (props) => {
             <SuperFormControl
               type="text"
               name="name"
-              label={t("contacts:name")}
+              label={t('contacts:name')}
               validator={validator}
               validated={validated}
               value={form.name}
@@ -71,13 +71,13 @@ const FormDetails = (props) => {
             />
           </Col>
         </Row>
-        {(form.typeCompany === true || form.typeCompany === "1") && (
+        {(form.typeCompany === true || form.typeCompany === '1') && (
           <Row>
             <Col xs={12}>
               <SuperFormControl
                 type="text"
                 name="owner"
-                label={t("contacts:owner")}
+                label={t('contacts:owner')}
                 validator={validator}
                 validated={validated}
                 value={form.owner}
@@ -98,7 +98,7 @@ const FormDetails = (props) => {
           <Col xs={12} lg={6}>
             <SuperSelect
               name="idPublisher"
-              label={t("publisher")}
+              label={t('publisher')}
               validator={validator}
               validated={validated}
               value={form.idPublisher}
@@ -110,7 +110,7 @@ const FormDetails = (props) => {
         </Row>
 
         <Row>
-          {(form.typeCompany === false || form.typeCompany === "0") && (
+          {(form.typeCompany === false || form.typeCompany === '0') && (
             <Col xs={12} lg={6}>
               <GenderSelect
                 validator={validator}
@@ -123,7 +123,7 @@ const FormDetails = (props) => {
           <Col xs={12} lg={6}>
             <StatusSelect
               name="idStatus"
-              label={t("contacts:status")}
+              label={t('contacts:status')}
               validator={validator}
               validated={validated}
               value={form.idStatus}
@@ -138,10 +138,10 @@ const FormDetails = (props) => {
               as="textarea"
               name="information"
               rows={3}
-              label={t("informationLabel")}
+              label={t('informationLabel')}
               validator={validator}
               validated={validated}
-              placeholder={t("informationPlaceHolder")}
+              placeholder={t('informationPlaceHolder')}
               value={form.information}
               onChange={handleInputChange}
               rules="required|max:250"
@@ -155,11 +155,11 @@ const FormDetails = (props) => {
               variant="primary"
               onClick={() => handleSubmit(onHide)}
             >
-              {t(loading ? "common:btnSubmitting" : "common:btnSubmit")}
-            </Button>{" "}
+              {t(loading ? 'common:btnSubmitting' : 'common:btnSubmit')}
+            </Button>{' '}
             {history && (
               <Button
-                title={t("common:back")}
+                title={t('common:back')}
                 variant="secondary"
                 onClick={() => history.goBack()}
               >
@@ -170,7 +170,7 @@ const FormDetails = (props) => {
         </Row>
       </Form>
     </ReactPlaceholder>
-  );
-};
+  )
+}
 
-export default FormDetails;
+export default FormDetails

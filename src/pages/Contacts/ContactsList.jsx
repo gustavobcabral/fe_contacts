@@ -1,6 +1,6 @@
-import React from "react";
-import ContactsList from "../../components/Contacts/ContactsList";
+import React from 'react'
+import ContactsList from '../../components/Contacts/ContactsList'
 
-const ContactsPage = (props) => <ContactsList {...props} />;
+const ContactsPage = (props) => <ContactsList {...props} />
 
-export default ContactsPage;
+export default ContactsPage

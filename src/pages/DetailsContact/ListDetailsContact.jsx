@@ -1,6 +1,6 @@
-import React from "react";
-import ListDetailsContact from "../../components/DetailsContact/URL/ListDetailsContact";
+import React from 'react'
+import ListDetailsContact from '../../components/DetailsContact/URL/ListDetailsContact'
 
-const ListDetailsContactPage = (props) => <ListDetailsContact {...props} />;
+const ListDetailsContactPage = (props) => <ListDetailsContact {...props} />
 
-export default ListDetailsContactPage;
+export default ListDetailsContactPage

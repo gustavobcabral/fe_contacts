@@ -1,23 +1,23 @@
-import React from "react";
-import { Pagination } from "react-bootstrap";
-import { toNumber, isNil } from "lodash/fp";
-import { withTranslation } from "react-i18next";
-import { ITEMS_PAGINATION } from "../../../constants/application";
-import ReactPlaceholder from "react-placeholder";
+import React from 'react'
+import { Pagination } from 'react-bootstrap'
+import { toNumber, isNil } from 'lodash/fp'
+import { withTranslation } from 'react-i18next'
+import { ITEMS_PAGINATION } from '../../../constants/application'
+import ReactPlaceholder from 'react-placeholder'
 
 const PaginationComponent = (props) => {
-  const { lastPage, to, from, currentPage, totalRows } = props.pagination;
-  const { submitting, t } = props;
-  let items = [];
+  const { lastPage, to, from, currentPage, totalRows } = props.pagination
+  const { submitting, t } = props
+  let items = []
 
   if (!submitting && !isNil(currentPage)) {
-    const maxItems = ITEMS_PAGINATION;
-    const goBackStart = currentPage - 1 > 0 ? currentPage - 1 : 1;
-    const goBackEnd = currentPage - maxItems > 0 ? currentPage - maxItems : 1;
+    const maxItems = ITEMS_PAGINATION
+    const goBackStart = currentPage - 1 > 0 ? currentPage - 1 : 1
+    const goBackEnd = currentPage - maxItems > 0 ? currentPage - maxItems : 1
     const goForwardStart =
-      currentPage + 1 > lastPage ? lastPage : currentPage + 1;
+      currentPage + 1 > lastPage ? lastPage : currentPage + 1
     const goForwardEnd =
-      currentPage + maxItems > lastPage ? lastPage : currentPage + maxItems;
+      currentPage + maxItems > lastPage ? lastPage : currentPage + maxItems
     for (let number = goBackEnd; number <= goBackStart; number++) {
       items.push(
         <Pagination.Item
@@ -27,7 +27,7 @@ const PaginationComponent = (props) => {
         >
           {number}
         </Pagination.Item>
-      );
+      )
     }
     if (currentPage !== 1) {
       items.push(
@@ -38,7 +38,7 @@ const PaginationComponent = (props) => {
         >
           {currentPage}
         </Pagination.Item>
-      );
+      )
     }
     if (goForwardStart > 1 && goForwardStart !== toNumber(currentPage)) {
       for (let number = goForwardStart; number <= goForwardEnd; number++) {
@@ -50,7 +50,7 @@ const PaginationComponent = (props) => {
           >
             {number}
           </Pagination.Item>
-        );
+        )
       }
     }
   }
@@ -90,11 +90,11 @@ const PaginationComponent = (props) => {
           }
         />
         <span className="ml-2 mt-2 text-primary">
-          {" "}
-          - {t("total")}: {totalRows || 0}
+          {' '}
+          - {t('total')}: {totalRows || 0}
         </span>
       </Pagination>
     </ReactPlaceholder>
-  );
-};
-export default withTranslation(["common"])(PaginationComponent);
+  )
+}
+export default withTranslation(['common'])(PaginationComponent)

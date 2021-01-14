@@ -196,7 +196,10 @@ class Contacts extends React.Component {
                   <th className="d-none d-lg-table-cell">{t('typeCompany')}</th>
                   <th className="d-none d-lg-table-cell">{t('language')}</th>
                   <th className="d-none d-lg-table-cell">{t('status')}</th>
-                  <th style={{ maxWidth: '90px' }} className="d-none d-lg-table-cell text-center">
+                  <th
+                    style={{ maxWidth: '90px' }}
+                    className="d-none d-lg-table-cell text-center"
+                  >
                     {t('lastConversationsInDays')}
                   </th>
                   <th className="d-none d-lg-table-cell">

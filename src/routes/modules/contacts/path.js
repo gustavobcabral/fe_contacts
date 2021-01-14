@@ -1,8 +1,8 @@
-const CONTACTS_LIST_PATH = `/contacts`;
-const CONTACTS_WAITING_FEEDBACK_LIST_PATH = `${CONTACTS_LIST_PATH}/waitingFeedback`;
-const CONTACTS_DETAILS_LIST_PATH = `${CONTACTS_LIST_PATH}/:phone/details`;
-const CONTACTS_DETAILS_NEW_PATH = `${CONTACTS_LIST_PATH}/:phone/details/new`;
-const CONTACTS_DETAILS_EDIT_PATH = `${CONTACTS_LIST_PATH}/:phone/details/edit/:id`;
+const CONTACTS_LIST_PATH = `/contacts`
+const CONTACTS_WAITING_FEEDBACK_LIST_PATH = `${CONTACTS_LIST_PATH}/waitingFeedback`
+const CONTACTS_DETAILS_LIST_PATH = `${CONTACTS_LIST_PATH}/:phone/details`
+const CONTACTS_DETAILS_NEW_PATH = `${CONTACTS_LIST_PATH}/:phone/details/new`
+const CONTACTS_DETAILS_EDIT_PATH = `${CONTACTS_LIST_PATH}/:phone/details/edit/:id`
 
 const allExport = {
   CONTACTS_LIST_PATH,
@@ -10,6 +10,6 @@ const allExport = {
   CONTACTS_DETAILS_LIST_PATH,
   CONTACTS_DETAILS_NEW_PATH,
   CONTACTS_DETAILS_EDIT_PATH,
-};
+}
 
-export default allExport;
+export default allExport

@@ -1,19 +1,19 @@
-import api from "../api";
-import { toQueryString } from "../../utils/forms";
+import api from '../api'
+import { toQueryString } from '../../utils/forms'
 
-const getAll = (params) => api.get(`/contacts${toQueryString(params)}`);
+const getAll = (params) => api.get(`/contacts${toQueryString(params)}`)
 
-const getAllFilters = () => api.get(`/contacts/filters`);
+const getAllFilters = () => api.get(`/contacts/filters`)
 
-const getOne = (id) => api.get(`/contacts/${id}`);
-const create = (data) => api.post("/contacts", data);
-const assign = (data) => api.post("/contacts/assign", data);
+const getOne = (id) => api.get(`/contacts/${id}`)
+const create = (data) => api.post('/contacts', data)
+const assign = (data) => api.post('/contacts/assign', data)
 
-const getSummary = () => api.get("/contacts/summary");
+const getSummary = () => api.get('/contacts/summary')
 
-const updateContact = (id, data) => api.put(`/contacts/${id}`, data);
+const updateContact = (id, data) => api.put(`/contacts/${id}`, data)
 
-const dellOne = (id) => api.delete(`/contacts/${id}`);
+const dellOne = (id) => api.delete(`/contacts/${id}`)
 
 const allExport = {
   getAll,
@@ -24,6 +24,6 @@ const allExport = {
   getSummary,
   getAllFilters,
   assign,
-};
+}
 
-export default allExport;
+export default allExport

@@ -1,8 +1,8 @@
-import React from "react";
-import PrivateRoute from "../../../utils/privateRoute";
-import Publishers from "../../../pages/Publishers/Publishers";
+import React from 'react'
+import PrivateRoute from '../../../utils/privateRoute'
+import Publishers from '../../../pages/Publishers/Publishers'
 
-import publishersPaths from "./path";
+import publishersPaths from './path'
 
 const Routes = () => (
   <>
@@ -22,6 +22,6 @@ const Routes = () => (
       component={Publishers}
     />
   </>
-);
+)
 
-export default Routes;
+export default Routes

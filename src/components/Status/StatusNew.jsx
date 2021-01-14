@@ -1,73 +1,73 @@
-import React from "react";
-import { withTranslation } from "react-i18next";
-import { status } from "../../services";
-import SimpleReactValidator from "simple-react-validator";
-import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import OurModal from "../common/OurModal/OurModal";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import StatusForm from "./StatusForm.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { showError, showSuccessful } from "../../utils/generic";
+import React from 'react'
+import { withTranslation } from 'react-i18next'
+import { status } from '../../services'
+import SimpleReactValidator from 'simple-react-validator'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import OurModal from '../common/OurModal/OurModal'
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import StatusForm from './StatusForm.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { showError, showSuccessful } from '../../utils/generic'
 
 const fields = {
-  description: "",
-};
+  description: '',
+}
 
 class StatusNew extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       form: fields,
       submitting: false,
       validated: false,
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.resetForm = this.resetForm.bind(this);
+    }
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.resetForm = this.resetForm.bind(this)
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
-    });
+    })
   }
 
   handleInputChange(event) {
-    handleInputChangeGeneric(event, this);
+    handleInputChangeGeneric(event, this)
   }
 
   async handleSubmit(onHide) {
-    this.setState({ validated: true });
+    this.setState({ validated: true })
 
     if (!this.validator.allValid()) {
-      this.validator.showMessages();
-      return true;
+      this.validator.showMessages()
+      return true
     }
 
-    this.setState({ submitting: true });
+    this.setState({ submitting: true })
 
-    const { form } = this.state;
-    const { t } = this.props;
+    const { form } = this.state
+    const { t } = this.props
 
     try {
-      await status.create(form);
-      showSuccessful(t);
-      onHide();
-      this.resetForm();
+      await status.create(form)
+      showSuccessful(t)
+      onHide()
+      this.resetForm()
     } catch (error) {
-      this.setState({ submitting: false });
-      showError(error, t, "status");
+      this.setState({ submitting: false })
+      showError(error, t, 'status')
     }
   }
 
   resetForm() {
-    this.setState({ form: fields, submitting: false, validated: false });
-    this.validator.hideMessages();
+    this.setState({ form: fields, submitting: false, validated: false })
+    this.validator.hideMessages()
   }
 
   render() {
-    const { form, validated, submitting } = this.state;
-    const { t, afterClose } = this.props;
+    const { form, validated, submitting } = this.state
+    const { t, afterClose } = this.props
 
     return (
       <OurModal
@@ -80,10 +80,10 @@ class StatusNew extends React.Component {
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}
-        title={`${t("common:new")} ${t("title")}`}
+        title={`${t('common:new')} ${t('title')}`}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
-    );
+    )
   }
 }
-export default withTranslation(["status", "common"])(StatusNew);
+export default withTranslation(['status', 'common'])(StatusNew)

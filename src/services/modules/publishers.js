@@ -1,20 +1,20 @@
-import api from "../api";
-import { toQueryString } from "../../utils/forms";
+import api from '../api'
+import { toQueryString } from '../../utils/forms'
 
 const getAllWithPagination = (params) =>
-  api.get(`/publishers/withPagination${toQueryString(params)}`);
+  api.get(`/publishers/withPagination${toQueryString(params)}`)
 
-const getAllFilters = () => api.get(`/publishers/filters`);
+const getAllFilters = () => api.get(`/publishers/filters`)
 
-const getAll = () => api.get("/publishers");
+const getAll = () => api.get('/publishers')
 
-const getOne = (id) => api.get(`/publishers/${id}`);
+const getOne = (id) => api.get(`/publishers/${id}`)
 
-const create = (data) => api.post("/publishers", data);
+const create = (data) => api.post('/publishers', data)
 
-const updatePublishers = (id, data) => api.put(`/publishers/${id}`, data);
+const updatePublishers = (id, data) => api.put(`/publishers/${id}`, data)
 
-const dellOne = (id) => api.delete(`/publishers/${id}`);
+const dellOne = (id) => api.delete(`/publishers/${id}`)
 
 const allExport = {
   getAllWithPagination,
@@ -24,6 +24,6 @@ const allExport = {
   updatePublishers,
   dellOne,
   create,
-};
+}
 
-export default allExport;
+export default allExport
