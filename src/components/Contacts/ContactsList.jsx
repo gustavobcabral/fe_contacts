@@ -261,6 +261,7 @@ class Contacts extends React.Component {
                       data={dataCVS}
                       headers={headers}
                       filename={`${t('listTitle')}.csv`}
+                      title={t('titleExportToCVS')}
                       className={`btn btn-primary ${
                         checksContactsPhones.length > 0 ? '' : 'disabled'
                       }`}
