@@ -12,10 +12,12 @@ import {
   compact,
   remove,
   contains,
+  find,
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList } from '@fortawesome/free-solid-svg-icons'
+import { faList, faFileExcel } from '@fortawesome/free-solid-svg-icons'
+
 import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
 import { Link } from 'react-router-dom'
 import NoRecords from '../common/NoRecords/NoRecords'
@@ -30,6 +32,7 @@ import SendPhones from './SendPhones/SendPhones'
 import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import { isPublisher } from '../../utils/loginDataManager'
+import { CSVLink } from 'react-csv'
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -37,6 +40,8 @@ class Contacts extends React.Component {
 
     this.state = {
       data: [],
+      headers: [],
+      dataCVS: [],
       error: false,
       hiddenFilter: false,
       checksContactsPhones: [],
@@ -65,6 +70,7 @@ class Contacts extends React.Component {
     this.afterSentPhones = this.afterSentPhones.bind(this)
     this.handleOnClick = this.handleOnClick.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
+    this.parseDataCVS = this.parseDataCVS.bind(this)
   }
 
   async handleGetAll(objQuery) {
@@ -147,6 +153,39 @@ class Contacts extends React.Component {
     this.setState({ hiddenFilter: !getOr(false, 'hiddenFilter', this.state) })
   }
 
+  parseDataCVS() {
+    const { t } = this.props
+    const { checksContactsPhones, data } = this.state
+    const dataCVS = map((phone) => {
+      const contact = find((item) => item.phone === phone, data)
+      return {
+        ...contact,
+        typeCompany: t(`${contact.typeCompany ? 'commercial' : 'residential'}`),
+        languageName: t(`languages:${contact.languageName}`),
+        statusDescription: t(`status:${contact.statusDescription}`),
+        lastConversationInDays: t(`${contact.lastConversationInDays}`),
+        waitingFeedback: t(`common:${contact.waitingFeedback ? 'yes' : 'no'}`),
+        details: contact.details.information,
+      }
+    }, checksContactsPhones)
+    this.setState({
+      dataCVS,
+      headers: [
+        { label: t('phone'), key: 'phone' },
+        { label: t('name'), key: 'name' },
+        { label: t('typeCompany'), key: 'typeCompany' },
+        { label: t('language'), key: 'languageName' },
+        { label: t('status'), key: 'statusDescription' },
+        {
+          label: t('lastConversationsInDays'),
+          key: 'lastConversationInDays',
+        },
+        { label: t('waitingFeedback'), key: 'waitingFeedback' },
+        { label: t('details'), key: 'details' },
+      ],
+    })
+  }
+
   render() {
     const { t } = this.props
     const {
@@ -157,6 +196,8 @@ class Contacts extends React.Component {
       statusForbidden,
       error,
       hiddenFilter,
+      headers,
+      dataCVS,
     } = this.state
     const colSpan = '10'
     return (
@@ -212,7 +253,18 @@ class Contacts extends React.Component {
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
                       afterClose={() => this.afterSentPhones()}
-                    />
+                    />{' '}
+                    <CSVLink
+                      data={dataCVS}
+                      headers={headers}
+                      filename={`${t('listTitle')}.csv`}
+                      className={`btn btn-primary ${
+                        checksContactsPhones.length > 0 ? '' : 'disabled'
+                      }`}
+                      onClick={this.parseDataCVS}
+                    >
+                      <FontAwesomeIcon icon={faFileExcel} />
+                    </CSVLink>
                   </th>
                 </tr>
               </thead>
