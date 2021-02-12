@@ -1,6 +1,6 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { hasToken } from "./loginDataManager";
+import React from 'react'
+import { Route, Redirect } from 'react-router-dom'
+import { hasToken } from './loginDataManager'
 
 // handle the public routes
 function PublicRoute({ component: Component, ...rest }) {
@@ -11,11 +11,11 @@ function PublicRoute({ component: Component, ...rest }) {
         !hasToken() ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/dashboard" }} />
+          <Redirect to={{ pathname: '/dashboard' }} />
         )
       }
     />
-  );
+  )
 }
 
-export default PublicRoute;
+export default PublicRoute

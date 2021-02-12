@@ -1,18 +1,18 @@
-import { get, getOr, isEmpty } from "lodash/fp";
-import moment from "moment";
-import Swal from "sweetalert2";
+import { get, getOr, isEmpty } from 'lodash/fp'
+import moment from 'moment'
+import Swal from 'sweetalert2'
 
 const formatDate = (date) =>
-  date ? moment(date).format("DD/MM/YYYY HH:mm") : null;
+  date ? moment(date).format('DD/MM/YYYY HH:mm') : null
 
 const randomColor = () =>
-  `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
+  `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
 
 const parseErrorMessage = (error) => {
-  const message = get("message", error);
-  const errorConstraint = get("response.data.error.constraint", error);
-  const errorCode = get("response.data.error.code", error);
-  const errorMessage = get("response.data.error", error);
+  const message = get('message', error)
+  const errorConstraint = get('response.data.error.constraint', error)
+  const errorCode = get('response.data.error.code', error)
+  const errorMessage = get('response.data.error', error)
   return errorConstraint
     ? errorConstraint
     : errorCode
@@ -21,16 +21,16 @@ const parseErrorMessage = (error) => {
     ? errorMessage
     : message
     ? message
-    : "errorTextUndefined";
-};
+    : 'errorTextUndefined'
+}
 
 const parseErrorMessageTranslated = (error, t, fileTranslationName, extra) => {
   const keyOfTranslationWhenNotFoundForTitleAlert = getOr(
-    get("response.data.cod", error),
-    "keyOfTranslationWhenNotFoundForTitleAlert",
+    get('response.data.cod', error),
+    'keyOfTranslationWhenNotFoundForTitleAlert',
     extra
-  );
-  const paramsExtraForTranslation = get("paramsExtraForTranslation", extra);
+  )
+  const paramsExtraForTranslation = get('paramsExtraForTranslation', extra)
 
   const title = t(
     `${fileTranslationName}:${keyOfTranslationWhenNotFoundForTitleAlert}`,
@@ -38,34 +38,34 @@ const parseErrorMessageTranslated = (error, t, fileTranslationName, extra) => {
       `common:${keyOfTranslationWhenNotFoundForTitleAlert}`,
       t(`common:errorTextUndefined`)
     )
-  );
+  )
 
   const preText = t(
     `${fileTranslationName}:${parseErrorMessage(error)}`,
     paramsExtraForTranslation
       ? paramsExtraForTranslation
       : t(`common:${parseErrorMessage(error)}`)
-  );
+  )
 
-  const text = title !== preText ? preText : null;
+  const text = title !== preText ? preText : null
 
-  return { title, text };
-};
+  return { title, text }
+}
 
-const showError = (error, t, fileTranslationName = "common", extra) => {
+const showError = (error, t, fileTranslationName = 'common', extra) => {
   const { title, text } = parseErrorMessageTranslated(
     error,
     t,
     fileTranslationName,
     extra
-  );
+  )
 
   Swal.fire({
-    icon: "error",
+    icon: 'error',
     title,
     text,
-  });
-};
+  })
+}
 
 const parseSuccessfulMessageTranslated = (
   t,
@@ -73,29 +73,29 @@ const parseSuccessfulMessageTranslated = (
   fileTranslationName
 ) => {
   const title = t(
-    `${fileTranslationName ? fileTranslationName : "common"}:${
-      keyTranslation ? keyTranslation : "dataSuccessfullySaved"
+    `${fileTranslationName ? fileTranslationName : 'common'}:${
+      keyTranslation ? keyTranslation : 'dataSuccessfullySaved'
     }`
-  );
+  )
 
-  return { title };
-};
+  return { title }
+}
 
 const showSuccessful = (t, keyTranslation, fileTranslationName) => {
   const { title } = parseSuccessfulMessageTranslated(
     t,
     keyTranslation,
     fileTranslationName
-  );
+  )
   Swal.fire({
     title,
-    icon: "success",
+    icon: 'success',
     timer: 2000,
     timerProgressBar: true,
-  });
-};
+  })
+}
 
-const ifEmptySetNull = (value) => (isEmpty(value) ? null : value);
+const ifEmptySetNull = (value) => (isEmpty(value) ? null : value)
 
 export {
   randomColor,
@@ -104,4 +104,4 @@ export {
   showError,
   showSuccessful,
   ifEmptySetNull,
-};
+}

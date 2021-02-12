@@ -1,6 +1,6 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { hasToken } from "./loginDataManager";
+import React from 'react'
+import { Route, Redirect } from 'react-router-dom'
+import { hasToken } from './loginDataManager'
 
 // handle the private routes
 function PrivateRoute({ component: Component, ...rest }) {
@@ -11,13 +11,11 @@ function PrivateRoute({ component: Component, ...rest }) {
         hasToken() ? (
           <Component {...props} />
         ) : (
-          <Redirect
-            to={{ pathname: "/", state: { from: props.location } }}
-          />
+          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
         )
       }
     />
-  );
+  )
 }
 
-export default PrivateRoute;
+export default PrivateRoute

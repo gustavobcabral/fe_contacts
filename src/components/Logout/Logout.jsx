@@ -18,7 +18,7 @@ const handleLogout = (props) => {
 
 const Logout = (props) => (
   <NavDropdown.Item onClick={() => handleLogout(props)}>
-    {props.t("btnLogout")}
+    {props.t('btnLogout')}
   </NavDropdown.Item>
 )
 

@@ -1,6 +1,6 @@
-import React from "react";
-import { withTranslation } from "react-i18next";
-import { Form, Card, Col } from "react-bootstrap";
+import React from 'react'
+import { withTranslation } from 'react-i18next'
+import { Form, Card, Col } from 'react-bootstrap'
 import {
   pipe,
   uniq,
@@ -10,13 +10,13 @@ import {
   map,
   isEmpty,
   contains,
-} from "lodash/fp";
-import { parseErrorMessage } from "../../../utils/generic";
-import ReactPlaceholder from "react-placeholder";
+} from 'lodash/fp'
+import { parseErrorMessage } from '../../../utils/generic'
+import ReactPlaceholder from 'react-placeholder'
 
 class FilterData extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       loading: false,
@@ -29,75 +29,75 @@ class FilterData extends React.Component {
       checksStatus: [],
       responsibility: [],
       checksResponsibility: [],
-      typeCompany: "-1",
-    };
-    this.getAllFilters = this.getAllFilters.bind(this);
-    this.handleOnClick = this.handleOnClick.bind(this);
-    this.handleBooleanValues = this.handleBooleanValues.bind(this);
-    this.updateValues = this.updateValues.bind(this);
+      typeCompany: '-1',
+    }
+    this.getAllFilters = this.getAllFilters.bind(this)
+    this.handleOnClick = this.handleOnClick.bind(this)
+    this.handleBooleanValues = this.handleBooleanValues.bind(this)
+    this.updateValues = this.updateValues.bind(this)
   }
 
   handleOnClick(event) {
     const {
       target: { name, value, checked },
-    } = event;
+    } = event
     const newValues = checked
       ? pipe(uniq, compact)([...this.state[name], value])
-      : remove((arrayValue) => arrayValue === value, this.state[name]);
-    this.updateValues(name, newValues);
+      : remove((arrayValue) => arrayValue === value, this.state[name])
+    this.updateValues(name, newValues)
   }
 
   handleBooleanValues(event) {
     const {
       target: { name, value },
-    } = event;
+    } = event
 
-    this.updateValues(name, value);
+    this.updateValues(name, value)
   }
 
   updateValues(name, newValues) {
-    const { handleFilters } = this.props;
+    const { handleFilters } = this.props
 
     this.setState({
       [name]: newValues,
-    });
+    })
     handleFilters({
       filters: {
         [name]: newValues,
       },
-    });
+    })
   }
 
   async getAllFilters() {
-    this.setState({ loading: true });
+    this.setState({ loading: true })
     try {
-      const { getFilters } = this.props;
-      const response = await getFilters();
+      const { getFilters } = this.props
+      const response = await getFilters()
       this.setState({
-        checksGender: getOr([], "data.data.genders", response),
-        checksLanguages: getOr([], "data.data.languages", response),
-        checksStatus: getOr([], "data.data.status", response),
-        checksResponsibility: getOr([], "data.data.responsibility", response),
+        checksGender: getOr([], 'data.data.genders', response),
+        checksLanguages: getOr([], 'data.data.languages', response),
+        checksStatus: getOr([], 'data.data.status', response),
+        checksResponsibility: getOr([], 'data.data.responsibility', response),
         loading: false,
-      });
+      })
     } catch (error) {
-      const { t } = this.props;
+      const { t } = this.props
       this.setState({
         error: t(`common:${parseErrorMessage(error)}`),
         loading: false,
-      });
+      })
     }
   }
 
   componentDidMount() {
-    this.getAllFilters();
+    this.getAllFilters()
   }
 
   componentDidUpdate(prevProps) {
-    const { loading } = this.state;
-    const { refresh, error } = this.props;
-    const prevRefresh = getOr(true, "refresh", prevProps);
-    if (refresh && !prevRefresh && !loading && !error) this.getAllFilters();
+    const { loading } = this.state
+    const { refresh, error } = this.props
+    const prevRefresh = getOr(true, 'refresh', prevProps)
+    if (refresh && !prevRefresh && !loading && !error) this.getAllFilters()
   }
 
   render() {
@@ -113,28 +113,28 @@ class FilterData extends React.Component {
       error,
       loading,
       typeCompany,
-    } = this.state;
+    } = this.state
 
     const noData =
       isEmpty(checksGender) &&
       isEmpty(checksLanguages) &&
       isEmpty(checksResponsibility) &&
-      isEmpty(checksStatus);
-    const { t, showTypeCompany = false } = this.props;
+      isEmpty(checksStatus)
+    const { t, showTypeCompany = false } = this.props
     return (
       <>
         <Col className="text-center">
-          <h3>{t("title")}</h3>
+          <h3>{t('title')}</h3>
         </Col>
         <Col className="text-center text-muted">{error}</Col>
         <Col className="text-center text-muted">
-          {!loading && noData && t("common:noData")}
+          {!loading && noData && t('common:noData')}
         </Col>
         {(loading || !isEmpty(checksGender)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t("gendersTitleFilter")}</Card.Title>
+                <Card.Title>{t('gendersTitleFilter')}</Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -168,7 +168,7 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t("languagesTitleFilter")}</Card.Title>
+                <Card.Title>{t('languagesTitleFilter')}</Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -202,7 +202,7 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t("statusTitleFilter")}</Card.Title>
+                <Card.Title>{t('statusTitleFilter')}</Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -236,7 +236,7 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t("responsibilityTitleFilter")}</Card.Title>
+                <Card.Title>{t('responsibilityTitleFilter')}</Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -275,7 +275,7 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t("typeCompanyTitleFilter")}</Card.Title>
+                <Card.Title>{t('typeCompanyTitleFilter')}</Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -288,9 +288,9 @@ class FilterData extends React.Component {
                         key="typeCompanyBoth"
                         type="radio"
                         name="typeCompany"
-                        label={t("typeCompanyBoth")}
-                        checked={typeCompany === "-1"}
-                        value={"-1"}
+                        label={t('typeCompanyBoth')}
+                        checked={typeCompany === '-1'}
+                        value={'-1'}
                         onChange={this.handleBooleanValues}
                       />
                     </Form.Group>
@@ -301,9 +301,9 @@ class FilterData extends React.Component {
                         key="typeCompanyResidential0"
                         type="radio"
                         name="typeCompany"
-                        label={t("contacts:residential")}
-                        checked={typeCompany === "0"}
-                        value={"0"}
+                        label={t('contacts:residential')}
+                        checked={typeCompany === '0'}
+                        value={'0'}
                         onChange={this.handleBooleanValues}
                       />
                     </Form.Group>
@@ -314,9 +314,9 @@ class FilterData extends React.Component {
                         key="typeCompanyCommercial1"
                         type="radio"
                         name="typeCompany"
-                        label={t("contacts:commercial")}
-                        checked={typeCompany === "1"}
-                        value={"1"}
+                        label={t('contacts:commercial')}
+                        checked={typeCompany === '1'}
+                        value={'1'}
                         onChange={this.handleBooleanValues}
                       />
                     </Form.Group>
@@ -327,13 +327,13 @@ class FilterData extends React.Component {
           </Col>
         )}
       </>
-    );
+    )
   }
 }
 
 export default withTranslation([
-  "filterData",
-  "languages",
-  "status",
-  "contacts",
-])(FilterData);
+  'filterData',
+  'languages',
+  'status',
+  'contacts',
+])(FilterData)

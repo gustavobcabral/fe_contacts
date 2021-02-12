@@ -1,6 +1,6 @@
-import React from "react";
-import EditDetailsContact from "../../components/DetailsContact/URL/EditDetailsContact";
+import React from 'react'
+import EditDetailsContact from '../../components/DetailsContact/URL/EditDetailsContact'
 
-const EditDetailsContactPage = (props) => <EditDetailsContact {...props} />;
+const EditDetailsContactPage = (props) => <EditDetailsContact {...props} />
 
-export default EditDetailsContactPage;
+export default EditDetailsContactPage

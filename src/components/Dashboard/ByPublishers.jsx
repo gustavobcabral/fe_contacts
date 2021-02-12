@@ -1,31 +1,31 @@
-import React from "react";
-import { Col, Card, Row, ListGroup } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, map } from "lodash/fp";
-import { round } from "lodash";
-import { randomColor } from "../../utils/generic";
-import { generateLabel } from "../../stateReducers/dashboard";
-import ReactPlaceholder from "react-placeholder";
+import React from 'react'
+import { Col, Card, Row, ListGroup } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import { PieChart } from 'react-minimal-pie-chart'
+import { get, isEmpty, getOr, map } from 'lodash/fp'
+import { round } from 'lodash'
+import { randomColor } from '../../utils/generic'
+import { generateLabel } from '../../stateReducers/dashboard'
+import ReactPlaceholder from 'react-placeholder'
 
 const getByPublishers = (t, data) =>
   map(
     (dataPublisher) => ({
-      title: `${round(getOr(0, "percent", dataPublisher), 2)}% ${getOr(
-        t("noName"),
-        "publisherName",
+      title: `${round(getOr(0, 'percent', dataPublisher), 2)}% ${getOr(
+        t('noName'),
+        'publisherName',
         dataPublisher
       )}`,
-      value: getOr(0, "percent", dataPublisher),
-      label: generateLabel(t, dataPublisher, "publisherName"),
+      value: getOr(0, 'percent', dataPublisher),
+      label: generateLabel(t, dataPublisher, 'publisherName'),
       color: randomColor(),
     }),
-    getOr([], "totalsContactsWaitingFeedbackByPublisher", data)
-  );
+    getOr([], 'totalsContactsWaitingFeedbackByPublisher', data)
+  )
 
 const ByPublishers = (props) => {
-  const { t } = useTranslation(["dashboard", "common"]);
-  const byPublishers = getByPublishers(t, get("data", props));
+  const { t } = useTranslation(['dashboard', 'common'])
+  const byPublishers = getByPublishers(t, get('data', props))
 
   return (
     <Col
@@ -34,8 +34,8 @@ const ByPublishers = (props) => {
       className="mt-2"
     >
       <Card>
-        <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-          {t("titleChartWaitingFeedbackByPublishers")}
+        <Card.Header className="text-center" style={{ minHeight: '73px' }}>
+          {t('titleChartWaitingFeedbackByPublishers')}
         </Card.Header>
         <Card.Body>
           <ReactPlaceholder
@@ -62,9 +62,9 @@ const ByPublishers = (props) => {
                       {map(
                         (dataPublisher) => (
                           <ListGroup.Item
-                            key={get("color", dataPublisher)}
+                            key={get('color', dataPublisher)}
                             style={{
-                              backgroundColor: get("color", dataPublisher),
+                              backgroundColor: get('color', dataPublisher),
                             }}
                           >
                             {dataPublisher.title}
@@ -78,14 +78,14 @@ const ByPublishers = (props) => {
               </>
             ) : (
               <Card.Text className="text-center">
-                {t("common:noData")}
+                {t('common:noData')}
               </Card.Text>
             )}
           </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>
-  );
-};
+  )
+}
 
-export default ByPublishers;
+export default ByPublishers

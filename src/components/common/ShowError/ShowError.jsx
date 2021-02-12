@@ -1,10 +1,7 @@
-import React from "react";
-// import { useTranslation } from "react-i18next";
+import React from 'react'
 
-const ShowError = ({ error }) => {
-  // const { t } = useTranslation(["common"]);
+const ShowError = ({ error }) => (
+  <span className="text-center text-muted">{error}</span>
+)
 
-  return <span className="text-center text-muted">{error}</span>;
-};
-
-export default ShowError;
+export default ShowError

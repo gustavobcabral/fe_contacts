@@ -1,19 +1,19 @@
-import React from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import CheckNumber from "../common/CheckNumbers/CheckNumbers";
-import ResponsibilitySelect from "../common/ResponsibilitySelect/ResponsibilitySelect";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
-import ReactPlaceholder from "react-placeholder";
+import React from 'react'
+import { Button, Form, Row, Col } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import CheckNumber from '../common/CheckNumbers/CheckNumbers'
+import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import ReactPlaceholder from 'react-placeholder'
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
-    "publishers",
-    "responsibility",
-    "detailsContacts",
-    "common",
-    "contacts",
-  ]);
+    'publishers',
+    'responsibility',
+    'detailsContacts',
+    'common',
+    'contacts',
+  ])
   const {
     form,
     validator,
@@ -22,7 +22,7 @@ const FormPublishers = (props) => {
     onHide,
     handleInputChange,
     validated,
-  } = props;
+  } = props
   return (
     <ReactPlaceholder
       showLoadingAnimation={true}
@@ -36,7 +36,7 @@ const FormPublishers = (props) => {
             <SuperFormControl
               type="text"
               name="name"
-              label={t("name")}
+              label={t('name')}
               validator={validator}
               validated={validated}
               value={form.name}
@@ -49,7 +49,7 @@ const FormPublishers = (props) => {
             <SuperFormControl
               type="number"
               name="phone"
-              label={t("phone")}
+              label={t('phone')}
               endLabel={<CheckNumber phone={form.phone} />}
               validator={validator}
               validated={validated}
@@ -65,7 +65,7 @@ const FormPublishers = (props) => {
             <SuperFormControl
               type="email"
               name="email"
-              label={t("email")}
+              label={t('email')}
               validator={validator}
               validated={validated}
               value={form.email}
@@ -77,7 +77,7 @@ const FormPublishers = (props) => {
           <Col xs={12} lg={6}>
             <ResponsibilitySelect
               name="idResponsibility"
-              label={t("responsibility")}
+              label={t('responsibility')}
               validator={validator}
               validated={validated}
               value={form.idResponsibility}
@@ -93,10 +93,10 @@ const FormPublishers = (props) => {
             <SuperFormControl
               type="password"
               name="password"
-              label={t("password")}
+              label={t('password')}
               validator={validator}
               validated={validated}
-              placeholder={t("password")}
+              placeholder={t('password')}
               value={form.password}
               onChange={handleInputChange}
               disabled={form.disabled}
@@ -106,10 +106,10 @@ const FormPublishers = (props) => {
             <SuperFormControl
               type="password"
               name="repeatPassword"
-              label={t("repeatPasswordLabel")}
+              label={t('repeatPasswordLabel')}
               validator={validator}
               validated={validated}
-              placeholder={t("repeatPasswordPlaceHolder")}
+              placeholder={t('repeatPasswordPlaceHolder')}
               value={form.repeatPassword}
               onChange={handleInputChange}
               rules="mustBeEqualFieldPassword"
@@ -123,11 +123,11 @@ const FormPublishers = (props) => {
           variant="primary"
           onClick={() => handleSubmit(onHide)}
         >
-          {t(loading ? "common:btnSubmitting" : "common:btnSubmit")}
-        </Button>{" "}
+          {t(loading ? 'common:btnSubmitting' : 'common:btnSubmit')}
+        </Button>{' '}
       </Form>
     </ReactPlaceholder>
-  );
-};
+  )
+}
 
-export default FormPublishers;
+export default FormPublishers

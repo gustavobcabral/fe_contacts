@@ -1,7 +1,7 @@
-import React from "react";
-import PrivateRoute from "../../../utils/privateRoute";
-import StatusList from "../../../pages/Status/StatusList";
-import statusPath from "./path";
+import React from 'react'
+import PrivateRoute from '../../../utils/privateRoute'
+import StatusList from '../../../pages/Status/StatusList'
+import statusPath from './path'
 
 const Routes = () => (
   <>
@@ -11,6 +11,6 @@ const Routes = () => (
       component={StatusList}
     />
   </>
-);
+)
 
-export default Routes;
+export default Routes

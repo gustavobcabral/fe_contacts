@@ -1,11 +1,11 @@
-import React from "react";
-import { Jumbotron, Col, Row } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import SuperSelect from "../common/SuperSelect/SuperSelect";
+import React from 'react'
+import { Jumbotron, Col, Row } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import SuperSelect from '../common/SuperSelect/SuperSelect'
 
 const FormSystemLanguages = (props) => {
-  const { t } = useTranslation(["languages"]);
-  const { valueSelected, handleInputChange, optionsLanguages } = props;
+  const { t } = useTranslation(['languages'])
+  const { valueSelected, handleInputChange, optionsLanguages } = props
 
   return (
     <Row className="justify-content-md-center">
@@ -13,7 +13,7 @@ const FormSystemLanguages = (props) => {
         <Jumbotron>
           <SuperSelect
             name="systemLanguages"
-            label={t("optionsLabel")}
+            label={t('optionsLabel')}
             value={valueSelected}
             options={optionsLanguages}
             onChange={handleInputChange}
@@ -21,7 +21,7 @@ const FormSystemLanguages = (props) => {
         </Jumbotron>
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default FormSystemLanguages;
+export default FormSystemLanguages

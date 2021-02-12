@@ -1,4 +1,4 @@
-import { getOr, map } from "lodash/fp";
+import { getOr, map } from 'lodash/fp'
 
 const reducePublishers = (publishers) =>
   map(
@@ -7,7 +7,7 @@ const reducePublishers = (publishers) =>
       label: publisher.name,
       data: publisher,
     }),
-    getOr([], "data.data", publishers)
-  );
+    getOr([], 'data.data', publishers)
+  )
 
-export { reducePublishers };
+export { reducePublishers }

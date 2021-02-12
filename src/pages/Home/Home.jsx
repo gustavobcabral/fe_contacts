@@ -1,8 +1,6 @@
-import React from "react";
-import Landing from "../../components/Landing/Landing";
+import React from 'react'
+import Landing from '../../components/Landing/Landing'
 
-const Home = (props) => (
-  <Landing {...props} />
-);
+const Home = (props) => <Landing {...props} />
 
-export default Home;
+export default Home

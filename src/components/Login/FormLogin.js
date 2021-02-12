@@ -1,10 +1,10 @@
-import React from "react";
-import { Button, Form } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
+import React from 'react'
+import { Button, Form } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
 
 const FormLogin = (props) => {
-  const { t } = useTranslation(["login", "common"]);
+  const { t } = useTranslation(['login', 'common'])
   const {
     validator,
     handleInputChange,
@@ -12,7 +12,7 @@ const FormLogin = (props) => {
     submitting,
     validated,
     handleSubmit,
-  } = props;
+  } = props
 
   return (
     <Form>
@@ -20,10 +20,10 @@ const FormLogin = (props) => {
         type="email"
         name="email"
         autocomplete="email"
-        label={t("emailLabel")}
+        label={t('emailLabel')}
         validator={validator}
         validated={validated}
-        placeholder={t("emailPlaceHolder")}
+        placeholder={t('emailPlaceHolder')}
         value={form.email}
         onChange={handleInputChange}
         rules="required|email"
@@ -31,11 +31,11 @@ const FormLogin = (props) => {
       <SuperFormControl
         type="password"
         name="password"
-        label={t("passwordLabel")}
+        label={t('passwordLabel')}
         validator={validator}
         validated={validated}
         autocomplete="current-password"
-        placeholder={t("passwordPlaceHolder")}
+        placeholder={t('passwordPlaceHolder')}
         value={form.password}
         onChange={handleInputChange}
         rules="required"
@@ -47,10 +47,10 @@ const FormLogin = (props) => {
         type="button"
         onClick={handleSubmit}
       >
-        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
+        {t(submitting ? 'common:btnSubmitting' : 'common:btnSubmit')}
       </Button>
     </Form>
-  );
-};
+  )
+}
 
-export default FormLogin;
+export default FormLogin
