@@ -160,6 +160,7 @@ class Contacts extends React.Component {
       const contact = find((item) => item.phone === phone, data)
       return {
         ...contact,
+        gender: t(contact.gender),
         typeCompany: t(`${contact.typeCompany ? 'commercial' : 'residential'}`),
         languageName: t(`languages:${contact.languageName}`),
         statusDescription: t(`status:${contact.statusDescription}`),
@@ -173,6 +174,8 @@ class Contacts extends React.Component {
       headers: [
         { label: t('phone'), key: 'phone' },
         { label: t('name'), key: 'name' },
+        { label: t('owner'), key: 'owner' },
+        { label: t('gender'), key: 'gender' },
         { label: t('typeCompany'), key: 'typeCompany' },
         { label: t('language'), key: 'languageName' },
         { label: t('status'), key: 'statusDescription' },
