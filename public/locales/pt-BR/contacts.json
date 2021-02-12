@@ -29,5 +29,7 @@
   "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato",
   "owner": "Proprietário",
   "99999999999": "Sem conversa",
-  "createdAt":"Gerado em"
+  "createdAt":"Gerado em",
+  "titleExportToCVS": "Exportar contatos selecionados ao Excel"
+
 }

@@ -29,5 +29,6 @@
   "notePlaceHolder": "Write a comment here",
   "owner": "Owner",
   "99999999999": "No contact",
-  "createdAt":"Generate at"
+  "createdAt":"Generate at",
+  "titleExportToCVS": "Export selected contacts to Excel"
 }
