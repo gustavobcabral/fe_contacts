@@ -25,6 +25,14 @@ import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
 import { parseQuery } from '../../utils/forms'
 import { RECORDS_PER_PAGE } from '../../constants/application'
+import {
+  ID_STATUS_AVAILABLE,
+  ID_STATUS_BIBLE_STUDY,
+  ID_STATUS_RETURN_VISIT,
+  ID_STATUS_NO_VISIT,
+  ID_STATUS_SEND_TO_OTHER_CONG,
+} from '../../constants/status'
+
 import FilterData from '../common/FilterData/FilterData'
 import NewContact from './NewContact'
 import EditContact from './EditContact'
@@ -47,7 +55,7 @@ class Contacts extends React.Component {
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
-      statusForbidden: [4, 5],
+      statusForbidden: [ID_STATUS_NO_VISIT, ID_STATUS_SEND_TO_OTHER_CONG],
       queryParams: {
         sort: '"lastConversationInDays":DESC,name:IS NULL DESC,name:ASC',
         perPage: RECORDS_PER_PAGE,
@@ -71,6 +79,7 @@ class Contacts extends React.Component {
     this.handleOnClick = this.handleOnClick.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
     this.parseDataCVS = this.parseDataCVS.bind(this)
+    this.setRowColor = this.setRowColor.bind(this)
   }
 
   async handleGetAll(objQuery) {
@@ -187,6 +196,22 @@ class Contacts extends React.Component {
         { label: t('details'), key: 'details' },
       ],
     })
+  }
+
+  setRowColor(idStatus) {
+    let color
+    switch (idStatus) {
+      case ID_STATUS_AVAILABLE:
+        color = 'text-success'
+        break
+      case ID_STATUS_BIBLE_STUDY:
+      case ID_STATUS_RETURN_VISIT:
+        color = 'bg-warning'
+        break
+      default:
+        color = ''
+    }
+    return color
   }
 
   render() {
@@ -322,7 +347,11 @@ class Contacts extends React.Component {
                         <td className="d-none d-lg-table-cell">
                           {t(`languages:${contact.languageName}`)}
                         </td>
-                        <td className="d-none d-lg-table-cell">
+                        <td
+                          className={`d-none d-lg-table-cell ${this.setRowColor(
+                            contact.idStatus
+                          )}`}
+                        >
                           {t(`status:${contact.statusDescription}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
