@@ -80,6 +80,7 @@ class Contacts extends React.Component {
     this.toggleFilter = this.toggleFilter.bind(this)
     this.parseDataCVS = this.parseDataCVS.bind(this)
     this.setRowColor = this.setRowColor.bind(this)
+    this.setSubRowVisible = this.setSubRowVisible.bind(this)
   }
 
   async handleGetAll(objQuery) {
@@ -214,6 +215,17 @@ class Contacts extends React.Component {
     return color
   }
 
+  setSubRowVisible(contact) {
+    if (
+      (contact.idStatus === ID_STATUS_RETURN_VISIT ||
+        contact.idStatus === ID_STATUS_BIBLE_STUDY) &&
+      !isEmpty(getOr('', 'publisherName', contact))
+    ) {
+      return ''
+    }
+    return 'd-none'
+  }
+
   render() {
     const { t } = this.props
     const {
@@ -241,7 +253,7 @@ class Contacts extends React.Component {
             />
           </Col>
           <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
-            <Table striped bordered hover responsive>
+            <Table striped bordered hover responsive size="sm">
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
@@ -312,87 +324,98 @@ class Contacts extends React.Component {
                 ) : !isEmpty(data) ? (
                   map(
                     (contact) => (
-                      <tr
-                        key={contact.phone}
-                        className={
-                          contains(contact.idStatus, statusForbidden)
-                            ? 'bg-danger'
-                            : ''
-                        }
-                      >
-                        <td>
-                          <Form.Check
-                            type="checkbox"
-                            checked={contains(
-                              contact.phone,
-                              checksContactsPhones
+                      <>
+                        <tr
+                          key={contact.phone}
+                          className={
+                            contains(contact.idStatus, statusForbidden)
+                              ? 'bg-danger'
+                              : ''
+                          }
+                        >
+                          <td>
+                            <Form.Check
+                              type="checkbox"
+                              checked={contains(
+                                contact.phone,
+                                checksContactsPhones
+                              )}
+                              name="checksContactsPhones"
+                              value={contact.phone}
+                              className="checkBoxPhones"
+                              onChange={this.handleOnClick}
+                            />
+                          </td>
+                          <td>{contact.phone}</td>
+                          <td className="d-none d-sm-table-cell">
+                            {contact.name}
+                          </td>
+                          <td className="d-none d-lg-table-cell">
+                            {t(
+                              `${
+                                contact.typeCompany
+                                  ? 'commercial'
+                                  : 'residential'
+                              }`
                             )}
-                            name="checksContactsPhones"
-                            value={contact.phone}
-                            className="checkBoxPhones"
-                            onChange={this.handleOnClick}
-                          />
-                        </td>
-                        <td>{contact.phone}</td>
-                        <td className="d-none d-sm-table-cell">
-                          {contact.name}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
-                          {t(
-                            `${
-                              contact.typeCompany ? 'commercial' : 'residential'
-                            }`
-                          )}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
-                          {t(`languages:${contact.languageName}`)}
-                        </td>
-                        <td
-                          className={`d-none d-lg-table-cell ${this.setRowColor(
-                            contact.idStatus
-                          )}`}
-                        >
-                          {t(`status:${contact.statusDescription}`)}
-                        </td>
-                        <td className="d-none d-lg-table-cell">
-                          {t(`${contact.lastConversationInDays}`)}
-                        </td>
-                        <td
-                          className={`d-none d-lg-table-cell text-${
-                            contact.waitingFeedback ? 'danger' : 'success'
-                          }`}
-                        >
-                          {t(
-                            `common:${contact.waitingFeedback ? 'yes' : 'no'}`
-                          )}
-                        </td>
-
-                        <td>
-                          <ListDetailsContact
-                            contact={contact}
-                            id={contact.phone}
-                            afterClose={() => this.handleGetAll()}
-                          />{' '}
-                          <Button
-                            title={t('common:list')}
-                            variant="success"
-                            as={Link}
-                            to={`/contacts/${encodeURI(contact.phone)}/details`}
+                          </td>
+                          <td className="d-none d-lg-table-cell">
+                            {t(`languages:${contact.languageName}`)}
+                          </td>
+                          <td
+                            className={`d-none d-lg-table-cell ${this.setRowColor(
+                              contact.idStatus
+                            )}`}
                           >
-                            <FontAwesomeIcon icon={faList} />
-                          </Button>
-                        </td>
-                        <td>
-                          <EditContact
-                            id={contact.phone}
-                            afterClose={() => this.handleGetAll()}
-                          />{' '}
-                          <AskDelete
-                            id={contact.phone}
-                            funcToCallAfterConfirmation={this.handleDelete}
-                          />
-                        </td>
-                      </tr>
+                            {t(`status:${contact.statusDescription}`)}
+                          </td>
+                          <td className="d-none d-lg-table-cell">
+                            {t(`${contact.lastConversationInDays}`)}
+                          </td>
+                          <td
+                            className={`d-none d-lg-table-cell text-${
+                              contact.waitingFeedback ? 'danger' : 'success'
+                            }`}
+                          >
+                            {t(
+                              `common:${contact.waitingFeedback ? 'yes' : 'no'}`
+                            )}
+                          </td>
+
+                          <td>
+                            <ListDetailsContact
+                              contact={contact}
+                              id={contact.phone}
+                              afterClose={() => this.handleGetAll()}
+                            />{' '}
+                            <Button
+                              title={t('common:list')}
+                              variant="success"
+                              as={Link}
+                              to={`/contacts/${encodeURI(
+                                contact.phone
+                              )}/details`}
+                            >
+                              <FontAwesomeIcon icon={faList} />
+                            </Button>
+                          </td>
+                          <td>
+                            <EditContact
+                              id={contact.phone}
+                              afterClose={() => this.handleGetAll()}
+                            />{' '}
+                            <AskDelete
+                              id={contact.phone}
+                              funcToCallAfterConfirmation={this.handleDelete}
+                            />
+                          </td>
+                        </tr>
+                        <tr className={this.setSubRowVisible(contact)}>
+                          <td colSpan={colSpan}>
+                          <Form.Text className="text-muted">{t('lastSpokeToPublisherName')}: {contact.publisherName}</Form.Text>
+                          </td>
+                        </tr>
+                      </>
                     ),
                     data
                   )
