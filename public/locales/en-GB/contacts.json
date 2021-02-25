@@ -30,5 +30,6 @@
   "owner": "Owner",
   "99999999999": "No contact",
   "createdAt":"Generate at",
-  "titleExportToCVS": "Export selected contacts to Excel"
+  "titleExportToCVS": "Export selected contacts to Excel",
+  "lastSpokeToPublisherName": "Last spoke to"
 }
