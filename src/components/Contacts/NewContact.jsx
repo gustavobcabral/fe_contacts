@@ -101,6 +101,7 @@ class NewContact extends React.Component {
     const data = {
       ...form,
       name: ifEmptySetNull(getOr('', 'name', form)),
+      phone2: ifEmptySetNull(getOr('', 'phone2', form)),
       gender,
       owner,
     }

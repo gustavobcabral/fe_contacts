@@ -1,4 +1,5 @@
 {
+  "titleCrud": "Idiomas",
   "title": "Idioma do sistema",
   "labelSelect": "Idioma",
   "noLanguage": "Sem idioma",
@@ -9,6 +10,8 @@
   "spanish": "Espanhol",
   "germany": "Alemão",
   "portuguese": "Português",
-  "unknown":"Desconhecido"
+  "unknown":"Desconhecido",
+  "descriptionLabel": "Descrição",
+  "descriptionTraducedLabel": "Descrição Traduzida"
 
 }
