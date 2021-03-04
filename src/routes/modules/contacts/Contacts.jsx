@@ -1,13 +1,13 @@
-import React from "react";
-import PrivateRoute from "../../../utils/privateRoute";
+import React from 'react'
+import PrivateRoute from '../../../utils/privateRoute'
 
-import ContactsList from "../../../pages/Contacts/ContactsList";
-import ContactsWaitingFeedbackList from "../../../pages/Contacts/ContactsWaitingFeedbackList";
-import ListDetailsContact from "../../../pages/DetailsContact/ListDetailsContact";
-import EditDetailsContact from "../../../pages/DetailsContact/EditDetailsContact";
-import NewDetailsContact from "../../../pages/DetailsContact/NewDetailsContact";
+import ContactsList from '../../../pages/Contacts/ContactsList'
+import ContactsWaitingFeedbackList from '../../../pages/Contacts/ContactsWaitingFeedbackList'
+import ListDetailsContact from '../../../pages/DetailsContact/ListDetailsContact'
+import EditDetailsContact from '../../../pages/DetailsContact/EditDetailsContact'
+import NewDetailsContact from '../../../pages/DetailsContact/NewDetailsContact'
 
-import contactsPaths from "./path";
+import contactsPaths from './path'
 
 const Routes = () => (
   <>
@@ -37,6 +37,6 @@ const Routes = () => (
       component={EditDetailsContact}
     />
   </>
-);
+)
 
-export default Routes;
+export default Routes

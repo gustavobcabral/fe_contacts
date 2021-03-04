@@ -1,139 +1,151 @@
-import React from "react";
-import { withTranslation } from "react-i18next";
-import { details, publishers } from "../../../services";
-import ContainerCRUD from "../../../components/common/ContainerCRUD/ContainerCRUD";
-import { getOr, map, pick, get } from "lodash/fp";
-import FormDetails from "./FormDetails";
-import SimpleReactValidator from "simple-react-validator";
-import Swal from "sweetalert2";
-import { getLocale, handleInputChangeGeneric } from "../../../utils/forms";
+import React from 'react'
+import { withTranslation } from 'react-i18next'
+import { details, publishers } from '../../../services'
+import ContainerCRUD from '../../../components/common/ContainerCRUD/ContainerCRUD'
+import { getOr, pick, get } from 'lodash/fp'
+import FormDetails from '../FormDetails'
+import SimpleReactValidator from 'simple-react-validator'
+import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import { showError, showSuccessful } from '../../../utils/generic'
+import { WAITING_FEEDBACK, GENDER_UNKNOWN } from '../../../constants/contacts'
+import { Container } from 'react-bootstrap'
+import { reducePublishers } from '../../../stateReducers/publishers'
 
 const fields = {
-  information: "",
-  idPublisher: "",
-  idStatus: "",
+  information: '',
+  idPublisher: '',
+  idStatus: '',
   idLanguage: null,
-  gender: "",
-  name: "",
-};
+  gender: '',
+  name: '',
+  owner: '',
+  typeCompany: '0',
+}
 
 class EditDetailsContact extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       form: fields,
-      submitting: false,
       loading: false,
       validated: false,
       publishersOptions: [],
-      phone: getOr(0, "match.params.phone", props),
-    };
-    this.handleGetOne = this.handleGetOne.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+      phone: getOr(0, 'match.params.phone', props),
+    }
+    this.handleGetOne = this.handleGetOne.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
-    });
+    })
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
   async handleGetOne() {
-    const id = getOr(0, "props.match.params.id", this);
-    this.setState({ loading: true });
-    const response = await details.getOne(id);
-    const form = getOr(fields, "data.data", response);
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
+    const id = getOr(0, 'props.match.params.id', this)
+    this.setState({ loading: true })
+    const response = await details.getOne(id)
+    const data = getOr(fields, 'data.data', response)
+    const form = {
+      ...data,
+      information:
+        getOr('', 'information', data) === WAITING_FEEDBACK
+          ? ''
+          : getOr('', 'information', data),
+    }
+    const publishersOptions = reducePublishers(await publishers.getAll())
 
     this.setState({
       form,
       publishersOptions,
       loading: false,
-    });
+    })
   }
 
   handleInputChange(event) {
-    handleInputChangeGeneric(event, this);
+    handleInputChangeGeneric(event, this)
   }
 
   async handleSubmit() {
-    this.setState({ validated: true });
+    this.setState({ validated: true })
     if (!this.validator.allValid()) {
-      this.validator.showMessages();
-      return true;
+      this.validator.showMessages()
+      return true
     }
-    this.setState({ submitting: true });
+    this.setState({ loading: true })
 
-    const { form, phone } = this.state;
-    const { history } = this.props;
-    const { t } = this.props;
-    const id = getOr(0, "props.match.params.id", this);
-
+    const { form, phone } = this.state
+    const { history } = this.props
+    const { t } = this.props
+    const id = getOr(0, 'props.match.params.id', this)
+    const gender =
+      form.typeCompany === true || form.typeCompany === '1'
+        ? GENDER_UNKNOWN
+        : form.gender
+    const owner =
+      form.typeCompany === true || form.typeCompany === '1' ? form.owner : null
     const data = {
       detailsContact: {
-        ...pick(["idPublisher", "information"], form),
+        ...pick(['idPublisher', 'information'], form),
         phoneContact: phone,
       },
       contact: {
-        idStatus: get("idStatus", form),
-        idLanguage: get("idLanguage", form),
+        idStatus: get('idStatus', form),
+        idLanguage: get('idLanguage', form),
         phone,
-        gender: get("gender", form),
-        name: get("name", form),
+        gender,
+        owner,
+        name: get('name', form),
+        typeCompany: get('typeCompany', form),
       },
-    };
+    }
 
     try {
-      await details.updateOneContactDetail(id, data);
-      this.setState({ submitting: false });
-      history.goBack();
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
+      await details.updateOneContactDetail(id, data)
+      this.setState({ loading: false })
+      history.goBack()
+      showSuccessful(t)
     } catch (error) {
-      this.setState({ submitting: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
-      });
+      this.setState({ loading: false })
+      showError(error, t, 'detailsContacts')
     }
   }
 
   componentDidMount() {
-    this.handleGetOne();
+    this.handleGetOne()
   }
 
   render() {
-    const { t } = this.props;
+    const { form, validated, publishersOptions, loading } = this.state
+    const { t, contact, history } = this.props
 
     return (
       <>
-        <ContainerCRUD title={t("title")} {...this.props}>
-          <h1>{`${t("common:edit")} ${t("detailsContacts:title")}`}</h1>
-          <FormDetails {...this} onSubmit={this.handleSubmit}  />
+        <ContainerCRUD title={t('title')} {...this.props}>
+          <Container className="border p-4">
+            <h1>{`${t('common:edit')} ${t('detailsContacts:title')}`}</h1>
+            <FormDetails
+              validator={this.validator}
+              loading={loading}
+              validated={validated}
+              handleSubmit={this.handleSubmit}
+              handleInputChange={this.handleInputChange}
+              form={form}
+              publishersOptions={publishersOptions}
+              title={`${t('common:edit')} ${t('titleCrud')} #${get(
+                'phone',
+                contact
+              )}`}
+              onSubmit={this.handleSubmit}
+              history={history}
+            />
+          </Container>
         </ContainerCRUD>
       </>
-    );
+    )
   }
 }
 
-export default withTranslation(["contacts", "common"])(EditDetailsContact);
+export default withTranslation(['contacts', 'common'])(EditDetailsContact)

@@ -1,22 +1,23 @@
-import api from "../api";
-import { toQueryString } from "../../utils/forms";
+import api from '../api'
+import { toQueryString } from '../../utils/forms'
 
-const getAllOneContact = (id, limit = 5) =>
-  api.get(`/detailsContacts/oneContact/${id}?limit=${limit}`);
+const getAllOneContact = (id, params) =>
+  api.get(`/detailsContacts/oneContact/${id}/${toQueryString(params)}`)
 
-const getOne = (id) => api.get(`/detailsContacts/${id}`);
+const getOne = (id) => api.get(`/detailsContacts/${id}`)
 
 const getAllWaitingFeedback = (params) =>
-  api.get(`/detailsContacts/waitingFeedback${toQueryString(params)}`);
+  api.get(`/detailsContacts/waitingFeedback${toQueryString(params)}`)
 
-const getAllWaitingFeedbackFilters = () => api.get(`/detailsContacts/filtersWaitingFeedback`);
+const getAllWaitingFeedbackFilters = () =>
+  api.get(`/detailsContacts/filtersWaitingFeedback`)
 
-const create = (data) => api.post(`/detailsContacts`, data);
+const create = (data) => api.post(`/detailsContacts`, data)
 
 const updateOneContactDetail = (id, data) =>
-  api.put(`/detailsContacts/${id}`, data);
+  api.put(`/detailsContacts/${id}`, data)
 
-const dellOne = (id) => api.delete(`/detailsContacts/${id}`);
+const dellOne = (id) => api.delete(`/detailsContacts/${id}`)
 
 const allExport = {
   getOne,
@@ -26,6 +27,6 @@ const allExport = {
   create,
   updateOneContactDetail,
   dellOne,
-};
+}
 
 export default allExport

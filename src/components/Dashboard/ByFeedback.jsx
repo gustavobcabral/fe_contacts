@@ -1,82 +1,95 @@
-import React from "react";
-import { Col, Card } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { PieChart } from "react-minimal-pie-chart";
-import { get, isEmpty, getOr, compact } from "lodash/fp";
-import { round } from "lodash";
+import React from 'react'
+import { Col, Card } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import { PieChart } from 'react-minimal-pie-chart'
+import { get, isEmpty, getOr, compact } from 'lodash/fp'
+import { round } from 'lodash'
+import ReactPlaceholder from 'react-placeholder'
+import { isAtLeastElder } from '../../utils/loginDataManager'
 
 const getByFeedback = (t, data) => {
   if (
-    getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) === 0 &&
-    getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data) === 0
+    getOr(0, 'totalPercentContactsAssignByMeWaitingFeedback', data) === 0 &&
+    getOr(0, 'totalPercentContactsAssignByOthersWaitingFeedback', data) === 0
   )
-    return [];
+    return []
 
   return compact([
-    getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data) > 0
+    getOr(0, 'totalPercentContactsAssignByMeWaitingFeedback', data) > 0
       ? {
-          label: t("totalContactsAssignByMeWaitingFeedback"),
+          label: t('totalContactsAssignByMeWaitingFeedback'),
           value: getOr(
             0,
-            "totalPercentContactsAssignByMeWaitingFeedback",
+            'totalPercentContactsAssignByMeWaitingFeedback',
             data
           ),
           title: `${round(
-            getOr(0, "totalPercentContactsAssignByMeWaitingFeedback", data),
+            getOr(0, 'totalPercentContactsAssignByMeWaitingFeedback', data),
             2
-          )}% ${t("totalContactsAssignByMeWaitingFeedback")}`,
-          color: "#007bff",
+          )}% ${t('totalContactsAssignByMeWaitingFeedback')}`,
+          color: '#007bff',
         }
       : null,
-    getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data) > 0
+    getOr(0, 'totalPercentContactsAssignByOthersWaitingFeedback', data) > 0
       ? {
-          label: t("totalContactsWaitingFeedback"),
+          label: t('totalContactsWaitingFeedback'),
           title: `${round(
-            getOr(0, "totalPercentContactsAssignByOthersWaitingFeedback", data),
+            getOr(0, 'totalPercentContactsAssignByOthersWaitingFeedback', data),
             2
-          )}% ${t("totalContactsWaitingFeedback")}`,
+          )}% ${t('totalContactsWaitingFeedback')}`,
           value: getOr(
             0,
-            "totalPercentContactsAssignByOthersWaitingFeedback",
+            'totalPercentContactsAssignByOthersWaitingFeedback',
             data
           ),
-          color: "#6610f2",
+          color: '#6610f2',
         }
       : null,
-  ]);
-};
+  ])
+}
 
 const ByFeedback = (props) => {
-  const { t } = useTranslation(["dashboard", "common"]);
-  const byFeedback = getByFeedback(t, get("data", props));
+  const { t } = useTranslation(['dashboard', 'common'])
+  const byFeedback = getByFeedback(t, get('data', props))
+  const offsetLG = isAtLeastElder() ? 3 : 4
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
-      lg={{ span: 2, offset: 4 }}
+      lg={{ span: 2, offset: offsetLG }}
       className="mt-2"
     >
       <Card>
-        <Card.Header className="text-center" style={{ minHeight: "73px" }}>
-          {t("titleChartWaitingFeedback")}
+        <Card.Header className="text-center" style={{ minHeight: '73px' }}>
+          {t('titleChartWaitingFeedback')}
         </Card.Header>
         <Card.Body>
-          {!isEmpty(byFeedback) ? (
-            <PieChart
-              animate={true}
-              data={byFeedback}
-              totalValue={100}
-              label={({ dataEntry }) => get("label", dataEntry)}
-              labelStyle={{
-                fontSize: "5px",
-              }}
-            />
-          ) : (
-            <Card.Text className="text-center">{t("common:noData")}</Card.Text>
-          )}
+          <ReactPlaceholder
+            showLoadingAnimation={true}
+            type="round"
+            style={{ width: 230, height: 230 }}
+            ready={!props.loading}
+            rows={1}
+          >
+            {!isEmpty(byFeedback) ? (
+              <PieChart
+                animate={true}
+                data={byFeedback}
+                totalValue={100}
+                label={({ dataEntry }) => get('label', dataEntry)}
+                labelStyle={{
+                  fontSize: '5px',
+                }}
+              />
+            ) : (
+              <Card.Text className="text-center">
+                {t('common:noData')}
+              </Card.Text>
+            )}
+          </ReactPlaceholder>
         </Card.Body>
       </Card>
     </Col>
-  );
-};
+  )
+}
 
-export default ByFeedback;
+export default ByFeedback

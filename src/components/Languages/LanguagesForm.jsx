@@ -1,43 +1,68 @@
-import React from "react";
-import { Button, Form } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import SuperFormControl from "../common/SuperFormControl/SuperFormControl";
+import React from 'react'
+import { Button, Form, Col, Row } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
+import ReactPlaceholder from 'react-placeholder'
 
 const LanguagesForm = (props) => {
-  const { t } = useTranslation(["languages", "common"]);
+  const { t } = useTranslation(['languages', 'common'])
   const {
     validator,
     handleInputChange,
     form,
-    submitting,
+    loading,
     validated,
     onHide,
     handleSubmit,
-  } = props;
-console.log(form, "FORM PROPS MODAL")
+  } = props
   return (
-    <Form>
-      <SuperFormControl
-        type="text"
-        name="name"
-        label={t("nameLabel")}
-        validator={validator}
-        validated={validated}
-        placeholder={t("namePlaceHolder")}
-        value={form.name}
-        onChange={handleInputChange}
-        rules="required|max:25"
-      />
-      <Button
-        disabled={submitting}
-        variant="primary"
-        type="button"
-        onClick={() => handleSubmit(onHide)}
-      >
-        {t(submitting ? "common:btnSubmitting" : "common:btnSubmit")}
-      </Button>
-    </Form>
-  );
-};
+    <ReactPlaceholder
+      showLoadingAnimation={true}
+      type="text"
+      ready={!loading}
+      rows={12}
+    >
+      <Form>
+        <Row>
+          <Col xs={12} lg={6}>
+            <SuperFormControl
+              type="text"
+              name="name"
+              label={t('nameLabel')}
+              validator={validator}
+              validated={validated}
+              placeholder={t('namePlaceHolder')}
+              value={form.name}
+              onChange={handleInputChange}
+              rules="required|max:25"
+            />
+          </Col>
+          <Col xs={12} lg={6}>
+            <SuperFormControl
+              type="text"
+              name="color"
+              label={t('colorLabel')}
+              validator={validator}
+              validated={validated}
+              placeholder={t('colorPlaceHolder')}
+              value={form.color}
+              onChange={handleInputChange}
+              rules="required|max:7"
+            />
+          </Col>
+        </Row>
 
-export default LanguagesForm;
+        <Button
+          disabled={loading}
+          variant="primary"
+          type="button"
+          onClick={() => handleSubmit(onHide)}
+        >
+          {t(loading ? 'common:btnSubmitting' : 'common:btnSubmit')}
+        </Button>
+      </Form>
+    </ReactPlaceholder>
+  )
+}
+
+export default LanguagesForm

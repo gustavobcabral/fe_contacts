@@ -1,31 +1,39 @@
-import React from "react";
-import { withTranslation } from "react-i18next";
-import OurModal from "../common/OurModal/OurModal";
-import Swal from "sweetalert2";
-import { getOr, map, get } from "lodash/fp";
-import SimpleReactValidator from "simple-react-validator";
-import { getLocale, handleInputChangeGeneric } from "../../utils/forms";
-import { contacts, publishers, status } from "../../services";
-import FormContacts from "./FormContacts";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react'
+import { withTranslation } from 'react-i18next'
+import OurModal from '../common/OurModal/OurModal'
+import SimpleReactValidator from 'simple-react-validator'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import { contacts, publishers } from '../../services'
+import FormContacts from './FormContacts'
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { showError, showSuccessful, ifEmptySetNull } from '../../utils/generic'
+import { getOr } from 'lodash/fp'
+import { GENDER_UNKNOWN } from '../../constants/contacts'
+import { reducePublishers } from '../../stateReducers/publishers'
 import {
   ID_LANGUAGE_DEFAULT,
   ID_GENDER_DEFAULT,
   ID_STATUS_DEFAULT,
-} from "../../constants/valuesPredefined";
+} from '../../constants/valuesPredefined'
 
 const fields = {
-  phone: "",
-  name: "",
+  phone: '',
+  phone2: '',
+  name: '',
+  owner: '',
+  note: '',
+  location: '',
+  email: null,
+  typeCompany: false,
   gender: ID_GENDER_DEFAULT,
   idStatus: ID_STATUS_DEFAULT,
   idLanguage: ID_LANGUAGE_DEFAULT,
-};
+}
 
 class NewContact extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       form: fields,
       submitting: false,
@@ -33,116 +41,119 @@ class NewContact extends React.Component {
       validated: false,
       publishersOptions: [],
       statusOptions: [],
-    };
+    }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onOpen = this.onOpen.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onOpen = this.onOpen.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.resetForm = this.resetForm.bind(this)
+
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
-    });
+    })
   }
 
-  reducePublishers = (publishers) =>
-    map(
-      (publisher) => ({ value: publisher.id, label: publisher.name }),
-      getOr([], "data.data", publishers)
-    );
-
-  reduceStatus = (status) =>
-    map(
-      (status) => ({ value: status.id, label: status.description }),
-      getOr([], "data.data", status)
-    );
-
   async onOpen() {
-    this.setState({ loading: true });
-    const publishersOptions = this.reducePublishers(await publishers.getAll());
-    const statusOptions = this.reduceStatus(await status.getAll());
+    this.setState({ loading: true })
+    try {
+      const publishersOptions = reducePublishers(await publishers.getAll())
 
-    this.setState({
-      publishersOptions,
-      statusOptions,
-      loading: false,
-    });
+      this.setState({
+        publishersOptions,
+        loading: false,
+      })
+    } catch (error) {
+      const { t } = this.props
+
+      this.setState({
+        loading: false,
+      })
+
+      showError(error, t, 'contacts')
+    }
   }
 
   handleInputChange(event) {
-    handleInputChangeGeneric(event, this);
+    handleInputChangeGeneric(event, this)
   }
 
   async handleSubmit(onHide) {
-    this.setState({ validated: true });
+    this.setState({ validated: true })
 
     if (!this.validator.allValid()) {
-      this.validator.showMessages();
-      return true;
+      this.validator.showMessages()
+      return true
     }
-    this.setState({ submitting: true });
+    this.setState({ submitting: true })
 
-    const { form } = this.state;
-    const { t } = this.props;
+    const { form } = this.state
+    const { t } = this.props
+
+    const gender =
+      form.typeCompany === true || form.typeCompany === '1'
+        ? GENDER_UNKNOWN
+        : form.gender
+    const owner =
+      form.typeCompany === true || form.typeCompany === '1' ? form.owner : null
 
     const data = {
-      phone: get("phone", form),
-      name: get("name", form),
-      gender: get("gender", form),
-      idStatus: get("idStatus", form),
-      idLanguage: get("idLanguage", form),
-    };
+      ...form,
+      name: ifEmptySetNull(getOr('', 'name', form)),
+      phone2: ifEmptySetNull(getOr('', 'phone2', form)),
+      gender,
+      owner,
+    }
 
     try {
-      await contacts.create(data);
-      this.setState({ submitting: false });
-      Swal.fire({
-        title: t("common:dataSuccessfullySaved"),
-        icon: "success",
-        timer: 2000,
-        timerProgressBar: true,
-      });
-      onHide();
-      this.setState({ form: fields, submitting: false, validated: false });
-      this.validator.hideMessages();
+      await contacts.create(data)
+      this.setState({ submitting: false })
+      showSuccessful(t)
+
+      onHide()
+      this.resetForm()
     } catch (error) {
-      this.setState({ submitting: false });
-      Swal.fire({
-        icon: "error",
-        title: t(
-          `common:${getOr("errorTextUndefined", "response.data.cod", error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            "errorWithoutDetails",
-            "response.data.error.code",
-            error
-          )}`
-        ),
-      });
+      this.setState({ submitting: false })
+      showError(error, t, 'contacts')
     }
   }
 
+  resetForm() {
+    this.setState({ form: fields, submitting: false, validated: false })
+    this.validator.hideMessages()
+  }
+
   render() {
-    const { form, validated, publishersOptions, statusOptions } = this.state;
-    const { t, afterClose } = this.props;
+    const {
+      form,
+      validated,
+      publishersOptions,
+      statusOptions,
+      submitting,
+    } = this.state
+    const { t, afterClose } = this.props
     return (
       <OurModal
         body={FormContacts}
         validator={this.validator}
+        submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
+        disablePhone={false}
         form={form}
         onExit={afterClose}
         onEnter={this.onOpen}
+        onClose={this.resetForm}
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
-        title={`${t("common:new")} ${t("titleCrud")}`}
+        buttonTitle={t('common:new')}
+        title={`${t('common:new')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faUserPlus} />}
       />
-    );
+    )
   }
 }
 
-export default withTranslation(["Contacts", "common"])(NewContact);
+export default withTranslation(['contacts', 'common'])(NewContact)

@@ -12,5 +12,4 @@
   "ERROR_WHILE_CREATING": "Error while log in",
   "errorTryLogIn": "Error while log you in",
   "passwordHelper": "Your password needs to contain at least 8 characters, a number, special character, uppercase letter, lowercase letter and no spaces."
-
 }

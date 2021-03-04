@@ -1,8 +1,10 @@
 {
   "title": "Contatos",
-  "titleWaitingFeedback": "Contatos que aguardam resposta",
+  "listTitle": "Lista de contatos",
+  "titleWaitingFeedback": "Lista de contatos que aguardam resposta",
   "titleCrud": "Contato",
   "phone": "Telefone",
+  "phone2": "Telefone 2",
   "language": "Idioma",
   "date": "Data",
   "status": "Estado",
@@ -13,8 +15,23 @@
   "unknown": "Desconhecido",
   "publisher": "Publicador",
   "name": "Nome",
-  "publisherResponsible": "Responsavél",
+  "residential": "Residencial",
+  "commercial": "Comercial",
+  "publisherResponsible": "Responsável",
   "publisherCreatedBy": "Criado por",
   "waitingFeedback": "Pendente",
-  "lastConversasion": "Última conversa"
+  "lastConversation": "Última conversa",
+  "lastConversationsInDays": "Última conversa (em dias)",
+  "typeCompany": "Estabelecimento",
+  "email": "Email",
+  "location": "Localização",
+  "noteLabel": "Observação",
+  "notePlaceHolder": "Se desejar escreva aqui alguma observação sobre este contato",
+  "owner": "Proprietário",
+  "99999999999": "Sem conversa",
+  "createdAt":"Gerado em",
+  "titleExportToCVS": "Exportar contatos selecionados ao Excel",
+  "lastSpokeToPublisherName": "Falou por último com"
+
+
 }

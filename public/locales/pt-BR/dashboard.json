@@ -9,7 +9,9 @@
   "titleChartContacts": "Contatados Vs. não contatados",
   "titleChartWaitingFeedback": "Aguardam meu comentario Vs. de outros",
   "titleChartWaitingFeedbackByPublishers": "Aguardam comentario por cada publicador",
-  "titleChartGender": "Contatados Por Gênero",
-  "titleChartLanguage": "Contatados Por Idioma",
-  "noName": "No Name"
+  "titleChartGender": "Contatados por gênero",
+  "titleChartLanguage": "Contatados por idioma",
+  "noName": "No Name",
+  "titleChartType": "Contatos por tipo"
+
 }

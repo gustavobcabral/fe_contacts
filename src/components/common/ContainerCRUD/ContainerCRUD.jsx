@@ -1,7 +1,7 @@
-import React from "react";
-import "./styles.css";
-import { Row, Col } from "react-bootstrap";
-import ContainerWithNavBar from "../ContainerWithNavBar/ContainerWithNavBar";
+import React from 'react'
+import './styles.css'
+import { Row, Col } from 'react-bootstrap'
+import ContainerWithNavBar from '../ContainerWithNavBar/ContainerWithNavBar'
 
 const ContainerCRUD = (props) => (
   <ContainerWithNavBar {...props}>
@@ -14,6 +14,6 @@ const ContainerCRUD = (props) => (
       <Col xs={12}>{props.children}</Col>
     </Row>
   </ContainerWithNavBar>
-);
+)
 
-export default ContainerCRUD;
+export default ContainerCRUD

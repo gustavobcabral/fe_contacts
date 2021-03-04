@@ -1,6 +1,10 @@
 {
-  "title":"Filters",
+  "title": "Filters",
   "gendersTitleFilter": "Genders",
   "languagesTitleFilter": "Languages",
-  "statusTitleFilter": "Status"
+  "statusTitleFilter": "Status",
+  "responsibilityTitleFilter": "Responsibility",
+  "typeCompanyTitleFilter": "Type",
+  "typeCompanyBoth": "Both"
+
 }

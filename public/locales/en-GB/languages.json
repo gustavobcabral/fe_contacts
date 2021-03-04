@@ -1,9 +1,9 @@
 {
-  "title": "Languages",
-  "titleCrud": "Languages",
+  "titleCrud": "Language",
+  "title": "System language",
   "labelSelect": "Language",
   "noLanguage": "No language",
-  "optionsLabel": "Choice a new language above",
+  "optionsLabel": "Languages",
   "languageOptionEnglish": "English",
   "languageOptionPortuguese": "Portuguese",
   "english": "English",
@@ -11,6 +11,11 @@
   "germany": "Germany",
   "portuguese": "Portuguese",
   "unknown":"Unknown",
+  "descriptionLabel": "Description",
+  "nameLabel": "Name",
+  "colorLabel": "Color",
   "descriptionTraducedLabel": "Description Traduced",
-  "descriptionPlaceHolder": "Please write a short description"
+  "descriptionPlaceHolder": "Please write a short description",
+  "namePlaceHolder": "Please write a short name",
+  "colorPlaceHolder": "Please write the hexadecimal color"
 }

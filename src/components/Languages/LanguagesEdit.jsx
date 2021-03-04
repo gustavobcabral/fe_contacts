@@ -19,7 +19,7 @@ class StatusEdit extends React.Component {
     super(props)
     this.state = {
       form: fields,
-      submitting: false,
+      loading: false,
       validated: false,
     }
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -29,10 +29,17 @@ class StatusEdit extends React.Component {
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
     })
+    this.resetForm = this.resetForm.bind(this)
+
   }
 
   handleInputChange(event) {
     handleInputChangeGeneric(event, this)
+  }
+
+  resetForm() {
+    this.setState({ form: fields, loading: false, validated: false })
+    this.validator.hideMessages()
   }
 
   async handleSubmit(onHide) {
@@ -41,7 +48,7 @@ class StatusEdit extends React.Component {
       return true
     }
 
-    this.setState({ submitting: true })
+    this.setState({ loading: true })
 
     const { form } = this.state
     const { t } = this.props
@@ -56,10 +63,10 @@ class StatusEdit extends React.Component {
         timerProgressBar: true,
       })
       onHide()
-      this.setState({ form: fields, submitting: false, validated: false })
+      this.setState({ form: fields, loading: false, validated: false })
       this.validator.hideMessages()
     } catch (error) {
-      this.setState({ submitting: false })
+      this.setState({ loading: false })
       Swal.fire({
         icon: 'error',
         title: t(
@@ -94,7 +101,8 @@ class StatusEdit extends React.Component {
         handleInputChange={this.handleInputChange}
         form={form}
         onExit={afterClose}
-        title={`Edit ${t('title')}`}
+        onClose={this.resetForm}
+        title={`${t('common:edit')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
       />
     )

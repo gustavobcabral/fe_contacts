@@ -1,6 +1,6 @@
-import React from "react";
-import Publishers from "../../components/Publishers/ListPublishers";
+import React from 'react'
+import Publishers from '../../components/Publishers/ListPublishers'
 
-const PublishersPage = (props) => <Publishers {...props} />;
+const PublishersPage = (props) => <Publishers {...props} />
 
-export default PublishersPage;
+export default PublishersPage

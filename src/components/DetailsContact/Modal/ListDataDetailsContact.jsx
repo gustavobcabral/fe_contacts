@@ -1,12 +1,13 @@
-import React from "react";
-import { withTranslation } from "react-i18next";
-import { Table } from "react-bootstrap";
-import { map, isEmpty, truncate } from "lodash/fp";
-import moment from "moment";
-import NewDetailsContact from "./NewDetailsContact";
-import EditDetailsContact from "./EditDetailsContact";
-import AskDelete from "../../common/AskDelete/AskDelete";
-import NoRecords from "../../common/NoRecords/NoRecords";
+import React from 'react'
+import { withTranslation } from 'react-i18next'
+import { Table } from 'react-bootstrap'
+import { map, isEmpty, truncate } from 'lodash/fp'
+import moment from 'moment'
+import NewDetailsContact from './NewDetailsContact'
+import EditDetailsContact from './EditDetailsContact'
+import AskDelete from '../../common/AskDelete/AskDelete'
+import NoRecords from '../../common/NoRecords/NoRecords'
+import ReactPlaceholder from 'react-placeholder'
 
 class ListDataDetailsContact extends React.Component {
   render() {
@@ -16,38 +17,59 @@ class ListDataDetailsContact extends React.Component {
       data,
       afterClose,
       funcToCallAfterConfirmation,
-    } = this.props;
+      waitingFeedback,
+      submitting,
+    } = this.props
+    const colSpan = 4
+
     return (
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>{t("publisher")}</th>
-            <th>{t("date")}</th>
-            <th>{t("information")}</th>
+            <th>{t('publisher')}</th>
+            <th>{t('date')}</th>
+            <th>{t('information')}</th>
             <th>
               <NewDetailsContact
                 afterClose={afterClose}
                 contact={contact}
                 phone={contact.phone}
+                waitingFeedback={waitingFeedback}
               />
             </th>
           </tr>
         </thead>
         <tbody>
-          {!isEmpty(data) ? (
+          {submitting ? (
+            <tr>
+              <td colSpan={colSpan}>
+                <ReactPlaceholder
+                  showLoadingAnimation={true}
+                  type="text"
+                  ready={!submitting}
+                  rows={5}
+                />
+              </td>
+            </tr>
+          ) : !isEmpty(data) ? (
             map(
               (detail) => (
                 <tr key={detail.id}>
                   <td>{detail.publisherName}</td>
-                  <td>{moment(detail.createdAt).format("DD/MM/YYYY HH:mm")}</td>
-                  <td>{truncate({ length: 45 }, detail.information)}</td>
-                  <td style={{ width: "114px" }}>
+                  <td>{moment(detail.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>
+                    {t(
+                      detail.information,
+                      truncate({ length: 45 }, detail.information)
+                    )}
+                  </td>
+                  <td style={{ minWidth: '114px' }}>
                     <EditDetailsContact
                       data={detail}
                       contact={contact}
                       id={detail.id}
                       afterClose={afterClose}
-                    />{" "}
+                    />{' '}
                     <AskDelete
                       id={detail.id}
                       funcToCallAfterConfirmation={funcToCallAfterConfirmation}
@@ -58,14 +80,14 @@ class ListDataDetailsContact extends React.Component {
               data
             )
           ) : (
-            <NoRecords cols="6" />
+            <NoRecords cols={colSpan} />
           )}
         </tbody>
       </Table>
-    );
+    )
   }
 }
 
-export default withTranslation(["detailsContacts", "common"])(
+export default withTranslation(['detailsContacts', 'common'])(
   ListDataDetailsContact
-);
+)
