@@ -98,6 +98,7 @@ class EditContact extends React.Component {
     const data = {
       ...omit(['details'], form),
       name: ifEmptySetNull(getOr('', 'name', form)),
+      phone2: ifEmptySetNull(getOr('', 'phone2', form)),
       gender,
       owner,
     }

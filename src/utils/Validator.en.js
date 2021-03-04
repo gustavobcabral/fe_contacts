@@ -32,7 +32,7 @@ SimpleReactValidator.addLocale('en-GB', {
   numeric: 'This field must be a number.',
   phone: 'This field must be a valid phone number.',
   regex: 'This field must match the required pattern.',
-  required: 'This field field is required.',
+  required: 'This field is required.',
   size: 'This field must be :size:type.',
   string: 'This field must be a string.',
   typeof: 'This field is not the correct type of :type.',
