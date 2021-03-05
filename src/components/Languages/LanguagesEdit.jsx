@@ -98,7 +98,7 @@ class StatusEdit extends React.Component {
         onExit={afterClose}
         onEnter={this.onEnter}
         onClose={this.resetForm}
-        title={`${t('common:edit')} ${t('titleCrud')}`}
+        title={`${t('common:edit')} ${t('titleModal')}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
       />
     )
