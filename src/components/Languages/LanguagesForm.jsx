@@ -3,12 +3,14 @@ import { Button, Form, Col, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
 import ReactPlaceholder from 'react-placeholder'
+import { SketchPicker } from 'react-color'
 
 const LanguagesForm = (props) => {
   const { t } = useTranslation(['languages', 'common'])
   const {
     validator,
     handleInputChange,
+    handleChangeColor,
     form,
     loading,
     validated,
@@ -38,17 +40,13 @@ const LanguagesForm = (props) => {
             />
           </Col>
           <Col xs={12} lg={6}>
-            <SuperFormControl
-              type="text"
-              name="color"
-              label={t('colorLabel')}
-              validator={validator}
-              validated={validated}
-              placeholder={t('colorPlaceHolder')}
-              value={form.color}
-              onChange={handleInputChange}
-              rules="required|max:7"
-            />
+            <Form.Group controlId={'color'}>
+              <Form.Label>{t('colorLabel')}</Form.Label>
+              <SketchPicker
+                color={form.color}
+                onChangeComplete={handleChangeColor}
+              />
+            </Form.Group>
           </Col>
         </Row>
 
