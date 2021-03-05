@@ -11,7 +11,7 @@ import { showError, showSuccessful } from '../../utils/generic'
 
 const fields = {
   name: '',
-  color: '',
+  color: '#000000',
 }
 
 class StatusNew extends React.Component {
@@ -30,12 +30,24 @@ class StatusNew extends React.Component {
       element: (message) => <div className="text-danger">{message}</div>,
     })
     this.resetForm = this.resetForm.bind(this)
+    this.handleChangeColor = this.handleChangeColor.bind(this)
+
 
   }
 
   handleInputChange(event) {
     handleInputChangeGeneric(event, this)
   }
+
+  handleChangeColor = ({ hex }) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        color: hex,
+      },
+    })
+  }
+
 
   resetForm() {
     this.setState({ form: fields, loading: false, validated: false })
@@ -78,6 +90,7 @@ class StatusNew extends React.Component {
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
+        handleChangeColor={this.handleChangeColor}
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}

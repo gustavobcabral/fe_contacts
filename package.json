@@ -19,6 +19,7 @@
     "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.3",
+    "react-color": "^2.19.3",
     "react-csv": "^2.0.3",
     "react-dom": "^16.14.0",
     "react-i18next": "^11.8.6",

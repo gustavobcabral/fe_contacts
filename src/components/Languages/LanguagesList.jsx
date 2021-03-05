@@ -62,7 +62,6 @@ class LanguagesList extends React.Component {
   render() {
     const { t } = this.props
     const { data } = this.state
-    console.log(data, 'MERDATA')
     return (
       <ContainerCRUD title={t('titleCrud')} {...this.props}>
         <Table striped bordered hover responsive>
@@ -70,7 +69,7 @@ class LanguagesList extends React.Component {
             <tr>
               <th>{t('descriptionLabel')}</th>
               <th>{t('descriptionTraducedLabel')}</th>
-              <th>Cor</th>
+              <th>{t('colorLabel')}</th>
               <th>
                 <LanguagesNew afterClose={this.handleGetAll} />
               </th>
@@ -79,19 +78,18 @@ class LanguagesList extends React.Component {
           <tbody>
             {!isEmpty(data) ? (
               map(
-                (languages) => (
-                  <tr key={languages.id}>
-                    <td>{languages.name}</td>
-                    <td>{t(languages.name)}</td>
-                    {/* <td>{t(languages.color)}</td> */}
-                    <td style={{ backgroundColor:`${languages.color}` }}>Cor</td>
+                (language) => (
+                  <tr key={language.id}>
+                    <td>{language.name}</td>
+                    <td>{t(language.name)}</td>
+                    <td style={{ backgroundColor:`${language.color}` }}>{t('colorLabel')}</td>
                     <td>
                       <LanguagesEdit
-                        data={languages}
+                        data={language}
                         afterClose={this.handleGetAll}
                       />{' '}
                       <AskDelete
-                        id={languages.id}
+                        id={language.id}
                         funcToCallAfterConfirmation={this.handleDelete}
                       />
                     </td>
@@ -100,7 +98,7 @@ class LanguagesList extends React.Component {
                 data
               )
             ) : (
-              <NoRecords cols={3} />
+              <NoRecords cols={4} />
             )}
           </tbody>
         </Table>
