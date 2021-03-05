@@ -1,5 +1,6 @@
 {
-  "titleCrud": "Idioma",
+  "titleCrud": "Idiomas",
+  "titleModal": "Idioma",
   "title": "Idioma do sistema",
   "labelSelect": "Idioma",
   "noLanguage": "Sem idioma",
