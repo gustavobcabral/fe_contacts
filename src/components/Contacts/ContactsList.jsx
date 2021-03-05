@@ -324,98 +324,97 @@ class Contacts extends React.Component {
                 ) : !isEmpty(data) ? (
                   map(
                     (contact) => (
-                      <>
-                        <tr
-                          key={contact.phone}
-                          className={
-                            contains(contact.idStatus, statusForbidden)
-                              ? 'bg-danger'
-                              : ''
-                          }
-                        >
-                          <td>
-                            <Form.Check
-                              type="checkbox"
-                              checked={contains(
-                                contact.phone,
-                                checksContactsPhones
-                              )}
-                              name="checksContactsPhones"
-                              value={contact.phone}
-                              className="checkBoxPhones"
-                              onChange={this.handleOnClick}
-                            />
-                          </td>
-                          <td>{contact.phone}</td>
-                          <td className="d-none d-sm-table-cell">
-                            {contact.name}
-                          </td>
-                          <td className="d-none d-lg-table-cell">
-                            {t(
-                              `${
-                                contact.typeCompany
-                                  ? 'commercial'
-                                  : 'residential'
-                              }`
+                      <tr
+                        key={contact.phone}
+                        className={
+                          contains(contact.idStatus, statusForbidden)
+                            ? 'bg-danger'
+                            : ''
+                        }
+                      >
+                        <td>
+                          <Form.Check
+                            type="checkbox"
+                            checked={contains(
+                              contact.phone,
+                              checksContactsPhones
                             )}
-                          </td>
-                          <td className="d-none d-lg-table-cell">
-                            {t(`languages:${contact.languageName}`)}
-                          </td>
-                          <td
-                            className={`d-none d-lg-table-cell ${this.setRowColor(
-                              contact.idStatus
-                            )}`}
-                          >
-                            {t(`status:${contact.statusDescription}`)}
-                          </td>
-                          <td className="d-none d-lg-table-cell">
-                            {t(`${contact.lastConversationInDays}`)}
-                          </td>
-                          <td
-                            className={`d-none d-lg-table-cell text-${
-                              contact.waitingFeedback ? 'danger' : 'success'
-                            }`}
-                          >
-                            {t(
-                              `common:${contact.waitingFeedback ? 'yes' : 'no'}`
-                            )}
-                          </td>
-
-                          <td>
-                            <ListDetailsContact
-                              contact={contact}
-                              id={contact.phone}
-                              afterClose={() => this.handleGetAll()}
-                            />{' '}
-                            <Button
-                              title={t('common:list')}
-                              variant="success"
-                              as={Link}
-                              to={`/contacts/${encodeURI(
-                                contact.phone
-                              )}/details`}
+                            name="checksContactsPhones"
+                            value={contact.phone}
+                            className="checkBoxPhones"
+                            onChange={this.handleOnClick}
+                          />
+                        </td>
+                        <td>{contact.phone}</td>
+                        <td className="d-none d-sm-table-cell">
+                          {contact.name}
+                          <div className={this.setSubRowVisible(contact)}>
+                            <Form.Text
+                              className={`text-muted ${this.setRowColor(
+                                contact.idStatus
+                              )}`}
                             >
-                              <FontAwesomeIcon icon={faList} />
-                            </Button>
-                          </td>
-                          <td>
-                            <EditContact
-                              id={contact.phone}
-                              afterClose={() => this.handleGetAll()}
-                            />{' '}
-                            <AskDelete
-                              id={contact.phone}
-                              funcToCallAfterConfirmation={this.handleDelete}
-                            />
-                          </td>
-                        </tr>
-                        <tr className={this.setSubRowVisible(contact)}>
-                          <td colSpan={colSpan}>
-                          <Form.Text className="text-muted">{t('lastSpokeToPublisherName')}: {contact.publisherName}</Form.Text>
-                          </td>
-                        </tr>
-                      </>
+                              {t('lastSpokeToPublisherName')}:{' '}
+                              {contact.publisherName}
+                            </Form.Text>
+                          </div>
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(
+                            `${
+                              contact.typeCompany ? 'commercial' : 'residential'
+                            }`
+                          )}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(`languages:${contact.languageName}`)}
+                        </td>
+                        <td
+                          className={`d-none d-lg-table-cell ${this.setRowColor(
+                            contact.idStatus
+                          )}`}
+                        >
+                          {t(`status:${contact.statusDescription}`)}
+                        </td>
+                        <td className="d-none d-lg-table-cell">
+                          {t(`${contact.lastConversationInDays}`)}
+                        </td>
+                        <td
+                          className={`d-none d-lg-table-cell text-${
+                            contact.waitingFeedback ? 'danger' : 'success'
+                          }`}
+                        >
+                          {t(
+                            `common:${contact.waitingFeedback ? 'yes' : 'no'}`
+                          )}
+                        </td>
+
+                        <td>
+                          <ListDetailsContact
+                            contact={contact}
+                            id={contact.phone}
+                            afterClose={() => this.handleGetAll()}
+                          />{' '}
+                          <Button
+                            title={t('common:list')}
+                            variant="success"
+                            as={Link}
+                            to={`/contacts/${encodeURI(contact.phone)}/details`}
+                          >
+                            <FontAwesomeIcon icon={faList} />
+                          </Button>
+                        </td>
+                        <td>
+                          <EditContact
+                            id={contact.phone}
+                            afterClose={() => this.handleGetAll()}
+                          />{' '}
+                          <AskDelete
+                            id={contact.phone}
+                            funcToCallAfterConfirmation={this.handleDelete}
+                          />
+                        </td>
+                      </tr>
                     ),
                     data
                   )

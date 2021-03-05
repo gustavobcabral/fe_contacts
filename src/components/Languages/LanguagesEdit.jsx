@@ -1,17 +1,18 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { languages } from '../../services'
-import Swal from 'sweetalert2'
-import { getOr, get, pick } from 'lodash/fp'
+import { get, omit } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import LanguagesForm from './LanguagesForm.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { showError, showSuccessful } from '../../utils/generic'
 
 const fields = {
   name: '',
+  color: ''
 }
 
 class StatusEdit extends React.Component {
@@ -30,11 +31,21 @@ class StatusEdit extends React.Component {
       element: (message) => <div className="text-danger">{message}</div>,
     })
     this.resetForm = this.resetForm.bind(this)
-
+    this.handleChangeColor = this.handleChangeColor.bind(this)
+    this.onEnter= this.onEnter.bind(this)
   }
 
   handleInputChange(event) {
     handleInputChangeGeneric(event, this)
+  }
+
+  handleChangeColor = ({ hex }) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        color: hex,
+      },
+    })
   }
 
   resetForm() {
@@ -54,39 +65,22 @@ class StatusEdit extends React.Component {
     const { t } = this.props
 
     try {
-      const data = pick(['description'], form)
-      const res = await languages.updateOne(get('id', form), data)
-      Swal.fire({
-        title: t(`common:${get('data.cod', res)}`),
-        icon: 'success',
-        timer: 2000,
-        timerProgressBar: true,
-      })
+      const data = omit(['id'], form)
+      await languages.updateOne(get('id', form), data)
+      showSuccessful(t)
       onHide()
-      this.setState({ form: fields, loading: false, validated: false })
-      this.validator.hideMessages()
+      this.resetForm()
     } catch (error) {
       this.setState({ loading: false })
-      Swal.fire({
-        icon: 'error',
-        title: t(
-          `common:${getOr('errorTextUndefined', 'response.data.cod', error)}`
-        ),
-        text: t(
-          `common:${getOr(
-            'errorWithoutDetails',
-            'response.data.error.code',
-            error
-          )}`
-        ),
-      })
+      showError(error, t, 'languages')
     }
   }
 
-  componentDidMount() {
+  onEnter() {
     const { data } = this.props
     this.setState({ form: data })
   }
+
 
   render() {
     const { form, validated } = this.state
@@ -99,8 +93,10 @@ class StatusEdit extends React.Component {
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
+        handleChangeColor={this.handleChangeColor}
         form={form}
         onExit={afterClose}
+        onEnter={this.onEnter}
         onClose={this.resetForm}
         title={`${t('common:edit')} ${t('titleCrud')}`}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
@@ -108,4 +104,4 @@ class StatusEdit extends React.Component {
     )
   }
 }
-export default withTranslation(['status', 'common'])(StatusEdit)
+export default withTranslation(['languages', 'common'])(StatusEdit)
