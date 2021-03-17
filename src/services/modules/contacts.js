@@ -13,6 +13,8 @@ const getSummary = () => api.get('/contacts/summary')
 
 const updateContact = (id, data) => api.put(`/contacts/${id}`, data)
 
+const updateAll = (data) => api.put(`/contacts/all`, data)
+
 const dellOne = (id) => api.delete(`/contacts/${id}`)
 
 const allExport = {
@@ -24,6 +26,7 @@ const allExport = {
   getSummary,
   getAllFilters,
   assign,
+  updateAll
 }
 
 export default allExport
