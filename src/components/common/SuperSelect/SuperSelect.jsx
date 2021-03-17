@@ -4,6 +4,7 @@ import Select from 'react-select'
 import { find } from 'lodash/fp'
 import './style-super-select.css'
 import ReactPlaceholder from 'react-placeholder'
+import { withTranslation } from 'react-i18next'
 
 const SuperSelect = (props) => {
   const {
@@ -19,6 +20,8 @@ const SuperSelect = (props) => {
     disabled = false,
     loading = false,
     rows = 2,
+    t,
+    placeHolderSelect = 'placeHolderSelect'
   } = props
 
   const [touched, setTouched] = React.useState(false)
@@ -56,6 +59,7 @@ const SuperSelect = (props) => {
           }
           options={options}
           isClearable={isClearable || false}
+          placeholder={t(placeHolderSelect)}
           onBlur={onBlurLocal}
           onChange={(obj) =>
             onChange({ target: { name, value: obj ? obj.value : '' } })
@@ -69,4 +73,4 @@ const SuperSelect = (props) => {
   )
 }
 
-export default SuperSelect
+export default withTranslation(['common'])(SuperSelect)

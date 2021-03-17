@@ -37,9 +37,10 @@ import FilterData from '../common/FilterData/FilterData'
 import NewContact from './NewContact'
 import EditContact from './EditContact'
 import SendPhones from './SendPhones/SendPhones'
+import BatchChanges from './BatchChanges/BatchChanges'
 import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
-import { isPublisher } from '../../utils/loginDataManager'
+import { isPublisher, isAtLeastElder } from '../../utils/loginDataManager'
 import { CSVLink } from 'react-csv'
 
 class Contacts extends React.Component {
@@ -287,13 +288,20 @@ class Contacts extends React.Component {
                     {t('waitingFeedback')}
                   </th>
                   <th style={{ minWidth: '116px' }}>{t('details')}</th>
-                  <th style={{ minWidth: '157px' }}>
-                    <NewContact afterClose={() => this.handleGetAll()} />{' '}
+                  <th style={{ minWidth: '189px' }}>
+                    <NewContact afterClose={this.handleGetAll} />{' '}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
-                      afterClose={() => this.afterSentPhones()}
+                      afterClose={this.afterSentPhones}
                     />{' '}
+                    {isAtLeastElder() && (
+                      <BatchChanges
+                        checksContactsPhones={checksContactsPhones}
+                        contactsData={data}
+                        afterClose={this.handleGetAll}
+                      />
+                    )}{' '}
                     <CSVLink
                       data={dataCVS}
                       headers={headers}

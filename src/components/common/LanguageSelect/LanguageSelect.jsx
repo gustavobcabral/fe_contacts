@@ -55,6 +55,7 @@ class LanguageSelect extends React.Component {
       t,
       label,
       rules,
+      placeHolderSelect
     } = this.props
     const { languagesOptions, error, loading } = this.state
 
@@ -70,6 +71,7 @@ class LanguageSelect extends React.Component {
         options={languagesOptions}
         onChange={onChange}
         rules={rules}
+        placeHolderSelect={placeHolderSelect}
       />
     ) : (
       <ShowError error={error} />
