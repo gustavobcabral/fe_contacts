@@ -288,7 +288,7 @@ class Contacts extends React.Component {
                     {t('waitingFeedback')}
                   </th>
                   <th style={{ minWidth: '116px' }}>{t('details')}</th>
-                  <th style={{ minWidth: '157px' }}>
+                  <th style={{ minWidth: '189px' }}>
                     <NewContact afterClose={this.handleGetAll} />{' '}
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}

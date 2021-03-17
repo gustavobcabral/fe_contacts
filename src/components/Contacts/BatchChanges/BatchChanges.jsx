@@ -98,7 +98,7 @@ class BatchChanges extends React.Component {
       }),
     }
     try {
-      await contacts.updateAll(data)
+      await contacts.updateSome(data)
       showSuccessful(t)
       onHide()
       this.setState({ form: fields, loading: false, validated: false })
