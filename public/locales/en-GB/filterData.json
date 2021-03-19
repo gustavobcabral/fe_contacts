@@ -5,6 +5,7 @@
   "statusTitleFilter": "Status",
   "responsibilityTitleFilter": "Responsibility",
   "typeCompanyTitleFilter": "Type",
-  "typeCompanyBoth": "Both"
+  "typeCompanyBoth": "Both",
+  "publishersResponsiblesTitleFilter": "Created by"
 
 }
