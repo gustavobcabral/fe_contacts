@@ -13,6 +13,7 @@ import {
 } from 'lodash/fp'
 import { parseErrorMessage } from '../../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
+import SuperSelect from '../SuperSelect/SuperSelect'
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -29,11 +30,13 @@ class FilterData extends React.Component {
       checksStatus: [],
       responsibility: [],
       checksResponsibility: [],
+      publishersResponsibles: [],
+      checksPublishersResponsibles: [],
       typeCompany: '-1',
     }
     this.getAllFilters = this.getAllFilters.bind(this)
     this.handleOnClick = this.handleOnClick.bind(this)
-    this.handleBooleanValues = this.handleBooleanValues.bind(this)
+    this.handleGetValuesTradicional = this.handleGetValuesTradicional.bind(this)
     this.updateValues = this.updateValues.bind(this)
   }
 
@@ -47,11 +50,10 @@ class FilterData extends React.Component {
     this.updateValues(name, newValues)
   }
 
-  handleBooleanValues(event) {
+  handleGetValuesTradicional(event) {
     const {
       target: { name, value },
     } = event
-
     this.updateValues(name, value)
   }
 
@@ -73,11 +75,13 @@ class FilterData extends React.Component {
     try {
       const { getFilters } = this.props
       const response = await getFilters()
+      const data = getOr([], 'data.data', response)
       this.setState({
-        checksGender: getOr([], 'data.data.genders', response),
-        checksLanguages: getOr([], 'data.data.languages', response),
-        checksStatus: getOr([], 'data.data.status', response),
-        checksResponsibility: getOr([], 'data.data.responsibility', response),
+        checksGender: getOr([], 'genders', data),
+        checksLanguages: getOr([], 'languages', data),
+        checksStatus: getOr([], 'status', data),
+        checksResponsibility: getOr([], 'responsibility', data),
+        checksPublishersResponsibles: getOr([], 'publishersResponsibles', data),
         loading: false,
       })
     } catch (error) {
@@ -113,12 +117,15 @@ class FilterData extends React.Component {
       error,
       loading,
       typeCompany,
+      checksPublishersResponsibles,
+      publishersResponsibles,
     } = this.state
 
     const noData =
       isEmpty(checksGender) &&
       isEmpty(checksLanguages) &&
       isEmpty(checksResponsibility) &&
+      isEmpty(checksPublishersResponsibles) &&
       isEmpty(checksStatus)
     const { t, showTypeCompany = false } = this.props
     return (
@@ -130,6 +137,37 @@ class FilterData extends React.Component {
         <Col className="text-center text-muted">
           {!loading && noData && t('common:noData')}
         </Col>
+        {(loading || !isEmpty(checksPublishersResponsibles)) && !error && (
+          <Col className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>
+                  {t('publishersResponsiblesTitleFilter')}
+                </Card.Title>
+                <ReactPlaceholder
+                  showLoadingAnimation={true}
+                  type="text"
+                  ready={!loading}
+                  rows={3}
+                >
+                  <SuperSelect
+                    name="publishersResponsibles"
+                    value={publishersResponsibles}
+                    isMulti={true}
+                    options={map(
+                      ({ createdBy, publisherNameCreatedBy }) => ({
+                        label: publisherNameCreatedBy,
+                        value: createdBy,
+                      }),
+                      checksPublishersResponsibles
+                    )}
+                    onChange={this.handleGetValuesTradicional}
+                  />
+                </ReactPlaceholder>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
         {(loading || !isEmpty(checksGender)) && !error && (
           <Col className="mb-4">
             <Card>
@@ -142,17 +180,14 @@ class FilterData extends React.Component {
                   rows={3}
                 >
                   {map(
-                    (data) => (
-                      <Form.Group
-                        controlId={`genders${data.gender}`}
-                        key={data.gender}
-                      >
+                    ({ gender }) => (
+                      <Form.Group controlId={`genders${gender}`} key={gender}>
                         <Form.Check
                           type="checkbox"
                           name="genders"
-                          checked={contains(data.gender, genders)}
-                          label={t(`contacts:${data.gender}`)}
-                          value={data.gender}
+                          checked={contains(gender, genders)}
+                          label={t(`contacts:${gender}`)}
+                          value={gender}
                           onChange={this.handleOnClick}
                         />
                       </Form.Group>
@@ -176,17 +211,17 @@ class FilterData extends React.Component {
                   rows={5}
                 >
                   {map(
-                    (data) => (
+                    ({ idLanguage, languageName }) => (
                       <Form.Group
-                        controlId={`languages${data.idLanguage}`}
-                        key={data.idLanguage}
+                        controlId={`languages${idLanguage}`}
+                        key={idLanguage}
                       >
                         <Form.Check
                           type="checkbox"
                           name="languages"
-                          checked={contains(String(data.idLanguage), languages)}
-                          label={t(`languages:${data.languageName}`)}
-                          value={data.idLanguage}
+                          checked={contains(String(idLanguage), languages)}
+                          label={t(`languages:${languageName}`)}
+                          value={idLanguage}
                           onChange={this.handleOnClick}
                         />
                       </Form.Group>
@@ -210,17 +245,17 @@ class FilterData extends React.Component {
                   rows={6}
                 >
                   {map(
-                    (data) => (
+                    ({ idStatus, statusDescription }) => (
                       <Form.Group
-                        controlId={`status${data.idStatus}`}
-                        key={data.idStatus}
+                        controlId={`status${idStatus}`}
+                        key={idStatus}
                       >
                         <Form.Check
                           type="checkbox"
                           name="status"
-                          checked={contains(String(data.idStatus), status)}
-                          label={t(`status:${data.statusDescription}`)}
-                          value={data.idStatus}
+                          checked={contains(String(idStatus), status)}
+                          label={t(`status:${statusDescription}`)}
+                          value={idStatus}
                           onChange={this.handleOnClick}
                         />
                       </Form.Group>
@@ -244,22 +279,22 @@ class FilterData extends React.Component {
                   rows={4}
                 >
                   {map(
-                    (data) => (
+                    ({ idResponsibility, responsibilityDescription }) => (
                       <Form.Group
-                        key={data.idResponsibility}
-                        controlId={`responsibility${data.idResponsibility}`}
+                        key={idResponsibility}
+                        controlId={`responsibility${idResponsibility}`}
                       >
                         <Form.Check
                           type="checkbox"
                           name="responsibility"
                           checked={contains(
-                            String(data.idResponsibility),
+                            String(idResponsibility),
                             responsibility
                           )}
                           label={t(
-                            `responsibility:${data.responsibilityDescription}`
+                            `responsibility:${responsibilityDescription}`
                           )}
-                          value={data.idResponsibility}
+                          value={idResponsibility}
                           onChange={this.handleOnClick}
                         />
                       </Form.Group>
@@ -291,7 +326,7 @@ class FilterData extends React.Component {
                         label={t('typeCompanyBoth')}
                         checked={typeCompany === '-1'}
                         value={'-1'}
-                        onChange={this.handleBooleanValues}
+                        onChange={this.handleGetValuesTradicional}
                       />
                     </Form.Group>
                   </Col>
@@ -304,7 +339,7 @@ class FilterData extends React.Component {
                         label={t('contacts:residential')}
                         checked={typeCompany === '0'}
                         value={'0'}
-                        onChange={this.handleBooleanValues}
+                        onChange={this.handleGetValuesTradicional}
                       />
                     </Form.Group>
                   </Col>
@@ -317,7 +352,7 @@ class FilterData extends React.Component {
                         label={t('contacts:commercial')}
                         checked={typeCompany === '1'}
                         value={'1'}
-                        onChange={this.handleBooleanValues}
+                        onChange={this.handleGetValuesTradicional}
                       />
                     </Form.Group>
                   </Col>

@@ -5,6 +5,8 @@
   "statusTitleFilter": "Estado",
   "responsibilityTitleFilter": "Privilégios",
   "typeCompanyTitleFilter": "Tipo",
-  "typeCompanyBoth": "Ambos"
+  "typeCompanyBoth": "Ambos",
+  "publishersResponsiblesTitleFilter": "Criado por"
+
 
 }
