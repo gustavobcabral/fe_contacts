@@ -54,7 +54,6 @@ class FilterData extends React.Component {
     const {
       target: { name, value },
     } = event
-    console.log(event)
     this.updateValues(name, value)
   }
 
@@ -64,8 +63,6 @@ class FilterData extends React.Component {
     this.setState({
       [name]: newValues,
     })
-    console.log(newValues)
-    console.log(this.state)
     handleFilters({
       filters: {
         [name]: newValues,
