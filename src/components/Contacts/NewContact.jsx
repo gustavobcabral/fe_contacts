@@ -8,7 +8,7 @@ import FormContacts from './FormContacts'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError, showSuccessful, ifEmptySetNull } from '../../utils/generic'
-import { getOr } from 'lodash/fp'
+import { getOr, get } from 'lodash/fp'
 import { GENDER_UNKNOWN } from '../../constants/contacts'
 import { reducePublishers } from '../../stateReducers/publishers'
 import {
@@ -115,7 +115,13 @@ class NewContact extends React.Component {
       this.resetForm()
     } catch (error) {
       this.setState({ submitting: false })
-      showError(error, t, 'contacts')
+      const contact = getOr(0, 'response.data.extra.contact', error)
+      const name = get('name', contact)
+      const phone = get('phone', contact)
+      showError(error, t, 'contacts', {
+        paramsExtraForTranslation: { name, phone },
+      })
+      this.setState({ submitting: false })
     }
   }
 

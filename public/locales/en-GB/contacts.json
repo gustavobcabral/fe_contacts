@@ -31,5 +31,7 @@
   "99999999999": "No contact",
   "createdAt":"Generate at",
   "titleExportToCVS": "Export selected contacts to Excel",
-  "lastSpokeToPublisherName": "Last spoke to"
+  "lastSpokeToPublisherName": "Last spoke to",
+  "ERROR_CONTACT_PHONE_ALREADY_EXISTS": "This contact phone already exists in the contact {{name}} {{phone}}"
+
 }

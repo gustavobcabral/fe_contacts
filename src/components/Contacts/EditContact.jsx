@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../common/OurModal/OurModal'
-import { getOr, omit } from 'lodash/fp'
+import { getOr, omit, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import { contacts, publishers } from '../../services'
@@ -110,8 +110,13 @@ class EditContact extends React.Component {
       this.setState({ form: fields, loading: false, validated: false })
       this.validator.hideMessages()
     } catch (error) {
+      const contact = getOr(0, 'response.data.extra.contact', error)
+      const name = get('name', contact)
+      const phone = get('phone', contact)
+      showError(error, t, 'contacts', {
+        paramsExtraForTranslation: { name, phone },
+      })
       this.setState({ loading: false })
-      showError(error, t, 'contacts')
     }
   }
 

@@ -31,7 +31,9 @@
   "99999999999": "Sem conversa",
   "createdAt":"Gerado em",
   "titleExportToCVS": "Exportar contatos selecionados ao Excel",
-  "lastSpokeToPublisherName": "Falou por último com"
+  "lastSpokeToPublisherName": "Falou por último com",
+  "ERROR_CONTACT_PHONE_ALREADY_EXISTS": "Este telefone de contato já existe no contato {{name}} {{phone}}"
+
 
 
 }
