@@ -4,19 +4,25 @@ import OurModal from '../../common/OurModal/OurModal'
 import { getOr, pick, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
-import { details, publishers } from '../../../services'
+import { details, publishers, locations } from '../../../services'
 import FormDetails from '../FormDetails'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { showError, showSuccessful } from '../../../utils/generic'
+import {
+  showError,
+  showSuccessful,
+  ifEmptySetNull,
+} from '../../../utils/generic'
 import { WAITING_FEEDBACK, GENDER_UNKNOWN } from '../../../constants/contacts'
 import { reducePublishers } from '../../../stateReducers/publishers'
+import { reduceLocations } from '../../../stateReducers/locations'
 
 const fields = {
   information: '',
   idPublisher: '',
   idStatus: '',
   idLanguage: null,
+  idLocation: null,
   gender: '',
   name: '',
   owner: '',
@@ -31,6 +37,7 @@ class EditDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
+      locationsOptions: [],
     }
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -58,10 +65,12 @@ class EditDetailsContact extends React.Component {
             : getOr('', 'information', data),
       }
       const publishersOptions = reducePublishers(await publishers.getAll())
+      const locationsOptions = reduceLocations(await locations.getAll())
 
       this.setState({
         form,
         publishersOptions,
+        locationsOptions,
         loading: false,
       })
     } catch (error) {
@@ -102,7 +111,8 @@ class EditDetailsContact extends React.Component {
         gender,
         owner,
         phone: get('phone', contact),
-        name: get('name', form),
+        name: ifEmptySetNull(getOr('', 'name', form)),
+        idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),
         typeCompany: get('typeCompany', form),
       },
     }
@@ -119,7 +129,7 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, loading } = this.state
+    const { form, validated, publishersOptions, loading, locationsOptions } = this.state
     const { t, afterClose, contact } = this.props
     return (
       <OurModal
@@ -132,6 +142,7 @@ class EditDetailsContact extends React.Component {
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
         form={form}
+        locationsOptions={locationsOptions}
         publishersOptions={publishersOptions}
         title={`${t('common:edit')} ${t('titleCrud')} #${get(
           'phone',

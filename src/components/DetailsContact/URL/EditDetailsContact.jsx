@@ -1,21 +1,27 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import { details, publishers } from '../../../services'
+import { details, publishers, locations } from '../../../services'
 import ContainerCRUD from '../../../components/common/ContainerCRUD/ContainerCRUD'
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
-import { showError, showSuccessful } from '../../../utils/generic'
+import {
+  showError,
+  showSuccessful,
+  ifEmptySetNull,
+} from '../../../utils/generic'
 import { WAITING_FEEDBACK, GENDER_UNKNOWN } from '../../../constants/contacts'
 import { Container } from 'react-bootstrap'
 import { reducePublishers } from '../../../stateReducers/publishers'
+import { reduceLocations } from '../../../stateReducers/locations'
 
 const fields = {
   information: '',
   idPublisher: '',
   idStatus: '',
   idLanguage: null,
+  idLocation: null,
   gender: '',
   name: '',
   owner: '',
@@ -31,6 +37,7 @@ class EditDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
+      locationsOptions: [],
       phone: getOr(0, 'match.params.phone', props),
     }
     this.handleGetOne = this.handleGetOne.bind(this)
@@ -56,10 +63,12 @@ class EditDetailsContact extends React.Component {
           : getOr('', 'information', data),
     }
     const publishersOptions = reducePublishers(await publishers.getAll())
+    const locationsOptions = reduceLocations(await locations.getAll())
 
     this.setState({
       form,
       publishersOptions,
+      locationsOptions,
       loading: false,
     })
   }
@@ -97,7 +106,8 @@ class EditDetailsContact extends React.Component {
         phone,
         gender,
         owner,
-        name: get('name', form),
+        name: ifEmptySetNull(getOr('', 'name', form)),
+        idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),
         typeCompany: get('typeCompany', form),
       },
     }
@@ -118,14 +128,21 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, loading } = this.state
-    const { t, contact, history } = this.props
+    const {
+      form,
+      validated,
+      publishersOptions,
+      loading,
+      locationsOptions,
+      phone,
+    } = this.state
+    const { t, history } = this.props
 
     return (
       <>
         <ContainerCRUD title={t('title')} {...this.props}>
           <Container className="border p-4">
-            <h1>{`${t('common:edit')} ${t('detailsContacts:title')}`}</h1>
+            <h1>{`${t('common:edit')} ${t('detailsContacts:title')} #${phone}`}</h1>
             <FormDetails
               validator={this.validator}
               loading={loading}
@@ -133,11 +150,8 @@ class EditDetailsContact extends React.Component {
               handleSubmit={this.handleSubmit}
               handleInputChange={this.handleInputChange}
               form={form}
+              locationsOptions={locationsOptions}
               publishersOptions={publishersOptions}
-              title={`${t('common:edit')} ${t('titleCrud')} #${get(
-                'phone',
-                contact
-              )}`}
               onSubmit={this.handleSubmit}
               history={history}
             />
