@@ -5,21 +5,29 @@ import Swal from 'sweetalert2'
 import { getOr, pick, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
-import { details, publishers, contacts } from '../../../services'
+import { details, publishers, contacts, locations } from '../../../services'
 import FormDetails from '../FormDetails'
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from 'react-bootstrap'
 import { reducePublishers } from '../../../stateReducers/publishers'
-import { showError, showSuccessful } from '../../../utils/generic'
+import { showError, showSuccessful, ifEmptySetNull } from '../../../utils/generic'
 import { GENDER_UNKNOWN } from '../../../constants/contacts'
+import { reduceLocations } from '../../../stateReducers/locations'
+import {
+  ID_LANGUAGE_DEFAULT,
+  ID_GENDER_DEFAULT,
+  ID_STATUS_DEFAULT,
+  ID_LOCATION_DEFAULT,
+} from '../../../constants/valuesPredefined'
 
 const fields = {
   information: '',
   idPublisher: '',
-  idStatus: '',
-  idLanguage: null,
-  gender: '',
+  idStatus: ID_STATUS_DEFAULT,
+  idLanguage: ID_LANGUAGE_DEFAULT,
+  idLocation: ID_LOCATION_DEFAULT,
+  gender: ID_GENDER_DEFAULT,
   name: '',
   owner: '',
   typeCompany: '0',
@@ -33,6 +41,7 @@ class NewDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
+      locationsOptions: [],
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -53,13 +62,19 @@ class NewDetailsContact extends React.Component {
     const { phone } = this.props
     const contact = await contacts.getOne(phone)
     const publishersOptions = reducePublishers(await publishers.getAll())
+    const locationsOptions = reduceLocations(await locations.getAll())
 
     const form = getOr(fields, 'data.data', contact)
     const newForm = {
       ...fields,
       ...form,
     }
-    this.setState({ form: newForm, loading: false, publishersOptions })
+    this.setState({
+      form: newForm,
+      loading: false,
+      publishersOptions,
+      locationsOptions,
+    })
   }
 
   handleInputChange(event) {
@@ -95,7 +110,8 @@ class NewDetailsContact extends React.Component {
         gender,
         owner,
         phone: get('phone', contact),
-        name: get('name', form),
+        name: ifEmptySetNull(getOr('', 'name', form)),
+        idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),
         typeCompany: get('typeCompany', form),
       },
     }
@@ -122,7 +138,7 @@ class NewDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, loading } = this.state
+    const { form, validated, publishersOptions, loading, locationsOptions } = this.state
     const { t, afterClose, waitingFeedback, contact } = this.props
 
     return waitingFeedback ? (
@@ -140,6 +156,7 @@ class NewDetailsContact extends React.Component {
         form={form}
         onExit={afterClose}
         onEnter={this.onOpen}
+        locationsOptions={locationsOptions}
         publishersOptions={publishersOptions}
         title={`${t('common:new')} ${t('titleCrud')} #${get('phone', contact)}`}
         buttonTitle={t('common:new')}

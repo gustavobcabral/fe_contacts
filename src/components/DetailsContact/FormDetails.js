@@ -22,6 +22,7 @@ const FormDetails = (props) => {
     handleInputChange,
     validated,
     history,
+    locationsOptions
   } = props
   return (
     <ReactPlaceholder
@@ -32,7 +33,7 @@ const FormDetails = (props) => {
     >
       <Form>
         <Row className="mb-2">
-          <Col xs={6} lg={2}>
+          <Col xs={6} lg={3}>
             <Form.Group controlId="typeCompanyResidential0">
               <Form.Check
                 type="radio"
@@ -44,7 +45,7 @@ const FormDetails = (props) => {
               />
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={6} lg={3}>
             <Form.Group controlId="typeCompanyCommercial1">
               <Form.Check
                 type="radio"
@@ -57,6 +58,19 @@ const FormDetails = (props) => {
               />
             </Form.Group>
           </Col>
+          <Col xs={12} lg={6}>
+            <SuperSelect
+              name="idLocation"
+              label={t('contacts:location')}
+              validator={validator}
+              validated={validated}
+              isClearable={true}
+              value={form.idLocation}
+              options={locationsOptions}
+              onChange={handleInputChange}
+            />
+          </Col>
+
         </Row>
         <Row>
           <Col xs={12}>

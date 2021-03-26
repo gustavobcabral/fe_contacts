@@ -5,18 +5,26 @@ import SimpleReactValidator from 'simple-react-validator'
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
-import { details, publishers, contacts } from '../../../services'
+import { details, publishers, contacts, locations } from '../../../services'
 import { reducePublishers } from '../../../stateReducers/publishers'
-import { showError, showSuccessful } from '../../../utils/generic'
+import { showError, showSuccessful, ifEmptySetNull } from '../../../utils/generic'
 import { Container } from 'react-bootstrap'
 import { GENDER_UNKNOWN } from '../../../constants/contacts'
+import { reduceLocations } from '../../../stateReducers/locations'
+import {
+  ID_LANGUAGE_DEFAULT,
+  ID_GENDER_DEFAULT,
+  ID_STATUS_DEFAULT,
+  ID_LOCATION_DEFAULT,
+} from '../../../constants/valuesPredefined'
 
 const fields = {
   information: '',
   idPublisher: '',
-  idStatus: '',
-  idLanguage: null,
-  gender: '',
+  idStatus: ID_STATUS_DEFAULT,
+  idLanguage: ID_LANGUAGE_DEFAULT,
+  idLocation: ID_LOCATION_DEFAULT,
+  gender: ID_GENDER_DEFAULT,
   name: '',
   owner: '',
   typeCompany: '0',
@@ -30,7 +38,7 @@ class NewDetailsContact extends React.Component {
       loading: false,
       validated: false,
       publishersOptions: [],
-      statusOptions: [],
+      locationsOptions: [],
       phone: getOr(0, 'match.params.phone', props),
     }
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -49,13 +57,19 @@ class NewDetailsContact extends React.Component {
 
     const contact = await contacts.getOne(phone)
     const publishersOptions = reducePublishers(await publishers.getAll())
+    const locationsOptions = reduceLocations(await locations.getAll())
 
     const form = getOr(fields, 'data.data', contact)
     const newForm = {
       ...fields,
       ...form,
     }
-    this.setState({ form: newForm, publishersOptions, loading: false })
+    this.setState({
+      form: newForm,
+      publishersOptions,
+      loading: false,
+      locationsOptions,
+    })
   }
 
   async componentDidMount() {
@@ -95,7 +109,8 @@ class NewDetailsContact extends React.Component {
         phone,
         gender,
         owner,
-        name: get('name', form),
+        name: ifEmptySetNull(getOr('', 'name', form)),
+        idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),
         typeCompany: get('typeCompany', form),
       },
     }
@@ -111,12 +126,12 @@ class NewDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, loading } = this.state
-    const { t, contact, history } = this.props
+    const { form, validated, publishersOptions, loading, locationsOptions, phone } = this.state
+    const { t, history } = this.props
     return (
       <ContainerCRUD title={t('title')} {...this.props}>
         <Container className="border p-4">
-          <h1>{`${t('common:new')} ${t('detailsContacts:title')}`}</h1>
+          <h1>{`${t('common:new')} ${t('detailsContacts:title')} #${phone}`}</h1>
           <FormDetails
             validator={this.validator}
             loading={loading}
@@ -124,11 +139,8 @@ class NewDetailsContact extends React.Component {
             handleSubmit={this.handleSubmit}
             handleInputChange={this.handleInputChange}
             form={form}
+            locationsOptions={locationsOptions}
             publishersOptions={publishersOptions}
-            title={`${t('common:new')} ${t('titleCrud')} #${get(
-              'phone',
-              contact
-            )}`}
             onSubmit={this.handleSubmit}
             history={history}
           />
