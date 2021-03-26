@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next'
 import OurModal from '../common/OurModal/OurModal'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
-import { contacts, publishers } from '../../services'
+import { contacts, publishers, locations } from '../../services'
 import FormContacts from './FormContacts'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,10 +11,13 @@ import { showError, showSuccessful, ifEmptySetNull } from '../../utils/generic'
 import { getOr, get } from 'lodash/fp'
 import { GENDER_UNKNOWN } from '../../constants/contacts'
 import { reducePublishers } from '../../stateReducers/publishers'
+import { reduceLocations } from '../../stateReducers/locations'
+
 import {
   ID_LANGUAGE_DEFAULT,
   ID_GENDER_DEFAULT,
   ID_STATUS_DEFAULT,
+  ID_LOCATION_DEFAULT,
 } from '../../constants/valuesPredefined'
 
 const fields = {
@@ -23,7 +26,7 @@ const fields = {
   name: '',
   owner: '',
   note: '',
-  location: '',
+  idLocation: ID_LOCATION_DEFAULT,
   email: null,
   typeCompany: false,
   gender: ID_GENDER_DEFAULT,
@@ -41,6 +44,7 @@ class NewContact extends React.Component {
       validated: false,
       publishersOptions: [],
       statusOptions: [],
+      locationsOptions: [],
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -59,9 +63,10 @@ class NewContact extends React.Component {
     this.setState({ loading: true })
     try {
       const publishersOptions = reducePublishers(await publishers.getAll())
-
+      const locationsOptions = reduceLocations(await locations.getAll())
       this.setState({
         publishersOptions,
+        locationsOptions,
         loading: false,
       })
     } catch (error) {
@@ -102,6 +107,7 @@ class NewContact extends React.Component {
       ...form,
       name: ifEmptySetNull(getOr('', 'name', form)),
       phone2: ifEmptySetNull(getOr('', 'phone2', form)),
+      idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),
       gender,
       owner,
     }
@@ -110,7 +116,6 @@ class NewContact extends React.Component {
       await contacts.create(data)
       this.setState({ submitting: false })
       showSuccessful(t)
-
       onHide()
       this.resetForm()
     } catch (error) {
@@ -130,6 +135,7 @@ class NewContact extends React.Component {
     this.validator.hideMessages()
   }
 
+
   render() {
     const {
       form,
@@ -137,6 +143,7 @@ class NewContact extends React.Component {
       publishersOptions,
       statusOptions,
       submitting,
+      locationsOptions,
     } = this.state
     const { t, afterClose } = this.props
     return (
@@ -147,6 +154,7 @@ class NewContact extends React.Component {
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
+        locationsOptions={locationsOptions}
         disablePhone={false}
         form={form}
         onExit={afterClose}

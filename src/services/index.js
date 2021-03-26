@@ -6,6 +6,7 @@ import status from './modules/status'
 import languages from './modules/languages'
 import translations from './modules/translations'
 import responsibility from './modules/responsibility'
+import locations from './modules/locations'
 
 export {
   auth,
@@ -16,4 +17,5 @@ export {
   languages,
   translations,
   responsibility,
+  locations
 }

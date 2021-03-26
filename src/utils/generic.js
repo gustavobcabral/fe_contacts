@@ -1,4 +1,4 @@
-import { get, getOr, isEmpty } from 'lodash/fp'
+import { get, getOr, isEmpty, isNumber } from 'lodash/fp'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 
@@ -95,7 +95,8 @@ const showSuccessful = (t, keyTranslation, fileTranslationName) => {
   })
 }
 
-const ifEmptySetNull = (value) => (isEmpty(value) ? null : value)
+const ifEmptySetNull = (value) =>
+  isEmpty(value) && !isNumber(value) ? null : value
 
 export {
   randomColor,
