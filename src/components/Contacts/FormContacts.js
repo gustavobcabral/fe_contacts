@@ -6,6 +6,7 @@ import GenderSelect from '../common/GenderSelect/GenderSelect'
 import StatusSelect from '../common/StatusSelect/StatusSelect'
 import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 import ReactPlaceholder from 'react-placeholder'
+import SuperSelect from '../common/SuperSelect/SuperSelect'
 
 const FormDetails = (props) => {
   const { t } = useTranslation(['contacts', 'common'])
@@ -18,6 +19,7 @@ const FormDetails = (props) => {
     validated,
     validator,
     disablePhone,
+    locationsOptions
   } = props
 
   return (
@@ -124,15 +126,15 @@ const FormDetails = (props) => {
             />
           </Col>
           <Col xs={12} lg={6}>
-            <SuperFormControl
-              type="location"
-              name="location"
+            <SuperSelect
+              name="idLocation"
               label={t('location')}
               validator={validator}
               validated={validated}
-              value={form.location}
+              isClearable={true}
+              value={form.idLocation}
+              options={locationsOptions}
               onChange={handleInputChange}
-              rules="min:4"
             />
           </Col>
         </Row>
