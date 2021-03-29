@@ -8,24 +8,24 @@ import { randomColor } from '../../utils/generic'
 import { generateLabel } from '../../stateReducers/dashboard'
 import ReactPlaceholder from 'react-placeholder'
 
-const getByPublishers = (t, data) =>
+const getByLocations = (t, data) =>
   map(
-    (dataPublisher) => ({
-      title: `${round(getOr(0, 'percent', dataPublisher), 2)}% (${getOr(
+    (dataLocation) => ({
+      title: `${round(getOr(0, 'percent', dataLocation), 2)}% (${getOr(
         0,
         'count',
-        dataPublisher
-      )}) ${getOr(t('noName'), 'publisherName', dataPublisher)}`,
-      value: getOr(0, 'percent', dataPublisher),
-      label: generateLabel(t, dataPublisher, 'publisherName'),
+        dataLocation
+      )}) ${getOr(t('noName'), 'locationName', dataLocation)} - ${getOr(t('noName'), 'departmentName', dataLocation)}`,
+      value: getOr(0, 'percent', dataLocation),
+      label: generateLabel(t, dataLocation, 'locationName'),
       color: randomColor(),
     }),
-    getOr([], 'totalsContactsWaitingFeedbackByPublisher', data)
+    getOr([], 'totalContactsByLocationContacted', data)
   )
 
-const ByPublishers = (props) => {
+const ByLocations = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
-  const byPublishers = getByPublishers(t, get('data', props))
+  const byLocations = getByLocations(t, get('data', props))
 
   return (
     <Col
@@ -35,7 +35,7 @@ const ByPublishers = (props) => {
     >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: '73px' }}>
-          {t('titleChartWaitingFeedbackByPublishers')}
+          {t('titleChartByLocationsContacted')}
         </Card.Header>
         <Card.Body>
           <ReactPlaceholder
@@ -45,13 +45,13 @@ const ByPublishers = (props) => {
             ready={!props.loading}
             rows={1}
           >
-            {!isEmpty(byPublishers) ? (
+            {!isEmpty(byLocations) ? (
               <>
                 <Row>
                   <Col>
                     <PieChart
                       animate={true}
-                      data={byPublishers}
+                      data={byLocations}
                       totalValue={100}
                     />
                   </Col>
@@ -60,17 +60,17 @@ const ByPublishers = (props) => {
                   <Col>
                     <ListGroup>
                       {map(
-                        (dataPublisher) => (
+                        (dataLocation) => (
                           <ListGroup.Item
-                            key={get('color', dataPublisher)}
+                            key={get('color', dataLocation)}
                             style={{
-                              backgroundColor: get('color', dataPublisher),
+                              backgroundColor: get('color', dataLocation),
                             }}
                           >
-                            {dataPublisher.title}
+                            {dataLocation.title}
                           </ListGroup.Item>
                         ),
-                        byPublishers
+                        byLocations
                       )}
                     </ListGroup>
                   </Col>
@@ -88,4 +88,4 @@ const ByPublishers = (props) => {
   )
 }
 
-export default ByPublishers
+export default ByLocations

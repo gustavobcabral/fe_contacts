@@ -12,6 +12,7 @@
   "titleChartGender": "Contatados por gênero",
   "titleChartLanguage": "Contatados por idioma",
   "noName": "No Name",
-  "titleChartType": "Contatos por tipo"
+  "titleChartType": "Contatos por tipo",
+  "titleChartByLocationsContacted": "Contatados por localidade"
 
 }

@@ -9,6 +9,7 @@ import ChartByFeedback from './ByFeedback'
 import ChartByGender from './ByGender'
 import ChartByLanguage from './ByLanguage'
 import ChartByPublishers from './ByPublishers'
+import ChartByLocations from './ByLocations'
 import ChartByType from './ByType'
 import { showError, parseErrorMessage } from '../../utils/generic'
 import ShowErrorComponent from '../common/ShowError/ShowError'
@@ -72,6 +73,7 @@ class Charts extends React.Component {
             <Row className="mt-4">
               <ChartByFeedback data={data} loading={loading} />
               <ChartByType data={data} loading={loading} />
+              <ChartByLocations data={data} loading={loading} />
               {isAtLeastElder() && (
                 <ChartByPublishers data={data} loading={loading} />
               )}
