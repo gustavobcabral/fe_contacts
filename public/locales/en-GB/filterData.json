@@ -6,6 +6,13 @@
   "responsibilityTitleFilter": "Responsibility",
   "typeCompanyTitleFilter": "Type",
   "typeCompanyBoth": "Both",
-  "publishersResponsiblesTitleFilter": "Created by"
+  "publishersResponsiblesTitleFilter": "Created by",
+  "locationsTitleFilter": "Locations",
+  "typeCompany0": "Residential",
+  "typeCompany1": "Business",
+  "typeCompany-1": "Both"
+
+
+
 
 }

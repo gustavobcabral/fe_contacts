@@ -32,7 +32,10 @@ class FilterData extends React.Component {
       checksResponsibility: [],
       publishersResponsibles: [],
       checksPublishersResponsibles: [],
+      locations: [],
+      checksLocations: [],
       typeCompany: '-1',
+      radiosTypeCompany: [],
     }
     this.getAllFilters = this.getAllFilters.bind(this)
     this.handleOnClick = this.handleOnClick.bind(this)
@@ -82,6 +85,8 @@ class FilterData extends React.Component {
         checksStatus: getOr([], 'status', data),
         checksResponsibility: getOr([], 'responsibility', data),
         checksPublishersResponsibles: getOr([], 'publishersResponsibles', data),
+        checksLocations: getOr([], 'locations', data),
+        radiosTypeCompany: getOr([], 'typeCompany', data),
         loading: false,
       })
     } catch (error) {
@@ -117,8 +122,11 @@ class FilterData extends React.Component {
       error,
       loading,
       typeCompany,
+      radiosTypeCompany,
       checksPublishersResponsibles,
       publishersResponsibles,
+      checksLocations,
+      locations,
     } = this.state
 
     const noData =
@@ -126,6 +134,7 @@ class FilterData extends React.Component {
       isEmpty(checksLanguages) &&
       isEmpty(checksResponsibility) &&
       isEmpty(checksPublishersResponsibles) &&
+      isEmpty(checksLocations) &&
       isEmpty(checksStatus)
     const { t, showTypeCompany = false } = this.props
     return (
@@ -156,11 +165,34 @@ class FilterData extends React.Component {
                     isMulti={true}
                     options={map(
                       ({ createdBy, publisherNameCreatedBy }) => ({
-                        label: publisherNameCreatedBy,
+                        label: `${publisherNameCreatedBy}`,
                         value: createdBy,
                       }),
                       checksPublishersResponsibles
                     )}
+                    onChange={this.handleGetValuesTradicional}
+                  />
+                </ReactPlaceholder>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {(loading || !isEmpty(checksLocations)) && !error && (
+          <Col className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{t('locationsTitleFilter')}</Card.Title>
+                <ReactPlaceholder
+                  showLoadingAnimation={true}
+                  type="text"
+                  ready={!loading}
+                  rows={3}
+                >
+                  <SuperSelect
+                    name="locations"
+                    value={locations}
+                    isMulti={true}
+                    options={checksLocations}
                     onChange={this.handleGetValuesTradicional}
                   />
                 </ReactPlaceholder>
@@ -186,7 +218,7 @@ class FilterData extends React.Component {
                           type="checkbox"
                           name="genders"
                           checked={contains(gender, genders)}
-                          label={t(`contacts:${gender}`)}
+                          label={`${t(`contacts:${gender}`)}`}
                           value={gender}
                           onChange={this.handleOnClick}
                         />
@@ -220,7 +252,7 @@ class FilterData extends React.Component {
                           type="checkbox"
                           name="languages"
                           checked={contains(String(idLanguage), languages)}
-                          label={t(`languages:${languageName}`)}
+                          label={`${t(`languages:${languageName}`)}`}
                           value={idLanguage}
                           onChange={this.handleOnClick}
                         />
@@ -254,7 +286,9 @@ class FilterData extends React.Component {
                           type="checkbox"
                           name="status"
                           checked={contains(String(idStatus), status)}
-                          label={t(`status:${statusDescription}`)}
+                          label={`${t(
+                            `status:${statusDescription}`
+                          )}`}
                           value={idStatus}
                           onChange={this.handleOnClick}
                         />
@@ -279,7 +313,10 @@ class FilterData extends React.Component {
                   rows={4}
                 >
                   {map(
-                    ({ idResponsibility, responsibilityDescription }) => (
+                    ({
+                      idResponsibility,
+                      responsibilityDescription,
+                    }) => (
                       <Form.Group
                         key={idResponsibility}
                         controlId={`responsibility${idResponsibility}`}
@@ -291,9 +328,9 @@ class FilterData extends React.Component {
                             String(idResponsibility),
                             responsibility
                           )}
-                          label={t(
+                          label={`${t(
                             `responsibility:${responsibilityDescription}`
-                          )}
+                          )}`}
                           value={idResponsibility}
                           onChange={this.handleOnClick}
                         />
@@ -317,45 +354,26 @@ class FilterData extends React.Component {
                   ready={!loading}
                   rows={3}
                 >
-                  <Col xs={6} lg={2}>
-                    <Form.Group controlId="both">
-                      <Form.Check
-                        key="typeCompanyBoth"
-                        type="radio"
-                        name="typeCompany"
-                        label={t('typeCompanyBoth')}
-                        checked={typeCompany === '-1'}
-                        value={'-1'}
-                        onChange={this.handleGetValuesTradicional}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col xs={6} lg={2}>
-                    <Form.Group controlId="typeCompanyResidencial0Filter">
-                      <Form.Check
-                        key="typeCompanyResidential0"
-                        type="radio"
-                        name="typeCompany"
-                        label={t('contacts:residential')}
-                        checked={typeCompany === '0'}
-                        value={'0'}
-                        onChange={this.handleGetValuesTradicional}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col>
-                    <Form.Group controlId="typeCompanyCommercial1Filter">
-                      <Form.Check
-                        key="typeCompanyCommercial1"
-                        type="radio"
-                        name="typeCompany"
-                        label={t('contacts:commercial')}
-                        checked={typeCompany === '1'}
-                        value={'1'}
-                        onChange={this.handleGetValuesTradicional}
-                      />
-                    </Form.Group>
-                  </Col>
+                  {map(
+                    ({ typeCompanySelected }) => (
+                      <Form.Group
+                        key={typeCompanySelected}
+                        controlId={`typeCompany${typeCompanySelected}`}
+                      >
+                        <Form.Check
+                          type="radio"
+                          name="typeCompany"
+                          checked={typeCompany === typeCompanySelected}
+                          label={`${t(
+                            `typeCompany${typeCompanySelected}`
+                          )}`}
+                          value={typeCompanySelected}
+                          onChange={this.handleGetValuesTradicional}
+                        />
+                      </Form.Group>
+                    ),
+                    radiosTypeCompany
+                  )}
                 </ReactPlaceholder>
               </Card.Body>
             </Card>
