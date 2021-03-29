@@ -12,5 +12,7 @@
   "titleChartGender": "Contacted by gender",
   "titleChartLanguage": "Contacted by language",
   "noName": "No Name",
-  "titleChartType": "Contacts by type"
+  "titleChartType": "Contacts by type",
+  "titleChartByLocationsContacted": "Contacted by location"
+
 }

@@ -10,7 +10,11 @@ const getByType = (t, data) => {
   const parseObject = (label, color, data) => ({
     label: `${t(`contacts:${label}`)}`,
     value: getOr(0, 'percent', data),
-    title: `${round(getOr(0, 'percent', data), 2)}% ${t(`contacts:${label}`)}`,
+    title: `${round(getOr(0, 'percent', data), 2)}% (${getOr(
+      0,
+      'count',
+      data
+    )}) ${t(`contacts:${label}`)}`,
     color,
   })
 

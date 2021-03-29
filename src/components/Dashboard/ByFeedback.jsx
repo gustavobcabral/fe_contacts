@@ -26,7 +26,9 @@ const getByFeedback = (t, data) => {
           title: `${round(
             getOr(0, 'totalPercentContactsAssignByMeWaitingFeedback', data),
             2
-          )}% ${t('totalContactsAssignByMeWaitingFeedback')}`,
+          )}% (${getOr(0, 'totalContactsAssignByMeWaitingFeedback', data)}) ${t(
+            'totalContactsAssignByMeWaitingFeedback'
+          )}`,
           color: '#007bff',
         }
       : null,
@@ -36,7 +38,11 @@ const getByFeedback = (t, data) => {
           title: `${round(
             getOr(0, 'totalPercentContactsAssignByOthersWaitingFeedback', data),
             2
-          )}% ${t('totalContactsWaitingFeedback')}`,
+          )}% (${getOr(
+            0,
+            'totalContactsAssignByOthersWaitingFeedback',
+            data
+          )}) ${t('totalContactsWaitingFeedback')}`,
           value: getOr(
             0,
             'totalPercentContactsAssignByOthersWaitingFeedback',
@@ -51,7 +57,7 @@ const getByFeedback = (t, data) => {
 const ByFeedback = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
   const byFeedback = getByFeedback(t, get('data', props))
-  const offsetLG = isAtLeastElder() ? 3 : 4
+  const offsetLG = isAtLeastElder() ? 2 : 3
   return (
     <Col
       xs={{ span: 8, offset: 2 }}

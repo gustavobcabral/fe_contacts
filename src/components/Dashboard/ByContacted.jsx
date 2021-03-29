@@ -17,9 +17,10 @@ const getByContacted = (t, data) => {
     getOr(0, 'totalPercentContacted', data) > 0
       ? {
           label: t('contacted'),
-          title: `${round(getOr(0, 'totalPercentContacted', data), 2)}% ${t(
-            'contacted'
-          )}`,
+          title: `${round(
+            getOr(0, 'totalPercentContacted', data),
+            2
+          )}% (${getOr(0, 'totalContactsContacted', data)}) ${t('contacted')}`,
           value: getOr(0, 'totalPercentContacted', data),
           color: '#28a745',
         }
@@ -30,7 +31,9 @@ const getByContacted = (t, data) => {
           title: `${round(
             getOr(0, 'totalPercentWithoutContacted', data),
             2
-          )}% ${t('withoutContact')}`,
+          )}% (${getOr(0, 'totalContactsWithoutContact', data)}) ${t(
+            'withoutContact'
+          )}`,
           value: getOr(0, 'totalPercentWithoutContacted', data),
           color: '#f73939',
         }

@@ -11,9 +11,11 @@ import ReactPlaceholder from 'react-placeholder'
 const getByLanguage = (t, data) =>
   map(
     (dataLanguage) => ({
-      title: `${round(getOr(0, 'percent', dataLanguage), 2)}% ${t(
-        'languages:' + getOr('noName', 'languageName', dataLanguage)
-      )}`,
+      title: `${round(getOr(0, 'percent', dataLanguage), 2)}% (${getOr(
+        0,
+        'count',
+        dataLanguage
+      )}) ${t('languages:' + getOr('noName', 'languageName', dataLanguage))}`,
       value: getOr(0, 'percent', dataLanguage),
       label: generateLabel(t, dataLanguage, 'languageName'),
       color: getOr(randomColor(), 'languageColor', dataLanguage),
