@@ -6,7 +6,11 @@
   "responsibilityTitleFilter": "Privilégios",
   "typeCompanyTitleFilter": "Tipo",
   "typeCompanyBoth": "Ambos",
-  "publishersResponsiblesTitleFilter": "Criado por"
+  "publishersResponsiblesTitleFilter": "Criado por",
+  "locationsTitleFilter": "Localidades",
+  "typeCompany0": "Residencial",
+  "typeCompany1": "Comercial",
+  "typeCompany-1": "Ambos"
 
 
 }
