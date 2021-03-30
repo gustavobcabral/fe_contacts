@@ -14,6 +14,7 @@ import {
 import { parseErrorMessage } from '../../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import SuperSelect from '../SuperSelect/SuperSelect'
+import { reduceFiltersLocations } from '../../../stateReducers/locations'
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class FilterData extends React.Component {
       publishersResponsibles: [],
       checksPublishersResponsibles: [],
       locations: [],
-      checksLocations: [],
+      selectLocations: [],
       typeCompany: '-1',
       radiosTypeCompany: [],
     }
@@ -75,6 +76,8 @@ class FilterData extends React.Component {
 
   async getAllFilters() {
     this.setState({ loading: true })
+    const { t } = this.props
+
     try {
       const { getFilters } = this.props
       const response = await getFilters()
@@ -85,12 +88,11 @@ class FilterData extends React.Component {
         checksStatus: getOr([], 'status', data),
         checksResponsibility: getOr([], 'responsibility', data),
         checksPublishersResponsibles: getOr([], 'publishersResponsibles', data),
-        checksLocations: getOr([], 'locations', data),
+        selectLocations: reduceFiltersLocations(data, t),
         radiosTypeCompany: getOr([], 'typeCompany', data),
         loading: false,
       })
     } catch (error) {
-      const { t } = this.props
       this.setState({
         error: t(`common:${parseErrorMessage(error)}`),
         loading: false,
@@ -125,7 +127,7 @@ class FilterData extends React.Component {
       radiosTypeCompany,
       checksPublishersResponsibles,
       publishersResponsibles,
-      checksLocations,
+      selectLocations,
       locations,
     } = this.state
 
@@ -134,7 +136,7 @@ class FilterData extends React.Component {
       isEmpty(checksLanguages) &&
       isEmpty(checksResponsibility) &&
       isEmpty(checksPublishersResponsibles) &&
-      isEmpty(checksLocations) &&
+      isEmpty(selectLocations) &&
       isEmpty(checksStatus)
     const { t, showTypeCompany = false } = this.props
     return (
@@ -177,7 +179,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-        {(loading || !isEmpty(checksLocations)) && !error && (
+        {(loading || !isEmpty(selectLocations)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
@@ -192,7 +194,7 @@ class FilterData extends React.Component {
                     name="locations"
                     value={locations}
                     isMulti={true}
-                    options={checksLocations}
+                    options={selectLocations}
                     onChange={this.handleGetValuesTradicional}
                   />
                 </ReactPlaceholder>
@@ -286,9 +288,7 @@ class FilterData extends React.Component {
                           type="checkbox"
                           name="status"
                           checked={contains(String(idStatus), status)}
-                          label={`${t(
-                            `status:${statusDescription}`
-                          )}`}
+                          label={`${t(`status:${statusDescription}`)}`}
                           value={idStatus}
                           onChange={this.handleOnClick}
                         />
@@ -313,10 +313,7 @@ class FilterData extends React.Component {
                   rows={4}
                 >
                   {map(
-                    ({
-                      idResponsibility,
-                      responsibilityDescription,
-                    }) => (
+                    ({ idResponsibility, responsibilityDescription }) => (
                       <Form.Group
                         key={idResponsibility}
                         controlId={`responsibility${idResponsibility}`}
@@ -364,9 +361,7 @@ class FilterData extends React.Component {
                           type="radio"
                           name="typeCompany"
                           checked={typeCompany === typeCompanySelected}
-                          label={`${t(
-                            `typeCompany${typeCompanySelected}`
-                          )}`}
+                          label={`${t(`typeCompany${typeCompanySelected}`)}`}
                           value={typeCompanySelected}
                           onChange={this.handleGetValuesTradicional}
                         />

@@ -10,7 +10,9 @@
   "locationsTitleFilter": "Localidades",
   "typeCompany0": "Residencial",
   "typeCompany1": "Comercial",
-  "typeCompany-1": "Ambos"
+  "typeCompany-1": "Ambos",
+  "unknown": "Desconhecida"
+
 
 
 }

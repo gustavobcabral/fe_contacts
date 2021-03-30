@@ -10,7 +10,9 @@
   "locationsTitleFilter": "Locations",
   "typeCompany0": "Residential",
   "typeCompany1": "Business",
-  "typeCompany-1": "Both"
+  "typeCompany-1": "Both",
+  "unknown": "Unknown"
+
 
 
 
