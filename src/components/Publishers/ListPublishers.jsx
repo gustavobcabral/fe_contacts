@@ -165,10 +165,12 @@ class Publishers extends React.Component {
                             `responsibility:${publishers.responsibilityDescription}`
                           )}
                         </td>
-                        <td>
-                        {t(
-                            `common:${publishers.active ? 'yes' : 'no'}`
-                          )}
+                        <td
+                          className={`text-${
+                            publishers.active ? 'success' : 'danger'
+                          }`}
+                        >
+                          {t(`common:${publishers.active ? 'yes' : 'no'}`)}
                         </td>
                         <td style={{ minWidth: '114px' }}>
                           <EditPublisher

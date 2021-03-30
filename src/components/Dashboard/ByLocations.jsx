@@ -2,10 +2,9 @@ import React from 'react'
 import { Col, Card, Row, ListGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { PieChart } from 'react-minimal-pie-chart'
-import { get, isEmpty, getOr, map } from 'lodash/fp'
+import { get, isEmpty, getOr, map, isNil } from 'lodash/fp'
 import { round } from 'lodash'
 import { randomColor } from '../../utils/generic'
-import { generateLabel } from '../../stateReducers/dashboard'
 import ReactPlaceholder from 'react-placeholder'
 
 const getByLocations = (t, data) =>
@@ -15,9 +14,15 @@ const getByLocations = (t, data) =>
         0,
         'count',
         dataLocation
-      )}) ${getOr(t('noName'), 'locationName', dataLocation)} - ${getOr(t('noName'), 'departmentName', dataLocation)}`,
+      )}) ${
+        isNil(get('locationName', dataLocation))
+          ? t('unknown')
+          : getOr(t('noName'), 'locationName', dataLocation) + ' - ' + getOr(t('noName'), 'departmentName', dataLocation)
+      } `,
       value: getOr(0, 'percent', dataLocation),
-      label: generateLabel(t, dataLocation, 'locationName'),
+      label: isNil(get('locationName', dataLocation))
+        ? t('unknown')
+        : get('locationName', dataLocation),
       color: randomColor(),
     }),
     getOr([], 'totalContactsByLocationContacted', data)

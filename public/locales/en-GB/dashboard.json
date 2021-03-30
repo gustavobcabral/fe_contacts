@@ -13,6 +13,8 @@
   "titleChartLanguage": "Contacted by language",
   "noName": "No Name",
   "titleChartType": "Contacts by type",
-  "titleChartByLocationsContacted": "Contacted by location"
+  "titleChartByLocationsContacted": "Contacted by location",
+  "unknown": "Unknown"
+
 
 }

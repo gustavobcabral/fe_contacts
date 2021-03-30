@@ -13,6 +13,8 @@
   "titleChartLanguage": "Contatados por idioma",
   "noName": "No Name",
   "titleChartType": "Contatos por tipo",
-  "titleChartByLocationsContacted": "Contatados por localidade"
+  "titleChartByLocationsContacted": "Contatados por localidade",
+  "unknown": "Desconhecida"
+
 
 }
