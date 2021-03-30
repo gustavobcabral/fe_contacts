@@ -135,6 +135,7 @@ class Publishers extends React.Component {
                   <th>{t('email')}</th>
                   <th>{t('phone')}</th>
                   <th>{t('privilege')}</th>
+                  <th>{t('active')}</th>
                   <th>
                     <NewPublisher afterClose={() => this.handleGetAll()} />
                   </th>
@@ -162,6 +163,11 @@ class Publishers extends React.Component {
                         <td>
                           {t(
                             `responsibility:${publishers.responsibilityDescription}`
+                          )}
+                        </td>
+                        <td>
+                        {t(
+                            `common:${publishers.active ? 'yes' : 'no'}`
                           )}
                         </td>
                         <td style={{ minWidth: '114px' }}>

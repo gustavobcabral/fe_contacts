@@ -21,5 +21,8 @@
   "publishers_phone_unique": "Este telefone já existe",
   "NOT_ALLOWED_EDIT_DATA_MORE_RESPONSIBILITY": "Você precisa ter mais privilegios para editar este registro",
   "notAllowedDeleteCurrentUser": "Você não pode deletar o atual usuário logado",
-  "publishers_email_unique": "Ja existe outro publicador com esse email"
+  "publishers_email_unique": "Ja existe outro publicador com esse email",
+  "active": "Ativo",
+  "inactive": "Inativo"
+
 }
