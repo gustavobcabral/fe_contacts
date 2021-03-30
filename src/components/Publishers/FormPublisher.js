@@ -31,6 +31,35 @@ const FormPublishers = (props) => {
       rows={12}
     >
       <Form>
+        <Row className="mb-2">
+          <Col xs={6} lg={2}>
+            <Form.Group controlId="publisherInactive">
+              <Form.Check
+                type="radio"
+                disabled={form.disabled}
+                name="active"
+                label={t('inactive')}
+                checked={form.active === false || form.active === '0'}
+                value={0}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="publisherActive">
+              <Form.Check
+                type="radio"
+                disabled={form.disabled}
+                name="active"
+                label={t('active')}
+                validator={validator}
+                checked={form.active === true || form.active === '1'}
+                value={1}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
         <Row>
           <Col xs={12} lg={6}>
             <SuperFormControl

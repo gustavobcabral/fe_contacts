@@ -55,7 +55,7 @@ class NewContact extends React.Component {
 
   async handleGetPublishers() {
     this.setState({ loading: true })
-    const publishersOptions = reducePublishers(await publishers.getAll())
+    const publishersOptions = reducePublishers(await publishers.getAllActives())
 
     this.setState({
       publishersOptions,
