@@ -13,6 +13,7 @@ import {
   remove,
   contains,
   find,
+  isNil
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -175,9 +176,11 @@ class Contacts extends React.Component {
         typeCompany: t(`${contact.typeCompany ? 'commercial' : 'residential'}`),
         languageName: t(`languages:${contact.languageName}`),
         statusDescription: t(`status:${contact.statusDescription}`),
+        locationName: isNil(contact.idLocation)
+          ? t('unknownLocation')
+          : `${contact.locationName} - ${contact.departmentName}`,
         lastConversationInDays: t(`${contact.lastConversationInDays}`),
-        waitingFeedback: t(`common:${contact.waitingFeedback ? 'yes' : 'no'}`),
-        details: contact.details.information,
+        details: contact.information,
       }
     }, checksContactsPhones)
     this.setState({
@@ -190,11 +193,11 @@ class Contacts extends React.Component {
         { label: t('typeCompany'), key: 'typeCompany' },
         { label: t('language'), key: 'languageName' },
         { label: t('status'), key: 'statusDescription' },
+        { label: t('location'), key: 'locationName' },
         {
           label: t('lastConversationsInDays'),
           key: 'lastConversationInDays',
         },
-        { label: t('waitingFeedback'), key: 'waitingFeedback' },
         { label: t('details'), key: 'details' },
       ],
     })
@@ -283,9 +286,6 @@ class Contacts extends React.Component {
                     className="d-none d-lg-table-cell text-center"
                   >
                     {t('lastConversationsInDays')}
-                  </th>
-                  <th className="d-none d-lg-table-cell">
-                    {t('waitingFeedback')}
                   </th>
                   <th style={{ minWidth: '116px' }}>{t('details')}</th>
                   <th style={{ minWidth: '189px' }}>
@@ -387,16 +387,6 @@ class Contacts extends React.Component {
                         <td className="d-none d-lg-table-cell">
                           {t(`${contact.lastConversationInDays}`)}
                         </td>
-                        <td
-                          className={`d-none d-lg-table-cell text-${
-                            contact.waitingFeedback ? 'danger' : 'success'
-                          }`}
-                        >
-                          {t(
-                            `common:${contact.waitingFeedback ? 'yes' : 'no'}`
-                          )}
-                        </td>
-
                         <td>
                           <ListDetailsContact
                             contact={contact}

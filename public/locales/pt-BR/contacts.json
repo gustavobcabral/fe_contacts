@@ -1,6 +1,6 @@
 {
   "title": "Contatos",
-  "listTitle": "Lista de contatos",
+  "listTitle": "Lista de contatos sem pendências",
   "titleWaitingFeedback": "Lista de contatos que aguardam resposta",
   "titleCrud": "Contato",
   "phone": "Telefone",
@@ -13,6 +13,7 @@
   "male": "Masculino",
   "female": "Feminino",
   "unknown": "Desconhecido",
+  "unknownLocation": "Desconhecida",
   "publisher": "Publicador",
   "name": "Nome",
   "residential": "Residencial",
