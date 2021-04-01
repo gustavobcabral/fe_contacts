@@ -88,9 +88,9 @@ class NewContact extends React.Component {
     const contactGender = !isEmpty(contact.gender)
       ? ` ${t('contacts:gender') + ':'} ${t(`contacts:${contact.gender}`)} - `
       : ''
-    const lastInformation = !isEmpty(contact.details)
-      ? `${contact.details.information} - ${moment(
-          contact.details.createdAt
+    const lastInformation = !isEmpty(contact.information)
+      ? `${contact.information} - ${moment(
+          contact.createdAtDetailsContacts
         ).format('DD/MM/YYYY HH:mm')}`
       : t('withoutDetails')
     return contactName + contactGender + contactLanguage + lastInformation

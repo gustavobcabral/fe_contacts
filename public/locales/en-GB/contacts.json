@@ -1,7 +1,7 @@
 {
   "title": "Contacts",
-  "listTitle": "List of Contacts",
-  "titleWaitingFeedback": "List of contacts that waiting feedback",
+  "listTitle": "List of contacts without pending issues",
+  "titleWaitingFeedback": "List of contacts waiting feedback",
   "titleCrud": "Contact",
   "phone": "Phone",
   "phone2": "Phone 2",
@@ -13,6 +13,7 @@
   "male": "Male",
   "female": "Female",
   "unknown": "Unknown",
+  "unknownLocation": "Unknown",
   "publisher": "Publisher",
   "name": "Name",
   "residential": "Residential",
