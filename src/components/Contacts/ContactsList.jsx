@@ -13,7 +13,7 @@ import {
   remove,
   contains,
   find,
-  isNil
+  isNil,
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -87,10 +87,10 @@ class Contacts extends React.Component {
 
   async handleGetAll(objQuery) {
     this.setState({ submitting: true })
-    const { t } = this.props
+    const { t, modeAllContacts } = this.props
     try {
       const queryParams = parseQuery(objQuery, this.state)
-      const response = await contacts.getAll(queryParams)
+      const response = await contacts.getAll(queryParams, modeAllContacts)
       this.setState({
         data: getOr([], 'data.data.list', response),
         pagination: getOr({}, 'data.data.pagination', response),
@@ -231,7 +231,7 @@ class Contacts extends React.Component {
   }
 
   render() {
-    const { t } = this.props
+    const { t, modeAllContacts } = this.props
     const {
       data,
       pagination,
@@ -245,7 +245,10 @@ class Contacts extends React.Component {
     } = this.state
     const colSpan = '10'
     return (
-      <ContainerCRUD title={t('listTitle')} {...this.props}>
+      <ContainerCRUD
+        title={t(modeAllContacts ? 'listAllTitle' : 'listTitle')}
+        {...this.props}
+      >
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
@@ -305,7 +308,9 @@ class Contacts extends React.Component {
                     <CSVLink
                       data={dataCVS}
                       headers={headers}
-                      filename={`${t('listTitle')}.csv`}
+                      filename={`${t(
+                        modeAllContacts ? 'listAllTitle' : 'listTitle'
+                      )}.csv`}
                       title={t('titleExportToCVS')}
                       className={`btn btn-primary ${
                         checksContactsPhones.length > 0 ? '' : 'disabled'
@@ -403,10 +408,12 @@ class Contacts extends React.Component {
                           </Button>
                         </td>
                         <td>
-                          <EditContact
-                            id={contact.phone}
-                            afterClose={() => this.handleGetAll()}
-                          />{' '}
+                          {!modeAllContacts && (
+                            <EditContact
+                              id={contact.phone}
+                              afterClose={() => this.handleGetAll()}
+                            />
+                          )}{' '}
                           <AskDelete
                             id={contact.phone}
                             funcToCallAfterConfirmation={this.handleDelete}

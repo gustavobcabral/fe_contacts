@@ -29,6 +29,10 @@ const MenuLogged = ({ t, ...props }) => (
               {t('allContacts')}
             </NavDropdown.Item>
             <NavDropdown.Divider />
+            <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_AVAILABLE_LIST_PATH}>
+              {t('allContactsAvailable')}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
           </>
         )}
         <NavDropdown.Item

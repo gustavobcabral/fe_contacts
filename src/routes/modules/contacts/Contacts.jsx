@@ -1,7 +1,8 @@
 import React from 'react'
 import PrivateRoute from '../../../utils/privateRoute'
 
-import ContactsList from '../../../pages/Contacts/ContactsList'
+import ContactsListAll from '../../../pages/Contacts/ContactsListAll'
+import ContactsListAvailable from '../../../pages/Contacts/ContactsListAvailable'
 import ContactsWaitingFeedbackList from '../../../pages/Contacts/ContactsWaitingFeedbackList'
 import ListDetailsContact from '../../../pages/DetailsContact/ListDetailsContact'
 import EditDetailsContact from '../../../pages/DetailsContact/EditDetailsContact'
@@ -14,7 +15,12 @@ const Routes = () => (
     <PrivateRoute
       exact
       path={contactsPaths.CONTACTS_LIST_PATH}
-      component={ContactsList}
+      component={ContactsListAll}
+    />
+    <PrivateRoute
+      exact
+      path={contactsPaths.CONTACTS_AVAILABLE_LIST_PATH}
+      component={ContactsListAvailable}
     />
     <PrivateRoute
       exact
