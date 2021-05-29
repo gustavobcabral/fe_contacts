@@ -33,6 +33,7 @@
   "createdAt":"Generate at",
   "titleExportToCVS": "Export selected contacts to Excel",
   "lastSpokeToPublisherName": "Last spoke to",
-  "ERROR_CONTACT_PHONE_ALREADY_EXISTS": "This contact phone already exists in the contact {{name}} {{phone}}"
+  "ERROR_CONTACT_PHONE_ALREADY_EXISTS": "This contact phone already exists in the contact {{name}} {{phone}}",
+  "[WAITING_FEEDBACK]": "Waiting for feedback"
 
 }
