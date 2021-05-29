@@ -89,7 +89,7 @@ class NewContact extends React.Component {
       ? ` ${t('contacts:gender') + ':'} ${t(`contacts:${contact.gender}`)} - `
       : ''
     const lastInformation = !isEmpty(contact.information)
-      ? `${contact.information} - ${moment(
+      ? `${t(`contacts:${contact.information}`)} - ${moment(
           contact.createdAtDetailsContacts
         ).format('DD/MM/YYYY HH:mm')}`
       : t('withoutDetails')
