@@ -6,6 +6,7 @@
   "status": "Status",
   "languages": "Idiomas",
   "admin": "Administração",
-  "allContacts": "Sem pendências",
+  "allContacts": "Todos",
+  "allContactsAvailable": "Sem pendências",
   "allContactsWaitingFeedback": "Aguardam resposta"
 }

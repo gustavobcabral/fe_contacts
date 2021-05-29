@@ -1,7 +1,10 @@
 import api from '../api'
 import { toQueryString } from '../../utils/forms'
 
-const getAll = (params) => api.get(`/contacts${toQueryString(params)}`)
+const getAll = (params, modeGetAll) => {
+  if (modeGetAll) return api.get(`/contacts${toQueryString(params)}`)
+  else return api.get(`/contacts/available${toQueryString(params)}`)
+}
 
 const getAllFilters = () => api.get(`/contacts/filters`)
 
@@ -26,7 +29,7 @@ const allExport = {
   getSummary,
   getAllFilters,
   assign,
-  updateSome
+  updateSome,
 }
 
 export default allExport
