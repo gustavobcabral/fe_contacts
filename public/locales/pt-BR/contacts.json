@@ -36,7 +36,9 @@
   "titleExportToCVSWaitingFeedback": "Exportar contatos selecionados ao Excel - Aguardam resposta",
   "lastSpokeToPublisherName": "Falou por último com",
   "ERROR_CONTACT_PHONE_ALREADY_EXISTS": "Este telefone de contato já existe no contato {{name}} {{phone}}",
-  "[WAITING_FEEDBACK]": "Aguardando resposta"
+  "[WAITING_FEEDBACK]": "Aguardando resposta",
+  "deleteRecordWaitingFeedback": "Tem certeza que deseja remover este número da lista de aguardando resposta?"
+
 
 
 
