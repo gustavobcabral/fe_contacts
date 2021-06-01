@@ -318,6 +318,7 @@ class Contacts extends React.Component {
                           />{' '}
                           <AskDelete
                             id={detailContact.id}
+                            title={t('deleteRecordWaitingFeedback')}
                             funcToCallAfterConfirmation={this.handleDelete}
                           />
                         </td>
