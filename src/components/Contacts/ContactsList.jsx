@@ -290,9 +290,11 @@ class Contacts extends React.Component {
                   >
                     {t('lastConversationsInDays')}
                   </th>
-                  <th className="d-none d-lg-table-cell">
-                    {t('waitingFeedback')}
-                  </th>
+                  {modeAllContacts && (
+                    <th className="d-none d-lg-table-cell">
+                      {t('waitingFeedback')}
+                    </th>
+                  )}
                   <th style={{ minWidth: '116px' }}>{t('details')}</th>
                   <th style={{ minWidth: '189px' }}>
                     <NewContact afterClose={this.handleGetAll} />{' '}
@@ -395,15 +397,17 @@ class Contacts extends React.Component {
                         <td className="d-none d-lg-table-cell">
                           {t(`${contact.lastConversationInDays}`)}
                         </td>
-                        <td
-                          className={`d-none d-lg-table-cell text-${
-                            contact.waitingFeedback ? 'danger' : 'success'
-                          }`}
-                        >
-                          {t(
-                            `common:${contact.waitingFeedback ? 'yes' : 'no'}`
-                          )}
-                        </td>
+                        {modeAllContacts && (
+                          <td
+                            className={`d-none d-lg-table-cell text-${
+                              contact.waitingFeedback ? 'danger' : 'success'
+                            }`}
+                          >
+                            {t(
+                              `common:${contact.waitingFeedback ? 'yes' : 'no'}`
+                            )}
+                          </td>
+                        )}
                         <td>
                           <ListDetailsContact
                             contact={contact}
