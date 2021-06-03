@@ -2,13 +2,18 @@ import React from 'react'
 import { Col, Card, Row, ListGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { PieChart } from 'react-minimal-pie-chart'
-import { get, isEmpty, getOr, map } from 'lodash/fp'
+import { get, isEmpty, getOr, map, pipe, orderBy } from 'lodash/fp'
 import { round } from 'lodash'
 import { randomColor } from '../../utils/generic'
 import { generateLabel } from '../../stateReducers/dashboard'
 import ReactPlaceholder from 'react-placeholder'
 
 const getByPublishers = (t, data) =>
+  pipe(orderBy(['percent'], 'desc'), (data) => parseDataPublishers(t, data))(
+    getOr([], 'totalsContactsWaitingFeedbackByPublisher', data)
+  )
+
+const parseDataPublishers = (t, data) =>
   map(
     (dataPublisher) => ({
       title: `${round(getOr(0, 'percent', dataPublisher), 2)}% (${getOr(
@@ -20,7 +25,7 @@ const getByPublishers = (t, data) =>
       label: generateLabel(t, dataPublisher, 'publisherName'),
       color: randomColor(),
     }),
-    getOr([], 'totalsContactsWaitingFeedbackByPublisher', data)
+    data
   )
 
 const ByPublishers = (props) => {
