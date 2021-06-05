@@ -1,6 +1,6 @@
 {
   "name": "fe_contacts",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "graphql-query-builder-v2": "^2.0.5",
     "i18next": "^19.8.7",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.1.0",
@@ -26,7 +27,7 @@
     "react-minimal-pie-chart": "^8.1.0",
     "react-placeholder": "^4.1.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.2",
+    "react-scripts": "^4.0.3",
     "react-select": "^3.2.0",
     "serve": "^11.3.2",
     "simple-react-validator": "^1.6.0",

@@ -1,9 +1,47 @@
 import api from '../api'
-import { toQueryString } from '../../utils/forms'
+import { buildGql } from '../../utils/forms'
 
-const getAll = (params, modeGetAll) => {
-  if (modeGetAll) return api.get(`/contacts${toQueryString(params)}`)
-  else return api.get(`/contacts/available${toQueryString(params)}`)
+const CONTACTS = [
+  'name',
+  'owner',
+  'phone',
+  'idStatus',
+  'idLanguage',
+  'gender',
+  'typeCompany',
+  'idLocation',
+  'locationName',
+  'departmentName',
+  'email',
+  'note',
+  'languageName',
+  'statusDescription',
+  'createdAtDetailsContacts',
+  'lastConversationInDays',
+  'publisherName',
+  'information',
+  'waitingFeedback',
+  'createdAtDetailsContacts',
+]
+const PAGINATION = [
+  'perPage',
+  'currentPage',
+  'from',
+  'to',
+  'totalRows',
+  'lastPage',
+]
+const contactsWithPagination = [{ list: CONTACTS }, { pagination: PAGINATION }]
+const responseSuccess = ['status', 'cod', { data: contactsWithPagination }]
+
+const getAll = (filter) => {
+  const query = buildGql('query', {
+    name: 'data: getAll',
+    find: responseSuccess,
+    filter: { input: { ...filter } },
+  })
+
+  return api.get(`/contacts${query}`)
 }
 
 const getAllFilters = () => api.get(`/contacts/filters`)
