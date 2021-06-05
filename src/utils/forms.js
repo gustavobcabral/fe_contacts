@@ -1,4 +1,5 @@
 import { getOr, omit, trim, isString } from 'lodash/fp'
+import GqlBuilder from 'graphql-query-builder-v2'
 
 export const unformatDate = (date) => {
   const split = date.slice(0, 10).split('-')
@@ -35,12 +36,13 @@ export const parseQuery = (objQuery, state) => {
 }
 
 export const appendFilters = (filters, state) => {
-  const newFilters = getOr({}, 'filters', filters)
+  const newPreFilters = {
+    ...JSON.parse(getOr('{}', 'queryParams.filters', state)),
+    ...getOr({}, 'filters', filters),
+  }
+
   return {
-    filters: JSON.stringify({
-      ...JSON.parse(getOr('{}', 'queryParams.filters', state)),
-      ...newFilters,
-    }),
+    filters: JSON.stringify(newPreFilters),
   }
 }
 
@@ -58,3 +60,23 @@ export const toQueryString = (paramsObject) =>
         `${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`
     )
     .join('&')
+
+export const buildGql = (type, { name, find, filter, variables = null }) => {
+  const query = new GqlBuilder(name, variables)
+
+  if (filter) {
+    query.filter(filter)
+  }
+
+  if (find) {
+    query.find(find)
+  }
+
+  return type === 'mutation'
+    ? `
+        ${type} {${query.toString()}}
+      `.trim()
+    : `
+      ?${type}={${query.toString()}}
+    `.trim()
+}

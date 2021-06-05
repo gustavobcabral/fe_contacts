@@ -68,6 +68,7 @@ class Contacts extends React.Component {
           phone: '',
           note: '',
           typeCompany: '-1',
+          modeAllContacts: props.modeAllContacts ? '-1' : '0',
           genders: [],
           languages: [],
           status: [],
@@ -87,17 +88,30 @@ class Contacts extends React.Component {
 
   async handleGetAll(objQuery) {
     this.setState({ submitting: true })
-    const { t, modeAllContacts } = this.props
+    const { t } = this.props
     try {
-      const queryParams = parseQuery(objQuery, this.state)
-      const response = await contacts.getAll(queryParams, modeAllContacts)
-      this.setState({
-        data: getOr([], 'data.data.list', response),
-        pagination: getOr({}, 'data.data.pagination', response),
-        submitting: false,
-        error: false,
-        queryParams,
-      })
+      const queryParams = parseQuery(objQuery, this.state, true)
+      const response = await contacts.getAll(queryParams)
+      const error = getOr([], 'data.errors[0]', response)
+      if(isEmpty(error))
+      {
+        this.setState({
+          data: getOr([], 'data.data.data.data.list', response),
+          pagination: getOr({}, 'data.data.data.data.pagination', response),
+          submitting: false,
+          error: false,
+          queryParams,
+        })
+
+  
+      }
+      else {
+        this.setState({
+          error,
+          submitting: false,
+        })
+        showError(error, t, 'contacts')
+        }
     } catch (error) {
       this.setState({
         error,
