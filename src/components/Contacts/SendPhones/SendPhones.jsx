@@ -88,12 +88,16 @@ class NewContact extends React.Component {
     )(checksContactsPhones)
     if (phonesWaitingFeedback.length > 0) {
       const justNumbers = map((contact) => contact.phone, phonesWaitingFeedback)
+      const text =
+        phonesWaitingFeedback.length > 1
+          ? 'warningPhonesWaitingFeedback'
+          : 'warningPhoneWaitingFeedback'
       Swal.fire({
         title: t('common:warning'),
-        text: `${t('warningPhonesWaitingFeedback', {
+        html: `${t(text, {
           total: phonesWaitingFeedback.length,
-        })} ${join(', ', justNumbers)}`,
-        icon: 'error',
+        })}<br/>${join(', ', justNumbers)}`,
+        icon: 'warning',
       })
     }
   }
@@ -120,9 +124,7 @@ class NewContact extends React.Component {
       ? ` ${t('contacts:gender') + ':'} ${t(`contacts:${contact.gender}`)} - `
       : ''
 
-      console.log(contact)
-      console.log(contact.createdAtDetailsContacts)
-      const lastInformation = !isEmpty(contact.information)
+    const lastInformation = !isEmpty(contact.information)
       ? `${t(`contacts:${contact.information}`)} - ${moment(
           contact.createdAtDetailsContacts
         ).format('DD/MM/YYYY HH:mm')}`
@@ -182,7 +184,7 @@ class NewContact extends React.Component {
     return pipe(
       map((phone) => {
         const contact = find((contact) => contact.phone === phone, contactsData)
-        return !contact.waitingFeedback ? contact.phone : null
+        return contact && !contact.waitingFeedback ? contact.phone : null
       }),
       compact
     )(checksContactsPhones)

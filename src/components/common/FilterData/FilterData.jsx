@@ -71,6 +71,7 @@ class FilterData extends React.Component {
       filters: {
         [name]: newValues,
       },
+      currentPage: 1
     })
   }
 
