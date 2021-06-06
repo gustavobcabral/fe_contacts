@@ -45,12 +45,20 @@ class NewContact extends React.Component {
     this.mappingContactsPhones = this.mappingContactsPhones.bind(this)
     this.getInformation = this.getInformation.bind(this)
     this.verifyIfThisUserHasPhone = this.verifyIfThisUserHasPhone.bind(this)
+    this.onEnter = this.onEnter.bind(this)
+    this.verifyIfSomePhoneIsWaitingFeedback =
+      this.verifyIfSomePhoneIsWaitingFeedback.bind(this)
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <div className="text-danger">{message}</div>,
     })
+  }
+
+  onEnter() {
+    this.verifyIfSomePhoneIsWaitingFeedback()
+    this.handleGetPublishers()
   }
 
   async handleGetPublishers() {
@@ -65,6 +73,29 @@ class NewContact extends React.Component {
 
   handleInputChange(event) {
     handleInputChangeGeneric(event, this)
+  }
+
+  verifyIfSomePhoneIsWaitingFeedback() {
+    const { checksContactsPhones, contactsData, t } = this.props
+    const phonesWaitingFeedback = pipe(
+      map((phone) =>
+        find(
+          (contact) => contact.waitingFeedback && contact.phone === phone,
+          contactsData
+        )
+      ),
+      compact
+    )(checksContactsPhones)
+    if (phonesWaitingFeedback.length > 0) {
+      const justNumbers = map((contact) => contact.phone, phonesWaitingFeedback)
+      Swal.fire({
+        title: t('common:warning'),
+        text: `${t('warningPhonesWaitingFeedback', {
+          total: phonesWaitingFeedback.length,
+        })} ${join(', ', justNumbers)}`,
+        icon: 'error',
+      })
+    }
   }
 
   getDataPublisherSelected(idPublisher) {
@@ -88,7 +119,10 @@ class NewContact extends React.Component {
     const contactGender = !isEmpty(contact.gender)
       ? ` ${t('contacts:gender') + ':'} ${t(`contacts:${contact.gender}`)} - `
       : ''
-    const lastInformation = !isEmpty(contact.information)
+
+      console.log(contact)
+      console.log(contact.createdAtDetailsContacts)
+      const lastInformation = !isEmpty(contact.information)
       ? `${t(`contacts:${contact.information}`)} - ${moment(
           contact.createdAtDetailsContacts
         ).format('DD/MM/YYYY HH:mm')}`
@@ -206,7 +240,7 @@ class NewContact extends React.Component {
         phones={join(', ', checksContactsPhones)}
         publishersOptions={publishersOptions}
         onExit={afterClose}
-        onEnter={this.handleGetPublishers}
+        onEnter={this.onEnter}
         title={`${t('title')}`}
         buttonTitle={t('common:sendOverWhatsApp')}
         buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
