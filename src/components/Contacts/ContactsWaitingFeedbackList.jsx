@@ -68,8 +68,13 @@ class Contacts extends React.Component {
     this.parseDataCVS = this.parseDataCVS.bind(this)
   }
 
+  uncheckCheckboxSelectAll() {
+    document.getElementById('checkall').checked = false
+  }
+
   async handleGetAll(objQuery) {
-    this.setState({ submitting: true })
+    this.setState({ submitting: true, checksContactsPhones: [] })
+    this.uncheckCheckboxSelectAll()
     const { t } = this.props
     try {
       const queryParams = parseQuery(objQuery, this.state)
@@ -136,9 +141,7 @@ class Contacts extends React.Component {
   }
 
   afterSentPhones() {
-    document.getElementById('checkall').checked = false
     this.handleGetAll()
-    this.setState({ checksContactsPhones: [] })
   }
 
   toggleFilter() {

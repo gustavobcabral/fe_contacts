@@ -97,7 +97,7 @@ class NewContact extends React.Component {
         html: `${t(text, {
           total: phonesWaitingFeedback.length,
         })}<br/>${join(', ', justNumbers)}`,
-        icon: 'error',
+        icon: 'warning',
       })
     }
   }

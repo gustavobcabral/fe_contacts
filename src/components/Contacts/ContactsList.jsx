@@ -86,33 +86,33 @@ class Contacts extends React.Component {
     this.setSubRowVisible = this.setSubRowVisible.bind(this)
   }
 
+  uncheckCheckboxSelectAll() {
+    document.getElementById('checkall').checked = false
+  }
+
   async handleGetAll(objQuery) {
-    this.setState({ submitting: true })
+    this.setState({ submitting: true, checksContactsPhones: [] })
+    this.uncheckCheckboxSelectAll()
     const { t } = this.props
     try {
       const queryParams = parseQuery(objQuery, this.state)
       const response = await contacts.getAll(queryParams)
       const error = getOr([], 'data.errors[0]', response)
-      if(isEmpty(error))
-      {
+      if (isEmpty(error)) {
         this.setState({
           data: getOr([], 'data.data.data.data.list', response),
           pagination: getOr({}, 'data.data.data.data.pagination', response),
           submitting: false,
           error: false,
           queryParams,
-          checksContactsPhones: [],
         })
-
-  
-      }
-      else {
+      } else {
         this.setState({
           error,
           submitting: false,
         })
         showError(error, t, 'contacts')
-        }
+      }
     } catch (error) {
       this.setState({
         error,
@@ -164,9 +164,7 @@ class Contacts extends React.Component {
   }
 
   afterSentPhones() {
-    document.getElementById('checkall').checked = false
     this.handleGetAll()
-    this.setState({ checksContactsPhones: [] })
   }
 
   componentDidMount() {
