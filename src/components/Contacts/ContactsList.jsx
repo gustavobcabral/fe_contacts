@@ -90,7 +90,7 @@ class Contacts extends React.Component {
     this.setState({ submitting: true })
     const { t } = this.props
     try {
-      const queryParams = parseQuery(objQuery, this.state, true)
+      const queryParams = parseQuery(objQuery, this.state)
       const response = await contacts.getAll(queryParams)
       const error = getOr([], 'data.errors[0]', response)
       if(isEmpty(error))
@@ -101,6 +101,7 @@ class Contacts extends React.Component {
           submitting: false,
           error: false,
           queryParams,
+          checksContactsPhones: [],
         })
 
   
