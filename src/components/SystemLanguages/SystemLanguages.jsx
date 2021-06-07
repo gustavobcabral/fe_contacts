@@ -19,11 +19,18 @@ const SystemLanguages = () => {
     setUserSettings({ language: value })
   }
 
+  const title = (
+    <>
+      {' '}
+      <FontAwesomeIcon icon={faLanguage} /> {`${t('title')}`}{' '}
+    </>
+  )
+
   return (
     <OurModal
       body={FormSystemLanguages}
       size="sm"
-      title={t('title')}
+      title={title}
       valueSelected={i18n.language}
       optionsLanguages={languagesOptions()}
       handleInputChange={handleInputChange}
