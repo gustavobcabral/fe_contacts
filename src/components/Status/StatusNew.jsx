@@ -4,7 +4,7 @@ import { status } from '../../services'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faPlusSquare, faTags } from '@fortawesome/free-solid-svg-icons'
 import StatusForm from './StatusForm.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError, showSuccessful } from '../../utils/generic'
@@ -68,6 +68,13 @@ class StatusNew extends React.Component {
   render() {
     const { form, validated, submitting } = this.state
     const { t, afterClose } = this.props
+    const title = (
+      <>
+        {' '}
+        <FontAwesomeIcon icon={faTags} />{' '}
+        {`${t('common:new')} ${t('title')}`}{' '}
+      </>
+    )
 
     return (
       <OurModal
@@ -80,7 +87,7 @@ class StatusNew extends React.Component {
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}
-        title={`${t('common:new')} ${t('title')}`}
+        title={title}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     )

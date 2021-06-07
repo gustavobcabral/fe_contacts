@@ -18,7 +18,7 @@ import FilterData from '../common/FilterData/FilterData'
 import ReactPlaceholder from 'react-placeholder'
 import NoRecords from '../common/NoRecords/NoRecords'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserEdit } from '@fortawesome/free-solid-svg-icons'
+import { faBriefcase } from '@fortawesome/free-solid-svg-icons'
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -112,7 +112,7 @@ class Publishers extends React.Component {
     const { t } = this.props
     const { data, pagination, submitting, error, hiddenFilter } = this.state
     const colSpan = '11'
-    const title = (<> <FontAwesomeIcon icon={faUserEdit} /> {t('listTitle')} </>)
+    const title = (<> <FontAwesomeIcon icon={faBriefcase} /> {t('listTitle')} </>)
 
     return (
       <ContainerCRUD title={title} {...this.props}>

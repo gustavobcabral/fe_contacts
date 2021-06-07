@@ -6,7 +6,7 @@ import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import { publishers } from '../../services'
 import FormPublisher from './FormPublisher'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faUserEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError, showSuccessful, ifEmptySetNull } from '../../utils/generic'
 
@@ -110,6 +110,14 @@ class EditContact extends React.Component {
   render() {
     const { form, validated, loading } = this.state
     const { t, afterClose } = this.props
+    const title = (
+      <>
+        {' '}
+        <FontAwesomeIcon icon={faUserEdit} />{' '}
+        {`${t('common:edit')} ${t('titleCrud')}`}{' '}
+      </>
+    )
+
     return (
       <OurModal
         body={FormPublisher}
@@ -122,7 +130,7 @@ class EditContact extends React.Component {
         onEnter={this.handleGetOne}
         onExit={afterClose}
         buttonTitle={t('common:edit')}
-        title={`${t('common:edit')} ${t('titleCrud')}`}
+        title={title}
         buttonText={<FontAwesomeIcon icon={faEdit} />}
         buttonVariant="success"
       />

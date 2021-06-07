@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, NavDropdown, Image } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Image, Col } from 'react-bootstrap'
 import { get } from 'lodash/fp'
 import {
   getUserData,
@@ -25,7 +25,7 @@ import {
   faList,
   faUserFriends,
   faCogs,
-  faUserEdit,
+  faBriefcase,
   faLanguage,
   faTags,
 } from '@fortawesome/free-solid-svg-icons'
@@ -75,7 +75,7 @@ const MenuLogged = ({ t, ...props }) => {
               as={Link}
               to={publishersPaths.PUBLISHERS_LIST_PATH}
             >
-              <FontAwesomeIcon icon={faUserEdit} /> {t('publishers')}
+              <FontAwesomeIcon icon={faBriefcase} /> {t('publishers')}
             </NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
@@ -101,11 +101,15 @@ const MenuLogged = ({ t, ...props }) => {
 
 const MenuLogout = ({ t, ...props }) => (
   <>
-    <Nav className="mr-auto" style={{ width: '70px' }}>
-      <Login {...props} t={t} />
+    <Nav className="mr-auto">
+      <Col xs={7} sm={12}>
+        <Login {...props} t={t} />
+      </Col>
     </Nav>
-    <Nav style={{ maxWidth: '70px' }} className="mt-1">
-      <SystemLanguages {...props} />
+    <Nav className="mt-1">
+      <Col xs={7} sm={12}>
+        <SystemLanguages {...props} />
+      </Col>
     </Nav>
   </>
 )

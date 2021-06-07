@@ -441,7 +441,7 @@ class Contacts extends React.Component {
                         </td>
                         <td className="d-none d-lg-table-cell">
                           <OurToolTip
-                            info={contact.lastConversationInDays}
+                            info={t(contact.lastConversationInDays)}
                             toolTipContent="toolTipWaitingFeedback"
                             showTooltip={this.thisDateAlreadyReachedMaxAllowed(
                               contact
@@ -470,7 +470,7 @@ class Contacts extends React.Component {
                           />{' '}
                           <Button
                             title={t('common:list')}
-                            variant="success"
+                            variant="secondary"
                             as={Link}
                             to={`/contacts/${encodeURI(contact.phone)}/details`}
                           >

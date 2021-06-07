@@ -6,6 +6,8 @@ import ContainerWithNavBar from '../common/ContainerWithNavBar/ContainerWithNavB
 import logo from '../../assets/images/logo.png'
 import { Col, Row, Image } from 'react-bootstrap'
 import Charts from './Charts'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPhoneVolume } from '@fortawesome/free-solid-svg-icons'
 
 class Dashboard extends React.Component {
   buildSubTitleMessage = () =>
@@ -19,7 +21,9 @@ class Dashboard extends React.Component {
           <Col lg={{ span: 4, offset: 1 }} xs={12}>
             <Row>
               <Col className="text-center" style={{ marginTop: '31%' }}>
-                <h1>{t('title')}</h1>
+                <h1>
+                  <FontAwesomeIcon icon={faPhoneVolume} /> {t('title')}
+                </h1>
                 <h2>{t('titleCongregation')}</h2>
                 <h3>{this.buildSubTitleMessage()}</h3>
               </Col>
