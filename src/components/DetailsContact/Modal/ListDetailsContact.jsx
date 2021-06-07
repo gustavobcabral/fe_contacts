@@ -78,6 +78,7 @@ class ListDetailsContact extends React.Component {
         title={`${t('title')} # ${contact.phone} ${this.getNameForTitle()}`}
         buttonTitle={t('common:list')}
         buttonText={<FontAwesomeIcon icon={faEye} />}
+        buttonVariant="primary"
         afterClose={this.handleGetAllOneContact}
         onExit={afterClose}
         onEnter={this.handleGetAllOneContact}

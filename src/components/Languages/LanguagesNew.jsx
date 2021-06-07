@@ -4,7 +4,7 @@ import { languages } from '../../services'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faPlusSquare, faLanguage } from '@fortawesome/free-solid-svg-icons'
 import LanguagesForm from './LanguagesForm.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError, showSuccessful } from '../../utils/generic'
@@ -31,8 +31,6 @@ class StatusNew extends React.Component {
     })
     this.resetForm = this.resetForm.bind(this)
     this.handleChangeColor = this.handleChangeColor.bind(this)
-
-
   }
 
   handleInputChange(event) {
@@ -47,7 +45,6 @@ class StatusNew extends React.Component {
       },
     })
   }
-
 
   resetForm() {
     this.setState({ form: fields, loading: false, validated: false })
@@ -81,6 +78,13 @@ class StatusNew extends React.Component {
   render() {
     const { form, validated, loading } = this.state
     const { t, afterClose } = this.props
+    const title = (
+      <>
+        {' '}
+        <FontAwesomeIcon icon={faLanguage} />{' '}
+        {`${t('common:new')} ${t('titleModal')}`}{' '}
+      </>
+    )
 
     return (
       <OurModal
@@ -94,7 +98,7 @@ class StatusNew extends React.Component {
         form={form}
         onExit={afterClose}
         onClose={this.resetForm}
-        title={`${t('common:new')} ${t('titleModal')}`}
+        title={title}
         buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     )

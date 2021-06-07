@@ -8,6 +8,8 @@ import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
 import { showSuccessful, showError } from '../../utils/generic'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 
 const fields = {
   email: '',
@@ -65,18 +67,29 @@ class LoginPopup extends React.Component {
   render() {
     const { t } = this.props
     const { submitting, validated, form } = this.state
+    const buttonText = (
+      <>
+        <FontAwesomeIcon icon={faSignInAlt} /> {t('btnOpenModal')}
+      </>
+    )
+    const title = (
+      <>
+        <FontAwesomeIcon icon={faSignInAlt} /> {t('titleModal')}
+      </>
+    )
+
     return (
       <OurModal
         body={FormLogin}
         size="sm"
-        title={t('titleModal')}
+        title={title}
         form={form}
         validator={this.validator}
         submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
-        buttonText={t('btnOpenModal')}
+        buttonText={buttonText}
         buttonVariant="primary"
       />
     )

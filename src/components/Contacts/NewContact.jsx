@@ -5,7 +5,7 @@ import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import { contacts, publishers, locations } from '../../services'
 import FormContacts from './FormContacts'
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faUserPlus, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError, showSuccessful, ifEmptySetNull } from '../../utils/generic'
 import { getOr, get } from 'lodash/fp'
@@ -146,6 +146,14 @@ class NewContact extends React.Component {
       locationsOptions,
     } = this.state
     const { t, afterClose } = this.props
+    const title = (
+      <>
+        {' '}
+        <FontAwesomeIcon icon={faUserPlus} />{' '}
+        {`${t('common:new')} ${t('titleCrud')}`}{' '}
+      </>
+    )
+
     return (
       <OurModal
         body={FormContacts}
@@ -163,8 +171,8 @@ class NewContact extends React.Component {
         publishersOptions={publishersOptions}
         statusOptions={statusOptions}
         buttonTitle={t('common:new')}
-        title={`${t('common:new')} ${t('titleCrud')}`}
-        buttonText={<FontAwesomeIcon icon={faUserPlus} />}
+        title={title}
+        buttonText={<FontAwesomeIcon icon={faPlusSquare} />}
       />
     )
   }

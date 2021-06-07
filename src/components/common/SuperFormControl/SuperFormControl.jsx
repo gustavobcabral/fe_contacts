@@ -5,6 +5,7 @@ const SuperFormControl = (props) => {
   const {
     validator,
     onChange,
+    onKeyUp,
     name,
     value,
     validated,
@@ -43,6 +44,7 @@ const SuperFormControl = (props) => {
         placeholder={placeholder}
         autoComplete={autocomplete}
         onChange={onChange}
+        onKeyUp={onKeyUp}
         onBlur={onBlurLocal}
         defaultValue={value}
         disabled={disabled}
