@@ -18,8 +18,11 @@ import AskDelete from '../common/AskDelete/AskDelete'
 import NoRecords from '../common/NoRecords/NoRecords'
 import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
-import { parseQuery, unformatDate } from '../../utils/forms'
-import { RECORDS_PER_PAGE } from '../../constants/application'
+import { parseQuery, formatDateDMY, diffDate } from '../../utils/forms'
+import {
+  RECORDS_PER_PAGE,
+  MAX_DAYS_ALLOWED_WITH_NUMBERS,
+} from '../../constants/application'
 import FilterData from '../common/FilterData/FilterData'
 import EditDetailsContact from '../DetailsContact/Modal/EditDetailsContact'
 import SendPhones from './SendPhones/SendPhones'
@@ -27,7 +30,8 @@ import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import { CSVLink } from 'react-csv'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
+import { faFileExcel, faHourglass } from '@fortawesome/free-solid-svg-icons'
+import OurToolTip from '../common/OurToolTip/OurToolTip'
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -180,6 +184,25 @@ class Contacts extends React.Component {
     })
   }
 
+  getDateWithDays(date) {
+    const { t } = this.props
+
+    return `${formatDateDMY(date)} (${t('diffDate', {
+      days: diffDate(date),
+    })})`
+  }
+
+  thisDateAlreadyReachedMaxAllowed = (date) => {
+    const days = diffDate(date)
+    return days > MAX_DAYS_ALLOWED_WITH_NUMBERS
+  }
+
+  getStyleForFieldDays(date) {
+    return this.thisDateAlreadyReachedMaxAllowed(date)
+      ? 'link text-danger'
+      : 'link'
+  }
+
   render() {
     const { t } = this.props
     const {
@@ -193,8 +216,10 @@ class Contacts extends React.Component {
       dataCVS,
     } = this.state
     const colSpan = '9'
+    const title = (<> <FontAwesomeIcon icon={faHourglass} /> {t('titleWaitingFeedback')} </>)
+   
     return (
-      <ContainerCRUD title={t('titleWaitingFeedback')} {...this.props}>
+      <ContainerCRUD title={title} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
@@ -307,7 +332,16 @@ class Contacts extends React.Component {
                           {detailContact.publisherNameCreatedBy}
                         </td>
                         <td className="d-none d-lg-table-cell">
-                          {unformatDate(detailContact.createdAt)}
+                          <OurToolTip
+                            info={formatDateDMY(detailContact.createdAt)}
+                            toolTipContent="toolTipWaitingFeedback"
+                            showTooltip={this.thisDateAlreadyReachedMaxAllowed(
+                              detailContact.createdAt
+                            )}
+                            getStyleForFieldDays={() =>
+                              this.getStyleForFieldDays(detailContact.createdAt)
+                            }
+                          />
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {detailContact.publisherName}

@@ -48,6 +48,8 @@ class NewContact extends React.Component {
     this.onEnter = this.onEnter.bind(this)
     this.verifyIfSomePhoneIsWaitingFeedback =
       this.verifyIfSomePhoneIsWaitingFeedback.bind(this)
+    this.getPhonesWaitingOrNotFeedback =
+      this.getPhonesWaitingOrNotFeedback.bind(this)
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -75,19 +77,24 @@ class NewContact extends React.Component {
     handleInputChangeGeneric(event, this)
   }
 
-  verifyIfSomePhoneIsWaitingFeedback() {
-    const { checksContactsPhones, contactsData, t } = this.props
-    const phonesWaitingFeedback = pipe(
-      map((phone) =>
-        find(
-          (contact) => contact.waitingFeedback && contact.phone === phone,
-          contactsData
-        )
-      ),
+  getPhonesWaitingOrNotFeedback(waitingOrNot) {
+    const { checksContactsPhones, contactsData } = this.props
+
+    return pipe(
+      map((phone) => {
+        const contact = find((contact) => contact.phone === phone, contactsData)
+        return contact && contact.waitingFeedback === waitingOrNot
+          ? contact.phone
+          : null
+      }),
       compact
     )(checksContactsPhones)
+  }
+
+  verifyIfSomePhoneIsWaitingFeedback() {
+    const phonesWaitingFeedback = this.getPhonesWaitingOrNotFeedback(true)
     if (phonesWaitingFeedback.length > 0) {
-      const justNumbers = map((contact) => contact.phone, phonesWaitingFeedback)
+      const { t } = this.props
       const text =
         phonesWaitingFeedback.length > 1
           ? 'warningPhonesWaitingFeedback'
@@ -96,7 +103,7 @@ class NewContact extends React.Component {
         title: t('common:warning'),
         html: `${t(text, {
           total: phonesWaitingFeedback.length,
-        })}<br/>${join(', ', justNumbers)}`,
+        })}<br/>${join(', ', phonesWaitingFeedback)}`,
         icon: 'warning',
       })
     }
@@ -180,16 +187,6 @@ class NewContact extends React.Component {
     )
   }
 
-  getJustPhonesAllowed(checksContactsPhones, contactsData) {
-    return pipe(
-      map((phone) => {
-        const contact = find((contact) => contact.phone === phone, contactsData)
-        return contact && !contact.waitingFeedback ? contact.phone : null
-      }),
-      compact
-    )(checksContactsPhones)
-  }
-
   async handleSubmit(onHide) {
     this.setState({ validated: true })
 
@@ -197,18 +194,19 @@ class NewContact extends React.Component {
       this.validator.showMessages()
       return true
     }
+    if (!this.verifyIfThisUserHasPhone()) return
+
     this.setState({ submitting: true })
 
     const { form } = this.state
-    const { t, checksContactsPhones, contactsData } = this.props
+    const { t } = this.props
     const idPublisher = get('idPublisher', form)
+    const phones = this.getPhonesWaitingOrNotFeedback(false)
 
     const dataAssign = {
-      phones: this.getJustPhonesAllowed(checksContactsPhones, contactsData),
+      phones,
       idPublisher,
     }
-
-    if (!this.verifyIfThisUserHasPhone()) return
 
     try {
       if (getOr([], 'phones', dataAssign).length > 0)

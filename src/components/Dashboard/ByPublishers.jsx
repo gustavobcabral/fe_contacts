@@ -1,5 +1,5 @@
-import React from 'react'
-import { Col, Card, Row, ListGroup } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Col, Card, Row, ListGroup, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, getOr, map, pipe, orderBy } from 'lodash/fp'
@@ -31,6 +31,7 @@ const parseDataPublishers = (t, data) =>
 const ByPublishers = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
   const byPublishers = getByPublishers(t, get('data', props))
+  const [detailsByPublishers, toggleDetailsByPublisher] = useState(false)
 
   return (
     <Col
@@ -40,13 +41,19 @@ const ByPublishers = (props) => {
     >
       <Card>
         <Card.Header className="text-center" style={{ minHeight: '73px' }}>
-          {t('titleChartWaitingFeedbackByPublishers')}
+          <Button
+            variant="link"
+            title={t("moreInformation")}
+            onClick={() => toggleDetailsByPublisher((prevState) => !prevState)}
+          >
+            {t('titleChartWaitingFeedbackByPublishers')}
+          </Button>
         </Card.Header>
-        <Card.Body>
+        <Card.Body style={{ textAlign: '-webkit-center' }}>
           <ReactPlaceholder
             showLoadingAnimation={true}
             type="round"
-            style={{ width: 230, height: 230 }}
+            style={{ width: 170, height: 170 }}
             ready={!props.loading}
             rows={1}
           >
@@ -61,7 +68,10 @@ const ByPublishers = (props) => {
                     />
                   </Col>
                 </Row>
-                <Row className="mt-2">
+                <Row
+                  className="mt-2"
+                  style={{ display: detailsByPublishers ? 'block' : 'none' }}
+                >
                   <Col>
                     <ListGroup>
                       {map(

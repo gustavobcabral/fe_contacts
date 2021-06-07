@@ -16,57 +16,88 @@ import {
   contactsPaths,
   publishersPaths,
   statusPaths,
-  languagesPaths
-} from "../../../routes/paths";
+  languagesPaths,
+} from '../../../routes/paths'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faGlobeAmericas,
+  faHourglass,
+  faList,
+  faUserFriends,
+  faCogs,
+  faUserEdit,
+  faLanguage,
+  faTags,
+} from '@fortawesome/free-solid-svg-icons'
 
-const MenuLogged = ({ t, ...props }) => (
-  <>
-    <Nav className="mr-auto">
-      <NavDropdown title={t('contacts')}>
-        {isAtLeastSM() && (
-          <>
-            <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
-              {t('allContacts')}
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_AVAILABLE_LIST_PATH}>
-              {t('allContactsAvailable')}
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
-          </>
-        )}
-        <NavDropdown.Item
-          as={Link}
-          to={contactsPaths.CONTACTS_WAITING_FEEDBACK_LIST_PATH}
-        >
-          {t('allContactsWaitingFeedback')}
-        </NavDropdown.Item>
-      </NavDropdown>
-      {isAtLeastSM() && (
-        <NavDropdown title={t('admin')} id="collasible-nav-dropdown">
-          <NavDropdown.Item as={Link} to={publishersPaths.PUBLISHERS_LIST_PATH}>
-            {t('publishers')}
-          </NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
-            {t('status')}
-          </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
-            {t("languages")}
+const MenuLogged = ({ t, ...props }) => {
+  const contactsMenuItem = (
+    <>
+      <FontAwesomeIcon icon={faUserFriends} /> {t('contacts')}
+    </>
+  )
+  const adminMenuItem = (
+    <>
+      <FontAwesomeIcon icon={faCogs} /> {t('admin')}
+    </>
+  )
+
+  return (
+    <>
+      <Nav className="mr-auto">
+        <NavDropdown title={contactsMenuItem}>
+          {isAtLeastSM() && (
+            <>
+              <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
+                <FontAwesomeIcon icon={faGlobeAmericas} /> {t('allContacts')}
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                as={Link}
+                to={contactsPaths.CONTACTS_AVAILABLE_LIST_PATH}
+              >
+                <FontAwesomeIcon icon={faList} /> {t('allContactsAvailable')}
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+            </>
+          )}
+          <NavDropdown.Item
+            as={Link}
+            to={contactsPaths.CONTACTS_WAITING_FEEDBACK_LIST_PATH}
+          >
+            <FontAwesomeIcon icon={faHourglass} />{' '}
+            {t('allContactsWaitingFeedback')}
           </NavDropdown.Item>
         </NavDropdown>
-      )}
-    </Nav>
-    <Nav style={{ marginRight: '34px' }}>
-      <NavDropdown title={get('name', getUserData())}>
-        <Logout {...props} t={t} />
-      </NavDropdown>
-    </Nav>
-    <Nav style={{ maxWidth: '60px' }}>
-      <SystemLanguages {...props} />
-    </Nav>
-  </>
-)
+        {isAtLeastSM() && (
+          <NavDropdown title={adminMenuItem} id="collasible-nav-dropdown">
+            <NavDropdown.Item
+              as={Link}
+              to={publishersPaths.PUBLISHERS_LIST_PATH}
+            >
+              <FontAwesomeIcon icon={faUserEdit} /> {t('publishers')}
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item as={Link} to={statusPaths.STATUS_LIST_PATH}>
+              <FontAwesomeIcon icon={faTags} /> {t('status')}
+            </NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={languagesPaths.LANGUAGES_LIST_PATH}>
+              <FontAwesomeIcon icon={faLanguage} /> {t('languages')}
+            </NavDropdown.Item>
+          </NavDropdown>
+        )}
+      </Nav>
+      <Nav style={{ marginRight: '34px' }}>
+        <NavDropdown title={get('name', getUserData())}>
+          <Logout {...props} t={t} />
+        </NavDropdown>
+      </Nav>
+      <Nav style={{ maxWidth: '60px' }}>
+        <SystemLanguages {...props} />
+      </Nav>
+    </>
+  )
+}
 
 const MenuLogout = ({ t, ...props }) => (
   <>

@@ -1,14 +1,14 @@
 import { getOr, omit, trim, isString } from 'lodash/fp'
 import GqlBuilder from 'graphql-query-builder-v2'
+import moment from 'moment'
 
-export const unformatDate = (date) => {
-  const split = date.slice(0, 10).split('-')
-  return `${split[2]}/${split[1]}/${split[0]}`
-}
+export const formatDateDMY = (date) => moment(date).format('DD/MM/YYYY')
 
-export const formatDate = (date) => {
-  const split = date.split('/')
-  return `${split[2]}-${split[1]}-${split[0]}`
+export const diffDate = (date, truncate = true) => {
+  var today = new moment(new Date())
+  var momentDate = new moment(date)
+  const diff = moment.duration(today.diff(momentDate)).asDays()
+  return truncate ? Math.trunc(diff) : diff
 }
 
 export const getLocale = (props) => props.i18n.language

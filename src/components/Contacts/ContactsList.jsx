@@ -17,7 +17,11 @@ import {
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faList, faFileExcel } from '@fortawesome/free-solid-svg-icons'
+import {
+  faList,
+  faFileExcel,
+  faGlobeAmericas,
+} from '@fortawesome/free-solid-svg-icons'
 
 import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
 import { Link } from 'react-router-dom'
@@ -25,7 +29,10 @@ import NoRecords from '../common/NoRecords/NoRecords'
 import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
 import { parseQuery } from '../../utils/forms'
-import { RECORDS_PER_PAGE } from '../../constants/application'
+import {
+  RECORDS_PER_PAGE,
+  MAX_DAYS_ALLOWED_WITH_NUMBERS,
+} from '../../constants/application'
 import {
   ID_STATUS_AVAILABLE,
   ID_STATUS_BIBLE_STUDY,
@@ -43,7 +50,7 @@ import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import { isPublisher, isAtLeastElder } from '../../utils/loginDataManager'
 import { CSVLink } from 'react-csv'
-
+import OurToolTip from '../common/OurToolTip/OurToolTip'
 class Contacts extends React.Component {
   constructor(props) {
     super(props)
@@ -243,6 +250,30 @@ class Contacts extends React.Component {
     return 'd-none'
   }
 
+  thisDateAlreadyReachedMaxAllowed = ({
+    waitingFeedback,
+    lastConversationInDays,
+  }) => {
+    return (
+      waitingFeedback &&
+      lastConversationInDays !== '99999999999' &&
+      lastConversationInDays > MAX_DAYS_ALLOWED_WITH_NUMBERS
+    )
+  }
+
+  getStyleForFieldDays(contact) {
+    return this.thisDateAlreadyReachedMaxAllowed(contact) ? ' text-danger' : ''
+  }
+
+  getTitle(title) {
+    const { t } = this.props
+    return (
+      <>
+        <FontAwesomeIcon icon={faGlobeAmericas} /> {t(title)}
+      </>
+    )
+  }
+
   render() {
     const { t, modeAllContacts } = this.props
     const {
@@ -257,11 +288,12 @@ class Contacts extends React.Component {
       dataCVS,
     } = this.state
     const colSpan = '10'
+    const title = modeAllContacts
+      ? this.getTitle('listAllTitle')
+      : this.getTitle('listTitle')
+
     return (
-      <ContainerCRUD
-        title={t(modeAllContacts ? 'listAllTitle' : 'listTitle')}
-        {...this.props}
-      >
+      <ContainerCRUD title={title} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
@@ -408,7 +440,16 @@ class Contacts extends React.Component {
                           {t(`status:${contact.statusDescription}`)}
                         </td>
                         <td className="d-none d-lg-table-cell">
-                          {t(`${contact.lastConversationInDays}`)}
+                          <OurToolTip
+                            info={contact.lastConversationInDays}
+                            toolTipContent="toolTipWaitingFeedback"
+                            showTooltip={this.thisDateAlreadyReachedMaxAllowed(
+                              contact
+                            )}
+                            getStyleForFieldDays={() =>
+                              this.getStyleForFieldDays(contact)
+                            }
+                          />
                         </td>
                         {modeAllContacts && (
                           <td
