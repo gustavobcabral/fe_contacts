@@ -15,6 +15,8 @@ import { WAITING_FEEDBACK, GENDER_UNKNOWN } from '../../../constants/contacts'
 import { Container } from 'react-bootstrap'
 import { reducePublishers } from '../../../stateReducers/publishers'
 import { reduceLocations } from '../../../stateReducers/locations'
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const fields = {
   information: '',
@@ -137,12 +139,19 @@ class EditDetailsContact extends React.Component {
       phone,
     } = this.state
     const { t, history } = this.props
+    const title = (
+      <>
+        {' '}
+        <FontAwesomeIcon icon={faAddressCard} />{' '}
+        {`${t('common:edit')} ${t('detailsContacts:title')} #${phone}`}
+      </>
+    )
+
 
     return (
       <>
-        <ContainerCRUD title={t('title')} {...this.props}>
+        <ContainerCRUD title={title} {...this.props}>
           <Container className="border p-4">
-            <h1>{`${t('common:edit')} ${t('detailsContacts:title')} #${phone}`}</h1>
             <FormDetails
               validator={this.validator}
               loading={loading}
