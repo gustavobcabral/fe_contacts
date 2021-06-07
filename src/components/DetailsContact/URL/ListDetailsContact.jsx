@@ -16,6 +16,7 @@ import {
   faPlusSquare,
   faEdit,
   faArrowLeft,
+  faAddressCard
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError } from '../../../utils/generic'
@@ -119,15 +120,11 @@ class ListDetailsContact extends React.Component {
     const { t, history } = this.props
     const { data, phone, loading, pagination, waitingFeedback } = this.state
     const colSpan = 4
+    const title = (<> <FontAwesomeIcon icon={faAddressCard} /> {`${t('title')} #${phone} ${this.getNameForTitle()}`}</>)
 
     return (
-      <ContainerCRUD title={t('title')} {...this.props}>
+      <ContainerCRUD title={title} {...this.props}>
         <Container className="border p-4">
-          <Row>
-            <Col>
-              <h2>{`${t('title')} #${phone} ${this.getNameForTitle()}`}</h2>
-            </Col>
-          </Row>
           <Row>
             <Col>
               <Table striped bordered hover responsive>

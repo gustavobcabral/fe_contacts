@@ -6,7 +6,7 @@ import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { details, publishers, locations } from '../../../services'
 import FormDetails from '../FormDetails'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   showError,
@@ -129,8 +129,17 @@ class EditDetailsContact extends React.Component {
   }
 
   render() {
-    const { form, validated, publishersOptions, loading, locationsOptions } = this.state
+    const { form, validated, publishersOptions, loading, locationsOptions } =
+      this.state
     const { t, afterClose, contact } = this.props
+    const title = (
+      <>
+        {' '}
+        <FontAwesomeIcon icon={faAddressCard} />{' '}
+        {`${t('common:edit')} ${t('titleCrud')} #${get('phone', contact)}`}
+      </>
+    )
+
     return (
       <OurModal
         body={FormDetails}
@@ -144,10 +153,7 @@ class EditDetailsContact extends React.Component {
         form={form}
         locationsOptions={locationsOptions}
         publishersOptions={publishersOptions}
-        title={`${t('common:edit')} ${t('titleCrud')} #${get(
-          'phone',
-          contact
-        )}`}
+        title={title}
         buttonTitle={t('common:edit')}
         buttonText={<FontAwesomeIcon variant="success" icon={faEdit} />}
         buttonVariant="success"
