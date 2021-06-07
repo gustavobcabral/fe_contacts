@@ -15,6 +15,17 @@ import { parseErrorMessage } from '../../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import SuperSelect from '../SuperSelect/SuperSelect'
 import { reduceFiltersLocations } from '../../../stateReducers/locations'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faFilter,
+  faUser,
+  faVenusMars,
+  faLanguage,
+  faTags,
+  faBuilding,
+  faMapMarkedAlt,
+  faWeight,
+} from '@fortawesome/free-solid-svg-icons'
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -71,7 +82,7 @@ class FilterData extends React.Component {
       filters: {
         [name]: newValues,
       },
-      currentPage: 1
+      currentPage: 1,
     })
   }
 
@@ -140,10 +151,13 @@ class FilterData extends React.Component {
       isEmpty(selectLocations) &&
       isEmpty(checksStatus)
     const { t, showTypeCompany = false } = this.props
+
     return (
       <>
         <Col className="text-center">
-          <h3>{t('title')}</h3>
+          <h3>
+            <FontAwesomeIcon icon={faFilter} /> {t('title')}
+          </h3>
         </Col>
         <Col className="text-center text-muted">{error}</Col>
         <Col className="text-center text-muted">
@@ -154,6 +168,7 @@ class FilterData extends React.Component {
             <Card>
               <Card.Body>
                 <Card.Title>
+                  <FontAwesomeIcon icon={faUser} />{' '}
                   {t('publishersResponsiblesTitleFilter')}
                 </Card.Title>
                 <ReactPlaceholder
@@ -184,7 +199,10 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t('locationsTitleFilter')}</Card.Title>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faMapMarkedAlt} />{' '}
+                  {t('locationsTitleFilter')}
+                </Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -207,7 +225,10 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t('gendersTitleFilter')}</Card.Title>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faVenusMars} />{' '}
+                  {t('gendersTitleFilter')}
+                </Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -238,7 +259,10 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t('languagesTitleFilter')}</Card.Title>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faLanguage} />{' '}
+                  {t('languagesTitleFilter')}
+                </Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -272,7 +296,9 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t('statusTitleFilter')}</Card.Title>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faTags} /> {t('statusTitleFilter')}
+                </Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -306,7 +332,10 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t('responsibilityTitleFilter')}</Card.Title>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faWeight} />{' '}
+                  {t('responsibilityTitleFilter')}
+                </Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"
@@ -345,7 +374,10 @@ class FilterData extends React.Component {
           <Col className="mb-4">
             <Card>
               <Card.Body>
-                <Card.Title>{t('typeCompanyTitleFilter')}</Card.Title>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faBuilding} />{' '}
+                  {t('typeCompanyTitleFilter')}
+                </Card.Title>
                 <ReactPlaceholder
                   showLoadingAnimation={true}
                   type="text"

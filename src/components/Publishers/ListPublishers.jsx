@@ -17,6 +17,8 @@ import { RECORDS_PER_PAGE } from '../../constants/application'
 import FilterData from '../common/FilterData/FilterData'
 import ReactPlaceholder from 'react-placeholder'
 import NoRecords from '../common/NoRecords/NoRecords'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons'
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -110,8 +112,10 @@ class Publishers extends React.Component {
     const { t } = this.props
     const { data, pagination, submitting, error, hiddenFilter } = this.state
     const colSpan = '11'
+    const title = (<> <FontAwesomeIcon icon={faUserEdit} /> {t('listTitle')} </>)
+
     return (
-      <ContainerCRUD title={t('listTitle')} {...this.props}>
+      <ContainerCRUD title={title} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData

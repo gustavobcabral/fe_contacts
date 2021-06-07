@@ -37,7 +37,10 @@
   "lastSpokeToPublisherName": "Falou por último com",
   "ERROR_CONTACT_PHONE_ALREADY_EXISTS": "Este telefone de contato já existe no contato {{name}} {{phone}}",
   "[WAITING_FEEDBACK]": "Aguardando resposta",
-  "deleteRecordWaitingFeedback": "Tem certeza que deseja remover este número da lista de aguardando resposta?"
+  "deleteRecordWaitingFeedback": "Tem certeza que deseja remover este número da lista de aguardando resposta?",
+  "diffDate": "{{days}} dias",
+  "toolTipWaitingFeedback": "Este contato já está com esse publicador mais do que o permitido. Favor se comunicar com o publicador para colher as informações."
+
 
 
 

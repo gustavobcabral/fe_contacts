@@ -1,5 +1,5 @@
-import React from 'react'
-import { Col, Card, Row, ListGroup } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Col, Card, Row, ListGroup, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, getOr, map, isNil, pipe, orderBy } from 'lodash/fp'
@@ -38,6 +38,7 @@ const parseLocationsData = (t, data) =>
 const ByLocations = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
   const byLocations = getByLocations(t, get('data', props))
+  const [detailsByLocations, toggleDetailsByPLocations] = useState(false)
 
   return (
     <Col
@@ -46,14 +47,20 @@ const ByLocations = (props) => {
       className="mt-2"
     >
       <Card>
-        <Card.Header className="text-center" style={{ minHeight: '73px' }}>
-          {t('titleChartByLocationsContacted')}
+        <Card.Header className="text-center" style={{ minHeight: '87px' }}>
+          <Button
+            variant="link"
+            title={t("moreInformation")}
+            onClick={() => toggleDetailsByPLocations((prevState) => !prevState)}
+          >
+            {t('titleChartByLocationsContacted')}
+          </Button>
         </Card.Header>
-        <Card.Body>
+        <Card.Body style={{ textAlign: '-webkit-center' }}>
           <ReactPlaceholder
             showLoadingAnimation={true}
             type="round"
-            style={{ width: 230, height: 230 }}
+            style={{ width: 170, height: 170 }}
             ready={!props.loading}
             rows={1}
           >
@@ -68,7 +75,10 @@ const ByLocations = (props) => {
                     />
                   </Col>
                 </Row>
-                <Row className="mt-2">
+                <Row
+                  className="mt-2"
+                  style={{ display: detailsByLocations ? 'block' : 'none' }}
+                >
                   <Col>
                     <ListGroup>
                       {map(

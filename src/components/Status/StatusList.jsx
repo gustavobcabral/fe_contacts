@@ -10,6 +10,8 @@ import StatusNew from './StatusNew'
 import NoRecords from '../common/NoRecords/NoRecords'
 import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTags } from '@fortawesome/free-solid-svg-icons'
 
 class StatusList extends React.Component {
   constructor(props) {
@@ -51,9 +53,10 @@ class StatusList extends React.Component {
     const { t } = this.props
     const { data, loading } = this.state
     const colSpan = 3
+    const title = (<> <FontAwesomeIcon icon={faTags} /> {t('titleList')} </>)
 
     return (
-      <ContainerCRUD title={t('titleList')} {...this.props}>
+      <ContainerCRUD title={title} {...this.props}>
         <Container>
           <Table striped bordered hover responsive>
             <thead>

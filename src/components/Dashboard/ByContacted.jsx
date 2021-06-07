@@ -52,14 +52,14 @@ const ByContacted = (props) => {
       className="mt-2"
     >
       <Card>
-        <Card.Header className="text-center" style={{ minHeight: '73px' }}>
+        <Card.Header className="text-center" style={{ minHeight: '87px' }}>
           {t('titleChartContacts')}
         </Card.Header>
-        <Card.Body>
+        <Card.Body style={{ textAlign: '-webkit-center' }}>
           <ReactPlaceholder
             showLoadingAnimation={true}
             type="round"
-            style={{ width: 230, height: 230 }}
+            style={{ width: 170, height: 170 }}
             ready={!props.loading}
             rows={1}
           >
