@@ -46,7 +46,7 @@ class BatchChanges extends React.Component {
     this.setState({ loading: true })
     const publishersOptions = reducePublishers(await publishers.getAll())
 
-    this.setState({ loading: false, publishersOptions })
+    this.setState({ loading: false, publishersOptions, form: fields })
   }
 
   handleInputChange(event) {
