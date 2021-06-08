@@ -304,7 +304,7 @@ class Contacts extends React.Component {
                 ) : !isEmpty(data) ? (
                   map(
                     (detailContact) => (
-                      <tr key={detailContact.phone}>
+                      <tr key={detailContact.id}>
                         <td>
                           <Form.Check
                             type="checkbox"
