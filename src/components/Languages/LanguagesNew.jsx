@@ -79,11 +79,11 @@ class StatusNew extends React.Component {
     const { form, validated, loading } = this.state
     const { t, afterClose } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faLanguage} />{' '}
         {`${t('common:new')} ${t('titleModal')}`}{' '}
-      </>
+      </React.Fragment>
     )
 
     return (

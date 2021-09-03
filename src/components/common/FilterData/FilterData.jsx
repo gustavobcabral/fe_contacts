@@ -153,7 +153,7 @@ class FilterData extends React.Component {
     const { t, showTypeCompany = false } = this.props
 
     return (
-      <>
+      <React.Fragment>
         <Col className="text-center">
           <h3>
             <FontAwesomeIcon icon={faFilter} /> {t('title')}
@@ -407,7 +407,7 @@ class FilterData extends React.Component {
             </Card>
           </Col>
         )}
-      </>
+      </React.Fragment>
     )
   }
 }

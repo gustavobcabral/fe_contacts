@@ -111,11 +111,11 @@ class EditContact extends React.Component {
     const { form, validated, loading } = this.state
     const { t, afterClose } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faUserEdit} />{' '}
         {`${t('common:edit')} ${t('titleCrud')}`}{' '}
-      </>
+      </React.Fragment>
     )
 
     return (

@@ -25,7 +25,7 @@ const Search = (props) => {
   }
 
   return (
-    <>
+    <React.Fragment>
       <tr>
         <th colSpan={colspan || '7'}>
           <InputGroup>
@@ -57,7 +57,7 @@ const Search = (props) => {
       <tr>
         <th colSpan={colspan || '7'} style={{ border: 0 }}></th>
       </tr>
-    </>
+    </React.Fragment>
   )
 }
 

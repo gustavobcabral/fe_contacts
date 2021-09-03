@@ -69,11 +69,10 @@ class StatusNew extends React.Component {
     const { form, validated, submitting } = this.state
     const { t, afterClose } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
-        <FontAwesomeIcon icon={faTags} />{' '}
-        {`${t('common:new')} ${t('title')}`}{' '}
-      </>
+        <FontAwesomeIcon icon={faTags} /> {`${t('common:new')} ${t('title')}`}{' '}
+      </React.Fragment>
     )
 
     return (

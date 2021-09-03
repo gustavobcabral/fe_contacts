@@ -135,7 +135,6 @@ class NewContact extends React.Component {
     this.validator.hideMessages()
   }
 
-
   render() {
     const {
       form,
@@ -147,11 +146,11 @@ class NewContact extends React.Component {
     } = this.state
     const { t, afterClose } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faUserPlus} />{' '}
         {`${t('common:new')} ${t('titleCrud')}`}{' '}
-      </>
+      </React.Fragment>
     )
 
     return (

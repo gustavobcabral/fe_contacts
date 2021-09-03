@@ -216,8 +216,13 @@ class Contacts extends React.Component {
       dataCVS,
     } = this.state
     const colSpan = '9'
-    const title = (<> <FontAwesomeIcon icon={faHourglass} /> {t('titleWaitingFeedback')} </>)
-   
+    const title = (
+      <React.Fragment>
+        {' '}
+        <FontAwesomeIcon icon={faHourglass} /> {t('titleWaitingFeedback')}{' '}
+      </React.Fragment>
+    )
+
     return (
       <ContainerCRUD title={title} {...this.props}>
         <Row>

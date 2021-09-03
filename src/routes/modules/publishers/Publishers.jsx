@@ -5,7 +5,7 @@ import Publishers from '../../../pages/Publishers/Publishers'
 import publishersPaths from './path'
 
 const Routes = () => (
-  <>
+  <React.Fragment>
     <PrivateRoute
       exact
       path={publishersPaths.PUBLISHERS_LIST_PATH}
@@ -21,7 +21,7 @@ const Routes = () => (
       path={publishersPaths.PUBLISHERS_EDIT_PATH}
       component={Publishers}
     />
-  </>
+  </React.Fragment>
 )
 
 export default Routes

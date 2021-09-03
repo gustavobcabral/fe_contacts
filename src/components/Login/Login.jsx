@@ -68,14 +68,14 @@ class LoginPopup extends React.Component {
     const { t } = this.props
     const { submitting, validated, form } = this.state
     const buttonText = (
-      <>
+      <React.Fragment>
         <FontAwesomeIcon icon={faSignInAlt} /> {t('btnOpenModal')}
-      </>
+      </React.Fragment>
     )
     const title = (
-      <>
+      <React.Fragment>
         <FontAwesomeIcon icon={faSignInAlt} /> {t('titleModal')}
-      </>
+      </React.Fragment>
     )
 
     return (

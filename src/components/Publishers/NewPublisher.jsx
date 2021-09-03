@@ -91,11 +91,11 @@ class NewPublisher extends React.Component {
     const { form, validated, loading } = this.state
     const { t, afterClose } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faUserPlus} />{' '}
         {`${t('common:new')} ${t('titleCrud')}`}{' '}
-      </>
+      </React.Fragment>
     )
 
     return (

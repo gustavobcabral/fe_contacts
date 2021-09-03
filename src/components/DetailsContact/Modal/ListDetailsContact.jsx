@@ -69,11 +69,11 @@ class ListDetailsContact extends React.Component {
     const { t, contact, afterClose } = this.props
     const { data, waitingFeedback, submitting } = this.state
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faAddressCard} />{' '}
         {`${t('title')} # ${contact.phone} ${this.getNameForTitle()}`}
-      </>
+      </React.Fragment>
     )
 
     return (
