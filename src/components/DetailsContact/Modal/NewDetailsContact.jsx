@@ -145,11 +145,11 @@ class NewDetailsContact extends React.Component {
       this.state
     const { t, afterClose, waitingFeedback, contact } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faAddressCard} />{' '}
         {`${t('common:new')} ${t('titleCrud')} #${get('phone', contact)}`}
-      </>
+      </React.Fragment>
     )
 
     return waitingFeedback ? (

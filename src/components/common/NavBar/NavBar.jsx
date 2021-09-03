@@ -32,22 +32,22 @@ import {
 
 const MenuLogged = ({ t, ...props }) => {
   const contactsMenuItem = (
-    <>
+    <React.Fragment>
       <FontAwesomeIcon icon={faUserFriends} /> {t('contacts')}
-    </>
+    </React.Fragment>
   )
   const adminMenuItem = (
-    <>
+    <React.Fragment>
       <FontAwesomeIcon icon={faCogs} /> {t('admin')}
-    </>
+    </React.Fragment>
   )
 
   return (
-    <>
+    <React.Fragment>
       <Nav className="mr-auto">
         <NavDropdown title={contactsMenuItem}>
           {isAtLeastSM() && (
-            <>
+            <React.Fragment>
               <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
                 <FontAwesomeIcon icon={faGlobeAmericas} /> {t('allContacts')}
               </NavDropdown.Item>
@@ -59,7 +59,7 @@ const MenuLogged = ({ t, ...props }) => {
                 <FontAwesomeIcon icon={faList} /> {t('allContactsAvailable')}
               </NavDropdown.Item>
               <NavDropdown.Divider />
-            </>
+            </React.Fragment>
           )}
           <NavDropdown.Item
             as={Link}
@@ -95,12 +95,12 @@ const MenuLogged = ({ t, ...props }) => {
       <Nav style={{ maxWidth: '60px' }}>
         <SystemLanguages {...props} />
       </Nav>
-    </>
+    </React.Fragment>
   )
 }
 
 const MenuLogout = ({ t, ...props }) => (
-  <>
+  <React.Fragment>
     <Nav className="mr-auto">
       <Col xs={7} sm={12}>
         <Login {...props} t={t} />
@@ -111,7 +111,7 @@ const MenuLogout = ({ t, ...props }) => (
         <SystemLanguages {...props} />
       </Col>
     </Nav>
-  </>
+  </React.Fragment>
 )
 
 const NavBarMenu = (props) => {
@@ -119,7 +119,13 @@ const NavBarMenu = (props) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
       <Navbar.Brand as={Link} to="/">
-        <Image src={logo} width="50px" height="50px" alt="Agenda" roundedCircle />
+        <Image
+          src={logo}
+          width="50px"
+          height="50px"
+          alt="Agenda"
+          roundedCircle
+        />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

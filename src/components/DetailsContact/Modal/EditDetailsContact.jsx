@@ -133,11 +133,11 @@ class EditDetailsContact extends React.Component {
       this.state
     const { t, afterClose, contact } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faAddressCard} />{' '}
         {`${t('common:edit')} ${t('titleCrud')} #${get('phone', contact)}`}
-      </>
+      </React.Fragment>
     )
 
     return (

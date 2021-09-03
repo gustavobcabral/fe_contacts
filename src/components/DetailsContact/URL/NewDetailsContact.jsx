@@ -142,11 +142,11 @@ class NewDetailsContact extends React.Component {
     } = this.state
     const { t, history } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faAddressCard} />{' '}
         {`${t('common:new')} ${t('detailsContacts:title')} #${phone}`}
-      </>
+      </React.Fragment>
     )
 
     return (

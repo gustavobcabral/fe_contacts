@@ -53,7 +53,12 @@ class StatusList extends React.Component {
     const { t } = this.props
     const { data, loading } = this.state
     const colSpan = 3
-    const title = (<> <FontAwesomeIcon icon={faTags} /> {t('titleList')} </>)
+    const title = (
+      <React.Fragment>
+        {' '}
+        <FontAwesomeIcon icon={faTags} /> {t('titleList')}{' '}
+      </React.Fragment>
+    )
 
     return (
       <ContainerCRUD title={title} {...this.props}>

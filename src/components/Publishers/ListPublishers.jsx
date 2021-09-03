@@ -29,7 +29,7 @@ class Publishers extends React.Component {
       hiddenFilter: false,
       pagination: {},
       queryParams: {
-        sort: 'publishers.name:ASC',
+        sort: 'publishers.active:DESC, publishers.name:ASC',
         perPage: RECORDS_PER_PAGE,
         currentPage: 1,
         filters: JSON.stringify({
@@ -42,9 +42,8 @@ class Publishers extends React.Component {
     }
     this.handleGetAll = this.handleGetAll.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.showErrorNotAllowedDeleteCurrentUser = this.showErrorNotAllowedDeleteCurrentUser.bind(
-      this
-    )
+    this.showErrorNotAllowedDeleteCurrentUser =
+      this.showErrorNotAllowedDeleteCurrentUser.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
   }
 
@@ -112,7 +111,12 @@ class Publishers extends React.Component {
     const { t } = this.props
     const { data, pagination, submitting, error, hiddenFilter } = this.state
     const colSpan = '11'
-    const title = (<> <FontAwesomeIcon icon={faBriefcase} /> {t('listTitle')} </>)
+    const title = (
+      <React.Fragment>
+        {' '}
+        <FontAwesomeIcon icon={faBriefcase} /> {t('listTitle')}{' '}
+      </React.Fragment>
+    )
 
     return (
       <ContainerCRUD title={title} {...this.props}>

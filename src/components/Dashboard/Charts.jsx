@@ -56,7 +56,7 @@ class Charts extends React.Component {
   render() {
     const { data, loading, error } = this.state
     return (
-      <>
+      <React.Fragment>
         {error ? (
           <Row className="text-center">
             <Col>
@@ -64,7 +64,7 @@ class Charts extends React.Component {
             </Col>
           </Row>
         ) : (
-          <>
+          <React.Fragment>
             <Row className="mt-4">
               <ChartByContacted data={data} loading={loading} />
               <ChartByGender data={data} loading={loading} />
@@ -78,9 +78,9 @@ class Charts extends React.Component {
                 <ChartByPublishers data={data} loading={loading} />
               )}
             </Row>
-          </>
+          </React.Fragment>
         )}
-      </>
+      </React.Fragment>
     )
   }
 }

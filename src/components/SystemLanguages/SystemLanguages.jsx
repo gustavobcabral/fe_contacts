@@ -20,10 +20,10 @@ const SystemLanguages = () => {
   }
 
   const title = (
-    <>
+    <React.Fragment>
       {' '}
       <FontAwesomeIcon icon={faLanguage} /> {`${t('title')}`}{' '}
-    </>
+    </React.Fragment>
   )
 
   return (

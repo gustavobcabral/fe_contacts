@@ -11,7 +11,7 @@ import NewDetailsContact from '../../../pages/DetailsContact/NewDetailsContact'
 import contactsPaths from './path'
 
 const Routes = () => (
-  <>
+  <React.Fragment>
     <PrivateRoute
       exact
       path={contactsPaths.CONTACTS_LIST_PATH}
@@ -42,7 +42,7 @@ const Routes = () => (
       path={contactsPaths.CONTACTS_DETAILS_EDIT_PATH}
       component={EditDetailsContact}
     />
-  </>
+  </React.Fragment>
 )
 
 export default Routes

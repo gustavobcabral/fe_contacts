@@ -50,7 +50,7 @@ const ByLocations = (props) => {
         <Card.Header className="text-center" style={{ minHeight: '87px' }}>
           <Button
             variant="link"
-            title={t("moreInformation")}
+            title={t('moreInformation')}
             onClick={() => toggleDetailsByPLocations((prevState) => !prevState)}
           >
             {t('titleChartByLocationsContacted')}
@@ -65,7 +65,7 @@ const ByLocations = (props) => {
             rows={1}
           >
             {!isEmpty(byLocations) ? (
-              <>
+              <React.Fragment>
                 <Row>
                   <Col>
                     <PieChart
@@ -97,7 +97,7 @@ const ByLocations = (props) => {
                     </ListGroup>
                   </Col>
                 </Row>
-              </>
+              </React.Fragment>
             ) : (
               <Card.Text className="text-center">
                 {t('common:noData')}

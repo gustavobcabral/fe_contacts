@@ -43,7 +43,7 @@ const ByPublishers = (props) => {
         <Card.Header className="text-center" style={{ minHeight: '73px' }}>
           <Button
             variant="link"
-            title={t("moreInformation")}
+            title={t('moreInformation')}
             onClick={() => toggleDetailsByPublisher((prevState) => !prevState)}
           >
             {t('titleChartWaitingFeedbackByPublishers')}
@@ -58,7 +58,7 @@ const ByPublishers = (props) => {
             rows={1}
           >
             {!isEmpty(byPublishers) ? (
-              <>
+              <React.Fragment>
                 <Row>
                   <Col>
                     <PieChart
@@ -90,7 +90,7 @@ const ByPublishers = (props) => {
                     </ListGroup>
                   </Col>
                 </Row>
-              </>
+              </React.Fragment>
             ) : (
               <Card.Text className="text-center">
                 {t('common:noData')}

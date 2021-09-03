@@ -140,16 +140,15 @@ class EditDetailsContact extends React.Component {
     } = this.state
     const { t, history } = this.props
     const title = (
-      <>
+      <React.Fragment>
         {' '}
         <FontAwesomeIcon icon={faAddressCard} />{' '}
         {`${t('common:edit')} ${t('detailsContacts:title')} #${phone}`}
-      </>
+      </React.Fragment>
     )
 
-
     return (
-      <>
+      <React.Fragment>
         <ContainerCRUD title={title} {...this.props}>
           <Container className="border p-4">
             <FormDetails
@@ -166,7 +165,7 @@ class EditDetailsContact extends React.Component {
             />
           </Container>
         </ContainerCRUD>
-      </>
+      </React.Fragment>
     )
   }
 }

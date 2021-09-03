@@ -16,7 +16,7 @@ import {
   faPlusSquare,
   faEdit,
   faArrowLeft,
-  faAddressCard
+  faAddressCard,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { showError } from '../../../utils/generic'
@@ -45,9 +45,8 @@ class ListDetailsContact extends React.Component {
     }
     this.handleGetAllOneContact = this.handleGetAllOneContact.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-    this.notificationNotAllowedNewDetails = this.notificationNotAllowedNewDetails.bind(
-      this
-    )
+    this.notificationNotAllowedNewDetails =
+      this.notificationNotAllowedNewDetails.bind(this)
   }
 
   isWaitingFeedback = (response) =>
@@ -120,7 +119,13 @@ class ListDetailsContact extends React.Component {
     const { t, history } = this.props
     const { data, phone, loading, pagination, waitingFeedback } = this.state
     const colSpan = 4
-    const title = (<> <FontAwesomeIcon icon={faAddressCard} /> {`${t('title')} #${phone} ${this.getNameForTitle()}`}</>)
+    const title = (
+      <React.Fragment>
+        {' '}
+        <FontAwesomeIcon icon={faAddressCard} />{' '}
+        {`${t('title')} #${phone} ${this.getNameForTitle()}`}
+      </React.Fragment>
+    )
 
     return (
       <ContainerCRUD title={title} {...this.props}>

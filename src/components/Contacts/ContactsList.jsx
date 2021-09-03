@@ -268,9 +268,9 @@ class Contacts extends React.Component {
   getTitle(title) {
     const { t } = this.props
     return (
-      <>
+      <React.Fragment>
         <FontAwesomeIcon icon={faGlobeAmericas} /> {t(title)}
-      </>
+      </React.Fragment>
     )
   }
 
