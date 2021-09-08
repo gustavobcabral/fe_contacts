@@ -28,10 +28,10 @@ const getByType = (t, data) => {
     curry(parseObject)('residential', '#3ED1F5')
   )(getOr({}, 'totalContactsByType', data))
 
-  return filter((typeCompany) => typeCompany.value > 0, [
-    objectTypeCompany,
-    objectTypeResidential,
-  ])
+  return filter(
+    (typeCompany) => typeCompany.value > 0,
+    [objectTypeCompany, objectTypeResidential]
+  )
 }
 
 const ByType = (props) => {
@@ -52,7 +52,7 @@ const ByType = (props) => {
           <ReactPlaceholder
             showLoadingAnimation={true}
             type="round"
-            style={{ width: 170, height: 170 }}
+            className="size-react-placeholder"
             ready={!props.loading}
             rows={1}
           >

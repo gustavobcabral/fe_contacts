@@ -41,7 +41,7 @@ const ByLanguage = (props) => {
           <ReactPlaceholder
             showLoadingAnimation={true}
             type="round"
-            style={{ width: 170, height: 170 }}
+            className="size-react-placeholder"
             ready={!props.loading}
             rows={1}
           >
