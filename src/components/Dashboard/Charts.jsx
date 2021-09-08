@@ -13,6 +13,7 @@ import ChartByLocations from './ByLocations'
 import ChartByType from './ByType'
 import { showError, parseErrorMessage } from '../../utils/generic'
 import ShowErrorComponent from '../common/ShowError/ShowError'
+import './charts.styles.css'
 
 class Charts extends React.Component {
   constructor(props) {

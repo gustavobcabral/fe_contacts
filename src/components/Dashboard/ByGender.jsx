@@ -33,11 +33,10 @@ const getByGender = (t, data) => {
     curry(parseObject)('male', '#007bff')
   )(getOr({}, 'totalContactsByGenderContacted', data))
 
-  return filter((gender) => gender.value > 0, [
-    objectGenderUndefined,
-    objectGenderMale,
-    objectGenderFemale,
-  ])
+  return filter(
+    (gender) => gender.value > 0,
+    [objectGenderUndefined, objectGenderMale, objectGenderFemale]
+  )
 }
 
 const ByGender = (props) => {
@@ -58,7 +57,7 @@ const ByGender = (props) => {
           <ReactPlaceholder
             showLoadingAnimation={true}
             type="round"
-            style={{ width: 170, height: 170 }}
+            className="size-react-placeholder"
             ready={!props.loading}
             rows={1}
           >
