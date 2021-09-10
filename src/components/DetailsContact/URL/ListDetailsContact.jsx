@@ -121,14 +121,13 @@ class ListDetailsContact extends React.Component {
     const colSpan = 4
     const title = (
       <React.Fragment>
-        {' '}
         <FontAwesomeIcon icon={faAddressCard} />{' '}
         {`${t('title')} #${phone} ${this.getNameForTitle()}`}
       </React.Fragment>
     )
 
     return (
-      <ContainerCRUD title={title} {...this.props}>
+      <ContainerCRUD color="orange" title={title} {...this.props}>
         <Container className="border p-4">
           <Row>
             <Col>
