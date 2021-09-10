@@ -51,6 +51,8 @@ import ReactPlaceholder from 'react-placeholder'
 import { isPublisher, isAtLeastElder } from '../../utils/loginDataManager'
 import { CSVLink } from 'react-csv'
 import OurToolTip from '../common/OurToolTip/OurToolTip'
+import { Checkbox } from 'pretty-checkbox-react'
+import './styles.css'
 class Contacts extends React.Component {
   constructor(props) {
     super(props)
@@ -293,7 +295,7 @@ class Contacts extends React.Component {
       : this.getTitle('listTitle')
 
     return (
-      <ContainerCRUD title={title} {...this.props}>
+      <ContainerCRUD color={modeAllContacts ? "gray-dark" : "success"} title={title} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
@@ -314,14 +316,16 @@ class Contacts extends React.Component {
                   toggleFilter={this.toggleFilter}
                 />
                 <tr>
-                  <th>
-                    <Form.Check
-                      type="checkbox"
+                  <th style={{ width: '60px' }}>
+                    <Checkbox
                       id="checkall"
-                      name=""
-                      label=""
+                      name="all"
                       value="all"
                       onClick={this.handleCheckAll}
+                      color="success"
+                      className="marginLeftCheckbox"
+                      bigger
+                      animation="pulse"
                     />
                   </th>
                   <th>{t('phone')}</th>
@@ -395,16 +399,17 @@ class Contacts extends React.Component {
                             : ''
                         }
                       >
-                        <td>
-                          <Form.Check
-                            type="checkbox"
+                        <td style={{ width: '60px' }}>
+                          <Checkbox
                             checked={contains(
                               contact.phone,
                               checksContactsPhones
                             )}
                             name="checksContactsPhones"
                             value={contact.phone}
-                            className="checkBoxPhones"
+                            color="success"
+                            className="marginLeftCheckbox"
+                            bigger
                             onChange={this.handleOnClick}
                           />
                         </td>

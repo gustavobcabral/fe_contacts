@@ -119,7 +119,7 @@ class Publishers extends React.Component {
     )
 
     return (
-      <ContainerCRUD title={title} {...this.props}>
+      <ContainerCRUD color="blue" title={title} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData

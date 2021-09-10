@@ -62,7 +62,10 @@
   "placeHolderSelect": "Selecione...",
   "same": "Mesmo",
   "errorValidation": "Erro de validação",
-  "allFieldsIsEmpty": "Todos os campos estão vazios. Selecione pelo menos um"
+  "allFieldsIsEmpty": "Todos os campos estão vazios. Selecione pelo menos um",
+  "pageNotFound": "Página não encontrada",
+  "goToHome": "Ir a início"
+
 
 
 

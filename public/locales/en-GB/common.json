@@ -62,7 +62,10 @@
   "placeHolderSelect": "Select...",
   "same": "Same",
   "errorValidation": "Validation error",
-  "allFieldsIsEmpty": "All fields is empty. Please, select at least one"
+  "allFieldsIsEmpty": "All fields is empty. Please, select at least one",
+  "pageNotFound": "Page not found",
+  "goToHome": "Go to home"
+
 
 
 }

@@ -4,7 +4,7 @@ import App from './App.jsx'
 import * as serviceWorker from './serviceWorker'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-placeholder/lib/reactPlaceholder.css'
-
+import '@djthoms/pretty-checkbox'
 import './i18n'
 import './utils/Validator.en'
 import './utils/Validator.pt'

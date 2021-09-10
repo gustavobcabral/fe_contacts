@@ -61,7 +61,7 @@ class StatusList extends React.Component {
     )
 
     return (
-      <ContainerCRUD title={title} {...this.props}>
+      <ContainerCRUD color="purple"  title={title} {...this.props}>
         <Container>
           <Table striped bordered hover responsive>
             <thead>

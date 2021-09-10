@@ -5,6 +5,7 @@ import CheckNumber from '../common/CheckNumbers/CheckNumbers'
 import ResponsibilitySelect from '../common/ResponsibilitySelect/ResponsibilitySelect'
 import SuperFormControl from '../common/SuperFormControl/SuperFormControl'
 import ReactPlaceholder from 'react-placeholder'
+import { Radio } from 'pretty-checkbox-react'
 
 const FormPublishers = (props) => {
   const { t } = useTranslation([
@@ -34,29 +35,33 @@ const FormPublishers = (props) => {
         <Row className="mb-2">
           <Col xs={6} lg={2}>
             <Form.Group controlId="publisherInactive">
-              <Form.Check
-                type="radio"
+              <Radio
                 disabled={form.disabled}
+                color="danger"
+                bigger
                 name="active"
-                label={t('inactive')}
                 checked={form.active === false || form.active === '0'}
                 value={0}
                 onChange={handleInputChange}
-              />
+              >
+                {t('inactive')}
+              </Radio>
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="publisherActive">
-              <Form.Check
-                type="radio"
+              <Radio
                 disabled={form.disabled}
+                color="success"
+                bigger
                 name="active"
-                label={t('active')}
                 validator={validator}
                 checked={form.active === true || form.active === '1'}
                 value={1}
                 onChange={handleInputChange}
-              />
+              >
+                {t('active')}
+              </Radio>
             </Form.Group>
           </Col>
         </Row>
