@@ -72,7 +72,7 @@ class LanguagesList extends React.Component {
     )
 
     return (
-      <ContainerCRUD title={title} {...this.props}>
+      <ContainerCRUD color="teal" title={title} {...this.props}>
         <Table striped bordered hover responsive>
           <thead>
             <tr>

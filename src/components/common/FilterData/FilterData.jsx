@@ -26,6 +26,7 @@ import {
   faMapMarkedAlt,
   faWeight,
 } from '@fortawesome/free-solid-svg-icons'
+import { Checkbox, Radio } from 'pretty-checkbox-react'
 
 class FilterData extends React.Component {
   constructor(props) {
@@ -238,14 +239,14 @@ class FilterData extends React.Component {
                   {map(
                     ({ gender }) => (
                       <Form.Group controlId={`genders${gender}`} key={gender}>
-                        <Form.Check
-                          type="checkbox"
+                        <Checkbox
                           name="genders"
+                          color="info"
+                          bigger
                           checked={contains(gender, genders)}
-                          label={`${t(`contacts:${gender}`)}`}
                           value={gender}
                           onChange={this.handleOnClick}
-                        />
+                        >{`${t(`contacts:${gender}`)}`}</Checkbox>
                       </Form.Group>
                     ),
                     checksGender
@@ -275,14 +276,14 @@ class FilterData extends React.Component {
                         controlId={`languages${idLanguage}`}
                         key={idLanguage}
                       >
-                        <Form.Check
-                          type="checkbox"
+                        <Checkbox
+                          color="info"
+                          bigger
                           name="languages"
                           checked={contains(String(idLanguage), languages)}
-                          label={`${t(`languages:${languageName}`)}`}
                           value={idLanguage}
                           onChange={this.handleOnClick}
-                        />
+                        >{`${t(`languages:${languageName}`)}`}</Checkbox>
                       </Form.Group>
                     ),
                     checksLanguages
@@ -311,14 +312,16 @@ class FilterData extends React.Component {
                         controlId={`status${idStatus}`}
                         key={idStatus}
                       >
-                        <Form.Check
-                          type="checkbox"
+                        <Checkbox
+                          color="info"
+                          bigger
                           name="status"
                           checked={contains(String(idStatus), status)}
-                          label={`${t(`status:${statusDescription}`)}`}
                           value={idStatus}
                           onChange={this.handleOnClick}
-                        />
+                        >
+                          {`${t(`status:${statusDescription}`)}`}
+                        </Checkbox>
                       </Form.Group>
                     ),
                     checksStatus
@@ -348,19 +351,21 @@ class FilterData extends React.Component {
                         key={idResponsibility}
                         controlId={`responsibility${idResponsibility}`}
                       >
-                        <Form.Check
-                          type="checkbox"
+                        <Checkbox
+                          color="info"
+                          bigger
                           name="responsibility"
                           checked={contains(
                             String(idResponsibility),
                             responsibility
                           )}
-                          label={`${t(
-                            `responsibility:${responsibilityDescription}`
-                          )}`}
                           value={idResponsibility}
                           onChange={this.handleOnClick}
-                        />
+                        >
+                          {`${t(
+                            `responsibility:${responsibilityDescription}`
+                          )}`}
+                        </Checkbox>
                       </Form.Group>
                     ),
                     checksResponsibility
@@ -390,14 +395,14 @@ class FilterData extends React.Component {
                         key={typeCompanySelected}
                         controlId={`typeCompany${typeCompanySelected}`}
                       >
-                        <Form.Check
-                          type="radio"
+                        <Radio
                           name="typeCompany"
                           checked={typeCompany === typeCompanySelected}
-                          label={`${t(`typeCompany${typeCompanySelected}`)}`}
                           value={typeCompanySelected}
+                          color="info"
+                          bigger
                           onChange={this.handleGetValuesTradicional}
-                        />
+                        >{`${t(`typeCompany${typeCompanySelected}`)}`}</Radio>
                       </Form.Group>
                     ),
                     radiosTypeCompany

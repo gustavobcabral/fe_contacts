@@ -7,6 +7,7 @@ import StatusSelect from '../common/StatusSelect/StatusSelect'
 import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 import ReactPlaceholder from 'react-placeholder'
 import SuperSelect from '../common/SuperSelect/SuperSelect'
+import { Radio } from 'pretty-checkbox-react'
 
 const FormDetails = (props) => {
   const { t } = useTranslation(['contacts', 'common'])
@@ -19,7 +20,7 @@ const FormDetails = (props) => {
     validated,
     validator,
     disablePhone,
-    locationsOptions
+    locationsOptions,
   } = props
 
   return (
@@ -33,27 +34,31 @@ const FormDetails = (props) => {
         <Row className="mb-2">
           <Col xs={6} lg={2}>
             <Form.Group controlId="typeCompanyResidential">
-              <Form.Check
-                type="radio"
+              <Radio
                 name="typeCompany"
-                label={t('residential')}
+                color="danger"
+                bigger
                 checked={form.typeCompany === false || form.typeCompany === '0'}
                 value={0}
                 onChange={handleInputChange}
-              />
+              >
+                {t('residential')}
+              </Radio>
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="typeCompanyCommercial">
-              <Form.Check
-                type="radio"
+              <Radio
                 name="typeCompany"
-                label={t('commercial')}
+                color="danger"
+                bigger
                 validator={validator}
                 checked={form.typeCompany === true || form.typeCompany === '1'}
                 value={1}
                 onChange={handleInputChange}
-              />
+              >
+                {t('commercial')}
+              </Radio>
             </Form.Group>
           </Col>
         </Row>

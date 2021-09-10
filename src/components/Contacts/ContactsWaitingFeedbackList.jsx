@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Row, Col, Form } from 'react-bootstrap'
+import { Table, Row, Col } from 'react-bootstrap'
 import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
 import { withTranslation } from 'react-i18next'
 import { details } from '../../services'
@@ -32,6 +32,8 @@ import { CSVLink } from 'react-csv'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faHourglass } from '@fortawesome/free-solid-svg-icons'
 import OurToolTip from '../common/OurToolTip/OurToolTip'
+import { Checkbox } from 'pretty-checkbox-react'
+import './styles.css'
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -224,7 +226,7 @@ class Contacts extends React.Component {
     )
 
     return (
-      <ContainerCRUD title={title} {...this.props}>
+      <ContainerCRUD color="warning" title={title} {...this.props}>
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
@@ -236,7 +238,7 @@ class Contacts extends React.Component {
             />
           </Col>
           <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
-            <Table striped bordered hover responsive>
+            <Table striped bordered hover responsive size="sm">
               <thead>
                 <Search
                   onFilter={this.handleGetAll}
@@ -252,12 +254,15 @@ class Contacts extends React.Component {
                   toggleFilter={this.toggleFilter}
                 />
                 <tr>
-                  <th>
-                    <Form.Check
+                  <th style={{ width: '60px' }}>
+                    <Checkbox
                       type="checkbox"
                       id="checkall"
-                      name=""
-                      label=""
+                      name="checkall"
+                      className="marginLeftCheckbox"
+                      color="success"
+                      bigger
+                      animation="pulse"
                       value="all"
                       onClick={this.handleCheckAll}
                     />
@@ -310,8 +315,8 @@ class Contacts extends React.Component {
                   map(
                     (detailContact) => (
                       <tr key={detailContact.id}>
-                        <td>
-                          <Form.Check
+                        <td style={{ width: '60px' }}>
+                          <Checkbox
                             type="checkbox"
                             checked={contains(
                               detailContact.phone,
@@ -319,7 +324,9 @@ class Contacts extends React.Component {
                             )}
                             name="checksContactsPhones"
                             value={detailContact.phone}
-                            className="checkBoxPhones"
+                            color="success"
+                            className="marginLeftCheckbox"
+                            bigger
                             onChange={this.handleOnClick}
                           />
                         </td>

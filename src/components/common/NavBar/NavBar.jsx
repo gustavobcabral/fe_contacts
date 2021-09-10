@@ -29,6 +29,7 @@ import {
   faLanguage,
   faTags,
 } from '@fortawesome/free-solid-svg-icons'
+import './styles.css'
 
 const MenuLogged = ({ t, ...props }) => {
   const contactsMenuItem = (
