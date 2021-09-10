@@ -36,7 +36,7 @@ const FormDetails = (props) => {
             <Form.Group controlId="typeCompanyResidential">
               <Radio
                 name="typeCompany"
-                color="danger"
+                color="success"
                 bigger
                 checked={form.typeCompany === false || form.typeCompany === '0'}
                 value={0}
@@ -50,7 +50,7 @@ const FormDetails = (props) => {
             <Form.Group controlId="typeCompanyCommercial">
               <Radio
                 name="typeCompany"
-                color="danger"
+                color="warning"
                 bigger
                 validator={validator}
                 checked={form.typeCompany === true || form.typeCompany === '1'}

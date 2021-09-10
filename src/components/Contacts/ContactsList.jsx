@@ -399,7 +399,7 @@ class Contacts extends React.Component {
                             : ''
                         }
                       >
-                        <td style={{ width: '60px' }}>
+                        <td style={{ minWidth: '60px' }}>
                           <Checkbox
                             checked={contains(
                               contact.phone,

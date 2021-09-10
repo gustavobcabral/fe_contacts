@@ -9,6 +9,7 @@ import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 import ReactPlaceholder from 'react-placeholder'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Radio } from 'pretty-checkbox-react'
 
 const FormDetails = (props) => {
   const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
@@ -22,7 +23,7 @@ const FormDetails = (props) => {
     handleInputChange,
     validated,
     history,
-    locationsOptions
+    locationsOptions,
   } = props
   return (
     <ReactPlaceholder
@@ -35,27 +36,31 @@ const FormDetails = (props) => {
         <Row className="mb-2">
           <Col xs={6} lg={3}>
             <Form.Group controlId="typeCompanyResidential0">
-              <Form.Check
-                type="radio"
+              <Radio
                 name="typeCompany"
-                label={t('contacts:residential')}
+                color="success"
+                bigger
                 checked={form.typeCompany === false || form.typeCompany === '0'}
                 value={'0'}
                 onChange={handleInputChange}
-              />
+              >
+                {t('contacts:residential')}
+              </Radio>
             </Form.Group>
           </Col>
           <Col xs={6} lg={3}>
             <Form.Group controlId="typeCompanyCommercial1">
-              <Form.Check
-                type="radio"
+              <Radio
                 name="typeCompany"
-                label={t('contacts:commercial')}
+                color="warning"
+                bigger
                 validator={validator}
                 checked={form.typeCompany === true || form.typeCompany === '1'}
                 value={'1'}
                 onChange={handleInputChange}
-              />
+              >
+                {t('contacts:commercial')}
+              </Radio>
             </Form.Group>
           </Col>
           <Col xs={12} lg={6}>
@@ -70,7 +75,6 @@ const FormDetails = (props) => {
               onChange={handleInputChange}
             />
           </Col>
-
         </Row>
         <Row>
           <Col xs={12}>

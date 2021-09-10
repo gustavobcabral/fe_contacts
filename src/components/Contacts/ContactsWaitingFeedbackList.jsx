@@ -254,7 +254,7 @@ class Contacts extends React.Component {
                   toggleFilter={this.toggleFilter}
                 />
                 <tr>
-                  <th style={{ width: '60px' }}>
+                  <th style={{ minWidth: '60px' }}>
                     <Checkbox
                       type="checkbox"
                       id="checkall"
