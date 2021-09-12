@@ -73,7 +73,7 @@ const FormDetails = (props) => {
               value={form.phone}
               disabled={disablePhone}
               onChange={handleInputChange}
-              rules="required|min:10"
+              rules="required|min:10|numberStartsWithInvalidCharacter"
             />
           </Col>
           <Col xs={6} lg={6}>
@@ -85,7 +85,7 @@ const FormDetails = (props) => {
               validated={validated}
               value={form.phone2}
               onChange={handleInputChange}
-              rules="min:10"
+              rules="min:10|numberStartsWithInvalidCharacter"
             />
           </Col>
         </Row>

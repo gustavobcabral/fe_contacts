@@ -134,6 +134,7 @@ const FormPublishers = (props) => {
               value={form.password}
               onChange={handleInputChange}
               disabled={form.disabled}
+              rules="min:8"
             />
           </Col>
           <Col xs={12} lg={6}>
@@ -146,7 +147,7 @@ const FormPublishers = (props) => {
               placeholder={t('repeatPasswordPlaceHolder')}
               value={form.repeatPassword}
               onChange={handleInputChange}
-              rules="mustBeEqualFieldPassword"
+              rules="min:8|mustBeEqualFieldPassword"
               extraRules={form.password}
               disabled={form.disabled}
             />

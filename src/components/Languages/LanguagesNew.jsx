@@ -2,7 +2,11 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { languages } from '../../services'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+} from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
 import { faPlusSquare, faLanguage } from '@fortawesome/free-solid-svg-icons'
 import LanguagesForm from './LanguagesForm.jsx'
@@ -27,7 +31,7 @@ class StatusNew extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
     })
     this.resetForm = this.resetForm.bind(this)
     this.handleChangeColor = this.handleChangeColor.bind(this)

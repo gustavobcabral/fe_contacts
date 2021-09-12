@@ -4,7 +4,11 @@ import OurModal from '../../common/OurModal/OurModal'
 import Swal from 'sweetalert2'
 import { getOr, pick, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+} from '../../../utils/forms'
 import { details, publishers, contacts, locations } from '../../../services'
 import FormDetails from '../FormDetails'
 import { faPlusSquare, faAddressCard } from '@fortawesome/free-solid-svg-icons'
@@ -56,7 +60,7 @@ class NewDetailsContact extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
     })
   }
 
