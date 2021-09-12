@@ -5,9 +5,9 @@ import SimpleReactValidator from 'simple-react-validator'
 import {
   getLocale,
   handleInputChangeGeneric,
-  elementForErrors,
 } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
+import ElementError from '../common/ElementError/ElementError'
 import { faPlusSquare, faTags } from '@fortawesome/free-solid-svg-icons'
 import StatusForm from './StatusForm.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,7 +32,7 @@ class StatusNew extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => elementForErrors(message),
+      element: (message) => <ElementError message={message} />,
     })
   }
 

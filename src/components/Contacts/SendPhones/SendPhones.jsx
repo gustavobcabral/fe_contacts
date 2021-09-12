@@ -1,6 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../../common/OurModal/OurModal'
+import ElementError from '../../common/ElementError/ElementError'
 import {
   getOr,
   map,
@@ -16,7 +17,6 @@ import SimpleReactValidator from 'simple-react-validator'
 import {
   getLocale,
   handleInputChangeGeneric,
-  elementForErrors,
 } from '../../../utils/forms'
 import { contacts, publishers } from '../../../services'
 import FormSendPhones from './FormSendPhones'
@@ -58,7 +58,7 @@ class NewContact extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => elementForErrors(message),
+      element: (message) => <ElementError message={message} />,
     })
   }
 
