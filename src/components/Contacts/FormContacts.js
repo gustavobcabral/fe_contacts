@@ -9,7 +9,7 @@ import ReactPlaceholder from 'react-placeholder'
 import SuperSelect from '../common/SuperSelect/SuperSelect'
 import { Radio } from 'pretty-checkbox-react'
 
-const FormDetails = (props) => {
+const FormContacts = (props) => {
   const { t } = useTranslation(['contacts', 'common'])
   const {
     form,
@@ -216,4 +216,4 @@ const FormDetails = (props) => {
   )
 }
 
-export default FormDetails
+export default FormContacts
