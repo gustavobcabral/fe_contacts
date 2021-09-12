@@ -1,12 +1,12 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../common/OurModal/OurModal'
+import ElementError from '../common/ElementError/ElementError'
 import { omit, getOr } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import {
   getLocale,
   handleInputChangeGeneric,
-  elementForErrors,
   mustBeEqualFieldPassword,
 } from '../../utils/forms'
 import { publishers } from '../../services'
@@ -42,7 +42,7 @@ class NewPublisher extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => elementForErrors(message),
+      element: (message) => <ElementError message={message} />,
       validators: {
         mustBeEqualFieldPassword: mustBeEqualFieldPassword(this),
       },

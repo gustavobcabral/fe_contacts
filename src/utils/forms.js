@@ -97,9 +97,3 @@ export const mustBeEqualFieldPassword = (componentReact) => ({
     isEmpty(componentReact.state.form.password),
   required: true,
 })
-
-export const elementForErrors = (message) => (
-  <div className="text-danger font-italic">
-    <small>{message}</small>
-  </div>
-)

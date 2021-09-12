@@ -1,12 +1,12 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../../common/OurModal/OurModal'
+import ElementError from '../../common/ElementError/ElementError'
 import { getOr, pick, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import {
   getLocale,
   handleInputChangeGeneric,
-  elementForErrors,
 } from '../../../utils/forms'
 import { details, publishers, locations } from '../../../services'
 import FormDetails from '../FormDetails'
@@ -49,7 +49,7 @@ class EditDetailsContact extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => elementForErrors(message),
+      element: (message) => <ElementError message={message} />,
     })
   }
 

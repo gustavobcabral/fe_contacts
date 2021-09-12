@@ -1,12 +1,12 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../../common/OurModal/OurModal'
+import ElementError from '../../common/ElementError/ElementError'
 import { join, get, pipe, values, omitBy, isNil, every } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
 import {
   getLocale,
   handleInputChangeGeneric,
-  elementForErrors,
 } from '../../../utils/forms'
 import { publishers, contacts } from '../../../services'
 import FormBatchChanges from './FormBatchChanges'
@@ -42,7 +42,7 @@ class BatchChanges extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => elementForErrors(message),
+      element: (message) => <ElementError message={message} />,
     })
   }
 
