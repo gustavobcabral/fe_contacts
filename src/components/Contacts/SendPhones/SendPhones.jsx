@@ -13,7 +13,11 @@ import {
   isNil,
 } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+} from '../../../utils/forms'
 import { contacts, publishers } from '../../../services'
 import FormSendPhones from './FormSendPhones'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
@@ -54,7 +58,7 @@ class NewContact extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
     })
   }
 

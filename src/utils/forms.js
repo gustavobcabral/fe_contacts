@@ -1,6 +1,7 @@
-import { getOr, omit, trim, isString } from 'lodash/fp'
+import { getOr, omit, trim, isString, startsWith, isEmpty } from 'lodash/fp'
 import GqlBuilder from 'graphql-query-builder-v2'
 import moment from 'moment'
+import { START_NUMBER_NOT_ALLOWED } from '../constants/contacts'
 
 export const formatDateDMY = (date) => moment(date).format('DD/MM/YYYY')
 
@@ -80,3 +81,25 @@ export const buildGql = (type, { name, find, filter, variables = null }) => {
       ?${type}={${query.toString()}}
     `.trim()
 }
+
+export const numberStartsWithInvalidCharacter = (componentReact) => ({
+  message: componentReact.props?.t('numberStartsWithInvalidCharacter', {
+    character: START_NUMBER_NOT_ALLOWED,
+  }),
+  rule: (val) => !startsWith(START_NUMBER_NOT_ALLOWED, val),
+  required: true,
+})
+
+export const mustBeEqualFieldPassword = (componentReact) => ({
+  message: componentReact.props?.t('mustBeEqualFieldPassword'),
+  rule: (val) =>
+    val === componentReact.state.form.password ||
+    isEmpty(componentReact.state.form.password),
+  required: true,
+})
+
+export const elementForErrors = (message) => (
+  <div className="text-danger font-italic">
+    <small>{message}</small>
+  </div>
+)

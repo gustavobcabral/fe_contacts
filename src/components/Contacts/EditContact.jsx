@@ -3,7 +3,12 @@ import { withTranslation } from 'react-i18next'
 import OurModal from '../common/OurModal/OurModal'
 import { getOr, omit, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  numberStartsWithInvalidCharacter,
+  elementForErrors,
+} from '../../utils/forms'
 import { contacts, publishers, locations } from '../../services'
 import FormContacts from './FormContacts'
 import { faEdit, faUserEdit } from '@fortawesome/free-solid-svg-icons'
@@ -41,10 +46,15 @@ class EditContact extends React.Component {
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
+      validators: {
+        numberStartsWithInvalidCharacter:
+          numberStartsWithInvalidCharacter(this),
+      },
     })
   }
 

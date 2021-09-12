@@ -9,7 +9,7 @@ import ReactPlaceholder from 'react-placeholder'
 import SuperSelect from '../common/SuperSelect/SuperSelect'
 import { Radio } from 'pretty-checkbox-react'
 
-const FormDetails = (props) => {
+const FormContacts = (props) => {
   const { t } = useTranslation(['contacts', 'common'])
   const {
     form,
@@ -73,7 +73,7 @@ const FormDetails = (props) => {
               value={form.phone}
               disabled={disablePhone}
               onChange={handleInputChange}
-              rules="required|min:10"
+              rules="required|min:10|numberStartsWithInvalidCharacter"
             />
           </Col>
           <Col xs={6} lg={6}>
@@ -85,7 +85,7 @@ const FormDetails = (props) => {
               validated={validated}
               value={form.phone2}
               onChange={handleInputChange}
-              rules="min:10"
+              rules="min:10|numberStartsWithInvalidCharacter"
             />
           </Col>
         </Row>
@@ -216,4 +216,4 @@ const FormDetails = (props) => {
   )
 }
 
-export default FormDetails
+export default FormContacts

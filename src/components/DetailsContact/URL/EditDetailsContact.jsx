@@ -5,7 +5,11 @@ import ContainerCRUD from '../../../components/common/ContainerCRUD/ContainerCRU
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+} from '../../../utils/forms'
 import {
   showError,
   showSuccessful,
@@ -48,7 +52,7 @@ class EditDetailsContact extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
     })
   }
 

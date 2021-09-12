@@ -4,7 +4,11 @@ import ContainerCRUD from '../../../components/common/ContainerCRUD/ContainerCRU
 import SimpleReactValidator from 'simple-react-validator'
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+} from '../../../utils/forms'
 import { details, publishers, contacts, locations } from '../../../services'
 import { reducePublishers } from '../../../stateReducers/publishers'
 import {
@@ -53,7 +57,7 @@ class NewDetailsContact extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
     })
   }
 

@@ -3,7 +3,11 @@ import { withTranslation } from 'react-i18next'
 import OurModal from '../../common/OurModal/OurModal'
 import { join, get, pipe, values, omitBy, isNil, every } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+} from '../../../utils/forms'
 import { publishers, contacts } from '../../../services'
 import FormBatchChanges from './FormBatchChanges'
 import { faTasks } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +42,7 @@ class BatchChanges extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
     })
   }
 

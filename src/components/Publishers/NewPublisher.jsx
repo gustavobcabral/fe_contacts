@@ -1,9 +1,14 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import OurModal from '../common/OurModal/OurModal'
-import { isEmpty, omit, getOr } from 'lodash/fp'
+import { omit, getOr } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  elementForErrors,
+  mustBeEqualFieldPassword,
+} from '../../utils/forms'
 import { publishers } from '../../services'
 import FormPublisher from './FormPublisher'
 import { faPlusSquare, faUserPlus } from '@fortawesome/free-solid-svg-icons'
@@ -37,15 +42,9 @@ class NewPublisher extends React.Component {
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
-      element: (message) => <div className="text-danger">{message}</div>,
+      element: (message) => elementForErrors(message),
       validators: {
-        mustBeEqualFieldPassword: {
-          message: this.props.t('mustBeEqualFieldPassword'),
-          rule: (val) =>
-            val === this.state.form.password ||
-            isEmpty(this.state.form.password),
-          required: true,
-        },
+        mustBeEqualFieldPassword: mustBeEqualFieldPassword(this),
       },
     })
   }
