@@ -22,6 +22,8 @@ const CONTACTS = [
   'information',
   'waitingFeedback',
   'createdAtDetailsContacts',
+  'updatedAt',
+  'publisherNameUpdatedBy',
 ]
 const PAGINATION = [
   'perPage',

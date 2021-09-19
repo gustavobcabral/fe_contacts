@@ -5,6 +5,9 @@ import { START_NUMBER_NOT_ALLOWED } from '../constants/contacts'
 
 export const formatDateDMY = (date) => moment(date).format('DD/MM/YYYY')
 
+export const formatDateDMYHHmm = (date) =>
+  date ? moment(date).format('DD/MM/YYYY HH:mm') : null
+
 export const diffDate = (date, truncate = true) => {
   var today = new moment(new Date())
   var momentDate = new moment(date)
