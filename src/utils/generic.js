@@ -1,9 +1,5 @@
 import { get, getOr, isEmpty, isNumber } from 'lodash/fp'
-import moment from 'moment'
 import Swal from 'sweetalert2'
-
-const formatDateDMYHMM = (date) =>
-  date ? moment(date).format('DD/MM/YYYY HH:mm') : null
 
 const randomColor = () =>
   `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
@@ -101,7 +97,6 @@ const ifEmptySetNull = (value) =>
 export {
   randomColor,
   parseErrorMessage,
-  formatDateDMYHMM,
   showError,
   showSuccessful,
   ifEmptySetNull,

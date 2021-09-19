@@ -6,10 +6,7 @@ import ElementError from '../../../components/common/ElementError/ElementError'
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import {
   showError,
   showSuccessful,
@@ -32,6 +29,8 @@ const fields = {
   name: '',
   owner: '',
   typeCompany: '0',
+  updatedAt: '',
+  publisherUpdatedBy: '',
 }
 
 class EditDetailsContact extends React.Component {

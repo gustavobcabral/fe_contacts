@@ -28,7 +28,7 @@ import { Link } from 'react-router-dom'
 import NoRecords from '../common/NoRecords/NoRecords'
 import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
-import { parseQuery } from '../../utils/forms'
+import { parseQuery, formatDateDMYHHmm } from '../../utils/forms'
 import {
   RECORDS_PER_PAGE,
   MAX_DAYS_ALLOWED_WITH_NUMBERS,
@@ -93,6 +93,8 @@ class Contacts extends React.Component {
     this.parseDataCVS = this.parseDataCVS.bind(this)
     this.setRowColor = this.setRowColor.bind(this)
     this.setSubRowVisible = this.setSubRowVisible.bind(this)
+    this.getInformationAboveName = this.getInformationAboveName.bind(this)
+    this.setBackgroundForbidden = this.setBackgroundForbidden.bind(this)
   }
 
   uncheckCheckboxSelectAll() {
@@ -243,9 +245,10 @@ class Contacts extends React.Component {
 
   setSubRowVisible(contact) {
     if (
-      (contact.idStatus === ID_STATUS_RETURN_VISIT ||
+      contact.idStatus === ID_STATUS_SEND_TO_OTHER_CONG ||
+      ((contact.idStatus === ID_STATUS_RETURN_VISIT ||
         contact.idStatus === ID_STATUS_BIBLE_STUDY) &&
-      !isEmpty(getOr('', 'publisherName', contact))
+        !isEmpty(getOr('', 'publisherName', contact)))
     ) {
       return ''
     }
@@ -276,6 +279,26 @@ class Contacts extends React.Component {
     )
   }
 
+  setBackgroundForbidden(contact) {
+    return contains(contact.idStatus, this.state.statusForbidden)
+      ? 'bg-danger'
+      : ''
+  }
+
+  getInformationAboveName(contact) {
+    const { t } = this.props
+    return (
+      <span className="text-light ml-1">
+        {this.setBackgroundForbidden(contact) === 'bg-danger'
+          ? t('common:updatedByAt', {
+              name: contact.publisherNameUpdatedBy,
+              date: formatDateDMYHHmm(contact.updatedAt),
+            })
+          : `${t('lastSpokeToPublisherName')}: ${contact.publisherName}`}
+      </span>
+    )
+  }
+
   render() {
     const { t, modeAllContacts } = this.props
     const {
@@ -283,7 +306,6 @@ class Contacts extends React.Component {
       pagination,
       submitting,
       checksContactsPhones,
-      statusForbidden,
       error,
       hiddenFilter,
       headers,
@@ -295,7 +317,11 @@ class Contacts extends React.Component {
       : this.getTitle('listTitle')
 
     return (
-      <ContainerCRUD color={modeAllContacts ? "gray-dark" : "success"} title={title} {...this.props}>
+      <ContainerCRUD
+        color={modeAllContacts ? 'gray-dark' : 'success'}
+        title={title}
+        {...this.props}
+      >
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
@@ -393,11 +419,7 @@ class Contacts extends React.Component {
                     (contact) => (
                       <tr
                         key={contact.phone}
-                        className={
-                          contains(contact.idStatus, statusForbidden)
-                            ? 'bg-danger'
-                            : ''
-                        }
+                        className={this.setBackgroundForbidden(contact)}
                       >
                         <td style={{ minWidth: '60px' }}>
                           <Checkbox
@@ -422,8 +444,7 @@ class Contacts extends React.Component {
                                 contact.idStatus
                               )}`}
                             >
-                              {t('lastSpokeToPublisherName')}:{' '}
-                              {contact.publisherName}
+                              {this.getInformationAboveName(contact)}
                             </Form.Text>
                           </div>
                         </td>

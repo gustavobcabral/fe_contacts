@@ -17,12 +17,12 @@ import SimpleReactValidator from 'simple-react-validator'
 import {
   getLocale,
   handleInputChangeGeneric,
+  formatDateDMYHHmm,
 } from '../../../utils/forms'
 import { contacts, publishers } from '../../../services'
 import FormSendPhones from './FormSendPhones'
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import moment from 'moment'
 import { URL_SEND_MESSAGE } from '../../../constants/settings'
 import { showError, showSuccessful } from '../../../utils/generic'
 import { reducePublishers } from '../../../stateReducers/publishers'
@@ -136,9 +136,9 @@ class NewContact extends React.Component {
       : ''
 
     const lastInformation = !isEmpty(contact.information)
-      ? `${t(`contacts:${contact.information}`)} - ${moment(
+      ? `${t(`contacts:${contact.information}`)} - ${formatDateDMYHHmm(
           contact.createdAtDetailsContacts
-        ).format('DD/MM/YYYY HH:mm')}`
+        )}`
       : t('withoutDetails')
     return contactName + contactGender + contactLanguage + lastInformation
   }

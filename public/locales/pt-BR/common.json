@@ -64,7 +64,9 @@
   "errorValidation": "Erro de validação",
   "allFieldsIsEmpty": "Todos os campos estão vazios. Selecione pelo menos um",
   "pageNotFound": "Página não encontrada",
-  "goToHome": "Ir a início"
+  "goToHome": "Ir a início",
+  "updatedByAt": "Atualizado por {{name}} em {{date}}"
+
 
 
 

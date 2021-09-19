@@ -10,6 +10,7 @@ import ReactPlaceholder from 'react-placeholder'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Radio } from 'pretty-checkbox-react'
+import { formatDateDMYHHmm } from '../../utils/forms'
 
 const FormDetails = (props) => {
   const { t } = useTranslation(['detailsContacts', 'common', 'contacts'])
@@ -162,12 +163,12 @@ const FormDetails = (props) => {
               placeholder={t('informationPlaceHolder')}
               value={form.information}
               onChange={handleInputChange}
-              rules="required|max:250"
+              rules="required|min:5|max:500"
             />
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col xs={2}>
             <Button
               disabled={loading}
               variant="primary"
@@ -184,6 +185,15 @@ const FormDetails = (props) => {
                 <FontAwesomeIcon icon={faArrowLeft} />
               </Button>
             )}
+          </Col>
+          <Col xs={10} className="text-right">
+            <Form.Text muted>
+              {form.updatedAt &&
+                t('common:updatedByAt', {
+                  date: formatDateDMYHHmm(form.updatedAt),
+                  name: form.publisherUpdatedBy,
+                })}
+            </Form.Text>
           </Col>
         </Row>
       </Form>

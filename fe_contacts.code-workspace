@@ -24,8 +24,9 @@
       "source.fixAll.eslint": true
     },
     "cSpell.words": [
-      "HAVETOREAUTHENTICATE",
       "camelcase",
+      "DMYH",
+      "HAVETOREAUTHENTICATE",
       "postgres",
       "postgresql"
     ]

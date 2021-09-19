@@ -64,7 +64,9 @@
   "errorValidation": "Validation error",
   "allFieldsIsEmpty": "All fields is empty. Please, select at least one",
   "pageNotFound": "Page not found",
-  "goToHome": "Go to home"
+  "goToHome": "Go to home",
+  "updatedByAt": "Updated by {{name}} at {{date}}"
+
 
 
 
