@@ -188,7 +188,7 @@ const FormDetails = (props) => {
           </Col>
           <Col xs={10} className="text-right">
             <Form.Text muted>
-              {form.updatedAt &&
+              {form.publisherUpdatedBy &&
                 t('common:updatedByAt', {
                   date: formatDateDMYHHmm(form.updatedAt),
                   name: form.publisherUpdatedBy,
