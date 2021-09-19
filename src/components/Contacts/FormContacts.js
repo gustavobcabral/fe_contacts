@@ -217,7 +217,7 @@ const FormContacts = (props) => {
           </Col>
           <Col xs={10} className="text-right">
             <Form.Text muted>
-              {form.contactUpdatedAt && t('common:updatedByAt', {
+              {form.contactUpdatedBy && t('common:updatedByAt', {
                 date: formatDateDMYHHmm(form.contactUpdatedAt),
                 name: form.contactUpdatedBy,
               })}
