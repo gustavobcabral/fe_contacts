@@ -8,7 +8,6 @@ import LanguageSelect from '../common/LanguageSelect/LanguageSelect'
 import ReactPlaceholder from 'react-placeholder'
 import SuperSelect from '../common/SuperSelect/SuperSelect'
 import { Radio } from 'pretty-checkbox-react'
-import { formatDateDMYHHmm } from '../../utils/forms'
 
 const FormContacts = (props) => {
   const { t } = useTranslation(['contacts', 'common'])
@@ -206,7 +205,7 @@ const FormContacts = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col xs={2}>
+          <Col xs={12} md={{ order: 'first', span: 2 }}>
             <Button
               disabled={loading}
               variant="primary"
@@ -215,13 +214,8 @@ const FormContacts = (props) => {
               {t(loading ? 'common:btnSubmitting' : 'common:btnSubmit')}
             </Button>
           </Col>
-          <Col xs={10} className="text-right">
-            <Form.Text muted>
-              {form.contactUpdatedBy && t('common:updatedByAt', {
-                date: formatDateDMYHHmm(form.contactUpdatedAt),
-                name: form.contactUpdatedBy,
-              })}
-            </Form.Text>
+          <Col xs={{ order: 'first', span: 12 }} md={10} className="text-right">
+            <Form.Text muted>{form.lastPublisherThatTouched}</Form.Text>
           </Col>
         </Row>
       </Form>

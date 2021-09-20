@@ -436,7 +436,10 @@ class Contacts extends React.Component {
                           />
                         </td>
                         <td>{contact.phone}</td>
-                        <td className="d-none d-sm-table-cell">
+                        <td
+                          className="d-none d-sm-table-cell"
+                          style={{ verticalAlign: 'bottom' }}
+                        >
                           {contact.name}
                           <div className={this.setSubRowVisible(contact)}>
                             <Form.Text

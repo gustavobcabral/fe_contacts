@@ -65,9 +65,10 @@
   "allFieldsIsEmpty": "Todos os campos estão vazios. Selecione pelo menos um",
   "pageNotFound": "Página não encontrada",
   "goToHome": "Ir a início",
-  "updatedByAt": "Atualizado por {{name}} em {{date}}"
+  "updatedByAt": "Atualizado por {{name}} em {{date}}",
+  "createdByAt": "Criado por {{name}} em {{date}}"
 
-
+  
 
 
 

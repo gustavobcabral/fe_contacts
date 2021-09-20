@@ -6,7 +6,11 @@ import ElementError from '../../../components/common/ElementError/ElementError'
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
+import {
+  getLocale,
+  handleInputChangeGeneric,
+  formatDateDMYHHmm,
+} from '../../../utils/forms'
 import {
   showError,
   showSuccessful,
@@ -48,11 +52,28 @@ class EditDetailsContact extends React.Component {
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.getLastPublisherThatTouched =
+      this.getLastPublisherThatTouched.bind(this)
+
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       locale: getLocale(this.props),
       element: (message) => <ElementError message={message} />,
     })
+  }
+
+  getLastPublisherThatTouched(form) {
+    const { t } = this.props
+
+    return form.publisherUpdatedBy
+      ? t('common:updatedByAt', {
+          date: formatDateDMYHHmm(form.updatedAt),
+          name: form.publisherUpdatedBy,
+        })
+      : t('common:createdByAt', {
+          date: formatDateDMYHHmm(form.createdAt),
+          name: form.publisherCreatedBy,
+        })
   }
 
   async handleGetOne() {
@@ -66,6 +87,7 @@ class EditDetailsContact extends React.Component {
         getOr('', 'information', data) === WAITING_FEEDBACK
           ? ''
           : getOr('', 'information', data),
+      lastPublisherThatTouched: this.getLastPublisherThatTouched(data),
     }
     const publishersOptions = reducePublishers(await publishers.getAll())
     const locationsOptions = reduceLocations(await locations.getAll())
