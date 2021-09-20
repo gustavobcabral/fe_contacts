@@ -250,9 +250,9 @@ class Contacts extends React.Component {
         contact.idStatus === ID_STATUS_BIBLE_STUDY) &&
         !isEmpty(getOr('', 'publisherName', contact)))
     ) {
-      return ''
+      return {}
     }
-    return 'd-none'
+    return { opacity: 0 }
   }
 
   thisDateAlreadyReachedMaxAllowed = ({
@@ -436,12 +436,9 @@ class Contacts extends React.Component {
                           />
                         </td>
                         <td>{contact.phone}</td>
-                        <td
-                          className="d-none d-sm-table-cell"
-                          style={{ verticalAlign: 'bottom' }}
-                        >
-                          {contact.name}
-                          <div className={this.setSubRowVisible(contact)}>
+                        <td className="d-none d-sm-table-cell verticalBottom">
+                          <span>{contact.name}</span>
+                          <div style={this.setSubRowVisible(contact)}>
                             <Form.Text
                               className={`text-muted ${this.setRowColor(
                                 contact.idStatus

@@ -36,15 +36,19 @@ const ByPublishers = (props) => {
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
-      lg={{ span: 2, offset: 0 }}
+      md={{ span: 4, offset: 0 }}
+      lg={{ span: 3, offset: 0 }}
+      xl={{ span: 3, offset: 0 }}
+
       className="mt-2"
     >
       <Card>
-        <Card.Header className="text-center" style={{ minHeight: '73px' }}>
+        <Card.Header className="text-center" style={{ minHeight: '87px' }}>
           <Button
             variant="link"
             title={t('moreInformation')}
             onClick={() => toggleDetailsByPublisher((prevState) => !prevState)}
+            className="titleCard"
           >
             {t('titleChartWaitingFeedbackByPublishers')}
           </Button>

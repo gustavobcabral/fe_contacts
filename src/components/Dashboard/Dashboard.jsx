@@ -18,7 +18,12 @@ class Dashboard extends React.Component {
     return (
       <ContainerWithNavBar {...this.props}>
         <Row className="mt-4">
-          <Col lg={{ span: 4, offset: 1 }} xs={12}>
+          <Col
+            xl={{ span: 4, offset: 2 }}
+            lg={{ span: 5, offset: 1 }}
+            md={{ span: 5, offset: 0 }}
+            xs={12}
+          >
             <Row>
               <Col className="text-center" style={{ marginTop: '31%' }}>
                 <h1>
@@ -29,7 +34,12 @@ class Dashboard extends React.Component {
               </Col>
             </Row>
           </Col>
-          <Col lg={{ span: 4, offset: 1 }} xs={{ span: 8, offset: 2 }}>
+          <Col
+            xl={{ span: 4, offset: 0 }}
+            lg={{ span: 5, offset: 0 }}
+            md={{ span: 6, offset: 0 }}
+            xs={{ span: 8, offset: 2 }}
+          >
             <Image src={logo} fluid />
           </Col>
         </Row>

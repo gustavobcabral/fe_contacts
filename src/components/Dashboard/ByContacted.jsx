@@ -48,7 +48,9 @@ const ByContacted = (props) => {
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
-      lg={{ span: 2, offset: 3 }}
+      md={{ span: 4, offset: 2 }}
+      lg={{ span: 4, offset: 0 }}
+      xl={{ span: 4, offset: 0 }}
       className="mt-2"
     >
       <Card>
