@@ -17,6 +17,7 @@ import { GENDER_UNKNOWN } from '../../constants/contacts'
 import { showError, showSuccessful, ifEmptySetNull } from '../../utils/generic'
 import { reducePublishers } from '../../stateReducers/publishers'
 import { reduceLocations } from '../../stateReducers/locations'
+import { formatDateDMYHHmm } from '../../utils/forms'
 
 const fields = {
   phone: '',
@@ -46,6 +47,7 @@ class EditContact extends React.Component {
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.getLastPublisherThatTouched = this.getLastPublisherThatTouched.bind(this)
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -58,12 +60,31 @@ class EditContact extends React.Component {
     })
   }
 
+  getLastPublisherThatTouched(form) {
+    const { t } = this.props
+
+    return form.contactUpdatedBy
+      ? t('common:updatedByAt', {
+          date: formatDateDMYHHmm(form.contactUpdatedAt),
+          name: form.contactUpdatedBy,
+        })
+      : t('common:createdByAt', {
+          date: formatDateDMYHHmm(form.contactCreatedAt),
+          name: form.contactCreatedBy,
+        })
+  }
+
   async handleGetOne() {
     this.setState({ loading: true })
     try {
       const id = getOr(0, 'props.id', this)
       const response = await contacts.getOne(id)
-      const form = getOr(fields, 'data.data', response)
+      const form = {
+        ...getOr(fields, 'data.data', response),
+        lastPublisherThatTouched: this.getLastPublisherThatTouched(
+          get('data.data', response)
+        ),
+      }
       const publishersOptions = reducePublishers(await publishers.getAll())
       const locationsOptions = reduceLocations(await locations.getAll())
 
@@ -109,7 +130,7 @@ class EditContact extends React.Component {
     const owner =
       form.typeCompany === true || form.typeCompany === '1' ? form.owner : null
     const data = {
-      ...omit(['details', 'contactUpdatedAt', 'contactUpdatedBy'], form),
+      ...omit(['details', 'contactUpdatedAt', 'contactUpdatedBy', 'contactCreatedAt', 'contactCreatedBy'], form),
       name: ifEmptySetNull(getOr('', 'name', form)),
       phone2: ifEmptySetNull(getOr('', 'phone2', form)),
       idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),
