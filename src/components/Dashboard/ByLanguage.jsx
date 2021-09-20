@@ -30,7 +30,9 @@ const ByLanguage = (props) => {
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
-      lg={{ span: 2, offset: 0 }}
+      md={{ span: 6, offset: 3, order: 'first' }}
+      lg={{ span: 4, offset: 0 }}
+      xl={{ span: 4, offset: 0 }}
       className="mt-2"
     >
       <Card>

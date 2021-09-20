@@ -22,6 +22,9 @@
     width: 220px !important;
     height: 220px !important;
   }
+  .titleCard {
+    font-size: 0.87rem !important;
+  }
 }
 
 @media screen and (min-width: 1024px) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { get } from 'lodash/fp'
 import { withTranslation } from 'react-i18next'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
 import { getUserData, isAtLeastElder } from '../../utils/loginDataManager'
 import { contacts } from '../../services'
 import ChartByContacted from './ByContacted'
@@ -57,7 +57,7 @@ class Charts extends React.Component {
   render() {
     const { data, loading, error } = this.state
     return (
-      <React.Fragment>
+      <Container>
         {error ? (
           <Row className="text-center">
             <Col>
@@ -81,7 +81,7 @@ class Charts extends React.Component {
             </Row>
           </React.Fragment>
         )}
-      </React.Fragment>
+      </Container>
     )
   }
 }

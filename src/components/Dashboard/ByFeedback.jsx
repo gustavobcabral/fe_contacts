@@ -57,15 +57,23 @@ const getByFeedback = (t, data) => {
 const ByFeedback = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
   const byFeedback = getByFeedback(t, get('data', props))
-  const offsetLG = isAtLeastElder() ? 2 : 3
+  const offsetMD = isAtLeastElder() ? 2 : 0
+  const spanLG = isAtLeastElder() ? 3 : 4
+  const spanXL = isAtLeastElder() ? 3 : 4
+
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
-      lg={{ span: 2, offset: offsetLG }}
+      md={{ span: 4, offset: offsetMD }}
+      lg={{ span: spanLG, offset: 0 }}
+      xl={{ span: spanXL, offset: 0 }}
       className="mt-2"
     >
       <Card>
-        <Card.Header className="text-center" style={{ minHeight: '87px' }}>
+        <Card.Header
+          className="text-center titleCard"
+          style={{ minHeight: '87px' }}
+        >
           {t('titleChartWaitingFeedback')}
         </Card.Header>
         <Card.Body style={{ textAlign: '-webkit-center' }}>

@@ -91,7 +91,7 @@ const PaginationComponent = (props) => {
           }
         />
       </Pagination>
-      <span className="ml-2 mt-2 text-primary">
+      <span className="ml-2 mt-2 text-primary d-none d-sm-inline">
         {' '}
         - {t('total')}: {totalRows || 0}
       </span>
