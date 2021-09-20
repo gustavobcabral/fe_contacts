@@ -5,6 +5,7 @@ import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, find, getOr, pipe, curry, filter } from 'lodash/fp'
 import { round } from 'lodash'
 import ReactPlaceholder from 'react-placeholder'
+import { isAtLeastElder } from '../../utils/loginDataManager'
 
 const getByType = (t, data) => {
   const parseObject = (label, color, data) => ({
@@ -37,13 +38,15 @@ const getByType = (t, data) => {
 const ByType = (props) => {
   const { t } = useTranslation(['dashboard', 'common', 'contacts'])
   const byType = getByType(t, get('data', props))
+  const spanLG = isAtLeastElder() ? 3 : 4
+  const spanXL = isAtLeastElder() ? 3 : 4
 
   return (
     <Col
       xs={{ span: 8, offset: 2 }}
       md={{ span: 4, offset: 0 }}
-      lg={{ span: 3, offset: 0 }}
-      xl={{ span: 3, offset: 0 }}
+      lg={{ span: spanLG, offset: 0 }}
+      xl={{ span: spanXL, offset: 0 }}
 
       className="mt-2"
     >
