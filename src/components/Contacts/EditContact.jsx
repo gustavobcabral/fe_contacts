@@ -130,7 +130,7 @@ class EditContact extends React.Component {
     const owner =
       form.typeCompany === true || form.typeCompany === '1' ? form.owner : null
     const data = {
-      ...omit(['details', 'contactUpdatedAt', 'contactUpdatedBy', 'contactCreatedAt', 'contactCreatedBy'], form),
+      ...omit(['details', 'contactUpdatedAt', 'contactUpdatedBy', 'contactCreatedAt', 'contactCreatedBy', 'lastPublisherThatTouched'], form),
       name: ifEmptySetNull(getOr('', 'name', form)),
       phone2: ifEmptySetNull(getOr('', 'phone2', form)),
       idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),

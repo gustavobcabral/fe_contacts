@@ -252,7 +252,7 @@ class Contacts extends React.Component {
     ) {
       return {}
     }
-    return { opacity: 0 }
+    return { visibility: 'hidden' }
   }
 
   thisDateAlreadyReachedMaxAllowed = ({
