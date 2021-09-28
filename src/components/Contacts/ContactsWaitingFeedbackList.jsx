@@ -13,12 +13,19 @@ import {
   remove,
   contains,
   find,
+  get,
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import NoRecords from '../common/NoRecords/NoRecords'
 import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
-import { parseQuery, formatDateDMY, diffDate } from '../../utils/forms'
+import {
+  parseQuery,
+  formatDateDMY,
+  diffDate,
+  setFiltersToURL,
+  getFiltersFromURL,
+} from '../../utils/forms'
 import {
   RECORDS_PER_PAGE,
   MAX_DAYS_ALLOWED_WITH_NUMBERS,
@@ -84,6 +91,8 @@ class Contacts extends React.Component {
     const { t } = this.props
     try {
       const queryParams = parseQuery(objQuery, this.state)
+      setFiltersToURL(queryParams, this.props)
+
       const response = await details.getAllWaitingFeedback(queryParams)
       this.setState({
         data: getOr([], 'data.data.list', response),
@@ -143,7 +152,8 @@ class Contacts extends React.Component {
   }
 
   componentDidMount() {
-    this.handleGetAll()
+    const filters = getFiltersFromURL(this.props)
+    this.handleGetAll({ filters })
   }
 
   afterSentPhones() {
@@ -216,8 +226,11 @@ class Contacts extends React.Component {
       hiddenFilter,
       headers,
       dataCVS,
+      queryParams,
     } = this.state
     const colSpan = '9'
+    const filters = JSON.parse(get('filters', queryParams))
+
     const title = (
       <React.Fragment>
         {' '}
@@ -230,6 +243,7 @@ class Contacts extends React.Component {
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
+              filters={filters}
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}
