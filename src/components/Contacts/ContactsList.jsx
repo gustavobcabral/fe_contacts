@@ -14,6 +14,7 @@ import {
   contains,
   find,
   isNil,
+  get,
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,7 +29,12 @@ import { Link } from 'react-router-dom'
 import NoRecords from '../common/NoRecords/NoRecords'
 import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
-import { parseQuery, formatDateDMYHHmm } from '../../utils/forms'
+import {
+  parseQuery,
+  formatDateDMYHHmm,
+  getFiltersFromURL,
+  setFiltersToURL,
+} from '../../utils/forms'
 import {
   RECORDS_PER_PAGE,
   MAX_DAYS_ALLOWED_WITH_NUMBERS,
@@ -107,6 +113,8 @@ class Contacts extends React.Component {
     const { t } = this.props
     try {
       const queryParams = parseQuery(objQuery, this.state)
+      setFiltersToURL(queryParams, this.props)
+
       const response = await contacts.getAll(queryParams)
       const error = getOr([], 'data.errors[0]', response)
       if (isEmpty(error)) {
@@ -182,7 +190,10 @@ class Contacts extends React.Component {
     if (isPublisher()) {
       const { history } = this.props
       history.push('/')
-    } else this.handleGetAll()
+    } else {
+      const filters = getFiltersFromURL(this.props)
+      this.handleGetAll({ filters })
+    }
   }
 
   toggleFilter() {
@@ -310,12 +321,13 @@ class Contacts extends React.Component {
       hiddenFilter,
       headers,
       dataCVS,
+      queryParams,
     } = this.state
     const colSpan = '10'
     const title = modeAllContacts
       ? this.getTitle('listAllTitle')
       : this.getTitle('listTitle')
-
+    const filters = JSON.parse(get('filters', queryParams))
     return (
       <ContainerCRUD
         color={modeAllContacts ? 'gray-dark' : 'success'}
@@ -325,6 +337,7 @@ class Contacts extends React.Component {
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
+              filters={filters}
               handleFilters={this.handleGetAll}
               refresh={submitting}
               error={error}

@@ -54,6 +54,7 @@ class FilterData extends React.Component {
     this.handleOnClick = this.handleOnClick.bind(this)
     this.handleGetValuesTradicional = this.handleGetValuesTradicional.bind(this)
     this.updateValues = this.updateValues.bind(this)
+    this.setFiltersSelectedFromURL = this.setFiltersSelectedFromURL.bind(this)
   }
 
   handleOnClick(event) {
@@ -105,6 +106,8 @@ class FilterData extends React.Component {
         radiosTypeCompany: getOr([], 'typeCompany', data),
         loading: false,
       })
+      this.setFiltersSelectedFromURL()
+
     } catch (error) {
       this.setState({
         error: t(`common:${parseErrorMessage(error)}`),
@@ -115,6 +118,15 @@ class FilterData extends React.Component {
 
   componentDidMount() {
     this.getAllFilters()
+  }
+
+  setFiltersSelectedFromURL() {
+    const { filters } = this.props
+    filters && Object.keys(filters).forEach((key) => {
+      this.setState({
+        [key]: filters[key],
+      })
+    })
   }
 
   componentDidUpdate(prevProps) {
