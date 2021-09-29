@@ -108,7 +108,7 @@ class FilterData extends React.Component {
       })
       setTimeout(() => {
         this.setFiltersSelectedFromURL()
-      }, 10);
+      }, 100);
 
     } catch (error) {
       this.setState({
