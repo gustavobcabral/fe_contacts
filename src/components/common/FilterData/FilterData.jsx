@@ -118,7 +118,6 @@ class FilterData extends React.Component {
           selectLocations: reduceFiltersLocations(data, t),
           radiosTypeCompany: getOr([], 'typeCompany', data),
         },
-        loading: false,
       })
     } catch (error) {
       this.setState({
@@ -135,8 +134,8 @@ class FilterData extends React.Component {
   setFiltersSelectedFromURL() {
     const { filters } = this.props
     this.setState({
-      loading: false,
       filters,
+      loading: false,
     })
   }
 
@@ -145,7 +144,7 @@ class FilterData extends React.Component {
     const { refresh, error, filters } = this.props
     const prevRefresh = getOr(true, 'refresh', prevProps)
     if (refresh && !prevRefresh && !loading && !error) this.getAllFilters()
-    else if (!loading && !isEqual(filters, this.state.filters)) {
+    else if (!refresh && !isEqual(filters, this.state.filters)) {
       this.setFiltersSelectedFromURL()
     }
   }
