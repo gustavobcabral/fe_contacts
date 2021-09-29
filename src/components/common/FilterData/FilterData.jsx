@@ -44,7 +44,7 @@ class FilterData extends React.Component {
       responsibility: [],
       checksResponsibility: [],
       publishersResponsibles: [],
-      checksPublishersResponsibles: [],
+      checksPublishersResponsibilities: [],
       locations: [],
       selectLocations: [],
       typeCompany: '-1',
@@ -101,12 +101,14 @@ class FilterData extends React.Component {
         checksLanguages: getOr([], 'languages', data),
         checksStatus: getOr([], 'status', data),
         checksResponsibility: getOr([], 'responsibility', data),
-        checksPublishersResponsibles: getOr([], 'publishersResponsibles', data),
+        checksPublishersResponsibilities: getOr([], 'publishersResponsibles', data),
         selectLocations: reduceFiltersLocations(data, t),
         radiosTypeCompany: getOr([], 'typeCompany', data),
         loading: false,
       })
-      this.setFiltersSelectedFromURL()
+      setTimeout(() => {
+        this.setFiltersSelectedFromURL()
+      }, 10);
 
     } catch (error) {
       this.setState({
@@ -150,7 +152,7 @@ class FilterData extends React.Component {
       loading,
       typeCompany,
       radiosTypeCompany,
-      checksPublishersResponsibles,
+      checksPublishersResponsibilities,
       publishersResponsibles,
       selectLocations,
       locations,
@@ -160,7 +162,7 @@ class FilterData extends React.Component {
       isEmpty(checksGender) &&
       isEmpty(checksLanguages) &&
       isEmpty(checksResponsibility) &&
-      isEmpty(checksPublishersResponsibles) &&
+      isEmpty(checksPublishersResponsibilities) &&
       isEmpty(selectLocations) &&
       isEmpty(checksStatus)
     const { t, showTypeCompany = false } = this.props
@@ -176,7 +178,7 @@ class FilterData extends React.Component {
         <Col className="text-center text-muted">
           {!loading && noData && t('common:noData')}
         </Col>
-        {(loading || !isEmpty(checksPublishersResponsibles)) && !error && (
+        {(loading || !isEmpty(checksPublishersResponsibilities)) && !error && (
           <Col className="mb-4">
             <Card>
               <Card.Body>
@@ -199,7 +201,7 @@ class FilterData extends React.Component {
                         label: `${publisherNameCreatedBy}`,
                         value: createdBy,
                       }),
-                      checksPublishersResponsibles
+                      checksPublishersResponsibilities
                     )}
                     onChange={this.handleGetValuesTradicional}
                   />
