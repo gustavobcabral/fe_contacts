@@ -14,7 +14,7 @@ import {
   contains,
   find,
   isNil,
-  get,
+  isEqual,
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,7 +32,7 @@ import Search from '../common/Search/Search'
 import {
   parseQuery,
   formatDateDMYHHmm,
-  getFiltersFromURL,
+  getQueryParamsFromURL,
   setFiltersToURL,
 } from '../../utils/forms'
 import {
@@ -101,20 +101,26 @@ class Contacts extends React.Component {
     this.setSubRowVisible = this.setSubRowVisible.bind(this)
     this.getInformationAboveName = this.getInformationAboveName.bind(this)
     this.setBackgroundForbidden = this.setBackgroundForbidden.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
   }
 
   uncheckCheckboxSelectAll() {
     document.getElementById('checkall').checked = false
   }
 
-  async handleGetAll(objQuery) {
+  handleFilter(objQuery) {
+    const queryParams = parseQuery(objQuery, this.state)
+    setFiltersToURL(queryParams, this.props)
+  }
+
+  async handleGetAll() {
     this.setState({ submitting: true, checksContactsPhones: [] })
     this.uncheckCheckboxSelectAll()
     const { t } = this.props
     try {
-      const queryParams = parseQuery(objQuery, this.state)
-      setFiltersToURL(queryParams, this.props)
-
+      const queryParams = getQueryParamsFromURL(this.props)
+        ? getQueryParamsFromURL(this.props)
+        : this.state.queryParams
       const response = await contacts.getAll(queryParams)
       const error = getOr([], 'data.errors[0]', response)
       if (isEmpty(error)) {
@@ -191,8 +197,22 @@ class Contacts extends React.Component {
       const { history } = this.props
       history.push('/')
     } else {
-      const filters = getFiltersFromURL(this.props)
-      this.handleGetAll({ filters })
+      this.handleGetAll()
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { submitting } = this.state
+    const prevSubmiting = prevState.submitting
+    const prevQueryParams = prevState.queryParams
+    const queryParams = getQueryParamsFromURL(this.props)
+    if (
+      !submitting &&
+      !prevSubmiting &&
+      queryParams &&
+      !isEqual(queryParams, prevQueryParams)
+    ) {
+      this.handleGetAll()
     }
   }
 
@@ -321,13 +341,14 @@ class Contacts extends React.Component {
       hiddenFilter,
       headers,
       dataCVS,
-      queryParams,
+      queryParams: { filters },
     } = this.state
     const colSpan = '10'
     const title = modeAllContacts
       ? this.getTitle('listAllTitle')
       : this.getTitle('listTitle')
-    const filters = JSON.parse(get('filters', queryParams))
+
+    const filtersParsed = JSON.parse(filters)
     return (
       <ContainerCRUD
         color={modeAllContacts ? 'gray-dark' : 'success'}
@@ -337,8 +358,8 @@ class Contacts extends React.Component {
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
-              filters={filters}
-              handleFilters={this.handleGetAll}
+              filters={filtersParsed}
+              handleFilters={this.handleFilter}
               refresh={submitting}
               error={error}
               showTypeCompany={true}
@@ -349,7 +370,8 @@ class Contacts extends React.Component {
             <Table striped bordered hover responsive size="sm">
               <thead>
                 <Search
-                  onFilter={this.handleGetAll}
+                  filters={filtersParsed}
+                  onFilter={this.handleFilter}
                   fields={['name', 'phone', 'note', 'owner']}
                   colspan={colSpan}
                   toggleFilter={this.toggleFilter}
@@ -541,7 +563,7 @@ class Contacts extends React.Component {
                   <td colSpan={colSpan} style={{ border: 0 }}>
                     <Pagination
                       pagination={pagination}
-                      onClick={this.handleGetAll}
+                      onClick={this.handleFilter}
                       submitting={submitting}
                     />
                   </td>

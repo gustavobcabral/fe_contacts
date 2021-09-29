@@ -13,7 +13,7 @@ import {
   remove,
   contains,
   find,
-  get,
+  isEqual,
 } from 'lodash/fp'
 import AskDelete from '../common/AskDelete/AskDelete'
 import NoRecords from '../common/NoRecords/NoRecords'
@@ -24,7 +24,7 @@ import {
   formatDateDMY,
   diffDate,
   setFiltersToURL,
-  getFiltersFromURL,
+  getQueryParamsFromURL,
 } from '../../utils/forms'
 import {
   RECORDS_PER_PAGE,
@@ -79,20 +79,27 @@ class Contacts extends React.Component {
     this.handleOnClick = this.handleOnClick.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
     this.parseDataCVS = this.parseDataCVS.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
+
   }
 
   uncheckCheckboxSelectAll() {
     document.getElementById('checkall').checked = false
   }
 
-  async handleGetAll(objQuery) {
+  handleFilter(objQuery) {
+    const queryParams = parseQuery(objQuery, this.state)
+    setFiltersToURL(queryParams, this.props)
+  }
+
+  async handleGetAll() {
     this.setState({ submitting: true, checksContactsPhones: [] })
     this.uncheckCheckboxSelectAll()
     const { t } = this.props
     try {
-      const queryParams = parseQuery(objQuery, this.state)
-      setFiltersToURL(queryParams, this.props)
-
+      const queryParams = getQueryParamsFromURL(this.props)
+        ? getQueryParamsFromURL(this.props)
+        : this.state.queryParams
       const response = await details.getAllWaitingFeedback(queryParams)
       this.setState({
         data: getOr([], 'data.data.list', response),
@@ -152,9 +159,24 @@ class Contacts extends React.Component {
   }
 
   componentDidMount() {
-    const filters = getFiltersFromURL(this.props)
-    this.handleGetAll({ filters })
+    this.handleGetAll()
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { submitting } = this.state
+    const prevSubmiting = prevState.submitting
+    const prevQueryParams = prevState.queryParams
+    const queryParams = getQueryParamsFromURL(this.props)
+    if (
+      !submitting &&
+      !prevSubmiting &&
+      queryParams &&
+      !isEqual(queryParams, prevQueryParams)
+    ) {
+      this.handleGetAll()
+    }
+  }
+
 
   afterSentPhones() {
     this.handleGetAll()
@@ -226,10 +248,10 @@ class Contacts extends React.Component {
       hiddenFilter,
       headers,
       dataCVS,
-      queryParams,
+      queryParams: { filters },
     } = this.state
     const colSpan = '9'
-    const filters = JSON.parse(get('filters', queryParams))
+    const filtersParsed = JSON.parse(filters)
 
     const title = (
       <React.Fragment>
@@ -243,8 +265,8 @@ class Contacts extends React.Component {
         <Row>
           <Col xs={12} lg={3} xl={2} className={hiddenFilter ? 'd-none' : ''}>
             <FilterData
-              filters={filters}
-              handleFilters={this.handleGetAll}
+              filters={filtersParsed}
+              handleFilters={this.handleFilter}
               refresh={submitting}
               error={error}
               showTypeCompany={true}
@@ -255,7 +277,8 @@ class Contacts extends React.Component {
             <Table striped bordered hover responsive size="sm">
               <thead>
                 <Search
-                  onFilter={this.handleGetAll}
+                  filters={filtersParsed}
+                  onFilter={this.handleFilter}
                   fields={[
                     'name',
                     'phone',
@@ -399,7 +422,7 @@ class Contacts extends React.Component {
                     <Pagination
                       pagination={pagination}
                       submitting={submitting}
-                      onClick={this.handleGetAll}
+                      onClick={this.handleFilter}
                     />
                   </td>
                 </tr>
