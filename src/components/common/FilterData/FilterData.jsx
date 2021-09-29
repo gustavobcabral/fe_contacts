@@ -38,18 +38,20 @@ class FilterData extends React.Component {
       error: false,
       filters: {
         genders: [],
-        checksGender: [],
         languages: [],
-        checksLanguages: [],
         status: [],
-        checksStatus: [],
         responsibility: [],
-        checksResponsibility: [],
         publishersResponsibles: [],
-        checksPublishersResponsibilities: [],
         locations: [],
-        selectLocations: [],
         typeCompany: '-1',
+      },
+      data: {
+        checksGender: [],
+        checksLanguages: [],
+        checksStatus: [],
+        checksResponsibility: [],
+        checksPublishersResponsibilities: [],
+        selectLocations: [],
         radiosTypeCompany: [],
       },
     }
@@ -103,8 +105,7 @@ class FilterData extends React.Component {
       const response = await getFilters()
       const data = getOr([], 'data.data', response)
       this.setState({
-        filters: {
-          ...this.state.filters,
+        data: {
           checksGender: getOr([], 'genders', data),
           checksLanguages: getOr([], 'languages', data),
           checksStatus: getOr([], 'status', data),
@@ -133,15 +134,10 @@ class FilterData extends React.Component {
 
   setFiltersSelectedFromURL() {
     const { filters } = this.props
-    filters &&
-      Object.keys(filters).forEach((key) => {
-        this.setState({
-          filters: {
-            ...this.state.filters,
-            [key]: filters[key],
-          },
-        })
-      })
+    this.setState({
+      loading: false,
+      filters,
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -149,8 +145,9 @@ class FilterData extends React.Component {
     const { refresh, error, filters } = this.props
     const prevRefresh = getOr(true, 'refresh', prevProps)
     if (refresh && !prevRefresh && !loading && !error) this.getAllFilters()
-    else if (!isEqual(filters, prevProps.filters))
+    else if (!loading && !isEqual(filters, this.state.filters)) {
       this.setFiltersSelectedFromURL()
+    }
   }
 
   render() {
@@ -158,20 +155,22 @@ class FilterData extends React.Component {
       error,
       loading,
       filters: {
-        checksGender,
         genders,
-        checksLanguages,
         languages,
-        checksResponsibility,
         responsibility,
-        checksStatus,
         status,
         typeCompany,
-        radiosTypeCompany,
-        checksPublishersResponsibilities,
         publishersResponsibles,
-        selectLocations,
         locations,
+      },
+      data: {
+        checksGender,
+        checksResponsibility,
+        checksLanguages,
+        checksStatus,
+        checksPublishersResponsibilities,
+        radiosTypeCompany,
+        selectLocations,
       },
     } = this.state
 
