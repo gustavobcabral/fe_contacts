@@ -1,4 +1,12 @@
-import { getOr, omit, trim, isString, startsWith, isEmpty, pipe } from 'lodash/fp'
+import {
+  getOr,
+  omit,
+  trim,
+  isString,
+  startsWith,
+  isEmpty,
+  pipe,
+} from 'lodash/fp'
 import GqlBuilder from 'graphql-query-builder-v2'
 import moment from 'moment'
 import { START_NUMBER_NOT_ALLOWED } from '../constants/contacts'
@@ -31,24 +39,23 @@ export const handleInputChangeGeneric = (event, componentReact) => {
   })
 }
 
-export const getFiltersFromURL =(props) => {
+export const getQueryParamsFromURL = (props) => {
   const { location } = props
-
-  return pipe(
-    (search) => new URLSearchParams(search),
-    (search) => search.get('search'),
-    JSON.parse
-  )(location.search)
+  if (!isEmpty(location.search))
+    return pipe(
+      (search) => new URLSearchParams(search),
+      (search) => search.get('search'),
+      JSON.parse
+    )(location.search)
+  else return false
 }
 
 export const setFiltersToURL = (queryParams, props) => {
   const { history } = props
 
-  const search = '?search=' + queryParams.filters
+  const search = '?search=' + JSON.stringify(queryParams)
   history.push({ search })
 }
-
-
 
 export const parseQuery = (objQuery, state) => {
   return {

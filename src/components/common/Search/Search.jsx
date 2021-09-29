@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons'
 
 const Search = (props) => {
-  const { onFilter, t, name, colspan, fields, toggleFilter } = props
-
+  const { onFilter, t, name, colspan, fields, toggleFilter, filters } = props
+  const valueFromURL = filters ? filters[fields[0]] || '' : ''
   const sendSearch = (event) => {
     if (event.key === 'Enter') {
       toSearch(event)
@@ -46,6 +46,7 @@ const Search = (props) => {
             </InputGroup.Prepend>
             <Form.Control
               name={name || 'search'}
+              defaultValue={valueFromURL}
               type="text"
               placeholder={t('placeHolder')}
               onKeyPress={sendSearch}

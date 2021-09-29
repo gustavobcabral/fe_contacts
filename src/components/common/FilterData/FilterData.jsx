@@ -10,6 +10,7 @@ import {
   map,
   isEmpty,
   contains,
+  isEqual,
 } from 'lodash/fp'
 import { parseErrorMessage } from '../../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
@@ -35,24 +36,26 @@ class FilterData extends React.Component {
     this.state = {
       loading: false,
       error: false,
-      genders: [],
-      checksGender: [],
-      languages: [],
-      checksLanguages: [],
-      status: [],
-      checksStatus: [],
-      responsibility: [],
-      checksResponsibility: [],
-      publishersResponsibles: [],
-      checksPublishersResponsibilities: [],
-      locations: [],
-      selectLocations: [],
-      typeCompany: '-1',
-      radiosTypeCompany: [],
+      filters: {
+        genders: [],
+        checksGender: [],
+        languages: [],
+        checksLanguages: [],
+        status: [],
+        checksStatus: [],
+        responsibility: [],
+        checksResponsibility: [],
+        publishersResponsibles: [],
+        checksPublishersResponsibilities: [],
+        locations: [],
+        selectLocations: [],
+        typeCompany: '-1',
+        radiosTypeCompany: [],
+      },
     }
     this.getAllFilters = this.getAllFilters.bind(this)
     this.handleOnClick = this.handleOnClick.bind(this)
-    this.handleGetValuesTradicional = this.handleGetValuesTradicional.bind(this)
+    this.handleGetValuesTraditional = this.handleGetValuesTraditional.bind(this)
     this.updateValues = this.updateValues.bind(this)
     this.setFiltersSelectedFromURL = this.setFiltersSelectedFromURL.bind(this)
   }
@@ -62,12 +65,12 @@ class FilterData extends React.Component {
       target: { name, value, checked },
     } = event
     const newValues = checked
-      ? pipe(uniq, compact)([...this.state[name], value])
-      : remove((arrayValue) => arrayValue === value, this.state[name])
+      ? pipe(uniq, compact)([...this.state.filters[name], value])
+      : remove((arrayValue) => arrayValue === value, this.state.filters[name])
     this.updateValues(name, newValues)
   }
 
-  handleGetValuesTradicional(event) {
+  handleGetValuesTraditional(event) {
     const {
       target: { name, value },
     } = event
@@ -78,7 +81,10 @@ class FilterData extends React.Component {
     const { handleFilters } = this.props
 
     this.setState({
-      [name]: newValues,
+      filters: {
+        ...this.state.filters,
+        [name]: newValues,
+      },
     })
     handleFilters({
       filters: {
@@ -97,19 +103,22 @@ class FilterData extends React.Component {
       const response = await getFilters()
       const data = getOr([], 'data.data', response)
       this.setState({
-        checksGender: getOr([], 'genders', data),
-        checksLanguages: getOr([], 'languages', data),
-        checksStatus: getOr([], 'status', data),
-        checksResponsibility: getOr([], 'responsibility', data),
-        checksPublishersResponsibilities: getOr([], 'publishersResponsibles', data),
-        selectLocations: reduceFiltersLocations(data, t),
-        radiosTypeCompany: getOr([], 'typeCompany', data),
+        filters: {
+          ...this.state.filters,
+          checksGender: getOr([], 'genders', data),
+          checksLanguages: getOr([], 'languages', data),
+          checksStatus: getOr([], 'status', data),
+          checksResponsibility: getOr([], 'responsibility', data),
+          checksPublishersResponsibilities: getOr(
+            [],
+            'publishersResponsibles',
+            data
+          ),
+          selectLocations: reduceFiltersLocations(data, t),
+          radiosTypeCompany: getOr([], 'typeCompany', data),
+        },
         loading: false,
       })
-      setTimeout(() => {
-        this.setFiltersSelectedFromURL()
-      }, 100);
-
     } catch (error) {
       this.setState({
         error: t(`common:${parseErrorMessage(error)}`),
@@ -124,38 +133,46 @@ class FilterData extends React.Component {
 
   setFiltersSelectedFromURL() {
     const { filters } = this.props
-    filters && Object.keys(filters).forEach((key) => {
-      this.setState({
-        [key]: filters[key],
+    filters &&
+      Object.keys(filters).forEach((key) => {
+        this.setState({
+          filters: {
+            ...this.state.filters,
+            [key]: filters[key],
+          },
+        })
       })
-    })
   }
 
   componentDidUpdate(prevProps) {
     const { loading } = this.state
-    const { refresh, error } = this.props
+    const { refresh, error, filters } = this.props
     const prevRefresh = getOr(true, 'refresh', prevProps)
     if (refresh && !prevRefresh && !loading && !error) this.getAllFilters()
+    else if (!isEqual(filters, prevProps.filters))
+      this.setFiltersSelectedFromURL()
   }
 
   render() {
     const {
-      checksGender,
-      genders,
-      checksLanguages,
-      languages,
-      checksResponsibility,
-      responsibility,
-      checksStatus,
-      status,
       error,
       loading,
-      typeCompany,
-      radiosTypeCompany,
-      checksPublishersResponsibilities,
-      publishersResponsibles,
-      selectLocations,
-      locations,
+      filters: {
+        checksGender,
+        genders,
+        checksLanguages,
+        languages,
+        checksResponsibility,
+        responsibility,
+        checksStatus,
+        status,
+        typeCompany,
+        radiosTypeCompany,
+        checksPublishersResponsibilities,
+        publishersResponsibles,
+        selectLocations,
+        locations,
+      },
     } = this.state
 
     const noData =
@@ -166,7 +183,6 @@ class FilterData extends React.Component {
       isEmpty(selectLocations) &&
       isEmpty(checksStatus)
     const { t, showTypeCompany = false } = this.props
-
     return (
       <React.Fragment>
         <Col className="text-center">
@@ -203,7 +219,7 @@ class FilterData extends React.Component {
                       }),
                       checksPublishersResponsibilities
                     )}
-                    onChange={this.handleGetValuesTradicional}
+                    onChange={this.handleGetValuesTraditional}
                   />
                 </ReactPlaceholder>
               </Card.Body>
@@ -229,7 +245,7 @@ class FilterData extends React.Component {
                     value={locations}
                     isMulti={true}
                     options={selectLocations}
-                    onChange={this.handleGetValuesTradicional}
+                    onChange={this.handleGetValuesTraditional}
                   />
                 </ReactPlaceholder>
               </Card.Body>
@@ -415,7 +431,7 @@ class FilterData extends React.Component {
                           value={typeCompanySelected}
                           color="info"
                           bigger
-                          onChange={this.handleGetValuesTradicional}
+                          onChange={this.handleGetValuesTraditional}
                         >{`${t(`typeCompany${typeCompanySelected}`)}`}</Radio>
                       </Form.Group>
                     ),
