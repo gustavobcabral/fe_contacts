@@ -2,7 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { Table } from 'react-bootstrap'
 import { map, isEmpty, truncate } from 'lodash/fp'
-import moment from 'moment'
+import { formatDateDMYHHmm } from '../../../utils/forms'
 import NewDetailsContact from './NewDetailsContact'
 import EditDetailsContact from './EditDetailsContact'
 import AskDelete from '../../common/AskDelete/AskDelete'
@@ -10,6 +10,26 @@ import NoRecords from '../../common/NoRecords/NoRecords'
 import ReactPlaceholder from 'react-placeholder'
 
 class ListDataDetailsContact extends React.Component {
+  constructor(props) {
+    super(props)
+    this.getLastPublisherThatTouched =
+      this.getLastPublisherThatTouched.bind(this)
+  }
+
+  getLastPublisherThatTouched(detail) {
+    const { t } = this.props
+
+    return detail.updatedAt
+      ? t('common:updatedByAt', {
+          date: formatDateDMYHHmm(detail.updatedAt),
+          name: detail.publisherUpdatedByName,
+        })
+      : t('common:createdByAt', {
+          date: formatDateDMYHHmm(detail.createdAt),
+          name: detail.publisherCreatedByName,
+        })
+  }
+
   render() {
     const {
       t,
@@ -27,7 +47,7 @@ class ListDataDetailsContact extends React.Component {
         <thead>
           <tr>
             <th>{t('publisher')}</th>
-            <th>{t('date')}</th>
+            <th>{t('dateAndReponsible')}</th>
             <th>{t('information')}</th>
             <th>
               <NewDetailsContact
@@ -56,7 +76,9 @@ class ListDataDetailsContact extends React.Component {
               (detail) => (
                 <tr key={detail.id}>
                   <td>{detail.publisherName}</td>
-                  <td>{moment(detail.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>
+                    <small>{this.getLastPublisherThatTouched(detail)}</small>
+                  </td>
                   <td>
                     {t(
                       detail.information,
