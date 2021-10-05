@@ -60,6 +60,7 @@ export const setFiltersToURL = (queryParams, props) => {
 export const parseQuery = (objQuery, state) => {
   return {
     ...getOr({}, 'queryParams', state),
+    currentPage: 1,
     ...omit(['filters'], objQuery),
     ...appendFilters(objQuery, state),
   }
