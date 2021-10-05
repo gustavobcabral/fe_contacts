@@ -146,6 +146,10 @@ class FilterData extends React.Component {
     if (refresh && !prevRefresh && !loading && !error) this.getAllFilters()
     else if (!refresh && !isEqual(filters, this.state.filters)) {
       this.setFiltersSelectedFromURL()
+    } else if (!refresh && loading) {
+      this.setState({
+        loading: false,
+      })
     }
   }
 
