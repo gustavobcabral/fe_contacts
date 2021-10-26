@@ -23,7 +23,7 @@ const GenderSelect = (props) => {
     <SuperSelect
       name="gender"
       label={t('gender')}
-      isClearable={true}
+      isClearable={false}
       validator={validator}
       validated={validated}
       value={value}
