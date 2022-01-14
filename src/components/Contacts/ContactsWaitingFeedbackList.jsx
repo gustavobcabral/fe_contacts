@@ -33,6 +33,7 @@ import {
 import FilterData from '../common/FilterData/FilterData'
 import EditDetailsContact from '../DetailsContact/Modal/EditDetailsContact'
 import SendPhones from './SendPhones/SendPhones'
+import AssignNewPublisher from './AssignNewPublisher/AssignNewPublisher'
 import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import { CSVLink } from 'react-csv'
@@ -80,7 +81,6 @@ class Contacts extends React.Component {
     this.toggleFilter = this.toggleFilter.bind(this)
     this.parseDataCVS = this.parseDataCVS.bind(this)
     this.handleFilter = this.handleFilter.bind(this)
-
   }
 
   uncheckCheckboxSelectAll() {
@@ -176,7 +176,6 @@ class Contacts extends React.Component {
       this.handleGetAll()
     }
   }
-
 
   afterSentPhones() {
     this.handleGetAll()
@@ -319,7 +318,12 @@ class Contacts extends React.Component {
                     <SendPhones
                       checksContactsPhones={checksContactsPhones}
                       contactsData={data}
-                      afterClose={() => this.afterSentPhones()}
+                      afterClose={this.afterSentPhones}
+                    />{' '}
+                    <AssignNewPublisher
+                      checksContactsPhones={checksContactsPhones}
+                      contactsData={data}
+                      afterClose={this.handleGetAll}
                     />{' '}
                     <CSVLink
                       data={dataCVS}
