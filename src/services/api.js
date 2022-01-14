@@ -4,7 +4,7 @@ import { API_TIMEOUT_MILLISECONDS } from '../constants/application'
 import { getToken } from '../utils/loginDataManager'
 
 function getAPIBaseURL() {
-  const { REACT_APP_API_URL, REACT_APP_API_PATH } = process.env;
+  const { REACT_APP_API_URL, REACT_APP_API_PATH } = process.env
   return urlJoin(REACT_APP_API_URL, REACT_APP_API_PATH)
 }
 

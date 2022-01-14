@@ -238,7 +238,9 @@ class ListDetailsContact extends React.Component {
                         <tr key={detail.id}>
                           <td>{detail.publisherName}</td>
                           <td>
-                            <small>{this.getLastPublisherThatTouched(detail)}</small>
+                            <small>
+                              {this.getLastPublisherThatTouched(detail)}
+                            </small>
                           </td>
                           <td>{t(detail.information)}</td>
                           <td style={{ minWidth: '114px' }}>

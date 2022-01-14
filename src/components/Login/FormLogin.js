@@ -39,7 +39,7 @@ const FormLogin = (props) => {
         value={form.password}
         onChange={handleInputChange}
         onKeyUp={(event) => {
-          if(event.keyCode === 13) handleSubmit()
+          if (event.keyCode === 13) handleSubmit()
         }}
         rules="required"
       />

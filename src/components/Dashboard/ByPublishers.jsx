@@ -39,7 +39,6 @@ const ByPublishers = (props) => {
       md={{ span: 4, offset: 0 }}
       lg={{ span: 3, offset: 0 }}
       xl={{ span: 3, offset: 0 }}
-
       className="mt-2"
     >
       <Card>

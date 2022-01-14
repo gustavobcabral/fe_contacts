@@ -5,10 +5,7 @@ import ElementError from '../../common/ElementError/ElementError'
 import Swal from 'sweetalert2'
 import { getOr, pick, get } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { details, publishers, contacts, locations } from '../../../services'
 import FormDetails from '../FormDetails'
 import { faPlusSquare, faAddressCard } from '@fortawesome/free-solid-svg-icons'

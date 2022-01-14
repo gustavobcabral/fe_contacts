@@ -5,10 +5,7 @@ import { auth } from '../../services'
 import { setLoginData } from '../../utils/loginDataManager'
 import { withTranslation } from 'react-i18next'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
 import ElementError from '../common/ElementError/ElementError'
 import { showSuccessful, showError } from '../../utils/generic'

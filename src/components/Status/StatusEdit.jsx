@@ -3,10 +3,7 @@ import { withTranslation } from 'react-i18next'
 import { status } from '../../services'
 import { get, pick } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
 import ElementError from '../common/ElementError/ElementError'
 import { faEdit, faTags } from '@fortawesome/free-solid-svg-icons'

@@ -15,5 +15,5 @@ export {
   status,
   languages,
   responsibility,
-  locations
+  locations,
 }

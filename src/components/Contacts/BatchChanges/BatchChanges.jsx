@@ -4,10 +4,7 @@ import OurModal from '../../common/OurModal/OurModal'
 import ElementError from '../../common/ElementError/ElementError'
 import { join, get, pipe, values, omitBy, isNil, every } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { publishers, contacts } from '../../../services'
 import FormBatchChanges from './FormBatchChanges'
 import { faTasks } from '@fortawesome/free-solid-svg-icons'

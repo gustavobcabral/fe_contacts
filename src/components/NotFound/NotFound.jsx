@@ -17,7 +17,9 @@ const Landing = (props) => {
     <ContainerWithNavBar {...props}>
       <Row className="text-center">
         <Col lg={{ span: 3, offset: 2 }} xs={12}>
-          <h1 style={{ marginTop: '25%' }}><FontAwesomeIcon icon={faExclamationTriangle} /> {t('pageNotFound')}</h1>
+          <h1 style={{ marginTop: '25%' }}>
+            <FontAwesomeIcon icon={faExclamationTriangle} /> {t('pageNotFound')}
+          </h1>
           <Button onClick={toHome}>{t('goToHome')}</Button>
         </Col>
         <Col lg={{ span: 3, offset: 1 }} xs={12}>

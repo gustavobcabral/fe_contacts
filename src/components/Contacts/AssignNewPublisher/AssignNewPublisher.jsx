@@ -4,10 +4,7 @@ import OurModal from '../../common/OurModal/OurModal'
 import ElementError from '../../common/ElementError/ElementError'
 import { join, get, pipe, values, every } from 'lodash/fp'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { publishers, contacts } from '../../../services'
 import FormAssignNewPublisher from './FormAssignNewPublisher'
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons'
@@ -123,4 +120,6 @@ class AssignNewPublisher extends React.Component {
   }
 }
 
-export default withTranslation(['assignNewPublisher', 'common'])(AssignNewPublisher)
+export default withTranslation(['assignNewPublisher', 'common'])(
+  AssignNewPublisher
+)
