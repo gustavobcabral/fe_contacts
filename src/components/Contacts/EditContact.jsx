@@ -47,7 +47,8 @@ class EditContact extends React.Component {
     this.handleGetOne = this.handleGetOne.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.getLastPublisherThatTouched = this.getLastPublisherThatTouched.bind(this)
+    this.getLastPublisherThatTouched =
+      this.getLastPublisherThatTouched.bind(this)
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -130,7 +131,17 @@ class EditContact extends React.Component {
     const owner =
       form.typeCompany === true || form.typeCompany === '1' ? form.owner : null
     const data = {
-      ...omit(['details', 'contactUpdatedAt', 'contactUpdatedBy', 'contactCreatedAt', 'contactCreatedBy', 'lastPublisherThatTouched'], form),
+      ...omit(
+        [
+          'details',
+          'contactUpdatedAt',
+          'contactUpdatedBy',
+          'contactCreatedAt',
+          'contactCreatedBy',
+          'lastPublisherThatTouched',
+        ],
+        form
+      ),
       name: ifEmptySetNull(getOr('', 'name', form)),
       phone2: ifEmptySetNull(getOr('', 'phone2', form)),
       idLocation: ifEmptySetNull(getOr('', 'idLocation', form)),

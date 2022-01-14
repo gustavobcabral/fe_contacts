@@ -5,10 +5,7 @@ import ElementError from '../../../components/common/ElementError/ElementError'
 import SimpleReactValidator from 'simple-react-validator'
 import { getOr, pick, get } from 'lodash/fp'
 import FormDetails from '../FormDetails'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../../utils/forms'
 import { details, publishers, contacts, locations } from '../../../services'
 import { reducePublishers } from '../../../stateReducers/publishers'
 import {

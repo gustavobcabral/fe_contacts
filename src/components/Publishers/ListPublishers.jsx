@@ -125,7 +125,6 @@ class Publishers extends React.Component {
     }
   }
 
-
   toggleFilter() {
     this.setState({ hiddenFilter: !getOr(false, 'hiddenFilter', this.state) })
   }

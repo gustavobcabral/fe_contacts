@@ -2,10 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { languages } from '../../services'
 import SimpleReactValidator from 'simple-react-validator'
-import {
-  getLocale,
-  handleInputChangeGeneric,
-} from '../../utils/forms'
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
 import OurModal from '../common/OurModal/OurModal'
 import ElementError from '../common/ElementError/ElementError'
 import { faPlusSquare, faLanguage } from '@fortawesome/free-solid-svg-icons'

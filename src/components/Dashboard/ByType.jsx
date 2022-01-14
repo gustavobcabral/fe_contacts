@@ -47,7 +47,6 @@ const ByType = (props) => {
       md={{ span: 4, offset: 0 }}
       lg={{ span: spanLG, offset: 0 }}
       xl={{ span: spanXL, offset: 0 }}
-
       className="mt-2"
     >
       <Card>
