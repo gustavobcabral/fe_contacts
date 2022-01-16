@@ -4,10 +4,10 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import Home from '../pages/Home/Home'
 import NotFound from '../pages/NotFound/NotFound'
 import Dashboard from '../pages/Dashboard/Dashboard'
-import contactsRoutes from './modules/contacts/Contacts'
-import publishersRoutes from './modules/publishers/Publishers'
-import statusRoutes from './modules/status/Status'
-import languageRoutes from './modules/languages/Languages'
+import ContactsRoutes from './modules/contacts/Contacts'
+import PublishersRoutes from './modules/publishers/Publishers'
+import StatusRoutes from './modules/status/Status'
+import LanguageRoutes from './modules/languages/Languages'
 
 import PrivateRoute from '../utils/privateRoute'
 import PublicRoute from '../utils/publicRoute'
@@ -22,10 +22,10 @@ const Routes = () => (
         path="/dashboard"
         component={Dashboard}
       />
-      {contactsRoutes()}
-      {publishersRoutes()}
-      {languageRoutes()}
-      {statusRoutes()}
+      {<ContactsRoutes />}
+      {<PublishersRoutes />}
+      {<LanguageRoutes />}
+      {<StatusRoutes />}
       <Route path="/404" component={NotFound} />
       <Redirect to="/404" />
     </Switch>
