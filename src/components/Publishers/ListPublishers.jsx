@@ -9,7 +9,6 @@ import AskDelete from '../common/AskDelete/AskDelete'
 import EditPublisher from './EditPublisher'
 import NewPublisher from './NewPublisher'
 import { showError } from '../../utils/generic'
-import { getUserData } from '../../utils/loginDataManager'
 import Pagination from '../common/Pagination/Pagination'
 import Search from '../common/Search/Search'
 import {
@@ -23,6 +22,7 @@ import ReactPlaceholder from 'react-placeholder'
 import NoRecords from '../common/NoRecords/NoRecords'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons'
+import { ApplicationContext } from '../../contexts/application'
 
 class Publishers extends React.Component {
   constructor(props) {
@@ -89,7 +89,8 @@ class Publishers extends React.Component {
 
   async handleDelete(id) {
     const { t } = this.props
-    if (id === getOr(0, 'id', getUserData())) {
+    const { user } = this.context
+    if (id === getOr(0, 'id', user)) {
       this.showErrorNotAllowedDeleteCurrentUser()
       return
     }
@@ -106,7 +107,7 @@ class Publishers extends React.Component {
       })
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.handleGetAll()
   }
 
@@ -254,6 +255,9 @@ class Publishers extends React.Component {
     )
   }
 }
+
+Publishers.contextType = ApplicationContext
+
 export default withTranslation(['publishers', 'common', 'responsibility'])(
   Publishers
 )

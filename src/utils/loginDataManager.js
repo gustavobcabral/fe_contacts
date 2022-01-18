@@ -33,7 +33,7 @@ export const getUserSettings = () =>
     ? JSON.parse(localStorage.getItem(LENS_SETTINGS))
     : ''
 
-export const setLoginData = (data, expiresAt) => {
+export const setCookieLoginData = (data, expiresAt) => {
   setToken(data, expiresAt)
   setUserData(data)
 }
@@ -67,5 +67,21 @@ export const dropToken = () => {
   localStorage.removeItem(LENS_TOKEN_KEY)
   localStorage.removeItem(LENS_TOKEN_EXPIRES)
   localStorage.removeItem(LENS_TOKEN_USER_DATA)
-  localStorage.clear()
+}
+
+export const getContextData = () => {
+  const token = hasToken()
+  const user = token ? getUserData() : null
+  return {
+    user,
+    isAtLeastSM: isAtLeastSM(),
+    isPublisher: isPublisher(),
+    isAdmin: isAdmin(),
+    isAtLeastElder: isAtLeastElder(),
+    hasToken: token,
+    settings: getUserSettings(),
+    dropToken,
+    setUserSettings,
+    setCookieLoginData,
+  }
 }

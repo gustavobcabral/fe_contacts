@@ -54,11 +54,12 @@ import SendPhones from './SendPhones/SendPhones'
 import BatchChanges from './BatchChanges/BatchChanges'
 import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
-import { isPublisher, isAtLeastElder } from '../../utils/loginDataManager'
 import { CSVLink } from 'react-csv'
 import OurToolTip from '../common/OurToolTip/OurToolTip'
 import { Checkbox } from 'pretty-checkbox-react'
+import { ApplicationContext } from '../../contexts/application'
 import './styles.css'
+
 class Contacts extends React.Component {
   constructor(props) {
     super(props)
@@ -193,7 +194,8 @@ class Contacts extends React.Component {
   }
 
   componentDidMount() {
-    if (isPublisher()) {
+    const { isPublisher } = this.context
+    if (isPublisher) {
       const { history } = this.props
       history.push('/')
     } else {
@@ -332,6 +334,7 @@ class Contacts extends React.Component {
 
   render() {
     const { t, modeAllContacts } = this.props
+    const { isAtLeastElder } = this.context
     const {
       data,
       pagination,
@@ -413,7 +416,7 @@ class Contacts extends React.Component {
                       contactsData={data}
                       afterClose={this.afterSentPhones}
                     />{' '}
-                    {isAtLeastElder() && (
+                    {isAtLeastElder && (
                       <BatchChanges
                         checksContactsPhones={checksContactsPhones}
                         contactsData={data}
@@ -576,6 +579,8 @@ class Contacts extends React.Component {
     )
   }
 }
+
+Contacts.contextType = ApplicationContext
 
 export default withTranslation([
   'contacts',

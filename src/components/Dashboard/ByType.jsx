@@ -5,7 +5,7 @@ import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, find, getOr, pipe, curry, filter } from 'lodash/fp'
 import { round } from 'lodash'
 import ReactPlaceholder from 'react-placeholder'
-import { isAtLeastElder } from '../../utils/loginDataManager'
+import useApplicationContext from '../../hooks/useApplicationContext'
 
 const getByType = (t, data) => {
   const parseObject = (label, color, data) => ({
@@ -38,8 +38,10 @@ const getByType = (t, data) => {
 const ByType = (props) => {
   const { t } = useTranslation(['dashboard', 'common', 'contacts'])
   const byType = getByType(t, get('data', props))
-  const spanLG = isAtLeastElder() ? 3 : 4
-  const spanXL = isAtLeastElder() ? 3 : 4
+  const { isAtLeastElder } = useApplicationContext()
+
+  const spanLG = isAtLeastElder ? 3 : 4
+  const spanXL = isAtLeastElder ? 3 : 4
 
   return (
     <Col

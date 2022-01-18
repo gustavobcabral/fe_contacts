@@ -2,7 +2,6 @@ import React from 'react'
 import { get } from 'lodash/fp'
 import FormLogin from './FormLogin'
 import { auth } from '../../services'
-import { setLoginData } from '../../utils/loginDataManager'
 import { withTranslation } from 'react-i18next'
 import SimpleReactValidator from 'simple-react-validator'
 import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
@@ -11,6 +10,8 @@ import ElementError from '../common/ElementError/ElementError'
 import { showSuccessful, showError } from '../../utils/generic'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { ApplicationContext } from '../../contexts/application'
+import { getContextData } from '../../utils/loginDataManager'
 
 const fields = {
   email: '',
@@ -53,10 +54,13 @@ class LoginPopup extends React.Component {
 
     try {
       const authRes = await auth.authenticate(form)
-      setLoginData(get('data.data', authRes))
-      this.setState({ submitting: false })
-      history.push('/dashboard')
+      const { updateContext, setCookieLoginData } = this.context
+      const user = get('data.data', authRes)
+      setCookieLoginData(user)
+      const newContext = getContextData()
+      updateContext(() => newContext)
       showSuccessful(t, get('data.cod', authRes), 'login')
+      history.push('/dashboard')
     } catch (error) {
       this.setState({ submitting: false })
       showError(error, t, 'login', {
@@ -96,5 +100,6 @@ class LoginPopup extends React.Component {
     )
   }
 }
+LoginPopup.contextType = ApplicationContext
 
 export default withTranslation(['login', 'common'])(LoginPopup)

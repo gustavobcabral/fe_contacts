@@ -5,7 +5,7 @@ import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, getOr, compact } from 'lodash/fp'
 import { round } from 'lodash'
 import ReactPlaceholder from 'react-placeholder'
-import { isAtLeastElder } from '../../utils/loginDataManager'
+import useApplicationContext from '../../hooks/useApplicationContext'
 
 const getByFeedback = (t, data) => {
   if (
@@ -57,9 +57,11 @@ const getByFeedback = (t, data) => {
 const ByFeedback = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
   const byFeedback = getByFeedback(t, get('data', props))
-  const offsetMD = isAtLeastElder() ? 2 : 0
-  const spanLG = isAtLeastElder() ? 3 : 4
-  const spanXL = isAtLeastElder() ? 3 : 4
+  const { isAtLeastElder } = useApplicationContext()
+
+  const offsetMD = isAtLeastElder ? 2 : 0
+  const spanLG = isAtLeastElder ? 3 : 4
+  const spanXL = isAtLeastElder ? 3 : 4
 
   return (
     <Col

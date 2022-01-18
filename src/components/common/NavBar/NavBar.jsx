@@ -1,11 +1,6 @@
 import React from 'react'
 import { Navbar, Nav, NavDropdown, Image, Col } from 'react-bootstrap'
 import { get } from 'lodash/fp'
-import {
-  getUserData,
-  hasToken,
-  isAtLeastSM,
-} from '../../../utils/loginDataManager'
 import logo from '../../../assets/images/logo.png'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -29,9 +24,10 @@ import {
   faLanguage,
   faTags,
 } from '@fortawesome/free-solid-svg-icons'
+import useApplicationContext from '../../../hooks/useApplicationContext'
 import './styles.css'
 
-const MenuLogged = ({ t, ...props }) => {
+const MenuLogged = ({ t, user, isAtLeastSM, ...props }) => {
   const contactsMenuItem = (
     <React.Fragment>
       <FontAwesomeIcon icon={faUserFriends} /> {t('contacts')}
@@ -47,7 +43,7 @@ const MenuLogged = ({ t, ...props }) => {
     <React.Fragment>
       <Nav className="mr-auto">
         <NavDropdown title={contactsMenuItem}>
-          {isAtLeastSM() && (
+          {isAtLeastSM && (
             <React.Fragment>
               <NavDropdown.Item as={Link} to={contactsPaths.CONTACTS_LIST_PATH}>
                 <FontAwesomeIcon icon={faGlobeAmericas} /> {t('allContacts')}
@@ -70,7 +66,7 @@ const MenuLogged = ({ t, ...props }) => {
             {t('allContactsWaitingFeedback')}
           </NavDropdown.Item>
         </NavDropdown>
-        {isAtLeastSM() && (
+        {isAtLeastSM && (
           <NavDropdown title={adminMenuItem} id="collasible-nav-dropdown">
             <NavDropdown.Item
               as={Link}
@@ -89,7 +85,7 @@ const MenuLogged = ({ t, ...props }) => {
         )}
       </Nav>
       <Nav style={{ marginRight: '34px' }}>
-        <NavDropdown title={get('name', getUserData())}>
+        <NavDropdown title={get('name', user)}>
           <Logout {...props} t={t} />
         </NavDropdown>
       </Nav>
@@ -117,6 +113,8 @@ const MenuLogout = ({ t, ...props }) => (
 
 const NavBarMenu = (props) => {
   const { t } = useTranslation(['navBar'])
+  const { user, isAtLeastSM } = useApplicationContext()
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
       <Navbar.Brand as={Link} to="/">
@@ -130,8 +128,8 @@ const NavBarMenu = (props) => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        {hasToken() ? (
-          <MenuLogged {...props} t={t} />
+        {user ? (
+          <MenuLogged {...props} user={user} isAtLeastSM={isAtLeastSM} t={t} />
         ) : (
           <MenuLogout {...props} t={t} />
         )}

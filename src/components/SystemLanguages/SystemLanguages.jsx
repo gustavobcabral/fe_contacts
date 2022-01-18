@@ -1,13 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { setUserSettings } from '../../utils/loginDataManager'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 import OurModal from '../common/OurModal/OurModal'
 import FormSystemLanguages from './FormSystemLanguages'
+import useApplicationContext from '../../hooks/useApplicationContext'
 
 const SystemLanguages = () => {
   const { t, i18n } = useTranslation('languages')
+  const { setUserSettings } = useApplicationContext()
 
   const languagesOptions = () => [
     { label: t('languageOptionEnglish'), value: 'en-GB' },

@@ -2,7 +2,6 @@ import React from 'react'
 import { get } from 'lodash/fp'
 import { withTranslation } from 'react-i18next'
 import { Row, Col, Container } from 'react-bootstrap'
-import { getUserData, isAtLeastElder } from '../../utils/loginDataManager'
 import { contacts } from '../../services'
 import ChartByContacted from './ByContacted'
 import ChartByFeedback from './ByFeedback'
@@ -14,6 +13,7 @@ import ChartByType from './ByType'
 import { showError, parseErrorMessage } from '../../utils/generic'
 import ShowErrorComponent from '../common/ShowError/ShowError'
 import './charts.styles.css'
+import { ApplicationContext } from '../../contexts/application'
 
 class Charts extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class Charts extends React.Component {
   }
 
   buildSubTitleMessage = () =>
-    `${this.props.t('welcome')}, ${get('name', getUserData())}`
+    `${this.props.t('welcome')}, ${get('name', this.context.user)}`
 
   componentDidMount() {
     this.handleGetSummary()
@@ -56,6 +56,7 @@ class Charts extends React.Component {
 
   render() {
     const { data, loading, error } = this.state
+    const { isAtLeastElder } = this.context
     return (
       <Container>
         {error ? (
@@ -75,7 +76,7 @@ class Charts extends React.Component {
               <ChartByFeedback data={data} loading={loading} />
               <ChartByType data={data} loading={loading} />
               <ChartByLocations data={data} loading={loading} />
-              {isAtLeastElder() && (
+              {isAtLeastElder && (
                 <ChartByPublishers data={data} loading={loading} />
               )}
             </Row>
@@ -85,5 +86,6 @@ class Charts extends React.Component {
     )
   }
 }
+Charts.contextType = ApplicationContext
 
 export default withTranslation(['dashboard', 'common'])(Charts)

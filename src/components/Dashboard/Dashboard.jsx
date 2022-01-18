@@ -1,6 +1,5 @@
 import React from 'react'
 import { get } from 'lodash/fp'
-import { getUserData } from '../../utils/loginDataManager'
 import { withTranslation } from 'react-i18next'
 import ContainerWithNavBar from '../common/ContainerWithNavBar/ContainerWithNavBar'
 import logo from '../../assets/images/logo.png'
@@ -8,10 +7,12 @@ import { Col, Row, Image } from 'react-bootstrap'
 import Charts from './Charts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneVolume } from '@fortawesome/free-solid-svg-icons'
-
+import { ApplicationContext } from '../../contexts/application'
 class Dashboard extends React.Component {
-  buildSubTitleMessage = () =>
-    `${this.props.t('welcome')}, ${get('name', getUserData())}`
+  buildSubTitleMessage = () => {
+    const { user } = this.context
+    return `${this.props.t('welcome')}, ${get('name', user)}`
+  }
 
   render() {
     const { t } = this.props
@@ -48,5 +49,7 @@ class Dashboard extends React.Component {
     )
   }
 }
+
+Dashboard.contextType = ApplicationContext
 
 export default withTranslation(['dashboard', 'common'])(Dashboard)
