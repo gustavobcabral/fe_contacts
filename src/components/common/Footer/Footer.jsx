@@ -6,7 +6,7 @@ import { version } from '../../../../package.json'
 const Footer = () => {
   const { t } = useTranslation(['footer'])
   const currentEnv = `${
-    process.env.NODE_ENV === 'development' ? ` - development - ${version}` : ''
+    process.env.NODE_ENV === 'development' ? ` - development - v${version}` : ''
   }`
 
   return (
