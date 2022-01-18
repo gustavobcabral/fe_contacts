@@ -8,7 +8,7 @@ import useApplicationContext from '../../hooks/useApplicationContext'
 
 const SystemLanguages = () => {
   const { t, i18n } = useTranslation('languages')
-  const { setUserSettings } = useApplicationContext()
+  const { setSettings, updateContext } = useApplicationContext()
 
   const languagesOptions = () => [
     { label: t('languageOptionEnglish'), value: 'en-GB' },
@@ -17,7 +17,9 @@ const SystemLanguages = () => {
 
   const handleInputChange = ({ target: { value } }) => {
     i18n.changeLanguage(value)
-    setUserSettings({ language: value })
+    const settings = { language: value }
+    setSettings(settings)
+    updateContext((previous) => ({ ...previous, settings }))
   }
 
   const title = (

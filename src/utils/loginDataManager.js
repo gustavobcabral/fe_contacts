@@ -20,15 +20,15 @@ const setUserData = (data) => {
   localStorage.setItem(LENS_TOKEN_USER_DATA, dataPrepared)
 }
 
-export const setUserSettings = (data) => {
+export const setSettings = (data) => {
   const newData = {
-    ...getUserSettings(),
+    ...getSettings(),
     ...data,
   }
   localStorage.setItem(LENS_SETTINGS, JSON.stringify(newData))
 }
 
-export const getUserSettings = () =>
+export const getSettings = () =>
   localStorage.getItem(LENS_SETTINGS)
     ? JSON.parse(localStorage.getItem(LENS_SETTINGS))
     : ''
@@ -45,13 +45,14 @@ export const getUserData = () =>
     ? JSON.parse(localStorage.getItem(LENS_TOKEN_USER_DATA))
     : ''
 
-export const isAdmin = () => getOr(1, 'idResponsibility', getUserData()) === 4
-export const isPublisher = () =>
-  getOr(1, 'idResponsibility', getUserData()) === 1
-export const isAtLeastElder = () =>
-  getOr(1, 'idResponsibility', getUserData()) >= 3
-export const isAtLeastSM = () =>
-  getOr(1, 'idResponsibility', getUserData()) >= 2
+export const isAdmin = (user) =>
+  getOr(1, 'idResponsibility', user || getUserData()) === 4
+export const isPublisher = (user) =>
+  getOr(1, 'idResponsibility', user || getUserData()) === 1
+export const isAtLeastElder = (user) =>
+  getOr(1, 'idResponsibility', user || getUserData()) >= 3
+export const isAtLeastSM = (user) =>
+  getOr(1, 'idResponsibility', user || getUserData()) >= 2
 
 export const hasToken = () => {
   const tokenString = !!localStorage.getItem(LENS_TOKEN_KEY)
@@ -69,19 +70,19 @@ export const dropToken = () => {
   localStorage.removeItem(LENS_TOKEN_USER_DATA)
 }
 
-export const getContextData = () => {
+export const buildContextData = () => {
   const token = hasToken()
   const user = token ? getUserData() : null
   return {
     user,
-    isAtLeastSM: isAtLeastSM(),
-    isPublisher: isPublisher(),
-    isAdmin: isAdmin(),
-    isAtLeastElder: isAtLeastElder(),
+    isAtLeastSM: isAtLeastSM(user),
+    isPublisher: isPublisher(user),
+    isAdmin: isAdmin(user),
+    isAtLeastElder: isAtLeastElder(user),
     hasToken: token,
-    settings: getUserSettings(),
+    settings: getSettings(),
     dropToken,
-    setUserSettings,
+    setSettings,
     setCookieLoginData,
   }
 }

@@ -2,10 +2,10 @@ import React, { Suspense, useState } from 'react'
 import Routes from './routes/routes'
 import Loading from './components/common/Loading/Loading'
 import { ApplicationContext } from './contexts/application'
-import { getContextData } from './utils/loginDataManager'
+import { buildContextData } from './utils/loginDataManager'
 
 const App = () => {
-  const initialData = getContextData()
+  const initialData = buildContextData()
   const [context, setContext] = useState(initialData)
   const initContext = { ...context, updateContext: setContext }
 
