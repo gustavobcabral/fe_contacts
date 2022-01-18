@@ -53,6 +53,7 @@
   "ops": "Ops!!",
   "contacts_pkey": "This number already exists",
   "contacts_phone2_unique": "The Phone 2 number already exists",
+  "status_description_unique": "This status already exists",
   "sendOverWhatsApp": "Send over WhatsApp",
   "total": "Total",
   "list": "List",

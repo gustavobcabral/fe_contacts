@@ -11,7 +11,7 @@ import { showSuccessful, showError } from '../../utils/generic'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { ApplicationContext } from '../../contexts/application'
-import { getContextData } from '../../utils/loginDataManager'
+import { buildContextData } from '../../utils/loginDataManager'
 
 const fields = {
   email: '',
@@ -57,7 +57,7 @@ class LoginPopup extends React.Component {
       const { updateContext, setCookieLoginData } = this.context
       const user = get('data.data', authRes)
       setCookieLoginData(user)
-      const newContext = getContextData()
+      const newContext = buildContextData()
       updateContext(() => newContext)
       showSuccessful(t, get('data.cod', authRes), 'login')
       history.push('/dashboard')

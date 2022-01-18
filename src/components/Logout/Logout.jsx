@@ -5,13 +5,13 @@ import { withTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import useApplicationContext from '../../hooks/useApplicationContext'
-import { getContextData } from '../../utils/loginDataManager'
+import { buildContextData } from '../../utils/loginDataManager'
 
 const handleLogout = (props, dropToken, updateContext) => {
   const { history, t } = props
 
   dropToken()
-  const newContext = getContextData()
+  const newContext = buildContextData()
   updateContext(() => newContext)
   history.push('/')
   Swal.fire({

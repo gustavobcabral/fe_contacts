@@ -11,5 +11,5 @@ export const ApplicationContext = createContext({
   settings: null,
   setCookieLoginData: (user, expiresAt) => {},
   dropToken: () => {},
-  setUserSettings: (settings) => {},
+  setSettings: (settings) => {},
 })

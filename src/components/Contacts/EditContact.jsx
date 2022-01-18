@@ -159,9 +159,14 @@ class EditContact extends React.Component {
       const contact = getOr(0, 'response.data.extra.contact', error)
       const name = get('name', contact)
       const phone = get('phone', contact)
-      showError(error, t, 'contacts', {
-        paramsExtraForTranslation: { name, phone },
-      })
+      if (phone) {
+        showError(error, t, 'contacts', {
+          paramsExtraForTranslation: { name, phone },
+        })
+      } else {
+        showError(error, t, 'common')
+      }
+
       this.setState({ loading: false })
     }
   }
