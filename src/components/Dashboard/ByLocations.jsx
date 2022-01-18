@@ -6,7 +6,7 @@ import { get, isEmpty, getOr, map, isNil, pipe, orderBy } from 'lodash/fp'
 import { round } from 'lodash'
 import { randomColor } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
-import { isAtLeastElder } from '../../utils/loginDataManager'
+import useApplicationContext from '../../hooks/useApplicationContext'
 
 const getByLocations = (t, data) =>
   pipe(orderBy(['percent'], 'desc'), (data) => parseLocationsData(t, data))(
@@ -40,9 +40,11 @@ const ByLocations = (props) => {
   const { t } = useTranslation(['dashboard', 'common'])
   const byLocations = getByLocations(t, get('data', props))
   const [detailsByLocations, toggleDetailsByPLocations] = useState(false)
-  const spanLG = isAtLeastElder() ? 3 : 4
-  const spanXL = isAtLeastElder() ? 3 : 4
-  const offsetMD = isAtLeastElder() ? 2 : 0
+  const { isAtLeastElder } = useApplicationContext()
+
+  const spanLG = isAtLeastElder ? 3 : 4
+  const spanXL = isAtLeastElder ? 3 : 4
+  const offsetMD = isAtLeastElder ? 2 : 0
 
   return (
     <Col
