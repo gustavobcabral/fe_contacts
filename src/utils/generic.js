@@ -6,7 +6,11 @@ const randomColor = () =>
 
 const parseErrorMessage = (error) => {
   const message = get('message', error)
-  const errorConstraint = get('response.data.error.constraint', error)
+  const errorConstraint = getOr(
+    get('response.data.error.constraint', error),
+    'response.data.constraint',
+    error
+  )
   const errorCode = get('response.data.error.code', error)
   const errorMessage = get('response.data.error', error)
   return errorConstraint
@@ -35,14 +39,12 @@ const parseErrorMessageTranslated = (error, t, fileTranslationName, extra) => {
       t(`common:errorTextUndefined`)
     )
   )
-
   const preText = t(
     `${fileTranslationName}:${parseErrorMessage(error)}`,
     paramsExtraForTranslation
       ? paramsExtraForTranslation
       : t(`common:${parseErrorMessage(error)}`)
   )
-
   const text = title !== preText ? preText : null
 
   return { title, text }
