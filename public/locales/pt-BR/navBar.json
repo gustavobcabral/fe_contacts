@@ -8,5 +8,8 @@
   "admin": "Administração",
   "allContacts": "Todos",
   "allContactsAvailable": "Sem pendências",
-  "allContactsWaitingFeedback": "Aguardam resposta"
+  "allContactsWaitingFeedback": "Aguardam resposta",
+  "campaigns": "Campanhas",
+  "adminCampaigns": "Administrar",
+  "allCampaigns": "Todas"
 }

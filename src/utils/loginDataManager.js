@@ -4,7 +4,7 @@ import {
   LENS_TOKEN_EXPIRES,
   LENS_TOKEN_USER_DATA,
 } from '../constants/login'
-import { LENS_SETTINGS } from '../constants/settings'
+import { LENS_SETTINGS, LENS_CAMPAIGN_ACTIVE } from '../constants/settings'
 
 const setToken = (data, expiresAt) => {
   localStorage.setItem(LENS_TOKEN_KEY, get('jwtToken', data))
@@ -20,6 +20,21 @@ const setUserData = (data) => {
   localStorage.setItem(LENS_TOKEN_USER_DATA, dataPrepared)
 }
 
+const getItemStorage = (LENS) =>
+  localStorage.getItem(LENS) ? JSON.parse(localStorage.getItem(LENS)) : ''
+
+export const getCampaignActive = () => getItemStorage(LENS_CAMPAIGN_ACTIVE)
+
+export const setCampaignActive = (data) => {
+  const newData = {
+    ...getCampaignActive(),
+    ...data,
+  }
+  localStorage.setItem(LENS_CAMPAIGN_ACTIVE, JSON.stringify(newData))
+}
+
+export const getSettings = () => getItemStorage(LENS_SETTINGS)
+
 export const setSettings = (data) => {
   const newData = {
     ...getSettings(),
@@ -27,11 +42,6 @@ export const setSettings = (data) => {
   }
   localStorage.setItem(LENS_SETTINGS, JSON.stringify(newData))
 }
-
-export const getSettings = () =>
-  localStorage.getItem(LENS_SETTINGS)
-    ? JSON.parse(localStorage.getItem(LENS_SETTINGS))
-    : ''
 
 export const setCookieLoginData = (data, expiresAt) => {
   setToken(data, expiresAt)

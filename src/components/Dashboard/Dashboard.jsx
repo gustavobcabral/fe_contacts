@@ -1,13 +1,15 @@
 import React from 'react'
 import { get } from 'lodash/fp'
-import { withTranslation } from 'react-i18next'
-import ContainerWithNavBar from '../common/ContainerWithNavBar/ContainerWithNavBar'
-import logo from '../../assets/images/logo.png'
 import { Col, Row, Image } from 'react-bootstrap'
-import Charts from './Charts'
+import { withTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneVolume } from '@fortawesome/free-solid-svg-icons'
+
+import ContainerWithNavBar from '../common/ContainerWithNavBar/ContainerWithNavBar'
+import Charts from '../common/Charts/Charts'
 import { ApplicationContext } from '../../contexts/application'
+import logo from '../../assets/images/logo.png'
+
 class Dashboard extends React.Component {
   buildSubTitleMessage = () => {
     const { user } = this.context
@@ -16,6 +18,8 @@ class Dashboard extends React.Component {
 
   render() {
     const { t } = this.props
+    const { campaignActive } = this.context
+
     return (
       <ContainerWithNavBar {...this.props}>
         <Row className="mt-4">
@@ -44,7 +48,7 @@ class Dashboard extends React.Component {
             <Image src={logo} fluid />
           </Col>
         </Row>
-        <Charts />
+        <Charts campaign={campaignActive} />
       </ContainerWithNavBar>
     )
   }

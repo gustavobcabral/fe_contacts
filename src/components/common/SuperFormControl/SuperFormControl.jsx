@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
+import moment from 'moment'
 
 const SuperFormControl = (props) => {
   const {
@@ -30,7 +31,10 @@ const SuperFormControl = (props) => {
       onBlur(e)
     }
   }
-
+  const parsedValue =
+    type === 'date' && moment(value).isValid()
+      ? moment(value, 'YYYY-MM-DD')
+      : value
   return (
     <Form.Group controlId={name}>
       <Form.Label>
@@ -57,7 +61,7 @@ const SuperFormControl = (props) => {
             : ''
         }
       />
-      {rules && validator.message(name, value, rules)}
+      {rules && validator.message(name, parsedValue, rules)}
     </Form.Group>
   )
 }

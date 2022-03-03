@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, getOr, map, pipe, orderBy } from 'lodash/fp'
 import { round } from 'lodash'
-import { randomColor } from '../../utils/generic'
-import { generateLabel } from '../../stateReducers/dashboard'
+import { randomColor } from '../../../utils/generic'
+import { generateLabel } from '../../../stateReducers/dashboard'
 import ReactPlaceholder from 'react-placeholder'
 
 const getByPublishers = (t, data) =>

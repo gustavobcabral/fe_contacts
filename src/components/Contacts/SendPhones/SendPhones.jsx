@@ -27,12 +27,13 @@ import { URL_SEND_MESSAGE } from '../../../constants/settings'
 import { showError, showSuccessful } from '../../../utils/generic'
 import { reducePublishers } from '../../../stateReducers/publishers'
 import Swal from 'sweetalert2'
+import { ApplicationContext } from '../../../contexts/application'
 
 const fields = {
   idPublisher: '',
 }
 
-class NewContact extends React.Component {
+class SendPhones extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -54,6 +55,7 @@ class NewContact extends React.Component {
       this.verifyIfSomePhoneIsWaitingFeedback.bind(this)
     this.getPhonesWaitingOrNotFeedback =
       this.getPhonesWaitingOrNotFeedback.bind(this)
+    this.getTitle = this.getTitle.bind(this)
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -204,12 +206,14 @@ class NewContact extends React.Component {
 
     const { form } = this.state
     const { t } = this.props
+    const { campaignActive } = this.context
     const idPublisher = get('idPublisher', form)
     const phones = this.getPhonesWaitingOrNotFeedback(false)
-
+    const idCampaign = campaignActive ? campaignActive.id : null
     const dataAssign = {
       phones,
       idPublisher,
+      idCampaign,
     }
 
     try {
@@ -230,6 +234,15 @@ class NewContact extends React.Component {
     }
   }
 
+  getTitle() {
+    const { t } = this.props
+    const { campaignActive } = this.context
+    const titleWithCampaignName = campaignActive
+      ? `${t('title')} - ${campaignActive.name}`
+      : t('title')
+    return titleWithCampaignName
+  }
+
   render() {
     const { form, validated, publishersOptions } = this.state
     const { t, checksContactsPhones, afterClose } = this.props
@@ -245,7 +258,7 @@ class NewContact extends React.Component {
         publishersOptions={publishersOptions}
         onExit={afterClose}
         onEnter={this.onEnter}
-        title={`${t('title')}`}
+        title={this.getTitle()}
         buttonTitle={t('common:sendOverWhatsApp')}
         buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
         buttonDisabled={checksContactsPhones.length === 0}
@@ -255,9 +268,11 @@ class NewContact extends React.Component {
   }
 }
 
+SendPhones.contextType = ApplicationContext
+
 export default withTranslation([
   'sendPhones',
   'common',
   'contacts',
   'languages',
-])(NewContact)
+])(SendPhones)

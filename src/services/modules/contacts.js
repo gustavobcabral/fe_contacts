@@ -24,6 +24,7 @@ const CONTACTS = [
   'createdAtDetailsContacts',
   'updatedAt',
   'publisherNameUpdatedBy',
+  'campaignName',
 ]
 const PAGINATION = [
   'perPage',
@@ -51,8 +52,7 @@ const getAllFilters = () => api.get(`/contacts/filters`)
 const getOne = (id) => api.get(`/contacts/${id}`)
 const create = (data) => api.post('/contacts', data)
 const assign = (data) => api.post('/contacts/assign', data)
-
-const getSummary = () => api.get('/contacts/summary')
+const getSummaryOneCampaign = (id) => api.get(`/contacts/${id}/summary`)
 
 const updateContact = (id, data) => api.put(`/contacts/${id}`, data)
 
@@ -66,10 +66,10 @@ const allExport = {
   create,
   updateContact,
   dellOne,
-  getSummary,
   getAllFilters,
   assign,
   updateSome,
+  getSummaryOneCampaign,
 }
 
 export default allExport

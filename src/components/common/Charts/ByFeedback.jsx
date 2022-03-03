@@ -5,7 +5,7 @@ import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, getOr, compact } from 'lodash/fp'
 import { round } from 'lodash'
 import ReactPlaceholder from 'react-placeholder'
-import useApplicationContext from '../../hooks/useApplicationContext'
+import useApplicationContext from '../../../hooks/useApplicationContext'
 
 const getByFeedback = (t, data) => {
   if (

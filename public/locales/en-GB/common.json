@@ -67,7 +67,9 @@
   "pageNotFound": "Page not found",
   "goToHome": "Go to home",
   "updatedByAt": "Updated by {{name}} at {{date}}",
-  "createdByAt": "Created by {{name}} at {{date}}"
+  "createdByAt": "Created by {{name}} at {{date}}",
+  "campaigns_name_unique": "This campaign name already exists"
+
 
 
   

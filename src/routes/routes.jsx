@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard/Dashboard'
 import contactsRoutes from './modules/contacts/Contacts'
 import publishersRoutes from './modules/publishers/Publishers'
 import statusRoutes from './modules/status/Status'
+import campaignsRoutes from './modules/campaigns/Campaigns'
 import languageRoutes from './modules/languages/Languages'
 
 import PrivateRoute from '../utils/privateRoute'
@@ -26,7 +27,8 @@ const Routes = () => (
       {publishersRoutes()}
       {languageRoutes()}
       {statusRoutes()}
-      <Route path="/404" component={NotFound} />
+      {campaignsRoutes()}
+      <Route key="/404" path="/404" component={NotFound} />
       <Redirect to="/404" />
     </Switch>
   </BrowserRouter>
