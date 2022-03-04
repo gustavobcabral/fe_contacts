@@ -8,6 +8,7 @@ import EditDetailsContact from './EditDetailsContact'
 import AskDelete from '../../common/AskDelete/AskDelete'
 import NoRecords from '../../common/NoRecords/NoRecords'
 import ReactPlaceholder from 'react-placeholder'
+import './styles.css'
 
 class ListDataDetailsContact extends React.Component {
   constructor(props) {
@@ -78,6 +79,15 @@ class ListDataDetailsContact extends React.Component {
                   <td>{detail.publisherName}</td>
                   <td>
                     <small>{this.getLastPublisherThatTouched(detail)}</small>
+                    {detail.campaignName && (
+                      <p className="contactedDuringCampaign">
+                        <small>
+                          {t('campaignName', {
+                            campaignName: detail.campaignName,
+                          })}
+                        </small>
+                      </p>
+                    )}
                   </td>
                   <td>
                     {t(

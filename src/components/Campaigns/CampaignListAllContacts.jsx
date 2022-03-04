@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Table, Row, Col, Form } from 'react-bootstrap'
-import ContainerCRUD from '../../components/common/ContainerCRUD/ContainerCRUD'
+import ContainerCRUD from '../common/ContainerCRUD/ContainerCRUD'
 import { withTranslation } from 'react-i18next'
-import { contacts } from '../../services'
+import { campaigns } from '../../services'
 import {
   map,
   getOr,
@@ -16,12 +16,11 @@ import {
   isNil,
   isEqual,
 } from 'lodash/fp'
-import AskDelete from '../common/AskDelete/AskDelete'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faList,
   faFileExcel,
-  faGlobeAmericas,
+  faBullhorn,
 } from '@fortawesome/free-solid-svg-icons'
 
 import ListDetailsContact from '../DetailsContact/Modal/ListDetailsContact'
@@ -48,10 +47,7 @@ import {
 } from '../../constants/status'
 
 import FilterData from '../common/FilterData/FilterData'
-import NewContact from './NewContact'
-import EditContact from './EditContact'
-import SendPhones from './SendPhones/SendPhones'
-import BatchChanges from './BatchChanges/BatchChanges'
+import EditContact from '../Contacts/EditContact'
 import { showError } from '../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
 import { CSVLink } from 'react-csv'
@@ -60,7 +56,7 @@ import { Checkbox } from 'pretty-checkbox-react'
 import { ApplicationContext } from '../../contexts/application'
 import './styles.css'
 
-class Contacts extends React.Component {
+class CampaignListAllContacts extends React.Component {
   constructor(props) {
     super(props)
 
@@ -73,6 +69,7 @@ class Contacts extends React.Component {
       checksContactsPhones: [],
       submitting: false,
       pagination: {},
+      campaignData: null,
       statusForbidden: [ID_STATUS_NO_VISIT, ID_STATUS_SEND_TO_OTHER_CONG],
       queryParams: {
         sort: '"idStatus":ASC,"lastConversationInDays":DESC,name:IS NULL DESC,name:ASC',
@@ -84,6 +81,7 @@ class Contacts extends React.Component {
           phone: '',
           note: '',
           typeCompany: '-1',
+          typeContact: '0',
           modeAllContacts: props.modeAllContacts ? '-1' : '0',
           genders: [],
           languages: [],
@@ -103,7 +101,6 @@ class Contacts extends React.Component {
     this.getInformationAboveName = this.getInformationAboveName.bind(this)
     this.setBackgroundForbidden = this.setBackgroundForbidden.bind(this)
     this.handleFilter = this.handleFilter.bind(this)
-    this.showCampaignName = this.showCampaignName.bind(this)
   }
 
   uncheckCheckboxSelectAll() {
@@ -123,12 +120,15 @@ class Contacts extends React.Component {
       const queryParams = getQueryParamsFromURL(this.props)
         ? getQueryParamsFromURL(this.props)
         : this.state.queryParams
-      const response = await contacts.getAll(queryParams)
+      const id = getOr(0, 'props.match.params.id', this)
+      const campaignResponse = await campaigns.getOne(id)
+      const response = await campaigns.getAllContactsOne(id, queryParams)
       const error = getOr([], 'data.errors[0]', response)
       if (isEmpty(error)) {
         this.setState({
-          data: getOr([], 'data.data.data.data.list', response),
-          pagination: getOr({}, 'data.data.data.data.pagination', response),
+          data: getOr([], 'data.data.list', response),
+          campaignData: getOr(null, 'data.data', campaignResponse),
+          pagination: getOr({}, 'data.data.pagination', response),
           submitting: false,
           error: false,
           queryParams,
@@ -138,28 +138,28 @@ class Contacts extends React.Component {
           error,
           submitting: false,
         })
-        showError(error, t, 'contacts')
+        showError(error, t, 'campaigns')
       }
     } catch (error) {
       this.setState({
         error,
         submitting: false,
       })
-      showError(error, t, 'contacts')
+      showError(error, t, 'campaigns')
     }
   }
 
   async handleDelete(id) {
     const { t } = this.props
     this.setState({ submitting: true })
-    await contacts
+    await campaigns
       .dellOne(id)
       .then(() => {
         this.handleGetAll()
       })
       .catch((error) => {
         this.setState({ submitting: false })
-        showError(error, t, 'contacts')
+        showError(error, t, 'campaigns')
       })
   }
 
@@ -195,11 +195,11 @@ class Contacts extends React.Component {
   }
 
   componentDidMount() {
-    const { isPublisher } = this.context
+    const { isPublisher, campaignActive } = this.context
     if (isPublisher) {
       const { history } = this.props
       history.push('/')
-    } else {
+    } else if (campaignActive) {
       this.handleGetAll()
     }
   }
@@ -304,20 +304,13 @@ class Contacts extends React.Component {
     return this.thisDateAlreadyReachedMaxAllowed(contact) ? ' text-danger' : ''
   }
 
-  showCampaignName() {
-    const { modeAllContacts } = this.props
-    const { campaignActive } = this.context
-
-    return !modeAllContacts && campaignActive ? ` - ${campaignActive.name}` : ''
-  }
-
-  getTitle(title) {
+  getTitle() {
     const { t } = this.props
-
+    const { campaignData } = this.state
     return (
       <React.Fragment>
-        <FontAwesomeIcon icon={faGlobeAmericas} /> {t(title)}
-        {this.showCampaignName()}
+        <FontAwesomeIcon icon={faBullhorn} />{' '}
+        {t('campaigns:listAllTitle', { campaign: campaignData?.name })}
       </React.Fragment>
     )
   }
@@ -343,8 +336,7 @@ class Contacts extends React.Component {
   }
 
   render() {
-    const { t, modeAllContacts } = this.props
-    const { isAtLeastElder } = this.context
+    const { t, modeAllContacts, history } = this.props
     const {
       data,
       pagination,
@@ -357,9 +349,9 @@ class Contacts extends React.Component {
       queryParams: { filters },
     } = this.state
     const colSpan = '10'
-    const title = modeAllContacts
-      ? this.getTitle('listAllTitle')
-      : this.getTitle('listTitle')
+
+    const title = this.getTitle()
+    const idCampaign = getOr(0, 'props.match.params.id', this)
 
     const filtersParsed = JSON.parse(filters)
     return (
@@ -376,7 +368,7 @@ class Contacts extends React.Component {
               refresh={submitting}
               error={error}
               showTypeCompany={true}
-              getFilters={contacts.getAllFilters}
+              getFilters={() => campaigns.getAllContactsOneFilters(idCampaign)}
             />
           </Col>
           <Col xs={12} lg={hiddenFilter ? 12 : 9} xl={hiddenFilter ? 12 : 10}>
@@ -388,6 +380,7 @@ class Contacts extends React.Component {
                   fields={['name', 'phone', 'note', 'owner']}
                   colspan={colSpan}
                   toggleFilter={this.toggleFilter}
+                  history={history}
                 />
                 <tr>
                   <th style={{ width: '60px' }}>
@@ -420,19 +413,6 @@ class Contacts extends React.Component {
                   )}
                   <th style={{ minWidth: '116px' }}>{t('details')}</th>
                   <th style={{ minWidth: '189px' }}>
-                    <NewContact afterClose={this.handleGetAll} />{' '}
-                    <SendPhones
-                      checksContactsPhones={checksContactsPhones}
-                      contactsData={data}
-                      afterClose={this.afterSentPhones}
-                    />{' '}
-                    {isAtLeastElder && (
-                      <BatchChanges
-                        checksContactsPhones={checksContactsPhones}
-                        contactsData={data}
-                        afterClose={this.handleGetAll}
-                      />
-                    )}{' '}
                     <CSVLink
                       data={dataCVS}
                       headers={headers}
@@ -495,15 +475,6 @@ class Contacts extends React.Component {
                               {this.getInformationAboveName(contact)}
                             </Form.Text>
                           </div>
-                          {contact.campaignName && (
-                            <p className="contactedDuringCampaign ml-1">
-                              <small>
-                                {t('detailsContacts:campaignName', {
-                                  campaignName: contact.campaignName,
-                                })}
-                              </small>
-                            </p>
-                          )}
                         </td>
                         <td className="d-none d-lg-table-cell">
                           {t(
@@ -566,11 +537,7 @@ class Contacts extends React.Component {
                               id={contact.phone}
                               afterClose={() => this.handleGetAll()}
                             />
-                          )}{' '}
-                          <AskDelete
-                            id={contact.phone}
-                            funcToCallAfterConfirmation={this.handleDelete}
-                          />
+                          )}
                         </td>
                       </tr>
                     ),
@@ -599,12 +566,13 @@ class Contacts extends React.Component {
   }
 }
 
-Contacts.contextType = ApplicationContext
+CampaignListAllContacts.contextType = ApplicationContext
 
 export default withTranslation([
   'contacts',
+  'campaigns',
   'common',
   'detailsContacts',
   'languages',
   'status',
-])(Contacts)
+])(CampaignListAllContacts)

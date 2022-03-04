@@ -41,9 +41,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faHourglass } from '@fortawesome/free-solid-svg-icons'
 import OurToolTip from '../common/OurToolTip/OurToolTip'
 import { Checkbox } from 'pretty-checkbox-react'
+import { ApplicationContext } from '../../contexts/application'
 import './styles.css'
 
-class Contacts extends React.Component {
+class ContactsWaitingFeedbackList extends React.Component {
   constructor(props) {
     super(props)
 
@@ -236,6 +237,17 @@ class Contacts extends React.Component {
       : 'link'
   }
 
+  getTitle() {
+    const { t } = this.props
+    const { campaignActive } = this.context
+    return (
+      <React.Fragment>
+        <FontAwesomeIcon icon={faHourglass} /> {t('titleWaitingFeedback')}
+        {campaignActive && ` - ${campaignActive.name}`}
+      </React.Fragment>
+    )
+  }
+
   render() {
     const { t } = this.props
     const {
@@ -252,12 +264,7 @@ class Contacts extends React.Component {
     const colSpan = '9'
     const filtersParsed = JSON.parse(filters)
 
-    const title = (
-      <React.Fragment>
-        {' '}
-        <FontAwesomeIcon icon={faHourglass} /> {t('titleWaitingFeedback')}{' '}
-      </React.Fragment>
-    )
+    const title = this.getTitle('titleWaitingFeedback')
 
     return (
       <ContainerCRUD color="warning" title={title} {...this.props}>
@@ -439,10 +446,12 @@ class Contacts extends React.Component {
   }
 }
 
+ContactsWaitingFeedbackList.contextType = ApplicationContext
+
 export default withTranslation([
   'contacts',
   'common',
   'detailsContacts',
   'languages',
   'status',
-])(Contacts)
+])(ContactsWaitingFeedbackList)

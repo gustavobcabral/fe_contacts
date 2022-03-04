@@ -3,10 +3,15 @@ import { Form, InputGroup, Button } from 'react-bootstrap'
 import { getOr, reduce } from 'lodash/fp'
 import { withTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons'
+import {
+  faSearch,
+  faFilter,
+  faArrowLeft,
+} from '@fortawesome/free-solid-svg-icons'
 
 const Search = (props) => {
-  const { onFilter, t, name, colspan, fields, toggleFilter, filters } = props
+  const { onFilter, t, name, colspan, fields, toggleFilter, filters, history } =
+    props
   const valueFromURL = filters ? filters[fields[0]] || '' : ''
   const sendSearch = (event) => {
     if (event.key === 'Enter') {
@@ -39,6 +44,18 @@ const Search = (props) => {
                 >
                   <FontAwesomeIcon icon={faFilter} />
                 </Button>
+              )}
+              {history && (
+                <>
+                  {' '}
+                  <Button
+                    title={t('common:back')}
+                    variant="secondary"
+                    onClick={() => history.goBack()}
+                  >
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                  </Button>{' '}
+                </>
               )}
               <InputGroup.Text>
                 <FontAwesomeIcon icon={faSearch} />

@@ -1,12 +1,14 @@
 import React from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { version } from '../../../../package.json'
+import packageInfo from '../../../../package.json'
 
 const Footer = () => {
   const { t } = useTranslation(['footer'])
   const currentEnv = `${
-    process.env.NODE_ENV === 'development' ? ` - development - v${version}` : ''
+    process.env.NODE_ENV === 'development'
+      ? ` - development - v${packageInfo.version}`
+      : ''
   }`
 
   return (

@@ -5,7 +5,7 @@ import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, find, getOr, pipe, curry, filter } from 'lodash/fp'
 import { round } from 'lodash'
 import ReactPlaceholder from 'react-placeholder'
-import useApplicationContext from '../../hooks/useApplicationContext'
+import useApplicationContext from '../../../hooks/useApplicationContext'
 
 const getByType = (t, data) => {
   const parseObject = (label, color, data) => ({

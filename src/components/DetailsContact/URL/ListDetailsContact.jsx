@@ -19,7 +19,6 @@ import { RECORDS_PER_PAGE } from '../../../constants/application'
 import {
   faPlusSquare,
   faEdit,
-  faArrowLeft,
   faAddressCard,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -187,6 +186,7 @@ class ListDetailsContact extends React.Component {
                     onFilter={this.handleFilter}
                     fields={['publisher', 'details']}
                     colspan={colSpan}
+                    history={history}
                   />
                   <tr>
                     <th>{t('publisher')}</th>
@@ -209,14 +209,7 @@ class ListDetailsContact extends React.Component {
                         >
                           <FontAwesomeIcon icon={faPlusSquare} />
                         </Button>
-                      )}{' '}
-                      <Button
-                        title={t('common:back')}
-                        variant="secondary"
-                        onClick={() => history.goBack()}
-                      >
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                      </Button>
+                      )}
                     </th>
                   </tr>
                 </thead>

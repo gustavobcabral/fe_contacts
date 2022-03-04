@@ -9,7 +9,9 @@ export const ApplicationContext = createContext({
   hasToken: false,
   user: null,
   settings: null,
+  campaignActive: null,
   setCookieLoginData: (user, expiresAt) => {},
   dropToken: () => {},
   setSettings: (settings) => {},
+  // setCampaignActive: (campaign) => {},
 })

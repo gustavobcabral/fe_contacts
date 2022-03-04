@@ -6,6 +6,7 @@
   "withoutContact": "Sem contato",
   "totalContactsAssignByMeWaitingFeedback": "Por mim",
   "totalContactsWaitingFeedback": "Outros",
+  "titleChartCampaignActive": "Campanha {{campaignName}}",
   "titleChartContacts": "Contatados Vs. não contatados",
   "titleChartWaitingFeedback": "Aguardam meu comentario Vs. de outros",
   "titleChartWaitingFeedbackByPublishers": "Aguardam comentário por publicador",
@@ -15,7 +16,8 @@
   "titleChartType": "Contatos por tipo",
   "titleChartByLocationsContacted": "Contatados por localidade",
   "unknown": "Desconhecida",
-  "moreInformation": "Mais informações"
+  "moreInformation": "Mais informações",
+  "daysToFinishActiveCampaign": "faltam {{days}} dias para terminar a campanha"
 
 
 

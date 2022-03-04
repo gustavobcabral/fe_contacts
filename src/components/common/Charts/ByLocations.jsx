@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { PieChart } from 'react-minimal-pie-chart'
 import { get, isEmpty, getOr, map, isNil, pipe, orderBy } from 'lodash/fp'
 import { round } from 'lodash'
-import { randomColor } from '../../utils/generic'
+import { randomColor } from '../../../utils/generic'
 import ReactPlaceholder from 'react-placeholder'
-import useApplicationContext from '../../hooks/useApplicationContext'
+import useApplicationContext from '../../../hooks/useApplicationContext'
 
 const getByLocations = (t, data) =>
   pipe(orderBy(['percent'], 'desc'), (data) => parseLocationsData(t, data))(

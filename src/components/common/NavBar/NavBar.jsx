@@ -12,22 +12,24 @@ import {
   publishersPaths,
   statusPaths,
   languagesPaths,
+  campaignsPaths,
 } from '../../../routes/paths'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faGlobeAmericas,
   faHourglass,
-  faList,
   faUserFriends,
   faCogs,
   faBriefcase,
   faLanguage,
   faTags,
+  faBullhorn,
+  faCheckDouble,
 } from '@fortawesome/free-solid-svg-icons'
 import useApplicationContext from '../../../hooks/useApplicationContext'
 import './styles.css'
 
-const MenuLogged = ({ t, user, isAtLeastSM, ...props }) => {
+const MenuLogged = ({ t, user, isAtLeastSM, isAtLeastElder, ...props }) => {
   const contactsMenuItem = (
     <React.Fragment>
       <FontAwesomeIcon icon={faUserFriends} /> {t('contacts')}
@@ -53,7 +55,8 @@ const MenuLogged = ({ t, user, isAtLeastSM, ...props }) => {
                 as={Link}
                 to={contactsPaths.CONTACTS_AVAILABLE_LIST_PATH}
               >
-                <FontAwesomeIcon icon={faList} /> {t('allContactsAvailable')}
+                <FontAwesomeIcon icon={faCheckDouble} />{' '}
+                {t('allContactsAvailable')}
               </NavDropdown.Item>
               <NavDropdown.Divider />
             </React.Fragment>
@@ -66,6 +69,11 @@ const MenuLogged = ({ t, user, isAtLeastSM, ...props }) => {
             {t('allContactsWaitingFeedback')}
           </NavDropdown.Item>
         </NavDropdown>
+        {isAtLeastElder && (
+          <Nav.Link as={Link} to={campaignsPaths.CAMPAIGNS_LIST_PATH}>
+            <FontAwesomeIcon icon={faBullhorn} /> {t('campaigns')}
+          </Nav.Link>
+        )}
         {isAtLeastSM && (
           <NavDropdown title={adminMenuItem} id="collasible-nav-dropdown">
             <NavDropdown.Item
@@ -113,7 +121,7 @@ const MenuLogout = ({ t, ...props }) => (
 
 const NavBarMenu = (props) => {
   const { t } = useTranslation(['navBar'])
-  const { user, isAtLeastSM } = useApplicationContext()
+  const { user, isAtLeastSM, isAtLeastElder } = useApplicationContext()
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
@@ -129,7 +137,13 @@ const NavBarMenu = (props) => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         {user ? (
-          <MenuLogged {...props} user={user} isAtLeastSM={isAtLeastSM} t={t} />
+          <MenuLogged
+            {...props}
+            user={user}
+            isAtLeastSM={isAtLeastSM}
+            isAtLeastElder={isAtLeastElder}
+            t={t}
+          />
         ) : (
           <MenuLogout {...props} t={t} />
         )}

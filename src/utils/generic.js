@@ -11,8 +11,13 @@ const parseErrorMessage = (error) => {
     'response.data.constraint',
     error
   )
+
   const errorCode = get('response.data.error.code', error)
-  const errorMessage = get('response.data.error', error)
+
+  const errorMessage = isEmpty(get('response.data.error', error))
+    ? null
+    : get('response.data.error', error)
+
   return errorConstraint
     ? errorConstraint
     : errorCode
@@ -45,6 +50,7 @@ const parseErrorMessageTranslated = (error, t, fileTranslationName, extra) => {
       ? paramsExtraForTranslation
       : t(`common:${parseErrorMessage(error)}`)
   )
+
   const text = title !== preText ? preText : null
 
   return { title, text }
