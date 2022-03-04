@@ -96,9 +96,10 @@ class Charts extends React.Component {
   async handleGetSummary() {
     this.setState({ loading: true })
     const { campaign } = this.props
+    const getData = campaign?.id ? contacts.getSummaryOneCampaign : contacts.getSummary
 
     try {
-      const response = await contacts.getSummaryOneCampaign(campaign.id)
+      const response = await getData(campaign?.id)
       const data = get('data', response)
 
       this.setState({
@@ -148,6 +149,7 @@ class Charts extends React.Component {
     )
   }
 }
+
 Charts.contextType = ApplicationContext
 
 export default withTranslation(['dashboard', 'common'])(Charts)

@@ -7,6 +7,8 @@ import { getOr, isEmpty } from 'lodash/fp'
 import { campaigns } from '../../services'
 import { showError } from '../../utils/generic'
 import ContainerCRUD from '../common/ContainerCRUD/ContainerCRUD'
+import Loading from '../common/Loading/Loading'
+
 import Charts from '../common/Charts/Charts'
 import { ApplicationContext } from '../../contexts/application'
 
@@ -75,7 +77,7 @@ class CampaignCharts extends React.Component {
         title={this.getTitle()}
         {...this.props}
       >
-        {!loading && <Charts campaign={data} />}
+        {loading ? <Loading /> : <Charts campaign={data} />}
       </ContainerCRUD>
     )
   }

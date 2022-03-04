@@ -68,7 +68,9 @@
   "goToHome": "Go to home",
   "updatedByAt": "Updated by {{name}} at {{date}}",
   "createdByAt": "Created by {{name}} at {{date}}",
-  "campaigns_name_unique": "This campaign name already exists"
+  "campaigns_name_unique": "This campaign name already exists",
+  "ERROR_ID_CAMPAIGN_IS_MISSING": "Campaign not found"
+
 
 
 

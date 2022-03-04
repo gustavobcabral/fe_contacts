@@ -68,5 +68,6 @@
   "goToHome": "Ir a início",
   "updatedByAt": "Atualizado por {{name}} em {{date}}",
   "createdByAt": "Criado por {{name}} em {{date}}",
-  "campaigns_name_unique": "Este nome de campanha já existe"
+  "campaigns_name_unique": "Este nome de campanha já existe",
+  "ERROR_ID_CAMPAIGN_IS_MISSING": "Campanha não encontrada"
 }

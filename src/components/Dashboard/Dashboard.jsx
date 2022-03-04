@@ -5,9 +5,10 @@ import { withTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneVolume } from '@fortawesome/free-solid-svg-icons'
 
+import { ApplicationContext } from '../../contexts/application'
+
 import ContainerWithNavBar from '../common/ContainerWithNavBar/ContainerWithNavBar'
 import Charts from '../common/Charts/Charts'
-import { ApplicationContext } from '../../contexts/application'
 import logo from '../../assets/images/logo.png'
 
 class Dashboard extends React.Component {
