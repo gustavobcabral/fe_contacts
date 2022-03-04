@@ -4,14 +4,17 @@ import FormLogin from './FormLogin'
 import { auth } from '../../services'
 import { withTranslation } from 'react-i18next'
 import SimpleReactValidator from 'simple-react-validator'
-import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
-import OurModal from '../common/OurModal/OurModal'
-import ElementError from '../common/ElementError/ElementError'
-import { showSuccessful, showError } from '../../utils/generic'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
-import { ApplicationContext } from '../../contexts/application'
+
+import { getLocale, handleInputChangeGeneric } from '../../utils/forms'
+import { showSuccessful, showError } from '../../utils/generic'
 import { buildContextData } from '../../utils/loginDataManager'
+import { ApplicationContext } from '../../contexts/application'
+import { campaigns } from '../../services'
+
+import OurModal from '../common/OurModal/OurModal'
+import ElementError from '../common/ElementError/ElementError'
 
 const fields = {
   email: '',
@@ -58,7 +61,10 @@ class LoginPopup extends React.Component {
       const user = get('data.data', authRes)
       setCookieLoginData(user)
       const newContext = buildContextData()
-      updateContext(() => newContext)
+      const response = await campaigns.getDetailsActive()
+      const campaignActive = response.data.data || null
+      updateContext(() => ({ ...newContext, campaignActive }))
+
       showSuccessful(t, get('data.cod', authRes), 'login')
       history.push('/dashboard')
     } catch (error) {
