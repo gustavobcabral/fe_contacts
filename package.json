@@ -1,6 +1,6 @@
 {
   "name": "fe_contacts",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "private": true,
   "resolutions": {
     "react-error-overlay": "6.0.9"
@@ -85,6 +85,6 @@
   },
   "engines": {
     "node": "^14.x",
-    "npm": "^7.x"
+    "npm": "^8.x"
   }
 }
