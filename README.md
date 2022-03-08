@@ -6,12 +6,13 @@
 
 2 - Development environment:
 
+- run `npm install`
 - run `npm run dev`
 - Go to the url that you see in your terminal
 
 3 - Production environment:
 
-- Creates a new app for the frontend
+- Creates a new app for the frontend using Heroku (You need to have a account here)
   - Go to `https://dashboard.heroku.com/apps` and create a new app
   - Connect with your GitHub repo that has your FRONTEND files
   - Enable automatic deploys
