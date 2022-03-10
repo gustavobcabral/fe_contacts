@@ -6,18 +6,19 @@
 
 2 - Development environment:
 
+- run `npm install`
 - run `npm run dev`
 - Go to the url that you see in your terminal
 
 3 - Production environment:
 
-- Creates a new app for the frontend
+- Creates a new app for the frontend using Heroku (You need to have a account here)
   - Go to `https://dashboard.heroku.com/apps` and create a new app
   - Connect with your GitHub repo that has your FRONTEND files
   - Enable automatic deploys
   - Go to `Settings` tab -> Reveal Config Vars and add two:
-    - `REACT_APP_API_PATH` as key and `/`and the value
-    - `REACT_APP_API_URL` as key and `HERE WILL THE THE URL OF YOUR BACKEND APP` and the value
+    - `REACT_APP_API_PATH` as key and `/` as the value
+    - `REACT_APP_API_URL` as key and `HERE WILL THE URL OF YOUR BACKEND APP PROVIDED BY HEROKU` as the value
   - Go to `Deploy` tab -> Manual deploy -> Choose a branch to deploy -> Deploy Branch
   - Those information you will use in frontend app
 - In heroku the app will run automatically the script `npm start`
@@ -31,7 +32,7 @@
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm run dev`
 
 - Runs the app in the development mode.
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -39,12 +40,18 @@ In the project directory, you can run:
 - The page will reload if you make edits.
 - You will also see any lint errors in the console.
 
-### `yarn test`
+### `npm start`
+
+- Runs the app in the production mode.
+- Before execute this script, you have to execute `npm build`.
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### `npm run test`
 
 - Launches the test runner in the interactive watch mode.
 - See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `npm run build`
 
 - Builds the app for production to the `build` folder.
 - It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -54,7 +61,7 @@ In the project directory, you can run:
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -90,6 +97,6 @@ This section has moved here: <https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: <https://facebook.github.io/create-react-app/docs/deployment>
 
-### `yarn build` fails to minify
+### `npm run build` fails to minify
 
 This section has moved here: <https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify>
