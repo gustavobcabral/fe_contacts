@@ -65,6 +65,7 @@ class ContactsWaitingFeedbackList extends React.Component {
           genders: [],
           languages: [],
           status: [],
+          campaigns: [],
         }),
       },
     }
@@ -117,12 +118,12 @@ class ContactsWaitingFeedbackList extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { submitting } = this.state
-    const prevSubmiting = prevState.submitting
+    const prevSubmitting = prevState.submitting
     const prevQueryParams = prevState.queryParams
     const queryParams = getQueryParamsFromURL(this.props)
     if (
       !submitting &&
-      !prevSubmiting &&
+      !prevSubmitting &&
       queryParams &&
       !isEqual(queryParams, prevQueryParams)
     ) {
