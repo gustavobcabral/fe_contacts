@@ -1,7 +1,9 @@
 {
-  "folders": [{
-    "path": "."
-  }],
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
   "settings": {
     "eslint.validate": ["javascript", "typescript"],
     "[javascript]": {
@@ -27,7 +29,9 @@
       "DMYH",
       "HAVETOREAUTHENTICATE",
       "postgres",
-      "postgresql"
+      "postgresql",
+      "Swal",
+      "sweetalert"
     ]
   },
   "extensions": {
