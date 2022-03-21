@@ -10,7 +10,7 @@ const getAllWaitingFeedback = (params) =>
   api.get(`/detailsContacts/waitingFeedback${toQueryString(params)}`)
 
 const getAllWaitingFeedbackFilters = (params) =>
-  api.get(`detailsContacts/filtersWaitingFeedback${toQueryString(params)}`)
+  api.get(`/detailsContacts/filtersWaitingFeedback${toQueryString(params)}`)
 
 const create = (data) => api.post(`/detailsContacts`, data)
 
