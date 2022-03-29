@@ -2,8 +2,6 @@ import React from 'react'
 import Swal from 'sweetalert2'
 import { withTranslation } from 'react-i18next'
 import SimpleReactValidator from 'simple-react-validator'
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   getOr,
   map,
@@ -21,6 +19,7 @@ import {
   handleInputChangeGeneric,
   formatDateDMY,
 } from '../../../utils/forms'
+import { EIcons } from '../../../enums/icons'
 import { contacts, publishers } from '../../../services'
 import { URL_SEND_MESSAGE } from '../../../constants/settings'
 import { WAITING_FEEDBACK } from '../../../constants/contacts'
@@ -59,6 +58,8 @@ class SendPhones extends React.Component {
     this.getPhonesWaitingOrNotFeedback =
       this.getPhonesWaitingOrNotFeedback.bind(this)
     this.getTitle = this.getTitle.bind(this)
+    this.resetForm = this.resetForm.bind(this)
+
 
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -230,7 +231,6 @@ class SendPhones extends React.Component {
       if (getOr([], 'phones', dataAssign).length > 0)
         await contacts.assign(dataAssign)
       this.sendMessage()
-      this.setState({ submitting: false })
       showSuccessful(t)
       onHide()
       this.setState({ form: fields, submitting: false, validated: false })
@@ -255,13 +255,22 @@ class SendPhones extends React.Component {
     return titleWithCampaignName
   }
 
+  resetForm() {
+    this.setState({ form: fields, validated: false })
+    this.validator.hideMessages()
+  }
+
+
   render() {
-    const { form, validated, publishersOptions } = this.state
+    const { form, validated, publishersOptions, submitting, loading } =
+      this.state
     const { t, checksContactsPhones, afterClose } = this.props
     return (
       <OurModal
         body={FormSendPhones}
         validator={this.validator}
+        loading={loading}
+        submitting={submitting}
         validated={validated}
         handleSubmit={this.handleSubmit}
         handleInputChange={this.handleInputChange}
@@ -269,10 +278,11 @@ class SendPhones extends React.Component {
         phones={join(', ', checksContactsPhones)}
         publishersOptions={publishersOptions}
         onExit={afterClose}
+        onClose={this.resetForm}
         onEnter={this.onEnter}
         title={this.getTitle()}
         buttonTitle={t('common:sendOverWhatsApp')}
-        buttonText={<FontAwesomeIcon icon={faWhatsapp} />}
+        buttonIcon={EIcons.whatsappIcon}
         buttonDisabled={checksContactsPhones.length === 0}
         buttonVariant="success"
       />
