@@ -94,7 +94,6 @@ export default function IconComponent({
   animate = false,
 }) {
   const marginClass = noMarginRight ? '' : position === 'left' ? 'mr-1' : 'ml-1'
-  console.log(name,label)
   return (
     <span className={marginClass}>
       {position === 'right' && label ? `${label} ` : ''}
