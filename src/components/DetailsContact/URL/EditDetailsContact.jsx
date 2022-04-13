@@ -94,7 +94,8 @@ class EditDetailsContact extends React.Component {
     const form = {
       ...data,
       information:
-        getOr('', 'information', data) === WAITING_FEEDBACK || GOAL_REACHED
+        getOr('', 'information', data) === WAITING_FEEDBACK ||
+        getOr('', 'information', data) === GOAL_REACHED
           ? ''
           : getOr('', 'information', data),
       lastPublisherThatTouched: this.getLastPublisherThatTouched(data),
